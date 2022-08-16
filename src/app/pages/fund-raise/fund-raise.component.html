@@ -45,7 +45,8 @@
   <button nz-button [nzType]="'primary'" (click)="showModal()" style="margin-top: 12px;">
     分析交叉投资
   </button>
-  <nz-modal [(nzVisible)]="isVisible" [nzWidth]="1000" nzTitle="交叉投资" [nzMaskClosable]="false" [nzFooter]="null">
+  <nz-modal [(nzVisible)]="isVisible" [nzWidth]="1200" (nzOnCancel)="handleModalClose()" nzTitle="交叉投资"
+    [nzFooter]="null">
     <ng-container *nzModalContent>
       <nz-table [nzLoading]="modalLoading" #basicTable [nzData]="projects">
         <thead>

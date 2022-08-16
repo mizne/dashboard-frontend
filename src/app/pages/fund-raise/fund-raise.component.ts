@@ -137,10 +137,8 @@ export class FundRaiseComponent implements OnInit {
 
     this.fetchAllFundRaiseAndAnalysis();
   }
-  handleCancel() {
-    this.isVisible = false;
-  }
-  handleOk() {
+
+  handleModalClose() {
     this.isVisible = false;
   }
 
