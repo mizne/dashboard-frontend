@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
-import { NzButtonModule } from 'ng-zorro-antd/button';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { FundRaiseRoutingModule } from './fund-raise-routing.module';
 
 import { FundRaiseComponent } from './fund-raise.component';
+import { services } from './services';
 
 @NgModule({
-  imports: [FundRaiseRoutingModule, NzButtonModule],
+  imports: [SharedModule, FundRaiseRoutingModule],
   declarations: [FundRaiseComponent],
   exports: [FundRaiseComponent],
+  providers: [...services],
 })
 export class FundRaiseModule {}
