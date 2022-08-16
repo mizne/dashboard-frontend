@@ -1,24 +1,72 @@
 <div class="fund-raise-container">
   <nz-card>
     <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
-      <nz-form-item>
-        <nz-form-label [nzSpan]="6" nzFor="email">投资机构</nz-form-label>
-        <nz-form-control [nzSpan]="6">
-          <nz-select name="investorName" formControlName="investorName">
-            <nz-option *ngFor="let investor of investors" [nzValue]="investor.name" [nzLabel]="investor.name">
-            </nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="investorName">投资机构</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <nz-select name="investorName" [attr.id]="'investorName'" formControlName="investorName">
+                <nz-option *ngFor="let investor of investors" [nzValue]="investor.name" [nzLabel]="investor.name">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
 
-      <nz-form-item nz-row class="register-area">
-        <nz-form-control [nzSpan]="14" [nzOffset]="6">
-          <button nz-button [nzType]="'primary'">搜索</button>
-          <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
-        </nz-form-control>
-      </nz-form-item>
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="projectName">项目名称</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <input nz-input class="ant-input" placeholder="请输入项目名称全称" formControlName="projectName"
+                [attr.id]="'projectName'" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="24">
+          <nz-form-item nz-row class="register-area">
+            <nz-form-control [nzSpan]="14" [nzOffset]="6">
+              <button nz-button [nzType]="'primary'">搜索</button>
+              <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+      </div>
+
     </form>
   </nz-card>
+
+
+  <button nz-button [nzType]="'primary'" (click)="showModal()" style="margin-top: 12px;">
+    分析交叉投资
+  </button>
+  <nz-modal [(nzVisible)]="isVisible" [nzWidth]="1000" nzTitle="交叉投资" [nzMaskClosable]="false" [nzFooter]="null">
+    <ng-container *nzModalContent>
+      <nz-table [nzLoading]="modalLoading" #basicTable [nzData]="projects">
+        <thead>
+          <tr>
+            <th>项目名称</th>
+            <th>项目官网</th>
+            <th>投资机构</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data">
+            <td>{{ data.name }}</td>
+            <td>
+              <a nz-button (click)="toLink(data.website)" nzType="link">{{ data.website }}</a>
+            </td>
+            <td>{{ data.investors.join(', ') }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </ng-container>
+  </nz-modal>
 
   <nz-card style="margin-top: 12px">
     <nz-table nzShowSizeChanger [nzData]="fundRaises" [nzFrontPagination]="false" [nzLoading]="loading"

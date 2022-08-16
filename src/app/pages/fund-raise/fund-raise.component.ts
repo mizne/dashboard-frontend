@@ -8,6 +8,12 @@ import { removeNullOrUndefined } from 'src/app/utils';
 import validator from 'validator';
 import * as uuid from 'uuid';
 
+interface Project {
+  name: string;
+  website: string;
+  investors: string[];
+}
+
 @Component({
   selector: 'app-fund-raise',
   templateUrl: './fund-raise.component.html',
@@ -65,7 +71,12 @@ export class FundRaiseComponent implements OnInit {
 
   form = this.fb.group({
     investorName: [null],
+    projectName: [null],
   });
+
+  isVisible = false;
+  projects: Project[] = [];
+  modalLoading = false;
 
   submitForm(): void {
     console.log('submitForm', this.form.value);
@@ -121,6 +132,18 @@ export class FundRaiseComponent implements OnInit {
     }
   }
 
+  showModal() {
+    this.isVisible = true;
+
+    this.fetchAllFundRaiseAndAnalysis();
+  }
+  handleCancel() {
+    this.isVisible = false;
+  }
+  handleOk() {
+    this.isVisible = false;
+  }
+
   private loadDataFromServer(): void {
     this.loading = true;
     this.fundRaiseService
@@ -166,5 +189,39 @@ export class FundRaiseComponent implements OnInit {
       : {
           createdAt: -1,
         };
+  }
+
+  private fetchAllFundRaiseAndAnalysis() {
+    this.modalLoading = true;
+
+    this.fundRaiseService.queryList({}).subscribe({
+      next: (items) => {
+        this.modalLoading = false;
+        const projects: Project[] = [];
+        for (const item of items) {
+          const theProject = projects.find(
+            (e) => e.website === item.projectWebsite
+          );
+          if (theProject) {
+            theProject.investors.push(item.investorName);
+          } else {
+            projects.push({
+              name: item.projectName,
+              website: item.projectWebsite,
+              investors: [item.investorName],
+            });
+          }
+        }
+
+        this.projects = projects.sort(
+          (a, b) => b.investors.length - a.investors.length
+        );
+      },
+      complete: () => {},
+      error: () => {
+        this.modalLoading = false;
+        this.notification.error(`获取失败`, `获取全部融资信息失败`);
+      },
+    });
   }
 }

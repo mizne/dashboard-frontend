@@ -9,6 +9,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -24,6 +25,7 @@ const nzModules = [
   NzDividerModule,
   NzPopconfirmModule,
   NzNotificationModule,
+  NzModalModule,
 ];
 const ngModules = [CommonModule, ReactiveFormsModule];
 
