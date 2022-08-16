@@ -1,0 +1,20 @@
+<nz-card [nzTitle]="category" [nzExtra]="extraTemplate" style="width: 100%; height: 100%">
+  <div class="filter-area">
+    <nz-select *ngFor="let filter of filterControls" [formControl]="filter.ctrl"
+      style="margin-right: 12px; min-width: 150px">
+      <nz-option *ngFor="let opt of filter.options" [nzValue]="opt" [nzLabel]="opt">{{opt}}</nz-option>
+    </nz-select>
+  </div>
+
+  <div nz-row>
+    <div nz-col nzSpan="12">
+      <div [id]="floorPriceID" style="width: 100%; height: 300px"></div>
+    </div>
+    <div nz-col nzSpan="12">
+      <div [id]="statisticsID" style="width: 100%; height: 300px"></div>
+    </div>
+  </div>
+</nz-card>
+<ng-template #extraTemplate>
+  <a>More</a>
+</ng-template>

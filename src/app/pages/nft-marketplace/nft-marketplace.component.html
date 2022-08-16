@@ -1,0 +1,23 @@
+<div class="nft-marketplace-container">
+
+  <nz-card class="project-item-container" *ngFor="let project of projects" [nzTitle]="project.projectName"
+    [nzExtra]="extraTemplate">
+
+    <nz-radio-group [formControl]="project.chainCtrl" style="margin-bottom: 12px">
+      <label nz-radio-button *ngFor="let chain of project.chains" [nzValue]="chain">{{chain}}</label>
+    </nz-radio-group>
+
+
+    <div nz-row>
+      <div nz-col nzSpan="12" *ngFor="let category of project.viewFilters">
+        <category-chart style="width: 100%; height: 100%" [projectName]="project.projectName"
+          [category]="category.category" [filters]="category.filters" [chain]="project.chainCtrl.value">
+        </category-chart>
+      </div>
+    </div>
+  </nz-card>
+  <ng-template #extraTemplate>
+    <a>More</a>
+  </ng-template>
+
+</div>
