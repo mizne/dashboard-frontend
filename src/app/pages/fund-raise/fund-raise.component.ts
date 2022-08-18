@@ -81,6 +81,8 @@ export class FundRaiseComponent implements OnInit {
   submitForm(): void {
     console.log('submitForm', this.form.value);
     this.query = removeNullOrUndefined(this.form.value);
+    this.pageIndex = 1;
+    this.pageSize = 10;
     this.loadDataFromServer();
   }
 
@@ -88,6 +90,8 @@ export class FundRaiseComponent implements OnInit {
     this.form.reset();
     console.log('resetForm', this.form.value);
     this.query = removeNullOrUndefined(this.form.value);
+    this.pageIndex = 1;
+    this.pageSize = 10;
     this.loadDataFromServer();
   }
 
