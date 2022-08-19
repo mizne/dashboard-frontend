@@ -36,7 +36,6 @@
       <thead>
         <tr>
           <th nzColumnKey="name">名称</th>
-          <th nzColumnKey="website">官网</th>
           <!-- <th nzColumnKey="description">项目简介</th> -->
           <th nzColumnKey="investors">投资机构</th>
           <th nzColumnKey="twitterHomeLink">Twitter</th>
@@ -52,12 +51,14 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of items">
-          <td>{{ data.name }}</td>
           <td>
-            <button (click)="toLink(data.website)" nz-tooltip [nzTooltipTitle]="data.website" nz-button nzType="primary"
-              nzShape="circle">
-              <i nz-icon nzType="link" nzTheme="outline"></i>
-            </button>
+            <a [href]="'https://' + data.website" target="_blank">
+              <button nz-tooltip [nzTooltipTitle]="'https://' + data.website" nz-button nzType="primary"
+                nzShape="circle">
+                <i nz-icon nzType="link" nzTheme="outline"></i>
+              </button>
+            </a>
+            <span style="margin-left: 12px">{{ data.name }}</span>
           </td>
           <!-- <td>{{ data.description }}</td> -->
           <td>
@@ -125,23 +126,28 @@
 
             <a nz-popconfirm nzPopconfirmTitle="确认修改该条数据?" nzPopconfirmPlacement="top"
               (nzOnConfirm)="confirmUpdate(data)" (nzOnCancel)="cancelUpdate(data)">
-              <button nz-button nzType="primary" nzShape="circle" style="margin-right: 8px">
+              <button nz-button nzType="primary" nzShape="round" nzSize="small" nz-tooltip [nzTooltipTitle]="'修改'"
+                style="margin-right: 8px">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
               </button>
             </a>
 
             <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
-              (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)" style="margin-right: 8px">
-              <button nz-button nzType="primary" nzDanger nzShape="circle">
+              (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)">
+              <button nz-button nzType="primary" nzDanger nzShape="round" nzSize="small" nz-tooltip
+                [nzTooltipTitle]="'删除'" style="margin-right: 8px">
                 <i nz-icon nzType="delete" nzTheme="outline"></i>
               </button>
             </a>
 
             <!-- <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
               (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)"> -->
-            <button nz-button nzType="primary" nzShape="circle">
-              <i nz-icon nzType="export" nzTheme="outline"></i>
-            </button>
+            <a [href]="'/project-statistics/detail/'+data._id" target="_blank">
+              <button nz-button nzType="primary" nzShape="round" nzSize="small" nz-tooltip [nzTooltipTitle]="'查看统计'">
+                <i nz-icon nzType="export" nzTheme="outline"></i>
+              </button>
+            </a>
+
             <!-- </a> -->
           </td>
         </tr>

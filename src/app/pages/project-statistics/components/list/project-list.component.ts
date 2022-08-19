@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
@@ -23,7 +24,9 @@ export class ProjectListComponent implements OnInit {
     private readonly fb: FormBuilder,
     private modal: NzModalService,
     private viewContainerRef: ViewContainerRef,
-    private createProjectService: CreateProjectService
+    private createProjectService: CreateProjectService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   total = 1;
@@ -136,6 +139,10 @@ export class ProjectListComponent implements OnInit {
       console.log(`toLink() not a url, ${link}`);
       this.notification.warning(`非法URL`, `不是合法URL`);
     }
+  }
+
+  toDetail(item: Project) {
+    this.router.navigate(['../detail', item._id], { relativeTo: this.route });
   }
 
   private loadDataFromServer(): void {
