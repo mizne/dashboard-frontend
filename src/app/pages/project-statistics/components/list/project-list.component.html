@@ -35,8 +35,8 @@
       (nzQueryParams)="onQueryParamsChange($event)">
       <thead>
         <tr>
-          <th nzColumnKey="name">项目名称</th>
-          <th nzColumnKey="website">项目官网</th>
+          <th nzColumnKey="name">名称</th>
+          <th nzColumnKey="website">官网</th>
           <!-- <th nzColumnKey="description">项目简介</th> -->
           <th nzColumnKey="investors">投资机构</th>
           <th nzColumnKey="twitterHomeLink">Twitter</th>
@@ -44,7 +44,7 @@
           <th nzColumnKey="discordHomeLink">Discord</th>
           <th nzColumnKey="mediumHomeLink">Medium</th>
           <th nzColumnKey="youtubeHomeLink">Youtube</th>
-          <th nzColumnKey="enableTracking">开启每日统计</th>
+          <th nzColumnKey="enableTracking">每日统计</th>
 
           <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
           <th nzColumnKey="Action">操作</th>
@@ -60,7 +60,18 @@
             </button>
           </td>
           <!-- <td>{{ data.description }}</td> -->
-          <td>{{ data.investors.join(', ') }}</td>
+          <td>
+
+            <nz-tag *ngIf="!data.investors || data.investors.length === 0" nzColor="default">【无】</nz-tag>
+
+            <nz-tag *ngIf="data.investors && data.investors.length === 1" nzColor="default">{{data.investors[0]}}
+            </nz-tag>
+
+            <nz-tag *ngIf="data.investors && data.investors.length > 1" nz-tooltip
+              [nzTooltipTitle]="data.investors.join(', ')" nzColor="default">{{data.investors[0] + ' and '
+              + (data.investors.length - 1) + ' more'}}</nz-tag>
+
+          </td>
           <ng-template #noLink>
             <button nz-tooltip [nzTooltipTitle]="'无'" nz-button nzShape="circle">
               <i nz-icon nzType="exclamation" nzTheme="outline"></i>
@@ -97,23 +108,41 @@
             </button>
           </td>
 
-          <td>{{ data.enableTracking ? '已开启' : '未开启' }}</td>
+          <td>
+            <nz-tag *ngIf="data.enableTracking; else disableTrackingTpl" nzColor="success">
+              <i nz-icon nzType="check-circle"></i>
+              <span>已开启</span>
+            </nz-tag>
+            <ng-template #disableTrackingTpl>
+              <nz-tag nzColor="warning">
+                <i nz-icon nzType="exclamation-circle"></i>
+                <span>未开启</span>
+              </nz-tag>
+            </ng-template>
+          </td>
           <td>{{ data.createdAtStr }}</td>
           <td>
 
             <a nz-popconfirm nzPopconfirmTitle="确认修改该条数据?" nzPopconfirmPlacement="top"
               (nzOnConfirm)="confirmUpdate(data)" (nzOnCancel)="cancelUpdate(data)">
-              <button nz-button nzType="primary" nzShape="circle" style="margin-bottom: 8px">
+              <button nz-button nzType="primary" nzShape="circle" style="margin-right: 8px">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
               </button>
             </a>
 
             <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
-              (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)">
+              (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)" style="margin-right: 8px">
               <button nz-button nzType="primary" nzDanger nzShape="circle">
                 <i nz-icon nzType="delete" nzTheme="outline"></i>
               </button>
             </a>
+
+            <!-- <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
+              (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)"> -->
+            <button nz-button nzType="primary" nzShape="circle">
+              <i nz-icon nzType="export" nzTheme="outline"></i>
+            </button>
+            <!-- </a> -->
           </td>
         </tr>
       </tbody>
