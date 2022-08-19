@@ -1,0 +1,10 @@
+<a *ngIf="validHref; else invalidHref" class="linkable-container" [href]="href" target="_blank">
+  <button nz-tooltip [nzTooltipTitle]="href" nz-button nzType="primary" nzShape="circle">
+    <i nz-icon [nzType]="icon" nzTheme="outline"></i>
+  </button>
+</a>
+<ng-template #invalidHref>
+  <button nz-tooltip [nzTooltipTitle]="'无'" nz-button nzShape="circle">
+    <i nz-icon nzType="exclamation" nzTheme="outline"></i>
+  </button>
+</ng-template>

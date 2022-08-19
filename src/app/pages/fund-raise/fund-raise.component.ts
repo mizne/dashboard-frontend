@@ -3,11 +3,8 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { FundRaise } from './models/fund-raise.model';
 import { FundRaiseService } from './services/fund-raise.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { removeNullOrUndefined } from 'src/app/utils';
-import validator from 'validator';
-import * as uuid from 'uuid';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { CreateProjectService } from 'src/app/modules/create-project';
 import { Project } from 'src/app/shared';
 
@@ -21,7 +18,6 @@ export class FundRaiseComponent implements OnInit {
     private readonly fundRaiseService: FundRaiseService,
     private readonly notification: NzNotificationService,
     private readonly fb: FormBuilder,
-    private modal: NzModalService,
     private viewContainerRef: ViewContainerRef,
     private createProjectService: CreateProjectService
   ) {}
@@ -165,15 +161,6 @@ export class FundRaiseComponent implements OnInit {
   }
 
   cancelDelete(item: FundRaise) {}
-
-  toLink(link: string) {
-    if (validator.isURL(link)) {
-      window.open(link.startsWith('http') ? link : `https://${link}`, '_blank');
-    } else {
-      console.log(`toLink() not a url, ${link}`);
-      this.notification.warning(`非法URL`, `不是合法URL`);
-    }
-  }
 
   showModal() {
     this.isVisible = true;

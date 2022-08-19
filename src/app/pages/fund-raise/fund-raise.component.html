@@ -63,7 +63,8 @@
           <tr *ngFor="let data of basicTable.data">
             <td>{{ data.name }}</td>
             <td>
-              <a nz-button (click)="toLink(data.website)" nzType="link">{{ data.website }}</a>
+              <linkable [href]="'https://' + data.website">
+              </linkable>
             </td>
             <td>{{ data.investors.join(', ') }}</td>
             <td>
@@ -100,10 +101,12 @@
           <td>{{ data.projectName }}</td>
           <td>{{ data.investDateStr }}</td>
           <td>
-            <a nz-button (click)="toLink(data.projectWebsite)" nzType="link">{{ data.projectWebsite }}</a>
+            <linkable [href]="'https://' + data.projectWebsite">
+            </linkable>
           </td>
           <td>
-            <a nz-button (click)="toLink(data.projectHomeLink)" nzType="link">{{ data.projectHomeLink }}</a>
+            <linkable [href]="data.projectHomeLink" [icon]="'global'">
+            </linkable>
           </td>
           <!-- <td>{{ data.leadInvestor }}</td>
           <td>{{ data.fundRound }}</td> -->

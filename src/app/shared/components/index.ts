@@ -1,3 +1,5 @@
-export const components = [];
+import { LinkableComponent } from './linkable/linkable.component';
 
-export {};
+export const components = [LinkableComponent];
+
+export { LinkableComponent };

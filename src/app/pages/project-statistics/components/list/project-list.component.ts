@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import {
@@ -10,7 +8,6 @@ import {
 } from 'src/app/modules/create-project';
 import { Project, ProjectService } from 'src/app/shared';
 import { removeNullOrUndefined } from 'src/app/utils';
-import validator from 'validator';
 
 @Component({
   selector: 'app-porject-list',
@@ -22,11 +19,8 @@ export class ProjectListComponent implements OnInit {
     private readonly projectService: ProjectService,
     private readonly notification: NzNotificationService,
     private readonly fb: FormBuilder,
-    private modal: NzModalService,
     private viewContainerRef: ViewContainerRef,
-    private createProjectService: CreateProjectService,
-    private router: Router,
-    private route: ActivatedRoute
+    private createProjectService: CreateProjectService
   ) {}
 
   total = 1;
@@ -102,8 +96,6 @@ export class ProjectListComponent implements OnInit {
     });
   }
 
-  cancelUpdate(item: Project) {}
-
   onQueryParamsChange(params: NzTableQueryParams): void {
     console.log('onQueryParamsChange ', params);
     const { pageSize, pageIndex, sort, filter } = params;
@@ -132,17 +124,8 @@ export class ProjectListComponent implements OnInit {
 
   cancelDelete(item: Project) {}
 
-  toLink(link: string) {
-    if (validator.isURL(link)) {
-      window.open(link.startsWith('http') ? link : `https://${link}`, '_blank');
-    } else {
-      console.log(`toLink() not a url, ${link}`);
-      this.notification.warning(`非法URL`, `不是合法URL`);
-    }
-  }
-
-  toDetail(item: Project) {
-    this.router.navigate(['../detail', item._id], { relativeTo: this.route });
+  projectDetailHref(id: string): string {
+    return `${location.protocol}//${location.host}/project-statistics/detail/${id}`;
   }
 
   private loadDataFromServer(): void {

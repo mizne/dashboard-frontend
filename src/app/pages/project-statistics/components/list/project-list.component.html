@@ -52,12 +52,8 @@
       <tbody>
         <tr *ngFor="let data of items">
           <td>
-            <a [href]="'https://' + data.website" target="_blank">
-              <button nz-tooltip [nzTooltipTitle]="'https://' + data.website" nz-button nzType="primary"
-                nzShape="circle">
-                <i nz-icon nzType="link" nzTheme="outline"></i>
-              </button>
-            </a>
+            <linkable [href]="'https://' + data.website">
+            </linkable>
             <span style="margin-left: 12px">{{ data.name }}</span>
           </td>
           <!-- <td>{{ data.description }}</td> -->
@@ -73,40 +69,25 @@
               + (data.investors.length - 1) + ' more'}}</nz-tag>
 
           </td>
-          <ng-template #noLink>
-            <button nz-tooltip [nzTooltipTitle]="'无'" nz-button nzShape="circle">
-              <i nz-icon nzType="exclamation" nzTheme="outline"></i>
-            </button>
-          </ng-template>
           <td>
-            <button *ngIf="data.twitterHomeLink; else noLink" (click)="toLink(data.twitterHomeLink)" nz-tooltip
-              [nzTooltipTitle]="data.twitterHomeLink" nz-button nzType="primary" nzShape="circle">
-              <i nz-icon nzType="twitter" nzTheme="outline"></i>
-            </button>
+            <linkable [href]="data.twitterHomeLink" icon="twitter">
+            </linkable>
           </td>
           <td>
-            <button *ngIf="data.telegramHomeLink; else noLink" (click)="toLink(data.telegramHomeLink)" nz-tooltip
-              [nzTooltipTitle]="data.telegramHomeLink" nz-button nzType="primary" nzShape="circle">
-              <i nz-icon nzType="send" nzTheme="outline"></i>
-            </button>
+            <linkable [href]="data.telegramHomeLink" icon="send">
+            </linkable>
           </td>
           <td>
-            <button *ngIf="data.discordHomeLink; else noLink" (click)="toLink(data.discordHomeLink)" nz-tooltip
-              [nzTooltipTitle]="data.discordHomeLink" nz-button nzType="primary" nzShape="circle">
-              <i nz-icon nzType="team" nzTheme="outline"></i>
-            </button>
+            <linkable [href]="data.discordHomeLink" icon="team">
+            </linkable>
           </td>
           <td>
-            <button *ngIf="data.mediumHomeLink; else noLink" (click)="toLink(data.mediumHomeLink)" nz-tooltip
-              [nzTooltipTitle]="data.mediumHomeLink" nz-button nzType="primary" nzShape="circle">
-              <i nz-icon nzType="medium" nzTheme="outline"></i>
-            </button>
+            <linkable [href]="data.mediumHomeLink" icon="medium">
+            </linkable>
           </td>
           <td>
-            <button *ngIf="data.youtubeHomeLink; else noLink" (click)="toLink(data.youtubeHomeLink)" nz-tooltip
-              [nzTooltipTitle]="data.youtubeHomeLink" nz-button nzType="primary" nzShape="circle">
-              <i nz-icon nzType="youtube" nzTheme="outline"></i>
-            </button>
+            <linkable [href]="data.youtubeHomeLink" icon="youtube">
+            </linkable>
           </td>
 
           <td>
@@ -124,13 +105,11 @@
           <td>{{ data.createdAtStr }}</td>
           <td>
 
-            <a nz-popconfirm nzPopconfirmTitle="确认修改该条数据?" nzPopconfirmPlacement="top"
-              (nzOnConfirm)="confirmUpdate(data)" (nzOnCancel)="cancelUpdate(data)">
-              <button nz-button nzType="primary" nzShape="round" nzSize="small" nz-tooltip [nzTooltipTitle]="'修改'"
-                style="margin-right: 8px">
-                <i nz-icon nzType="edit" nzTheme="outline"></i>
-              </button>
-            </a>
+
+            <button nz-button (click)="confirmUpdate(data)" nzType="primary" nzShape="round" nzSize="small" nz-tooltip
+              [nzTooltipTitle]="'修改'" style="margin-right: 8px">
+              <i nz-icon nzType="edit" nzTheme="outline"></i>
+            </button>
 
             <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
               (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)">
@@ -140,15 +119,9 @@
               </button>
             </a>
 
-            <!-- <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
-              (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)"> -->
-            <a [href]="'/project-statistics/detail/'+data._id" target="_blank">
-              <button nz-button nzType="primary" nzShape="round" nzSize="small" nz-tooltip [nzTooltipTitle]="'查看统计'">
-                <i nz-icon nzType="export" nzTheme="outline"></i>
-              </button>
-            </a>
 
-            <!-- </a> -->
+            <linkable [href]="projectDetailHref(data._id)" icon="export">
+            </linkable>
           </td>
         </tr>
       </tbody>
