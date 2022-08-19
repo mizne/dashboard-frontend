@@ -1,0 +1,126 @@
+<div class="fund-raise-container">
+  <nz-card>
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="name">项目名称</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <input nz-input class="ant-input" placeholder="请输入项目名称全称" formControlName="name" [attr.id]="'name'" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="24">
+          <nz-form-item nz-row class="register-area">
+            <nz-form-control [nzSpan]="14" [nzOffset]="6">
+              <button nz-button [nzType]="'primary'">搜索</button>
+              <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+  </nz-card>
+
+  <button nz-button [nzType]="'primary'" (click)="showCreateModal()" style="margin-top: 12px;">
+    添加项目
+  </button>
+
+
+  <nz-card style="margin-top: 12px">
+    <nz-table nzShowSizeChanger [nzData]="items" [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total"
+      [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
+      (nzQueryParams)="onQueryParamsChange($event)">
+      <thead>
+        <tr>
+          <th nzColumnKey="name">项目名称</th>
+          <th nzColumnKey="website">项目官网</th>
+          <!-- <th nzColumnKey="description">项目简介</th> -->
+          <th nzColumnKey="investors">投资机构</th>
+          <th nzColumnKey="twitterHomeLink">Twitter</th>
+          <th nzColumnKey="telegramHomeLink">Telegram</th>
+          <th nzColumnKey="discordHomeLink">Discord</th>
+          <th nzColumnKey="mediumHomeLink">Medium</th>
+          <th nzColumnKey="youtubeHomeLink">Youtube</th>
+          <th nzColumnKey="enableTracking">开启每日统计</th>
+
+          <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
+          <th nzColumnKey="Action">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of items">
+          <td>{{ data.name }}</td>
+          <td>
+            <button (click)="toLink(data.website)" nz-tooltip [nzTooltipTitle]="data.website" nz-button nzType="primary"
+              nzShape="circle">
+              <i nz-icon nzType="link" nzTheme="outline"></i>
+            </button>
+          </td>
+          <!-- <td>{{ data.description }}</td> -->
+          <td>{{ data.investors.join(', ') }}</td>
+          <ng-template #noLink>
+            <button nz-tooltip [nzTooltipTitle]="'无'" nz-button nzShape="circle">
+              <i nz-icon nzType="exclamation" nzTheme="outline"></i>
+            </button>
+          </ng-template>
+          <td>
+            <button *ngIf="data.twitterHomeLink; else noLink" (click)="toLink(data.twitterHomeLink)" nz-tooltip
+              [nzTooltipTitle]="data.twitterHomeLink" nz-button nzType="primary" nzShape="circle">
+              <i nz-icon nzType="twitter" nzTheme="outline"></i>
+            </button>
+          </td>
+          <td>
+            <button *ngIf="data.telegramHomeLink; else noLink" (click)="toLink(data.telegramHomeLink)" nz-tooltip
+              [nzTooltipTitle]="data.telegramHomeLink" nz-button nzType="primary" nzShape="circle">
+              <i nz-icon nzType="send" nzTheme="outline"></i>
+            </button>
+          </td>
+          <td>
+            <button *ngIf="data.discordHomeLink; else noLink" (click)="toLink(data.discordHomeLink)" nz-tooltip
+              [nzTooltipTitle]="data.discordHomeLink" nz-button nzType="primary" nzShape="circle">
+              <i nz-icon nzType="team" nzTheme="outline"></i>
+            </button>
+          </td>
+          <td>
+            <button *ngIf="data.mediumHomeLink; else noLink" (click)="toLink(data.mediumHomeLink)" nz-tooltip
+              [nzTooltipTitle]="data.mediumHomeLink" nz-button nzType="primary" nzShape="circle">
+              <i nz-icon nzType="medium" nzTheme="outline"></i>
+            </button>
+          </td>
+          <td>
+            <button *ngIf="data.youtubeHomeLink; else noLink" (click)="toLink(data.youtubeHomeLink)" nz-tooltip
+              [nzTooltipTitle]="data.youtubeHomeLink" nz-button nzType="primary" nzShape="circle">
+              <i nz-icon nzType="youtube" nzTheme="outline"></i>
+            </button>
+          </td>
+
+          <td>{{ data.enableTracking ? '已开启' : '未开启' }}</td>
+          <td>{{ data.createdAtStr }}</td>
+          <td>
+
+            <a nz-popconfirm nzPopconfirmTitle="确认修改该条数据?" nzPopconfirmPlacement="top"
+              (nzOnConfirm)="confirmUpdate(data)" (nzOnCancel)="cancelUpdate(data)">
+              <button nz-button nzType="primary" nzShape="circle" style="margin-bottom: 8px">
+                <i nz-icon nzType="edit" nzTheme="outline"></i>
+              </button>
+            </a>
+
+            <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
+              (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)">
+              <button nz-button nzType="primary" nzDanger nzShape="circle">
+                <i nz-icon nzType="delete" nzTheme="outline"></i>
+              </button>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+    <ng-template #rangeTemplate let-range="range" let-total>
+      {{ range[0] }}-{{ range[1] }} of {{ total }} items
+    </ng-template>
+  </nz-card>
+</div>

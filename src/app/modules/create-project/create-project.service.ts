@@ -7,6 +7,12 @@ import { ProjectService, Project } from 'src/app/shared';
 import { isNil } from 'src/app/utils';
 import { CreateProjectComponent } from './components/create-project.component';
 import { environment } from 'src/environments/environment'
+
+export enum ProjectModalActions {
+  CREATE = 'create',
+  UPDATE = 'update'
+}
+
 @Injectable()
 export class CreateProjectService {
   constructor(
@@ -22,7 +28,8 @@ export class CreateProjectService {
   createModal(
     title: string,
     obj: Partial<Project>,
-    viewContainerRef: ViewContainerRef
+    viewContainerRef: ViewContainerRef,
+    action: ProjectModalActions = ProjectModalActions.CREATE
   ): {
     modal: NzModalRef<any>,
     success: Observable<any>,
@@ -53,16 +60,17 @@ export class CreateProjectService {
       nzContent: CreateProjectComponent,
       nzViewContainerRef: viewContainerRef,
       nzComponentParams: {
+        needFetchSocialLinks: !obj._id,
         form: form
       },
       nzOnOk: () => {
-        return this.createproject(form, errorSubject)
+        return action === ProjectModalActions.CREATE ? this.createproject(form, errorSubject) : this.updateproject(obj._id, form, errorSubject)
       },
     });
 
     modal.afterClose.subscribe((res) => {
       if (isNil(res)) {
-        errorSubject.next(new Error('用户取消新增'))
+        errorSubject.next(new Error('用户取消'))
         errorSubject.complete();
         successSubject.complete();
       } else {
@@ -99,6 +107,33 @@ export class CreateProjectService {
         next: (v) => {
           if (v.code === 0) {
             resolve(v.result || '添加成功')
+          } else {
+            errorSub.next(new Error(v.message));
+            resolve(false)
+          }
+        },
+        error: (e) => {
+          errorSub.next(new Error(e.message));
+          resolve(false)
+        }
+      })
+    });
+  }
+
+  private updateproject(id: string | undefined
+    , form: FormGroup, errorSub: Subject<Error>): Promise<any> {
+    if (form.invalid) {
+      errorSub.next(new Error('请检查表单非法字段'))
+      return Promise.resolve(false);
+    }
+
+    return new Promise((resolve, reject) => {
+      // 这里写 新增project接口
+      this.projectService.update(id, form.value)
+      .subscribe({
+        next: (v) => {
+          if (v.code === 0) {
+            resolve(v.result || '修改成功')
           } else {
             errorSub.next(new Error(v.message));
             resolve(false)

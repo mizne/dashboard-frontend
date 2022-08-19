@@ -18,6 +18,16 @@ export class ProjectService {
     ) as Observable<{ code: number; message: string; result: any }>;
   }
 
+  update(
+    id: string | undefined,
+    record: Partial<Project>
+  ): Observable<{ code: number; message: string; result: any }> {
+    return this.httpClient.post(`${this.baseURL}/projects/update`, {
+      id,
+      record,
+    }) as Observable<{ code: number; message: string; result: any }>;
+  }
+
   queryList(
     query?: Partial<Project>,
     page?: { number: number; size: number },

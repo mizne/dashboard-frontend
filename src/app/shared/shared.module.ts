@@ -13,6 +13,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -35,6 +37,8 @@ const nzModules = [
   NzToolTipModule,
   NzSwitchModule,
   NzSpinModule,
+  NzIconModule,
+  NzInputModule,
 ];
 const ngModules = [CommonModule, ReactiveFormsModule];
 

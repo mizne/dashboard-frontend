@@ -10,6 +10,7 @@ import { CreateProjectService } from '../create-project.service';
 })
 export class CreateProjectComponent implements OnInit {
   @Input() form: FormGroup = this.fb.group({});
+  @Input() needFetchSocialLinks = false;
 
   constructor(
     private modal: NzModalRef,
@@ -27,35 +28,44 @@ export class CreateProjectComponent implements OnInit {
     this.patchForm();
   }
 
-  private patchForm() {
+  toSearch() {
     if (this.form.value.website) {
-      this.fetchingSocialLinks = true;
-      this.createProjectService
-        .fetchSocialLinkByWebsite(this.form.value.website)
-        .subscribe({
-          next: (links) => {
-            this.fetchingSocialLinks = false;
-            console.log(`patchForm() links: `, links);
-            if (links.twitter) {
-              this.form.patchValue({ twitterHomeLink: links.twitter });
-            }
-            if (links.telegram) {
-              this.form.patchValue({ telegramHomeLink: links.telegram });
-            }
-            if (links.discord) {
-              this.form.patchValue({ discordHomeLink: links.discord });
-            }
-            if (links.medium) {
-              this.form.patchValue({ mediumHomeLink: links.medium });
-            }
-            if (links.youtube) {
-              this.form.patchValue({ youtubeHomeLink: links.youtube });
-            }
-          },
-          error: (e) => {
-            this.fetchingSocialLinks = false;
-          },
-        });
+      this.fetchSocialLinks();
     }
+  }
+  private patchForm() {
+    if (this.needFetchSocialLinks && this.form.value.website) {
+      this.fetchSocialLinks();
+    }
+  }
+
+  private fetchSocialLinks() {
+    this.fetchingSocialLinks = true;
+    this.createProjectService
+      .fetchSocialLinkByWebsite(this.form.value.website)
+      .subscribe({
+        next: (links) => {
+          this.fetchingSocialLinks = false;
+          console.log(`patchForm() links: `, links);
+          if (links.twitter) {
+            this.form.patchValue({ twitterHomeLink: links.twitter });
+          }
+          if (links.telegram) {
+            this.form.patchValue({ telegramHomeLink: links.telegram });
+          }
+          if (links.discord) {
+            this.form.patchValue({ discordHomeLink: links.discord });
+          }
+          if (links.medium) {
+            this.form.patchValue({ mediumHomeLink: links.medium });
+          }
+          if (links.youtube) {
+            this.form.patchValue({ youtubeHomeLink: links.youtube });
+          }
+        },
+        error: (e) => {
+          this.fetchingSocialLinks = false;
+        },
+      });
   }
 }
