@@ -10,7 +10,18 @@
             </nz-form-control>
           </nz-form-item>
         </div>
+
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="website">项目官网</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <input nz-input class="ant-input" placeholder="请输入项目官网" formControlName="website" [attr.id]="'website'" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
       </div>
+
+
       <div nz-row [nzGutter]="24">
         <div nz-col [nzSpan]="24">
           <nz-form-item nz-row class="register-area">

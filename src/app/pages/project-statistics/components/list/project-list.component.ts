@@ -8,6 +8,7 @@ import {
 } from 'src/app/modules/create-project';
 import { Project, ProjectService } from 'src/app/shared';
 import { removeNullOrUndefined } from 'src/app/utils';
+import validator from 'validator';
 
 @Component({
   selector: 'app-porject-list',
@@ -35,6 +36,7 @@ export class ProjectListComponent implements OnInit {
 
   form = this.fb.group({
     name: [null],
+    website: [null],
   });
 
   submitForm(): void {
@@ -132,7 +134,7 @@ export class ProjectListComponent implements OnInit {
     this.loading = true;
     this.projectService
       .queryList(
-        this.query,
+        this.adjustQuery(this.query),
         { number: this.pageIndex, size: this.pageSize },
         this.sort
       )
@@ -141,9 +143,23 @@ export class ProjectListComponent implements OnInit {
         this.items = results;
       });
 
-    this.projectService.queryCount(this.query).subscribe((count) => {
-      this.total = count;
+    this.projectService
+      .queryCount(this.adjustQuery(this.query))
+      .subscribe((count) => {
+        this.total = count;
+      });
+  }
+
+  private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
+    const o: { [key: string]: any } = {};
+    Object.keys(query).forEach((key) => {
+      if (key === 'website' && validator.isURL(query['website'])) {
+        Object.assign(o, { website: new URL(query['website']).hostname });
+      } else {
+        Object.assign(o, { [key]: query[key] });
+      }
     });
+    return o;
   }
 
   private buildSort(sortField?: string | null, sortOrder?: string | null) {
