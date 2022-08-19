@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FundRaise } from '../models/fund-raise.model';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class FundRaiseService {
-  private readonly baseURL = 'http://localhost:4242';
+  private readonly baseURL = environment.baseURL;
   constructor(private httpClient: HttpClient) {}
 
   queryList(

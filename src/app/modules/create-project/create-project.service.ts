@@ -1,0 +1,114 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable, ViewContainerRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { Observable, Subject } from 'rxjs';
+import { ProjectService, Project } from 'src/app/shared';
+import { isNil } from 'src/app/utils';
+import { CreateProjectComponent } from './components/create-project.component';
+import { environment } from 'src/environments/environment'
+@Injectable()
+export class CreateProjectService {
+  constructor(
+    private modal: NzModalService,
+    private projectService: ProjectService,
+    private fb: FormBuilder,
+    private http: HttpClient
+  ) {}
+
+  // 1. 成功 -> 结束
+  // 2. 失败 -> 失败 -> 结束
+  // 3. 失败 -> 失败 -> 成功 -> 结束
+  createModal(
+    title: string,
+    obj: Partial<Project>,
+    viewContainerRef: ViewContainerRef
+  ): {
+    modal: NzModalRef<any>,
+    success: Observable<any>,
+    error: Observable<Error>
+  } {
+    console.log(`form: `, this.fb.group({name: []}))
+    const form = this.fb.group({
+      name: [obj.name, [Validators.required]],
+      website: [obj.website, [Validators.required]],
+      description: [obj.description],
+      investors: [obj.investors],
+      twitterHomeLink: [obj.twitterHomeLink],
+      telegramHomeLink: [obj.telegramHomeLink],
+      discordHomeLink: [obj.discordHomeLink],
+      mediumHomeLink: [obj.mediumHomeLink],
+      youtubeHomeLink: [obj.youtubeHomeLink],
+      tokens: [obj.tokens],
+      contracts: [obj.contracts],
+      enableTracking: [!!obj.enableTracking],
+    })
+    // 创建成功时 会next值 弹框会关闭 且会结束
+    const successSubject = new Subject<any>;
+
+    // 创建失败时 会next Error 弹框不会关闭且不会结束 只有弹框被取消时才会结束
+    const errorSubject = new Subject<Error>;
+    const modal = this.modal.create({
+      nzTitle: title,
+      nzContent: CreateProjectComponent,
+      nzViewContainerRef: viewContainerRef,
+      nzComponentParams: {
+        form: form
+      },
+      nzOnOk: () => {
+        return this.createproject(form, errorSubject)
+      },
+    });
+
+    modal.afterClose.subscribe((res) => {
+      if (isNil(res)) {
+        errorSubject.next(new Error('用户取消新增'))
+        errorSubject.complete();
+        successSubject.complete();
+      } else {
+        successSubject.next(res);
+        successSubject.complete();
+        errorSubject.complete();
+      }
+    })
+
+    return {
+      modal,
+      success: successSubject.asObservable(),
+      error: errorSubject.asObservable()
+    };
+  }
+
+  fetchSocialLinkByWebsite(website: string): Observable<any> {
+    website = website.startsWith('http') ? website : `https://${website}`
+    return this.http.post(`${environment.baseURL}/app/social-links`, {
+      url: website
+    })
+  }
+
+  private createproject(form: FormGroup, errorSub: Subject<Error>): Promise<any> {
+    if (form.invalid) {
+      errorSub.next(new Error('请检查表单非法字段'))
+      return Promise.resolve(false);
+    }
+
+    return new Promise((resolve, reject) => {
+      // 这里写 新增project接口
+      this.projectService.create(form.value)
+      .subscribe({
+        next: (v) => {
+          if (v.code === 0) {
+            resolve(v.result || '添加成功')
+          } else {
+            errorSub.next(new Error(v.message));
+            resolve(false)
+          }
+        },
+        error: (e) => {
+          errorSub.next(new Error(e.message));
+          resolve(false)
+        }
+      })
+    });
+  }
+}

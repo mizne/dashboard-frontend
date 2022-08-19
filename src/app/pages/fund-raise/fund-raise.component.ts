@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { FundRaise } from './models/fund-raise.model';
 import { FundRaiseService } from './services/fund-raise.service';
@@ -7,12 +7,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { removeNullOrUndefined } from 'src/app/utils';
 import validator from 'validator';
 import * as uuid from 'uuid';
-
-interface Project {
-  name: string;
-  website: string;
-  investors: string[];
-}
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { CreateProjectService } from 'src/app/modules/create-project';
+import { Project } from 'src/app/shared';
 
 @Component({
   selector: 'app-fund-raise',
@@ -23,7 +20,10 @@ export class FundRaiseComponent implements OnInit {
   constructor(
     private readonly fundRaiseService: FundRaiseService,
     private readonly notification: NzNotificationService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private modal: NzModalService,
+    private viewContainerRef: ViewContainerRef,
+    private createProjectService: CreateProjectService
   ) {}
 
   total = 1;
@@ -75,7 +75,7 @@ export class FundRaiseComponent implements OnInit {
   });
 
   isVisible = false;
-  projects: Project[] = [];
+  projects: { name: string; website: string; investors: string[] }[] = [];
   modalLoading = false;
 
   submitForm(): void {
@@ -97,6 +97,45 @@ export class FundRaiseComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDataFromServer();
+  }
+
+  showCreateModal(item: FundRaise) {
+    this.fundRaiseService
+      .queryList({ projectWebsite: item.projectWebsite })
+      .subscribe((items) => {
+        const investors = items.map((e) => e.investorName);
+
+        this.showCreateModalFor({
+          name: item.projectName,
+          website: item.projectWebsite,
+          investors,
+        });
+      });
+  }
+
+  showCreateModalFor(item: {
+    name: string;
+    website: string;
+    investors: string[];
+  }) {
+    const obj: Partial<Project> = {
+      name: item.name,
+      website: item.website,
+      investors: item.investors,
+      enableTracking: false,
+    };
+    const { success, error } = this.createProjectService.createModal(
+      '添加项目',
+      obj,
+      this.viewContainerRef
+    );
+
+    success.subscribe((v) => {
+      this.notification.success(`添加项目成功`, `添加项目成功`);
+    });
+    error.subscribe((e) => {
+      this.notification.error(`添加项目失败`, `${e.message}`);
+    });
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
@@ -199,7 +238,11 @@ export class FundRaiseComponent implements OnInit {
     this.fundRaiseService.queryList({}).subscribe({
       next: (items) => {
         this.modalLoading = false;
-        const projects: Project[] = [];
+        const projects: Array<{
+          name: string;
+          website: string;
+          investors: string[];
+        }> = [];
         for (const item of items) {
           const theProject = projects.find(
             (e) => e.website === item.projectWebsite

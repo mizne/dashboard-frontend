@@ -4,10 +4,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FloorPrice } from '../models/floor-price.model';
 import { Statistics } from '../models/statistics.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class NFTMarketplaceService {
-  private baseURL = 'http://localhost:4242';
+  private baseURL = environment.baseURL;
   constructor(private httpClient: HttpClient) {}
 
   // TODO  如果某天没有数据（定时任务都失败） 都补0?

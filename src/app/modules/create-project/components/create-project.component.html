@@ -1,0 +1,83 @@
+<div class="create-project-container">
+  <nz-spin nzTip="获取链接中..." [nzSpinning]="fetchingSocialLinks">
+    <form nz-form [formGroup]="form">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired nzTooltipTitle="project name">
+          <span>Name</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your project name!">
+          <input nz-input class="ant-input" id="name" formControlName="name" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="website" nzRequired nzTooltipTitle="project website">
+          <span>Website</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your project website!">
+          <input nz-input class="ant-input" id="website" formControlName="website" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description" nzTooltipTitle="project description">
+          <span>Description</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input class="ant-input" id="description" formControlName="description" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="twitterHomeLink" nzTooltipTitle="project twitter">
+          <span>twitter</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input class="ant-input" id="twitterHomeLink" formControlName="twitterHomeLink" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="telegramHomeLink" nzTooltipTitle="project telegram">
+          <span>telegram</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input class="ant-input" id="telegramHomeLink" formControlName="telegramHomeLink" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="discordHomeLink" nzTooltipTitle="project discord">
+          <span>discord</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input class="ant-input" id="discordHomeLink" formControlName="discordHomeLink" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="mediumHomeLink" nzTooltipTitle="project medium">
+          <span>medium</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input class="ant-input" id="mediumHomeLink" formControlName="mediumHomeLink" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="youtubeHomeLink" nzTooltipTitle="project youtube">
+          <span>youtube</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input class="ant-input" id="youtubeHomeLink" formControlName="youtubeHomeLink" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="project enableTracking">
+          <span>enableTracking</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-switch formControlName="enableTracking"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-spin>
+
+</div>

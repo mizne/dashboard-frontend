@@ -45,6 +45,8 @@
   <button nz-button [nzType]="'primary'" (click)="showModal()" style="margin-top: 12px;">
     分析交叉投资
   </button>
+
+
   <nz-modal [(nzVisible)]="isVisible" [nzWidth]="1200" (nzOnCancel)="handleModalClose()" nzTitle="交叉投资"
     [nzFooter]="null">
     <ng-container *nzModalContent>
@@ -54,6 +56,7 @@
             <th>项目名称</th>
             <th>项目官网</th>
             <th>投资机构</th>
+            <th>操作</th>
           </tr>
         </thead>
         <tbody>
@@ -63,6 +66,10 @@
               <a nz-button (click)="toLink(data.website)" nzType="link">{{ data.website }}</a>
             </td>
             <td>{{ data.investors.join(', ') }}</td>
+            <td>
+              <button nz-button nzType="primary" nzShape="circle" nz-tooltip nzTooltipTitle="添加到项目"
+                (click)="showCreateModalFor(data)" style="margin-right: 8px;">+</button>
+            </td>
           </tr>
         </tbody>
       </nz-table>
@@ -104,6 +111,8 @@
           <td>{{ data.createdAtStr }}</td>
           <td>
 
+            <button nz-button nzType="primary" nzShape="circle" nz-tooltip nzTooltipTitle="添加到项目"
+              (click)="showCreateModal(data)" style="margin-right: 8px;">+</button>
 
             <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
               (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)">
