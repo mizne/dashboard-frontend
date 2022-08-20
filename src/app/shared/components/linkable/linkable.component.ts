@@ -16,6 +16,8 @@ export class LinkableComponent implements OnInit {
   }
 
   @Input() icon = 'link';
+  @Input() shape: 'circle' | 'round' = 'circle';
+  @Input() size: 'small' | 'default' | 'large' = 'default';
 
   validHref = false;
   constructor() {}
