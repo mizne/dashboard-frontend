@@ -9,9 +9,21 @@
   <div nz-row>
     <div nz-col nzSpan="12">
       <div [id]="floorPriceID" style="width: 100%; height: 300px"></div>
+      <div *ngIf="floorPriceLastUpdateAtStr" style="display: flex;justify-content: center;">
+        <nz-tag nzColor="default">
+          <i nz-icon nzType="clock-circle"></i>
+          <span>{{floorPriceLastUpdateAtStr}}</span>
+        </nz-tag>
+      </div>
     </div>
     <div nz-col nzSpan="12">
       <div [id]="statisticsID" style="width: 100%; height: 300px"></div>
+      <div *ngIf="statisticsLastUpdateAtStr" style="display: flex;justify-content: center;">
+        <nz-tag nzColor="default">
+          <i nz-icon nzType="clock-circle"></i>
+          <span>{{statisticsLastUpdateAtStr}}</span>
+        </nz-tag>
+      </div>
     </div>
   </div>
 </nz-card>

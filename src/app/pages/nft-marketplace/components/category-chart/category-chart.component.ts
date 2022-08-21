@@ -43,8 +43,10 @@ export class CategoryChartComponent implements OnInit, AfterViewInit {
 
   floorPriceChart: Chart | null = null;
   floorPriceID = uuid.v4();
+  floorPriceLastUpdateAtStr = '';
   statisticsChart: Chart | null = null;
   statisticsID = uuid.v4();
+  statisticsLastUpdateAtStr = '';
 
   ngOnInit() {
     this.filterControls = this.filters.map((e) => ({
@@ -148,6 +150,10 @@ export class CategoryChartComponent implements OnInit, AfterViewInit {
       });
     });
     chart?.render();
+
+    if (data.length > 0) {
+      this.floorPriceLastUpdateAtStr = data[data.length - 1].createdAtStr;
+    }
   }
 
   private initStatisticsChart() {
@@ -203,6 +209,10 @@ export class CategoryChartComponent implements OnInit, AfterViewInit {
       });
     });
     chart?.render();
+
+    if (data.length > 0) {
+      this.statisticsLastUpdateAtStr = data[data.length - 1].createdAtStr;
+    }
   }
 
   private fetchFloorPrices(): Observable<Array<FloorPrice>> {
