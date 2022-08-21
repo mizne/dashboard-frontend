@@ -99,7 +99,8 @@ export class AppComponent implements OnInit {
           this.sharedService.checkConnections()
         );
 
-        this.lastUpdateAtStr = format(new Date(), 'MM-dd HH:mm:ss');
+        this.lastUpdateAtStr =
+          this.lastUpdateAtStrPrefix + format(new Date(), 'MM-dd HH:mm:ss');
         for (const con of this.connections) {
           const the = items.find((e) => e.hostname === con.hostname);
           if (the) {
