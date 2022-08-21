@@ -16,6 +16,10 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzAffixModule } from 'ng-zorro-antd/affix';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -41,6 +45,10 @@ const nzModules = [
   NzIconModule,
   NzInputModule,
   NzTagModule,
+  NzAffixModule,
+  NzLayoutModule,
+  NzMenuModule,
+  NzDropDownModule,
 ];
 const ngModules = [CommonModule, ReactiveFormsModule];
 

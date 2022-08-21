@@ -127,10 +127,13 @@ export class FundRaiseComponent implements OnInit {
     );
 
     success.subscribe((v) => {
-      this.notification.success(`添加项目成功`, `添加项目成功`);
+      this.notification.success(
+        `添加项目 ${item.name}成功`,
+        `添加项目 ${item.name}成功`
+      );
     });
     error.subscribe((e) => {
-      this.notification.error(`添加项目失败`, `${e.message}`);
+      this.notification.error(`添加项目 ${item.name}失败`, `${e.message}`);
     });
   }
 
