@@ -154,7 +154,11 @@ export class ProjectListComponent implements OnInit {
     const o: { [key: string]: any } = {};
     Object.keys(query).forEach((key) => {
       if (key === 'website' && validator.isURL(query['website'])) {
-        Object.assign(o, { website: new URL(query['website']).hostname });
+        Object.assign(o, {
+          website: query['website'].startsWith('http')
+            ? new URL(query['website']).hostname
+            : query['website'],
+        });
       } else {
         Object.assign(o, { [key]: query[key] });
       }
