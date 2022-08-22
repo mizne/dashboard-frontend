@@ -43,7 +43,40 @@ export class ProjectListComponent implements OnInit {
     name: [null],
     website: [null],
     enableTracking: [null],
+    investors: [null],
   });
+  investors = [
+    {
+      name: 'a16z',
+    },
+    {
+      name: 'binance_labs',
+    },
+    {
+      name: 'multicoin_capital',
+    },
+    {
+      name: 'coinbase_ventures',
+    },
+    {
+      name: 'animoca_brands',
+    },
+    {
+      name: 'sequioa_capital_india',
+    },
+    {
+      name: 'delphi_digital',
+    },
+    {
+      name: 'alameda_research',
+    },
+    {
+      name: 'paradigm',
+    },
+    {
+      name: 'ftx_ventures',
+    },
+  ];
 
   subscriptions: Subscription[] = [];
 

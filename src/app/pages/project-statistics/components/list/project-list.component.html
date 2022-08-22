@@ -28,6 +28,19 @@
             </nz-form-control>
           </nz-form-item>
         </div>
+
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="investors">投资机构</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <nz-select name="investors" [attr.id]="'investors'" formControlName="investors">
+                <nz-option *ngFor="let investor of investors" [nzValue]="investor.name" [nzLabel]="investor.name">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
       </div>
 
 
