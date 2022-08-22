@@ -3,7 +3,7 @@
     <form nz-form [formGroup]="form">
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired nzTooltipTitle="project name">
-          <span>Name</span>
+          <span>名称</span>
         </nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your project name!">
           <input nz-input class="ant-input" id="name" formControlName="name" />
@@ -12,7 +12,7 @@
 
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="website" nzRequired nzTooltipTitle="project website">
-          <span>Website</span>
+          <span>网址</span>
         </nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your project website!">
           <!-- <input nz-input class="ant-input" id="website" formControlName="website" /> -->
@@ -21,7 +21,7 @@
             <input type="text" nz-input class="ant-input" id="website" formControlName="website" />
           </nz-input-group>
           <ng-template #suffixIconButton>
-            <button nz-button nzType="primary" nzSearch (click)="toSearch()"><i nz-icon
+            <button nz-button nzType="primary" nz-tooltip="快速获取社交链接" nzSearch (click)="toSearch()"><i nz-icon
                 nzType="thunderbolt"></i></button>
           </ng-template>
         </nz-form-control>
@@ -29,7 +29,7 @@
 
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description" nzTooltipTitle="project description">
-          <span>Description</span>
+          <span>简介</span>
         </nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24">
           <input nz-input class="ant-input" id="description" formControlName="description" />
@@ -79,7 +79,7 @@
 
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="project enableTracking">
-          <span>enableTracking</span>
+          <span>每日统计</span>
         </nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24">
           <nz-switch formControlName="enableTracking"></nz-switch>
