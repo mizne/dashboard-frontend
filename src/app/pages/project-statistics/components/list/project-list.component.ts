@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { Subscription } from 'rxjs';
 import {
   CreateProjectService,
   ProjectModalActions,
@@ -9,6 +10,10 @@ import {
 import { Project, ProjectService } from 'src/app/shared';
 import { removeNullOrUndefined } from 'src/app/utils';
 import validator from 'validator';
+
+interface TableItem extends Project {
+  enableTrackingCtrl: FormControl;
+}
 
 @Component({
   selector: 'app-porject-list',
@@ -25,7 +30,7 @@ export class ProjectListComponent implements OnInit {
   ) {}
 
   total = 1;
-  items: Project[] = [];
+  items: TableItem[] = [];
   loading = true;
   pageSize = 10;
   pageIndex = 1;
@@ -37,7 +42,10 @@ export class ProjectListComponent implements OnInit {
   form = this.fb.group({
     name: [null],
     website: [null],
+    enableTracking: [null],
   });
+
+  subscriptions: Subscription[] = [];
 
   submitForm(): void {
     console.log('submitForm', this.form.value);
@@ -78,7 +86,7 @@ export class ProjectListComponent implements OnInit {
     });
   }
 
-  confirmUpdate(item: Project) {
+  confirmUpdate(item: TableItem) {
     const obj: Partial<Project> = {
       ...item,
     };
@@ -110,7 +118,7 @@ export class ProjectListComponent implements OnInit {
     this.loadDataFromServer();
   }
 
-  confirmDelete(item: Project) {
+  confirmDelete(item: TableItem) {
     console.log(`confirmDelete(): `, item);
     this.projectService.deleteByID(item._id).subscribe({
       next: () => {
@@ -124,7 +132,7 @@ export class ProjectListComponent implements OnInit {
     });
   }
 
-  cancelDelete(item: Project) {}
+  cancelDelete(item: TableItem) {}
 
   projectDetailHref(id: string): string {
     return `${location.protocol}//${location.host}/project-statistics/detail/${id}`;
@@ -139,8 +147,14 @@ export class ProjectListComponent implements OnInit {
         this.sort
       )
       .subscribe((results) => {
+        this.unsubscribeUpdateEnableTrackingCtrls();
         this.loading = false;
-        this.items = results;
+        this.items = results.map((e) => ({
+          ...e,
+          enableTrackingCtrl: new FormControl(!!e.enableTracking),
+        }));
+
+        this.subscribeUpdateEnableTrackingCtrls();
       });
 
     this.projectService
@@ -148,6 +162,27 @@ export class ProjectListComponent implements OnInit {
       .subscribe((count) => {
         this.total = count;
       });
+  }
+
+  private unsubscribeUpdateEnableTrackingCtrls() {
+    this.subscriptions.forEach((e) => {
+      e.unsubscribe();
+    });
+    this.subscriptions = [];
+  }
+
+  private subscribeUpdateEnableTrackingCtrls() {
+    this.items.forEach((e) => {
+      const sub = e.enableTrackingCtrl.valueChanges.subscribe((v) => {
+        this.projectService
+          .update(e._id, { enableTracking: !!v })
+          .subscribe(() => {
+            this.loadDataFromServer();
+          });
+      });
+
+      this.subscriptions.push(sub);
+    });
   }
 
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {

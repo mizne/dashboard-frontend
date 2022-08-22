@@ -19,6 +19,15 @@
             </nz-form-control>
           </nz-form-item>
         </div>
+
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="enableTracking">每日统计</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <nz-switch formControlName="enableTracking"></nz-switch>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
       </div>
 
 
@@ -112,6 +121,8 @@
                 <span>未开启</span>
               </nz-tag>
             </ng-template>
+
+            <nz-switch [formControl]="data.enableTrackingCtrl"></nz-switch>
           </td>
           <td>{{ data.createdAtStr }}</td>
           <td>
