@@ -108,11 +108,11 @@ export class AppComponent implements OnInit {
             con.message = the.message;
           }
         }
-
-        await this.sleep(4 * 60 * 1e3);
       } catch (e) {
         this.notification.error(`检查链接失败`, `${(e as Error).message}`);
       }
+
+      await this.sleep(4 * 60 * 1e3);
     }
   }
 
