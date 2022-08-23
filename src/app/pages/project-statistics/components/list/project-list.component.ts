@@ -219,13 +219,18 @@ export class ProjectListComponent implements OnInit {
   }
 
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
+    // name website 支持正则查询
     const o: { [key: string]: any } = {};
     Object.keys(query).forEach((key) => {
-      if (key === 'website' && validator.isURL(query['website'])) {
+      if (key === 'website') {
         Object.assign(o, {
           website: query['website'].startsWith('http')
-            ? new URL(query['website']).hostname
-            : query['website'],
+            ? { $regex: new URL(query['website']).hostname, $options: 'i' }
+            : { $regex: query['website'], $options: 'i' },
+        });
+      } else if (key === 'name') {
+        Object.assign(o, {
+          ['name']: { $regex: query['name'], $options: 'i' },
         });
       } else {
         Object.assign(o, { [key]: query[key] });

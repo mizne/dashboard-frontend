@@ -179,7 +179,7 @@ export class FundRaiseComponent implements OnInit {
     this.loading = true;
     this.fundRaiseService
       .queryList(
-        this.query,
+        this.adjustQuery(this.query),
         { number: this.pageIndex, size: this.pageSize },
         this.sort
       )
@@ -188,9 +188,26 @@ export class FundRaiseComponent implements OnInit {
         this.fundRaises = results;
       });
 
-    this.fundRaiseService.queryCount(this.query).subscribe((count) => {
-      this.total = count;
+    this.fundRaiseService
+      .queryCount(this.adjustQuery(this.query))
+      .subscribe((count) => {
+        this.total = count;
+      });
+  }
+
+  private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
+    // projectName 支持正则查询
+    const o: { [key: string]: any } = {};
+    Object.keys(query).forEach((key) => {
+      if (key === 'projectName') {
+        Object.assign(o, {
+          ['projectName']: { $regex: query['projectName'], $options: 'i' },
+        });
+      } else {
+        Object.assign(o, { [key]: query[key] });
+      }
     });
+    return o;
   }
 
   private buildSort(sortField?: string | null, sortOrder?: string | null) {
