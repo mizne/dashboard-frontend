@@ -91,8 +91,14 @@
           </td>
 
           <td>
-            <div nz-tooltip [nzTooltipTitle]="'相对于' + data.volumeIntervals + '周期平均交易量倍数'"> {{data.volumeMultiple |
-              percent}}</div>
+            <nz-tag *ngIf="data.volumeMultiple >= 3; else normalVolume" nzColor="error" nz-tooltip
+              [nzTooltipTitle]="'相对于' + data.volumeIntervals + '周期平均交易量倍数'">{{data.volumeMultiple |
+              percent}}</nz-tag>
+
+            <ng-template #normalVolume>
+              <nz-tag nzColor="default" nz-tooltip [nzTooltipTitle]="'相对于' + data.volumeIntervals + '周期平均交易量倍数'">
+                {{data.volumeMultiple | percent}}</nz-tag>
+            </ng-template>
           </td>
 
           <!-- <td>{{data.prices60Interval}}</td>
@@ -113,7 +119,14 @@
           </td> -->
 
           <td>
-            <div nz-tooltip [nzTooltipTitle]="'越小表示越密集; 一般认为10%以下表示密集'">{{data.emaCompressionRelative | percent}}</div>
+            <nz-tag *ngIf="data.emaCompressionRelative <= 0.1; else normalEmaCompressionRelative" nzColor="error"
+              nz-tooltip [nzTooltipTitle]="'越小表示越密集; 一般认为10%以下表示密集'">{{data.emaCompressionRelative |
+              percent}}</nz-tag>
+
+            <ng-template #normalEmaCompressionRelative>
+              <nz-tag nzColor="default" nz-tooltip [nzTooltipTitle]="'越小表示越密集; 一般认为10%以下表示密集'">
+                {{data.emaCompressionRelative | percent}}</nz-tag>
+            </ng-template>
           </td>
 
           <td [ngStyle]="genTdStyle()">
