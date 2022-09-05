@@ -52,18 +52,8 @@
           <th nzColumnKey="price" [nzSortFn]="true">价格</th>
           <th nzColumnKey="volume" [nzSortFn]="true">交易量</th>
 
-          <th nzColumnKey="priceChange">price delta 1/7/30</th>
-
-          <th nzColumnKey="volumeMultiple" [nzSortFn]="true">volume multiple</th>
-
-
-          <!-- <th nzColumnKey="prices60Interval">60周期 price</th>
-          <th nzColumnKey="volumes60Interval">60周期 volume</th> -->
-
-          <!-- <th nzColumnKey="priceChange1IntervalRelativeBTC" [nzSortFn]="true">1周期 /btc</th> -->
-          <!-- <th nzColumnKey="priceChange7IntervalRelativeBTC" [nzSortFn]="true">7周期 /btc</th> -->
-          <!-- <th nzColumnKey="priceChange30IntervalRelativeBTC" [nzSortFn]="true">30周期 /btc</th> -->
-
+          <th nzColumnKey="priceChange">price delta 60</th>
+          <th nzColumnKey="volumeMultiple" [nzSortFn]="true">volume delta 60</th>
 
           <th nzColumnKey="emaCompressionRelative" [nzSortFn]="true">均线密集度</th>
           <th nzColumnKey="closeDeltaEma">C/S - S/M - M/L</th>
@@ -83,40 +73,23 @@
           <td [title]="data.volume | currency">{{ data.volume | currency }}</td>
 
           <td [ngStyle]="genTdStyle()">
-            <div style="display: flex; justify-content: center; align-items: center">
-              <div [ngStyle]="genDataStyle(data.priceChange1Interval)">{{data.priceChange1Interval | percent}}</div>
-              <div [ngStyle]="genDataStyle(data.priceChange7Interval)">{{data.priceChange7Interval | percent}}</div>
-              <div [ngStyle]="genDataStyle(data.priceChange30Interval)">{{data.priceChange30Interval | percent}}</div>
-            </div>
+            <small-chart [data]="data.prices60Interval"></small-chart>
           </td>
 
-          <td>
+          <td style="position: relative">
+            <small-chart [data]="data.volumes60Interval" type="bar"></small-chart>
             <nz-tag *ngIf="data.volumeMultiple >= 3; else normalVolume" nzColor="error" nz-tooltip
-              [nzTooltipTitle]="'相对于' + data.volumeIntervals + '周期平均交易量倍数'">{{data.volumeMultiple |
+              [nzTooltipTitle]="'相对于' + data.volumeIntervals + '周期平均交易量倍数'" style="position: absolute;
+              top: 10px;">{{data.volumeMultiple |
               percent}}</nz-tag>
 
             <ng-template #normalVolume>
-              <nz-tag nzColor="default" nz-tooltip [nzTooltipTitle]="'相对于' + data.volumeIntervals + '周期平均交易量倍数'">
+              <nz-tag nzColor="default" nz-tooltip [nzTooltipTitle]="'相对于' + data.volumeIntervals + '周期平均交易量倍数'" style="position: absolute;
+              top: 10px;">
                 {{data.volumeMultiple | percent}}</nz-tag>
             </ng-template>
           </td>
 
-          <!-- <td>{{data.prices60Interval}}</td>
-          <td>{{data.volumes60Interval}}</td> -->
-
-          <!-- <td [ngStyle]="genTdStyle()">
-            <div [ngStyle]="genDataStyle(data.priceChange1IntervalRelativeBTC)">{{data.priceChange1IntervalRelativeBTC |
-              percent}}</div>
-          </td> -->
-          <!-- <td [ngStyle]="genTdStyle()">
-            <div [ngStyle]="genDataStyle(data.priceChange7IntervalRelativeBTC)">{{data.priceChange7IntervalRelativeBTC |
-              percent}}</div>
-          </td> -->
-          <!-- <td [ngStyle]="genTdStyle()">
-            <div [ngStyle]="genDataStyle(data.priceChange30IntervalRelativeBTC)">{{data.priceChange30IntervalRelativeBTC
-              |
-              percent}}</div>
-          </td> -->
 
           <td>
             <nz-tag *ngIf="data.emaCompressionRelative <= 0.1; else normalEmaCompressionRelative" nzColor="error"
