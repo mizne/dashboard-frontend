@@ -34,6 +34,11 @@ export interface CexTokenDaily {
   readonly ema21DeltaEma55: number; // ema21相对ema55
   readonly ema55DeltaEma144: number; // ema21相对ema144
 
+  readonly volumeMultiple: number; // 交易量 相对 以前很多周期平均值（去除最大最小值） 的倍数
+  readonly volumeIntervals: number; // 相对以前的周期数
+
+  readonly emaCompressionRelative: number; // ema均线的密集程度 [0, 1] 越小表示越密集
+
   readonly time: number;
   readonly timeStr: string;
 

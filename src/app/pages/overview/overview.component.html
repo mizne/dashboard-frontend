@@ -54,6 +54,8 @@
 
           <th nzColumnKey="priceChange">price delta 1/7/30</th>
 
+          <th nzColumnKey="volumeMultiple" [nzSortFn]="true">volume multiple</th>
+
 
           <!-- <th nzColumnKey="prices60Interval">60周期 price</th>
           <th nzColumnKey="volumes60Interval">60周期 volume</th> -->
@@ -63,6 +65,7 @@
           <!-- <th nzColumnKey="priceChange30IntervalRelativeBTC" [nzSortFn]="true">30周期 /btc</th> -->
 
 
+          <th nzColumnKey="emaCompressionRelative" [nzSortFn]="true">均线密集度</th>
           <th nzColumnKey="closeDeltaEma">C/S - S/M - M/L</th>
 
           <th nzColumnKey="timeStr" [nzSortFn]="true">周期时间</th>
@@ -87,7 +90,10 @@
             </div>
           </td>
 
-
+          <td>
+            <div nz-tooltip [nzTooltipTitle]="'相对于' + data.volumeIntervals + '周期平均交易量倍数'"> {{data.volumeMultiple |
+              percent}}</div>
+          </td>
 
           <!-- <td>{{data.prices60Interval}}</td>
           <td>{{data.volumes60Interval}}</td> -->
@@ -105,6 +111,10 @@
               |
               percent}}</div>
           </td> -->
+
+          <td>
+            <div nz-tooltip [nzTooltipTitle]="'越小表示越密集; 一般认为10%以下表示密集'">{{data.emaCompressionRelative | percent}}</div>
+          </td>
 
           <td [ngStyle]="genTdStyle()">
             <div style="display: flex; justify-content: center; align-items: center">
