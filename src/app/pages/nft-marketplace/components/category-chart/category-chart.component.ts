@@ -6,6 +6,7 @@ import * as uuid from 'uuid';
 import { NFTMarketplaceService } from '../../services/nft-marketplace.service';
 import { FloorPrice } from '../../models/floor-price.model';
 import { Statistics } from '../../models/statistics.model';
+import { today } from 'src/app/utils';
 
 // registerTheme('customTheme', {
 //   styleSheet: {
@@ -234,7 +235,10 @@ export class CategoryChartComponent implements OnInit, AfterViewInit {
   }
 
   private resolveQuery(): { [key: string]: any } {
-    const result: { [key: string]: any } = {};
+    const todayMs = today();
+    const result: { [key: string]: any } = {
+      time: { $gte: todayMs - 6 * 24 * 60 * 60 * 1000 },
+    };
     for (const filterCtrl of this.filterControls) {
       Object.assign(result, {
         [this.captial(this.category, filterCtrl.key)]: filterCtrl.ctrl.value,

@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { FloorPrice } from '../models/floor-price.model';
 import { Statistics } from '../models/statistics.model';
 import { environment } from 'src/environments/environment';
+import { isObject } from 'src/app/utils';
 
 @Injectable()
 export class NFTMarketplaceService {
@@ -123,7 +124,12 @@ export class NFTMarketplaceService {
 
   private stringifyQuery(obj: { [key: string]: any }): string {
     return Object.keys(obj)
-      .map((key) => `${key}=${obj[key]}`)
+      .map(
+        (key) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(
+            isObject(obj[key]) ? JSON.stringify(obj[key]) : obj[key]
+          )}`
+      )
       .join('&');
   }
 }
