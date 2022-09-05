@@ -40,7 +40,11 @@
     </form>
   </nz-card>
 
-
+  <button nz-button [nzType]="'primary'" (click)="showLucky()" style="margin-top: 12px;">
+    运气不错
+  </button>
+  <span nz-icon nzType="flag" nzTheme="outline"
+    [ngStyle]="{color: extraQuery['volumeMultiple'] ? 'red' : '#333', marginLeft: '12px'}"></span>
 
   <nz-card style="margin-top: 12px">
     <nz-table nzShowSizeChanger [nzData]="cexTokenDailies" [nzFrontPagination]="false" [nzLoading]="loading"

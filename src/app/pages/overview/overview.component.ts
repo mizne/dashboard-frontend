@@ -28,6 +28,7 @@ export class OverviewComponent implements OnInit {
   pageSize = 10;
   pageIndex = 1;
   query: { [key: string]: any } = {};
+  extraQuery: { [key: string]: any } = {};
   sort: any = {
     createdAt: -1,
   };
@@ -50,6 +51,7 @@ export class OverviewComponent implements OnInit {
     console.log('submitForm', this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
+    this.extraQuery = {};
     this.loadDataFromServer();
   }
 
@@ -60,10 +62,21 @@ export class OverviewComponent implements OnInit {
     console.log('resetForm', this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
+    this.extraQuery = {};
     this.loadDataFromServer();
   }
 
   ngOnInit(): void {
+    this.loadDataFromServer();
+  }
+
+  showLucky() {
+    this.pageIndex = 1;
+    this.pageSize = 10;
+    this.extraQuery = {
+      volumeMultiple: { $gte: 3 },
+      emaCompressionRelative: { $lte: 0.1 },
+    };
     this.loadDataFromServer();
   }
 
@@ -158,7 +171,10 @@ export class OverviewComponent implements OnInit {
 
   private loadDataFromServer(): void {
     this.loading = true;
-    this.query = removeNullOrUndefined(this.form.value);
+    this.query = {
+      ...removeNullOrUndefined(this.form.value),
+      ...this.extraQuery,
+    };
     this.cexTokenDailyService
       .queryList(
         this.adjustQuery(this.query),
