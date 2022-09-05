@@ -1,5 +1,5 @@
 <a *ngIf="validHref; else invalidHref" class="linkable-container" [href]="href" target="_blank">
-  <button nz-tooltip [nzTooltipTitle]="href" nz-button nzType="primary" [nzSize]="size" [nzShape]="shape">
+  <button nz-tooltip [nzTooltipTitle]="title || href" nz-button nzType="primary" [nzSize]="size" [nzShape]="shape">
     <i nz-icon [nzType]="icon" nzTheme="outline"></i>
   </button>
 </a>

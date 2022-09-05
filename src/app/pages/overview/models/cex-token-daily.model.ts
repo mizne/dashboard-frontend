@@ -9,6 +9,8 @@ export interface CexTokenDaily {
   readonly name: string;
   readonly fullname: string;
 
+  readonly slug: string;
+
   readonly logo: string;
   readonly tags: Array<string>;
 

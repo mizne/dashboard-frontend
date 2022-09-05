@@ -19,6 +19,8 @@ export class LinkableComponent implements OnInit {
   @Input() shape: 'circle' | 'round' = 'circle';
   @Input() size: 'small' | 'default' | 'large' = 'default';
 
+  @Input() title = '';
+
   validHref = false;
   constructor() {}
   ngOnInit() {}

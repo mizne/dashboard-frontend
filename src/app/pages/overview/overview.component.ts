@@ -31,28 +31,33 @@ export class OverviewComponent implements OnInit {
   sort: any = {
     createdAt: -1,
   };
-
+  intervals = [
+    {
+      label: '4h',
+      name: '4h',
+    },
+    {
+      label: '1d',
+      name: '1d',
+    },
+  ];
   form = this.fb.group({
-    investorName: [null],
-    projectName: [null],
+    interval: [this.intervals[0].name],
+    name: [null],
   });
-
-  isVisible = false;
-  projects: { name: string; website: string; investors: string[] }[] = [];
-  modalLoading = false;
 
   submitForm(): void {
     console.log('submitForm', this.form.value);
-    this.query = removeNullOrUndefined(this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
     this.loadDataFromServer();
   }
 
   resetForm() {
-    this.form.reset();
+    this.form.reset({
+      interval: this.intervals[0].name,
+    });
     console.log('resetForm', this.form.value);
-    this.query = removeNullOrUndefined(this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
     this.loadDataFromServer();
@@ -60,6 +65,67 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDataFromServer();
+  }
+
+  genTdStyle() {
+    return {
+      padding: '4px 12px',
+    };
+  }
+
+  genDataStyle(n: number) {
+    const color = n > 0 ? 'green' : n < 0 ? 'red' : 'white';
+    const alpha = this.resolveAlpha(Math.abs(n));
+    return {
+      backgroundColor: `rgba(${
+        color === 'green'
+          ? '0, 255, 0'
+          : color === 'red'
+          ? '255, 0, 0'
+          : '255, 255, 255'
+      }, ${alpha})`,
+
+      width: '100%',
+      height: '44px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontWeight: 'bold',
+      padding: '4px 6px',
+    };
+  }
+
+  genBgColor(n: number) {
+    const color = n > 0 ? 'green' : n < 0 ? 'red' : 'white';
+    const alpha = this.resolveAlpha(Math.abs(n));
+    return {
+      backgroundColor: `rgba(${
+        color === 'green'
+          ? '0, 255, 0'
+          : color === 'red'
+          ? '255, 0, 0'
+          : '255, 255, 255'
+      }, ${alpha})`,
+    };
+  }
+
+  private resolveAlpha(n: number): number {
+    if (n <= 0.02) {
+      return 0.2;
+    }
+    if (n <= 0.05) {
+      return 0.4;
+    }
+
+    if (n <= 0.1) {
+      return 0.6;
+    }
+
+    if (n <= 0.2) {
+      return 0.8;
+    }
+
+    return 1;
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
@@ -92,6 +158,7 @@ export class OverviewComponent implements OnInit {
 
   private loadDataFromServer(): void {
     this.loading = true;
+    this.query = removeNullOrUndefined(this.form.value);
     this.cexTokenDailyService
       .queryList(
         this.adjustQuery(this.query),
@@ -111,12 +178,12 @@ export class OverviewComponent implements OnInit {
   }
 
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
-    // projectName 支持正则查询
+    // name 支持正则查询
     const o: { [key: string]: any } = {};
     Object.keys(query).forEach((key) => {
-      if (key === 'projectName') {
+      if (key === 'name') {
         Object.assign(o, {
-          ['projectName']: { $regex: query['projectName'], $options: 'i' },
+          ['name']: { $regex: query['name'], $options: 'i' },
         });
       } else {
         Object.assign(o, { [key]: query[key] });
