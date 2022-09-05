@@ -1,0 +1,122 @@
+<div class="fund-raise-container">
+  <nz-card>
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+      <div nz-row [nzGutter]="24">
+        <!-- <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="investorName">投资机构</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <nz-select name="investorName" [attr.id]="'investorName'" formControlName="investorName">
+                <nz-option *ngFor="let investor of investors" [nzValue]="investor.name" [nzLabel]="investor.name">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="projectName">项目名称</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <input nz-input class="ant-input" placeholder="请输入项目名称全称" formControlName="projectName"
+                [attr.id]="'projectName'" />
+            </nz-form-control>
+          </nz-form-item>
+        </div> -->
+      </div>
+
+
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="24">
+          <nz-form-item nz-row class="register-area">
+            <nz-form-control [nzSpan]="14" [nzOffset]="6">
+              <button nz-button [nzType]="'primary'">搜索</button>
+              <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+      </div>
+
+    </form>
+  </nz-card>
+
+
+
+
+
+
+  <nz-card style="margin-top: 12px">
+    <nz-table nzShowSizeChanger [nzData]="cexTokenDailies" [nzFrontPagination]="false" [nzLoading]="loading"
+      [nzTotal]="total" [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
+      (nzQueryParams)="onQueryParamsChange($event)">
+      <thead>
+        <tr>
+          <th nzColumnKey="name">名称</th>
+          <th nzColumnKey="price" [nzSortFn]="true">价格</th>
+          <th nzColumnKey="volume" [nzSortFn]="true">交易量</th>
+
+          <th nzColumnKey="priceChange1Interval" [nzSortFn]="true">1周期 price</th>
+          <th nzColumnKey="priceChange7Interval" [nzSortFn]="true">7周期 price</th>
+          <th nzColumnKey="priceChange30Interval" [nzSortFn]="true">30周期 price</th>
+
+          <!-- <th nzColumnKey="prices60Interval">60周期 price</th>
+          <th nzColumnKey="volumes60Interval">60周期 volume</th> -->
+
+          <th nzColumnKey="priceChange1IntervalRelativeBTC" [nzSortFn]="true">1周期 /btc</th>
+          <th nzColumnKey="priceChange7IntervalRelativeBTC" [nzSortFn]="true">7周期 /btc</th>
+          <th nzColumnKey="priceChange30IntervalRelativeBTC" [nzSortFn]="true">30周期 /btc</th>
+
+          <th nzColumnKey="closeDeltaEma21" [nzSortFn]="true">C/S</th>
+          <th nzColumnKey="ema21DeltaEma55" [nzSortFn]="true">S/M</th>
+          <th nzColumnKey="ema55DeltaEma144" [nzSortFn]="true">M/L</th>
+
+          <th nzColumnKey="timeStr" [nzSortFn]="true">周期时间</th>
+          <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
+
+          <th nzColumnKey="Action">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of cexTokenDailies">
+          <td>
+            <!-- <img [src]="data.logo" /> -->
+            <span class="token-name" style="font-weight: bold">{{data.name}}</span>
+            <span class="token-fullname" style="margin-left: 8px; font-size:10px">{{data.fullname}}</span>
+          </td>
+          <td [title]="data.price">{{ data.price | toFixed:2 }}</td>
+          <td [title]="data.volume">{{ data.volume | toFixed:2 }}</td>
+
+          <td>{{data.priceChange1Interval | percent}}</td>
+          <td>{{data.priceChange7Interval | percent}}</td>
+          <td>{{data.priceChange30Interval | percent}}</td>
+
+          <!-- <td>{{data.prices60Interval}}</td>
+          <td>{{data.volumes60Interval}}</td> -->
+
+          <td>{{data.priceChange1IntervalRelativeBTC | percent}}</td>
+          <td>{{data.priceChange7IntervalRelativeBTC | percent}}</td>
+          <td>{{data.priceChange30IntervalRelativeBTC | percent}}</td>
+
+          <td>{{data.closeDeltaEma21 | percent}}</td>
+          <td>{{data.ema21DeltaEma55 | percent}}</td>
+          <td>{{data.ema55DeltaEma144 | percent}}</td>
+
+          <td>{{data.timeStr}}</td>
+          <td>{{data.createdAtStr}}</td>
+
+          <td>
+            <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
+              (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)">
+              <button nz-button nzType="primary" nzDanger>删除</button>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+    <ng-template #rangeTemplate let-range="range" let-total>
+      {{ range[0] }}-{{ range[1] }} of {{ total }} items
+    </ng-template>
+  </nz-card>
+</div>

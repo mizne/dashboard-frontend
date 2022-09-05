@@ -26,6 +26,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { components } from './components';
 import { services } from './services';
+import { pipes } from './pipes';
 
 const nzModules = [
   NzButtonModule,
@@ -54,8 +55,8 @@ const ngModules = [CommonModule, ReactiveFormsModule];
 
 @NgModule({
   imports: [...nzModules, ...ngModules],
-  exports: [...nzModules, ...ngModules, ...components],
-  declarations: [...components],
+  exports: [...nzModules, ...ngModules, ...components, ...pipes],
+  declarations: [...components, ...pipes],
   providers: [...services],
 })
 export class SharedModule {}
