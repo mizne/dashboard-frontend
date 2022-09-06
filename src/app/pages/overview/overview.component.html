@@ -54,8 +54,8 @@
       <thead>
         <tr>
           <th nzColumnKey="name">名称</th>
-          <th nzColumnKey="price" [nzSortFn]="true">价格</th>
-          <th nzColumnKey="volume" [nzSortFn]="true">交易量</th>
+          <th nzColumnKey="price" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">价格</th>
+          <th nzColumnKey="volume" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">交易量</th>
 
           <th nzColumnKey="priceChange">price delta 60</th>
           <th nzColumnKey="volumeMultiple" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">volume
@@ -65,8 +65,8 @@
             均线密集度</th>
           <th nzColumnKey="closeDeltaEma">C/S - S/M - M/L</th>
 
-          <th nzColumnKey="timeStr" [nzSortFn]="true">周期时间</th>
-          <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
+          <th nzColumnKey="timeStr" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">周期时间</th>
+          <th nzColumnKey="createdAtStr" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">添加时间</th>
 
           <th nzColumnKey="Action">操作</th>
         </tr>
