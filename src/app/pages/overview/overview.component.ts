@@ -108,30 +108,16 @@ export class OverviewComponent implements OnInit {
     };
   }
 
-  genBgColor(n: number) {
-    const color = n > 0 ? 'green' : n < 0 ? 'red' : 'white';
-    const alpha = this.resolveAlpha(Math.abs(n));
-    return {
-      backgroundColor: `rgba(${
-        color === 'green'
-          ? '0, 255, 0'
-          : color === 'red'
-          ? '255, 0, 0'
-          : '255, 255, 255'
-      }, ${alpha})`,
-    };
-  }
-
   private resolveAlpha(n: number): number {
     if (n <= 0.02) {
-      return 0.2;
+      return 0.1;
     }
     if (n <= 0.05) {
-      return 0.4;
+      return 0.25;
     }
 
     if (n <= 0.1) {
-      return 0.6;
+      return 0.4;
     }
 
     if (n <= 0.2) {
