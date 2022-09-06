@@ -34,6 +34,11 @@ export class AppComponent implements OnInit {
       message: 'loading',
     },
     {
+      hostname: 'api.binance.com',
+      status: 'loading',
+      message: 'loading',
+    },
+    {
       hostname: 'twitter.com',
       status: 'loading',
       message: 'loading',
