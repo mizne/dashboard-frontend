@@ -58,9 +58,11 @@
           <th nzColumnKey="volume" [nzSortFn]="true">交易量</th>
 
           <th nzColumnKey="priceChange">price delta 60</th>
-          <th nzColumnKey="volumeMultiple" [nzSortFn]="true">volume delta 60</th>
+          <th nzColumnKey="volumeMultiple" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">volume
+            delta 60</th>
 
-          <th nzColumnKey="emaCompressionRelative" [nzSortFn]="true">均线密集度</th>
+          <th nzColumnKey="emaCompressionRelative" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">
+            均线密集度</th>
           <th nzColumnKey="closeDeltaEma">C/S - S/M - M/L</th>
 
           <th nzColumnKey="timeStr" [nzSortFn]="true">周期时间</th>
@@ -97,13 +99,13 @@
 
 
           <td>
-            <nz-tag *ngIf="data.emaCompressionRelative <= 0.1; else normalEmaCompressionRelative" nzColor="error"
-              nz-tooltip [nzTooltipTitle]="'越小表示越密集; 一般认为10%以下表示密集'">{{data.emaCompressionRelative |
+            <nz-tag *ngIf="data.emaCompressionRelative >= 0.9; else normalEmaCompressionRelative" nzColor="error"
+              nz-tooltip [nzTooltipTitle]="'越大表示越密集; 一般认为90%以上表示密集'">{{(data.emaCompressionRelative) |
               percent}}</nz-tag>
 
             <ng-template #normalEmaCompressionRelative>
-              <nz-tag nzColor="default" nz-tooltip [nzTooltipTitle]="'越小表示越密集; 一般认为10%以下表示密集'">
-                {{data.emaCompressionRelative | percent}}</nz-tag>
+              <nz-tag nzColor="default" nz-tooltip [nzTooltipTitle]="'越大表示越密集; 一般认为90%以上表示密集'">
+                {{(data.emaCompressionRelative) | percent}}</nz-tag>
             </ng-template>
           </td>
 

@@ -214,6 +214,19 @@ export class OverviewComponent implements OnInit {
       }
     }
 
+    if (sortField === 'emaCompressionRelative') {
+      if (sortOrder === 'ascend') {
+        return {
+          [sortField]: -1,
+        };
+      }
+      if (sortOrder === 'descend') {
+        return {
+          [sortField]: 1,
+        };
+      }
+    }
+
     return sortOrder === 'ascend'
       ? { [sortField]: 1 }
       : sortOrder === 'descend'

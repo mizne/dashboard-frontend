@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CexTokenDaily } from '../models/cex-token-daily.model';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
@@ -14,11 +14,22 @@ export class CexTokenDailyService {
     page?: { number: number; size: number },
     sort?: any
   ): Observable<CexTokenDaily[]> {
-    return this.httpClient.post(`${this.baseURL}/cex-token-daily/queryList`, {
-      query,
-      page,
-      sort,
-    }) as Observable<CexTokenDaily[]>;
+    return this.httpClient
+      .post(`${this.baseURL}/cex-token-daily/queryList`, {
+        query,
+        page,
+        sort,
+      })
+      .pipe(
+        map((results) => {
+          const res = results as CexTokenDaily[];
+
+          return res.map((e) => ({
+            ...e,
+            emaCompressionRelative: 1 - e.emaCompressionRelative,
+          }));
+        })
+      ) as Observable<CexTokenDaily[]>;
   }
 
   queryCount(query?: Partial<CexTokenDaily>): Observable<number> {
