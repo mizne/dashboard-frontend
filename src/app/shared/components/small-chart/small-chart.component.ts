@@ -38,6 +38,10 @@ export class SmallChartComponent implements OnInit, AfterViewInit {
     chart.axis('value', false);
     chart.tooltip(false);
 
+    chart.scale('value', {
+      type: 'linear',
+    });
+
     chart.render();
   }
 }
