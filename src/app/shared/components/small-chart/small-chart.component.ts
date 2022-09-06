@@ -42,6 +42,20 @@ export class SmallChartComponent implements OnInit, AfterViewInit {
       type: 'linear',
     });
 
+    if (this.type === 'line') {
+      chart.theme({
+        // 修改内置主题的某些配置
+        styleSheet: {
+          brandColor:
+            this.data[0] > this.data[this.data.length - 1]
+              ? 'red'
+              : this.data[0] < this.data[this.data.length - 1]
+              ? 'green'
+              : '#025DF4',
+        },
+      });
+    }
+
     chart.render();
   }
 }
