@@ -1,42 +1,36 @@
 <div class="fund-raise-container">
   <nz-card>
-    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
-      <div nz-row [nzGutter]="24">
-        <div nz-col [nzSpan]="8">
-          <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="interval">周期</nz-form-label>
-            <nz-form-control [nzSpan]="14">
-              <nz-select name="interval" [attr.id]="'interval'" formControlName="interval">
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
+
+      <nz-form-item>
+        <nz-form-label nzFor="interval">周期</nz-form-label>
+        <nz-form-control>
+          <!-- <nz-select name="interval" [attr.id]="'interval'" formControlName="interval">
                 <nz-option *ngFor="let investor of intervals" [nzValue]="investor.name" [nzLabel]="investor.name">
                 </nz-option>
-              </nz-select>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
+              </nz-select> -->
 
-        <div nz-col [nzSpan]="8">
-          <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="name">名称</nz-form-label>
-            <nz-form-control [nzSpan]="14">
-              <input nz-input class="ant-input" placeholder="请输入名称" formControlName="name" [attr.id]="'name'" />
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
+          <nz-radio-group formControlName="interval">
+            <label nz-radio-button *ngFor="let investor of intervals"
+              [nzValue]="investor.name">{{investor.name}}</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="name">名称</nz-form-label>
+        <nz-form-control>
+          <input nz-input class="ant-input" placeholder="请输入名称" formControlName="name" [attr.id]="'name'" />
+        </nz-form-control>
+      </nz-form-item>
 
 
-      <div nz-row [nzGutter]="24">
-        <div nz-col [nzSpan]="24">
-          <nz-form-item nz-row class="register-area">
-            <nz-form-control [nzSpan]="14" [nzOffset]="6">
-              <button nz-button [nzType]="'primary'">搜索</button>
-              <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-
-      </div>
-
+      <nz-form-item class="register-area">
+        <nz-form-control>
+          <button nz-button [nzType]="'primary'">搜索</button>
+          <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+        </nz-form-control>
+      </nz-form-item>
     </form>
   </nz-card>
 
