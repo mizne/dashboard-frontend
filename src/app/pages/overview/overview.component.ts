@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { CexTokenDaily } from './models/cex-token-daily.model';
+import { CexTokenDaily, DailyInterval } from './models/cex-token-daily.model';
 import { CexTokenDailyService } from './services/cex-token-daily.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { FormBuilder } from '@angular/forms';
-import { removeNullOrUndefined } from 'src/app/utils';
-import { CreateProjectService } from 'src/app/modules/create-project';
-import { Project } from 'src/app/shared';
+import { paddingZero, removeNullOrUndefined, today } from 'src/app/utils';
+import { format, parse } from 'date-fns';
 
 @Component({
   selector: 'app-overview',
@@ -17,9 +16,7 @@ export class OverviewComponent implements OnInit {
   constructor(
     private readonly cexTokenDailyService: CexTokenDailyService,
     private readonly notification: NzNotificationService,
-    private readonly fb: FormBuilder,
-    private viewContainerRef: ViewContainerRef,
-    private createProjectService: CreateProjectService
+    private readonly fb: FormBuilder
   ) {}
 
   total = 1;
@@ -35,16 +32,17 @@ export class OverviewComponent implements OnInit {
   intervals = [
     {
       label: '4h',
-      name: '4h',
+      name: DailyInterval.FOUR_HOURS,
     },
     {
       label: '1d',
-      name: '1d',
+      name: DailyInterval.ONE_DAY,
     },
   ];
   form = this.fb.group({
     interval: [this.intervals[0].name],
     name: [null],
+    latestIntervals: [1],
   });
 
   submitForm(): void {
@@ -58,6 +56,7 @@ export class OverviewComponent implements OnInit {
   resetForm() {
     this.form.reset({
       interval: this.intervals[0].name,
+      latestIntervals: 1,
     });
     console.log('resetForm', this.form.value);
     this.pageIndex = 1;
@@ -187,11 +186,86 @@ export class OverviewComponent implements OnInit {
         Object.assign(o, {
           ['name']: { $regex: query['name'], $options: 'i' },
         });
+      } else if (key === 'latestIntervals') {
+        Object.assign(
+          o,
+          this.resolveLatestIntervals(query[key], query['interval'])
+        );
       } else {
         Object.assign(o, { [key]: query[key] });
       }
     });
+    console.log(`adjustQuery() o: `, o);
     return o;
+  }
+
+  private resolveLatestIntervals(
+    latestIntervals: number,
+    interval: DailyInterval
+  ): { [key: string]: any } {
+    if (latestIntervals <= 0) {
+      return {};
+    }
+
+    switch (interval) {
+      case DailyInterval.FOUR_HOURS:
+        return {
+          time: { $gte: this.resolveFourHoursIntervalMills(latestIntervals) },
+        };
+      case DailyInterval.ONE_DAY:
+        return {
+          time: { $gte: this.resolveOneDayIntervalMills(latestIntervals) },
+        };
+      default:
+        console.warn(`resolveLatestIntervals() unknown interval: ${interval}`);
+        return {
+          time: { $gte: this.resolveFourHoursIntervalMills(latestIntervals) },
+        };
+    }
+  }
+
+  private resolveFourHoursIntervalMills(latestIntervals: number): number {
+    const fourHours = 4 * 60 * 60 * 1e3;
+    const hours = [0, 4, 8, 12, 16, 20];
+    const currentHour = new Date().getHours();
+    const theHourIndex = hours.findIndex((e) => e > currentHour);
+    const theHour =
+      theHourIndex >= 0 ? hours[theHourIndex - 1] : hours[hours.length - 1];
+
+    const theMills = parse(
+      format(new Date(), 'yyyy-MM-dd') +
+        ` ${paddingZero(String(theHour))}:00:00`,
+      'yyyy-MM-dd HH:mm:ss',
+      new Date()
+    ).getTime();
+
+    return theMills - (latestIntervals - 1) * fourHours;
+  }
+
+  private resolveOneDayIntervalMills(latestIntervals: number): number {
+    const oneDay = 24 * 60 * 60 * 1e3;
+    const currentHour = new Date().getHours();
+    if (currentHour >= 8) {
+      // 返回当天08:00:00的时间戳 及天数差值
+      return (
+        parse(
+          format(new Date(), 'yyyy-MM-dd') + ' 08:00:00',
+          'yyyy-MM-dd HH:mm:ss',
+          new Date()
+        ).getTime() -
+        (latestIntervals - 1) * oneDay
+      );
+    } else {
+      // 返回前一天08:00:00的时间戳 及天数差值
+      return (
+        parse(
+          format(new Date().getTime() - oneDay, 'yyyy-MM-dd') + ' 08:00:00',
+          'yyyy-MM-dd HH:mm:ss',
+          new Date()
+        ).getTime() -
+        (latestIntervals - 1) * oneDay
+      );
+    }
   }
 
   private buildSort(sortField?: string | null, sortOrder?: string | null) {

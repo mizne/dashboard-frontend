@@ -36,3 +36,17 @@ export function today(): number {
     new Date()
   ).getTime();
 }
+
+// 返回 小时 零分零秒的 时间戳
+export function currentHour(): number {
+  return parse(
+    format(new Date(), 'yyyy-MM-dd HH') + ':00:00',
+    'yyyy-MM-dd HH:mm:ss',
+    new Date()
+  ).getTime();
+}
+
+// 补零
+export function paddingZero(s: string, length = 2): string {
+  return s.length < length ? `${'0'.repeat(length - s.length)}${s}` : s;
+}
