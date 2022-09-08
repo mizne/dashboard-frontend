@@ -25,7 +25,6 @@ export class OverviewComponent implements OnInit {
   pageSize = 10;
   pageIndex = 1;
   query: { [key: string]: any } = {};
-  extraQuery: { [key: string]: any } = {};
   sort: any = {
     createdAt: -1,
   };
@@ -42,6 +41,7 @@ export class OverviewComponent implements OnInit {
   form = this.fb.group({
     interval: [this.intervals[0].name],
     name: [null],
+    lucky: [false],
     latestIntervals: [1],
   });
 
@@ -117,7 +117,6 @@ export class OverviewComponent implements OnInit {
     console.log('submitForm', this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
-    this.extraQuery = {};
     this.loadDataFromServer();
   }
 
@@ -125,11 +124,11 @@ export class OverviewComponent implements OnInit {
     this.form.reset({
       interval: this.intervals[0].name,
       latestIntervals: 1,
+      lucky: false,
     });
     console.log('resetForm', this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
-    this.extraQuery = {};
     this.loadDataFromServer();
   }
 
@@ -141,23 +140,6 @@ export class OverviewComponent implements OnInit {
       this.pageSize = 10;
       this.loadDataFromServer();
     });
-  }
-
-  showLucky(enable: boolean) {
-    if (enable) {
-      this.pageIndex = 1;
-      this.pageSize = 10;
-      this.extraQuery = {
-        volumeMultiple: { $gte: 3 },
-        emaCompressionRelative: { $lte: 0.1 },
-      };
-      this.loadDataFromServer();
-    } else {
-      this.pageIndex = 1;
-      this.pageSize = 10;
-      this.extraQuery = {};
-      this.loadDataFromServer();
-    }
   }
 
   genTdStyle() {
@@ -239,7 +221,6 @@ export class OverviewComponent implements OnInit {
     this.loading = true;
     this.query = {
       ...removeNullOrUndefined(this.form.value),
-      ...this.extraQuery,
       ...(this.tagCtrl.value ? { tags: this.tagCtrl.value } : {}),
     };
     this.cexTokenDailyService
@@ -272,6 +253,16 @@ export class OverviewComponent implements OnInit {
         Object.assign(
           o,
           this.resolveLatestIntervals(query[key], query['interval'])
+        );
+      } else if (key === 'lucky') {
+        Object.assign(
+          o,
+          query['lucky']
+            ? {
+                volumeMultiple: { $gte: 3 },
+                emaCompressionRelative: { $lte: 0.1 },
+              }
+            : {}
         );
       } else {
         Object.assign(o, { [key]: query[key] });

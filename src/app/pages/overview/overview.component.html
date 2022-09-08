@@ -24,6 +24,14 @@
         </nz-form-control>
       </nz-form-item>
 
+
+      <nz-form-item>
+        <nz-form-label nzFor="lucky" [nzTooltipTitle]="'开启后，获取交易量放大且均线密集的标的'">运气不错</nz-form-label>
+        <nz-form-control>
+          <nz-switch formControlName="lucky" [attr.id]="'lucky'"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+
       <nz-form-item>
         <nz-form-label nzFor="latestIntervals">最近周期数（填0表示所有）</nz-form-label>
         <nz-form-control>
@@ -40,15 +48,6 @@
       </nz-form-item>
     </form>
   </nz-card>
-
-  <div class="lucky-container">
-    <button nz-button [nzType]="'primary'" (click)="showLucky(true)" style="margin-top: 12px;" nz-tooltip
-      [nzTooltipTitle]="'获取交易量放大且均线密集的标的'">
-      运气不错
-    </button>
-    <span nz-icon nzType="flag" nzTheme="outline" (click)="showLucky(false)"
-      [ngStyle]="{color: extraQuery['volumeMultiple'] ? 'red' : '#333', marginLeft: '12px'}"></span>
-  </div>
 
   <div class="tags-container" style="margin-top: 12px;">
     <nz-radio-group [formControl]="tagCtrl">
