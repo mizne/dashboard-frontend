@@ -42,11 +42,11 @@
   </nz-card>
 
   <div class="lucky-container">
-    <button nz-button [nzType]="'primary'" (click)="showLucky()" style="margin-top: 12px;" nz-tooltip
+    <button nz-button [nzType]="'primary'" (click)="showLucky(true)" style="margin-top: 12px;" nz-tooltip
       [nzTooltipTitle]="'获取交易量放大且均线密集的标的'">
       运气不错
     </button>
-    <span nz-icon nzType="flag" nzTheme="outline"
+    <span nz-icon nzType="flag" nzTheme="outline" (click)="showLucky(false)"
       [ngStyle]="{color: extraQuery['volumeMultiple'] ? 'red' : '#333', marginLeft: '12px'}"></span>
   </div>
 

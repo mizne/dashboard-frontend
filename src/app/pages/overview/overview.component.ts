@@ -141,14 +141,21 @@ export class OverviewComponent implements OnInit {
     });
   }
 
-  showLucky() {
-    this.pageIndex = 1;
-    this.pageSize = 10;
-    this.extraQuery = {
-      volumeMultiple: { $gte: 3 },
-      emaCompressionRelative: { $lte: 0.1 },
-    };
-    this.loadDataFromServer();
+  showLucky(enable: boolean) {
+    if (enable) {
+      this.pageIndex = 1;
+      this.pageSize = 10;
+      this.extraQuery = {
+        volumeMultiple: { $gte: 3 },
+        emaCompressionRelative: { $lte: 0.1 },
+      };
+      this.loadDataFromServer();
+    } else {
+      this.pageIndex = 1;
+      this.pageSize = 10;
+      this.extraQuery = {};
+      this.loadDataFromServer();
+    }
   }
 
   genTdStyle() {
