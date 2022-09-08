@@ -137,6 +137,8 @@ export class OverviewComponent implements OnInit {
     this.loadDataFromServer();
 
     this.tagCtrl.valueChanges.subscribe(() => {
+      this.pageIndex = 1;
+      this.pageSize = 10;
       this.loadDataFromServer();
     });
   }
