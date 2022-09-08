@@ -3,7 +3,7 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { CexTokenDaily, DailyInterval } from './models/cex-token-daily.model';
 import { CexTokenDailyService } from './services/cex-token-daily.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { paddingZero, removeNullOrUndefined, today } from 'src/app/utils';
 import { format, parse } from 'date-fns';
 
@@ -45,6 +45,74 @@ export class OverviewComponent implements OnInit {
     latestIntervals: [1],
   });
 
+  tags: Array<{ label: string; value: string }> = [
+    {
+      label: '全部',
+      value: '',
+    },
+    {
+      label: 'Metaverse',
+      value: 'Metaverse',
+    },
+    {
+      label: 'Gaming',
+      value: 'Gaming',
+    },
+    {
+      label: 'DEFI',
+      value: 'defi',
+    },
+    {
+      label: 'Innovation',
+      value: 'innovation-zone',
+    },
+    {
+      label: 'Layer1 / Layer2',
+      value: 'Layer1_Layer2',
+    },
+    {
+      label: 'Fan Token',
+      value: 'fan_token',
+    },
+    {
+      label: 'NFT',
+      value: 'NFT',
+    },
+    {
+      label: 'Storage',
+      value: 'storage-zone',
+    },
+    {
+      label: 'Polkadot',
+      value: 'Polkadot',
+    },
+    {
+      label: 'POS',
+      value: 'pos',
+    },
+    {
+      label: 'POW',
+      value: 'pow',
+    },
+    {
+      label: 'Launchpad',
+      value: 'Launchpad',
+    },
+    {
+      label: 'Launchpool',
+      value: 'Launchpool',
+    },
+    {
+      label: 'BNB Chain',
+      value: 'bnbchain',
+    },
+    {
+      label: 'Infrastructure',
+      value: 'Infrastructure',
+    },
+  ];
+  tagCtrl = new FormControl(this.tags[0].value);
+
   submitForm(): void {
     console.log('submitForm', this.form.value);
     this.pageIndex = 1;
@@ -67,6 +135,10 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDataFromServer();
+
+    this.tagCtrl.valueChanges.subscribe(() => {
+      this.loadDataFromServer();
+    });
   }
 
   showLucky() {
@@ -159,6 +231,7 @@ export class OverviewComponent implements OnInit {
     this.query = {
       ...removeNullOrUndefined(this.form.value),
       ...this.extraQuery,
+      ...(this.tagCtrl.value ? { tags: this.tagCtrl.value } : {}),
     };
     this.cexTokenDailyService
       .queryList(

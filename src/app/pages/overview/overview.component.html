@@ -41,12 +41,20 @@
     </form>
   </nz-card>
 
-  <button nz-button [nzType]="'primary'" (click)="showLucky()" style="margin-top: 12px;" nz-tooltip
-    [nzTooltipTitle]="'获取交易量放大且均线密集的标的'">
-    运气不错
-  </button>
-  <span nz-icon nzType="flag" nzTheme="outline"
-    [ngStyle]="{color: extraQuery['volumeMultiple'] ? 'red' : '#333', marginLeft: '12px'}"></span>
+  <div class="lucky-container">
+    <button nz-button [nzType]="'primary'" (click)="showLucky()" style="margin-top: 12px;" nz-tooltip
+      [nzTooltipTitle]="'获取交易量放大且均线密集的标的'">
+      运气不错
+    </button>
+    <span nz-icon nzType="flag" nzTheme="outline"
+      [ngStyle]="{color: extraQuery['volumeMultiple'] ? 'red' : '#333', marginLeft: '12px'}"></span>
+  </div>
+
+  <div class="tags-container" style="margin-top: 12px;">
+    <nz-radio-group [formControl]="tagCtrl">
+      <label *ngFor="let tag of tags" [nzValue]="tag.value" nz-radio-button>{{tag.label}}</label>
+    </nz-radio-group>
+  </div>
 
   <nz-card style="margin-top: 12px">
     <nz-table nzShowSizeChanger [nzData]="cexTokenDailies" [nzFrontPagination]="false" [nzLoading]="loading"
