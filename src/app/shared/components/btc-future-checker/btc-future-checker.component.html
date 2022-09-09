@@ -19,7 +19,8 @@
           <span>{{item.label}}</span>
         </nz-tag>
         <nz-spin [nzSpinning]="item.status === 'loading'">
-          <small-chart [data]="item.values" [type]="item.chartType" [regionFilters]="item.regionFilters"
+          <small-chart [data]="item.values" [type]="item.chartOptions.chartType"
+            [priceMode]="item.chartOptions.priceMode" [regionFilters]="item.chartOptions.regionFilters"
             [showAxis]="true" [width]="330" [height]="140">
           </small-chart>
         </nz-spin>

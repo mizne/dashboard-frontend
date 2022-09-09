@@ -23,8 +23,11 @@ export class BtcFutureCheckerComponent implements OnInit {
     status: 'success' | 'error' | 'loading';
     message: string;
     values: number[];
-    chartType: 'line' | 'bar' | 'area';
-    regionFilters?: Array<any>;
+    chartOptions: {
+      chartType: 'line' | 'bar' | 'area';
+      priceMode: boolean;
+      regionFilters?: Array<any>;
+    };
   }> = [
     {
       label: 'price',
@@ -32,7 +35,10 @@ export class BtcFutureCheckerComponent implements OnInit {
       status: 'loading',
       message: 'loading',
       values: [],
-      chartType: 'line',
+      chartOptions: {
+        chartType: 'line',
+        priceMode: true,
+      },
     },
     {
       label: 'funding rate',
@@ -40,7 +46,10 @@ export class BtcFutureCheckerComponent implements OnInit {
       status: 'loading',
       message: 'loading',
       values: [],
-      chartType: 'bar',
+      chartOptions: {
+        chartType: 'bar',
+        priceMode: false,
+      },
     },
     {
       label: 'long/short ratio',
@@ -48,21 +57,24 @@ export class BtcFutureCheckerComponent implements OnInit {
       status: 'loading',
       message: 'loading',
       values: [],
-      chartType: 'line',
-      regionFilters: [
-        {
-          top: true,
-          start: ['min', 1.0],
-          end: ['max', 'min'],
-          color: 'red',
-        },
-        {
-          top: true,
-          start: ['min', 'max'],
-          end: ['max', 1.0],
-          color: 'green',
-        },
-      ],
+      chartOptions: {
+        chartType: 'line',
+        regionFilters: [
+          {
+            top: true,
+            start: ['min', 1.0],
+            end: ['max', 'min'],
+            color: 'red',
+          },
+          {
+            top: true,
+            start: ['min', 'max'],
+            end: ['max', 1.0],
+            color: 'green',
+          },
+        ],
+        priceMode: false,
+      },
     },
     {
       label: 'open interest',
@@ -70,7 +82,10 @@ export class BtcFutureCheckerComponent implements OnInit {
       status: 'loading',
       message: 'loading',
       values: [],
-      chartType: 'area',
+      chartOptions: {
+        chartType: 'area',
+        priceMode: false,
+      },
     },
   ];
   lastUpdateAtStrPrefix = '更新时间: ';
