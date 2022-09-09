@@ -45,6 +45,7 @@ export class OverviewComponent implements OnInit {
     name: [''],
     lucky: [false],
     latestIntervals: [1],
+    symbol: [''],
   });
 
   tags: Array<{ label: string; value: string }> = [
@@ -135,9 +136,11 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.route.snapshot.queryParams['name']) {
-      const name = decodeURIComponent(this.route.snapshot.queryParams['name']);
-      this.form.get('name')?.patchValue(name);
+    if (this.route.snapshot.queryParams['symbol']) {
+      const symbol = decodeURIComponent(
+        this.route.snapshot.queryParams['symbol']
+      );
+      this.form.get('symbol')?.patchValue(symbol);
     }
 
     if (this.route.snapshot.queryParams['latestIntervals']) {
@@ -156,10 +159,10 @@ export class OverviewComponent implements OnInit {
     });
   }
 
-  resolveMoreHref(name: string): string {
+  resolveMoreHref(symbol: string): string {
     return `${location.protocol}//${
       location.host
-    }/overview?name=${encodeURIComponent(name)}&latestIntervals=0`;
+    }/overview?symbol=${encodeURIComponent(symbol)}&latestIntervals=0`;
   }
 
   genTdStyle() {
