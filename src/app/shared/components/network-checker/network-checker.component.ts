@@ -55,11 +55,11 @@ export class NetworkCheckerComponent implements OnInit {
       status: 'loading',
       message: 'loading',
     },
-    {
-      hostname: 'www.crunchbase.com',
-      status: 'loading',
-      message: 'loading',
-    },
+    // {
+    //   hostname: 'www.crunchbase.com',
+    //   status: 'loading',
+    //   message: 'loading',
+    // },
     {
       hostname: 'crypto-fundraising.info',
       status: 'loading',
