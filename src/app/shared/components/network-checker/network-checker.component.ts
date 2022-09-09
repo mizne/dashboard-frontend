@@ -97,7 +97,7 @@ export class NetworkCheckerComponent implements OnInit {
         this.notification.error(`检查链接失败`, `${(e as Error).message}`);
       }
 
-      await sleep(4 * 60 * 1e3);
+      await sleep(10 * 60 * 1e3);
     }
   }
 }
