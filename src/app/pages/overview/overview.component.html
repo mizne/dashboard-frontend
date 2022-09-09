@@ -51,7 +51,7 @@
 
   <div class="tags-container" style="margin-top: 12px;">
     <nz-radio-group [formControl]="tagCtrl">
-      <label *ngFor="let tag of tags" [nzValue]="tag.value" nz-radio-button>{{tag.label}}</label>
+      <label *ngFor="let tag of tags" [nzValue]="tag.name" nz-radio-button>{{tag.label}}</label>
     </nz-radio-group>
   </div>
 

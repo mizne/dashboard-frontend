@@ -48,73 +48,8 @@ export class OverviewComponent implements OnInit {
     symbol: [''],
   });
 
-  tags: Array<{ label: string; value: string }> = [
-    {
-      label: '全部',
-      value: '',
-    },
-    {
-      label: 'Metaverse',
-      value: 'Metaverse',
-    },
-    {
-      label: 'Gaming',
-      value: 'Gaming',
-    },
-    {
-      label: 'DEFI',
-      value: 'defi',
-    },
-    {
-      label: 'Innovation',
-      value: 'innovation-zone',
-    },
-    {
-      label: 'Layer1 / Layer2',
-      value: 'Layer1_Layer2',
-    },
-    {
-      label: 'Fan Token',
-      value: 'fan_token',
-    },
-    {
-      label: 'NFT',
-      value: 'NFT',
-    },
-    {
-      label: 'Storage',
-      value: 'storage-zone',
-    },
-    {
-      label: 'Polkadot',
-      value: 'Polkadot',
-    },
-    {
-      label: 'POS',
-      value: 'pos',
-    },
-    {
-      label: 'POW',
-      value: 'pow',
-    },
-    {
-      label: 'Launchpad',
-      value: 'Launchpad',
-    },
-    {
-      label: 'Launchpool',
-      value: 'Launchpool',
-    },
-    {
-      label: 'BNB Chain',
-      value: 'bnbchain',
-    },
-    {
-      label: 'Infrastructure',
-      value: 'Infrastructure',
-    },
-  ];
-  tagCtrl = new FormControl(this.tags[0].value);
+  tags: Array<{ label: string; name: string }> = [];
+  tagCtrl = new FormControl('');
 
   submitForm(): void {
     console.log('submitForm', this.form.value);
@@ -150,6 +85,7 @@ export class OverviewComponent implements OnInit {
       this.form.get('latestIntervals')?.patchValue(Number(latestIntervals));
     }
 
+    this.loadTags();
     this.loadDataFromServer();
 
     this.tagCtrl.valueChanges.subscribe(() => {
@@ -239,6 +175,14 @@ export class OverviewComponent implements OnInit {
   }
 
   cancelDelete(item: CexTokenDaily) {}
+
+  private loadTags() {
+    this.cexTokenDailyService.queryTags().subscribe((items) => {
+      this.tags = [{ label: '全部', name: '' }].concat(
+        items.map((e) => ({ label: e.label, name: e.name }))
+      );
+    });
+  }
 
   private loadDataFromServer(): void {
     this.loading = true;

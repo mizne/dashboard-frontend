@@ -16,7 +16,7 @@
       </div>
       <div *ngFor="let item of items" style="margin-bottom: 12px">
         <nz-tag style="margin-bottom: 12px">
-          <span>{{item.label}}</span>
+          <span>{{item.label + (item.values.length > 0 ? ' : ' + item.values[item.values.length - 1] : '')}}</span>
         </nz-tag>
         <nz-spin [nzSpinning]="item.status === 'loading'">
           <small-chart [data]="item.values" [type]="item.chartOptions.chartType"

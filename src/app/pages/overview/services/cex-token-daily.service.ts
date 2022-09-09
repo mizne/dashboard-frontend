@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CexTokenDaily } from '../models/cex-token-daily.model';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { CexTokenTag } from '../models/cex-token-tag.model';
 
 @Injectable()
 export class CexTokenDailyService {
@@ -36,6 +37,13 @@ export class CexTokenDailyService {
     return this.httpClient.post(`${this.baseURL}/cex-token-daily/queryCount`, {
       query,
     }) as Observable<number>;
+  }
+
+  queryTags(): Observable<CexTokenTag[]> {
+    return this.httpClient.post(
+      `${this.baseURL}/cex-token-tag/queryList`,
+      {}
+    ) as Observable<CexTokenTag[]>;
   }
 
   deleteByID(id: string): Observable<any> {
