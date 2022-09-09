@@ -51,41 +51,5 @@
   </nz-layout>
 </nz-layout>
 
-<nz-affix [nzOffsetTop]="offsetTop">
-  <button nz-button nzType="primary" nzShape="circle" nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="'bottomLeft'"
-    style="margin-right: 24px">
-    <i nz-icon [nzType]="'global'" nzTheme="outline"></i>
-  </button>
-
-  <nz-dropdown-menu #menu="nzDropdownMenu">
-    <ul nz-menu>
-      <li nz-menu-item>
-        <nz-tag nzColor="default">
-          <i nz-icon nzType="clock-circle"></i>
-          <span>{{lastUpdateAtStr}}</span>
-        </nz-tag>
-      </li>
-      <li nz-menu-item *ngFor="let item of connections">
-        <ng-container *ngIf="item.status === 'success'">
-          <nz-tag nzColor="success" nz-tooltip [nzTooltipTitle]="item.message">
-            <i nz-icon nzType="check-circle"></i>
-            <span>{{item.hostname}}</span>
-          </nz-tag>
-        </ng-container>
-        <ng-container *ngIf="item.status === 'error'">
-          <nz-tag nzColor="error" nz-tooltip [nzTooltipTitle]="item.message">
-            <i nz-icon nzType="close-circle"></i>
-            <span>{{item.hostname}}</span>
-          </nz-tag>
-        </ng-container>
-        <ng-container *ngIf="item.status === 'loading'">
-          <nz-tag nzColor="processing" nz-tooltip [nzTooltipTitle]="item.message">
-            <i nz-icon nzType="sync" nzSpin></i>
-            <span>{{item.hostname}}</span>
-          </nz-tag>
-        </ng-container>
-
-      </li>
-    </ul>
-  </nz-dropdown-menu>
-</nz-affix>
+<network-checker></network-checker>
+<btc-future-checker></btc-future-checker>

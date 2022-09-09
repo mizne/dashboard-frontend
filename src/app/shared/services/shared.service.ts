@@ -18,4 +18,21 @@ export class SharedService {
       Array<{ hostname: string; status: 'success' | 'error'; message: string }>
     >;
   }
+
+  btcFutures(): Observable<{
+    prices: number[];
+    fundingRates: number[];
+    longShortRatios: number[];
+    openInterests: number[];
+  }> {
+    return this.httpClient.post(
+      `${this.baseURL}/app/btc-futures`,
+      {}
+    ) as Observable<{
+      prices: number[];
+      fundingRates: number[];
+      longShortRatios: number[];
+      openInterests: number[];
+    }>;
+  }
 }

@@ -88,7 +88,7 @@
           <td [title]="data.volume | currency">{{ data.volume | currency }}</td>
 
           <td [ngStyle]="genTdStyle()">
-            <small-chart [data]="data.prices60Interval"></small-chart>
+            <small-chart [priceMode]="true" [data]="data.prices60Interval"></small-chart>
           </td>
 
           <td style="position: relative">

@@ -50,3 +50,11 @@ export function currentHour(): number {
 export function paddingZero(s: string, length = 2): string {
   return s.length < length ? `${'0'.repeat(length - s.length)}${s}` : s;
 }
+
+export function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+}

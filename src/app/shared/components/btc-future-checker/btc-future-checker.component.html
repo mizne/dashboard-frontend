@@ -1,0 +1,29 @@
+<div class="btc-future-checker-container" style="position:fixed; bottom: 24px; right: 24px">
+  <button nz-button nzType="primary" nzShape="circle" (click)="open()" style="margin-bottom: 24px">
+    <i nz-icon [nzType]="'bold'" nzTheme="outline"></i>
+  </button>
+  <nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="最近30天 BTCUSDTPERP 数据"
+    (nzOnClose)="close()">
+    <ng-container *nzDrawerContent>
+      <div style="margin-bottom: 12px">
+        <nz-tag nzColor="default">
+          <i nz-icon nzType="clock-circle"></i>
+          <span>{{lastUpdateAtStr}}</span>
+        </nz-tag>
+
+        <button nz-button nzType="primary" nzShape="circle" (click)="refresh()"><span nz-icon
+            nzType="sync"></span></button>
+      </div>
+      <div *ngFor="let item of items" style="margin-bottom: 12px">
+        <nz-tag style="margin-bottom: 12px">
+          <span>{{item.label}}</span>
+        </nz-tag>
+        <nz-spin [nzSpinning]="item.status === 'loading'">
+          <small-chart [data]="item.values" [type]="item.chartType" [regionFilters]="item.regionFilters"
+            [showAxis]="true" [width]="330" [height]="140">
+          </small-chart>
+        </nz-spin>
+      </div>
+    </ng-container>
+  </nz-drawer>
+</div>

@@ -23,6 +23,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -56,6 +57,7 @@ const nzModules = [
   NzBadgeModule,
   NzInputNumberModule,
   NzTabsModule,
+  NzDrawerModule,
 ];
 const ngModules = [CommonModule, ReactiveFormsModule];
 
