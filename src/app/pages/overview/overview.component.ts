@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { CexTokenDaily, DailyInterval } from './models/cex-token-daily.model';
 import { CexTokenDailyService } from './services/cex-token-daily.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { paddingZero, removeNullOrUndefined, today } from 'src/app/utils';
+import { paddingZero, removeEmpty } from 'src/app/utils';
 import { format, parse } from 'date-fns';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-overview',
@@ -16,7 +17,8 @@ export class OverviewComponent implements OnInit {
   constructor(
     private readonly cexTokenDailyService: CexTokenDailyService,
     private readonly notification: NzNotificationService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly route: ActivatedRoute
   ) {}
 
   total = 1;
@@ -40,7 +42,7 @@ export class OverviewComponent implements OnInit {
   ];
   form = this.fb.group({
     interval: [this.intervals[0].name],
-    name: [null],
+    name: [''],
     lucky: [false],
     latestIntervals: [1],
   });
@@ -133,6 +135,18 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.route.snapshot.queryParams['name']) {
+      const name = decodeURIComponent(this.route.snapshot.queryParams['name']);
+      this.form.get('name')?.patchValue(name);
+    }
+
+    if (this.route.snapshot.queryParams['latestIntervals']) {
+      const latestIntervals = decodeURIComponent(
+        this.route.snapshot.queryParams['latestIntervals']
+      );
+      this.form.get('latestIntervals')?.patchValue(Number(latestIntervals));
+    }
+
     this.loadDataFromServer();
 
     this.tagCtrl.valueChanges.subscribe(() => {
@@ -140,6 +154,12 @@ export class OverviewComponent implements OnInit {
       this.pageSize = 10;
       this.loadDataFromServer();
     });
+  }
+
+  resolveMoreHref(name: string): string {
+    return `${location.protocol}//${
+      location.host
+    }/overview?name=${encodeURIComponent(name)}&latestIntervals=0`;
   }
 
   genTdStyle() {
@@ -220,7 +240,7 @@ export class OverviewComponent implements OnInit {
   private loadDataFromServer(): void {
     this.loading = true;
     this.query = {
-      ...removeNullOrUndefined(this.form.value),
+      ...removeEmpty(this.form.value),
       ...(this.tagCtrl.value ? { tags: this.tagCtrl.value } : {}),
     };
     this.cexTokenDailyService

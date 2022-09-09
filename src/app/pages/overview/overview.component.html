@@ -140,6 +140,10 @@
             <linkable *ngIf="data.slug" [title]="'CMC ' + data.symbol" icon="copyright-circle"
               [href]="'https://coinmarketcap.com/currencies/' + data.slug" style="margin-left: 6px">
             </linkable>
+
+            <linkable *ngIf="data.name" [title]="'查看 ' + data.symbol + ' 所有数据'" icon="more"
+              [href]="resolveMoreHref(data.name)" style="margin-left: 6px">
+            </linkable>
           </td>
         </tr>
       </tbody>

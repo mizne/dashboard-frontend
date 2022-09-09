@@ -12,6 +12,18 @@ export const removeNullOrUndefined = (obj: { [key: string]: any }) => {
   return result;
 };
 
+export const removeEmpty = (obj: { [key: string]: any }) => {
+  const result: { [key: string]: any } = {};
+  for (const key of Object.keys(obj)) {
+    if (!isNil(obj[key]) && obj[key] !== '') {
+      Object.assign(result, {
+        [key]: obj[key],
+      });
+    }
+  }
+  return result;
+};
+
 export function isNil(v: any): boolean {
   return isNull(v) || isUndefined(v);
 }
