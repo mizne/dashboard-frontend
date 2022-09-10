@@ -31,7 +31,8 @@
   <div class="tag-overview-content" style="margin-top: 12px">
     <nz-spin [nzSpinning]="loading"></nz-spin>
     <div nz-row>
-      <div nz-col nzSpan="6" *ngFor="let item of tagDailyItems">
+      <div nz-col nzSpan="6" *ngFor="let item of tagDailyItems"
+        style="display: flex; justify-content: center; align-items: center;">
         <nz-spin [nzSpinning]="loading">
           <nz-card style="width:300px; margin-bottom: 8px" [nzTitle]="item.label">
             <div style="margin-bottom: 4px">总交易量: {{item.volume | currency}}</div>
