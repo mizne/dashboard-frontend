@@ -36,7 +36,7 @@
         <nz-spin [nzSpinning]="loading">
           <nz-card style="width:300px; margin-bottom: 8px" [nzTitle]="item.label">
             <div style="margin-bottom: 4px">总交易量: {{item.volume | currency}}</div>
-            <div style="margin-bottom: 4px" [title]="'相对前' + item.volumeIntervals + '周期'">
+            <div style="margin-bottom: 4px" [title]="'相对前 ' + item.volumeIntervals + ' 周期'">
               总交易量增幅:
               <nz-tag *ngIf="item.volumeMultiple >= 3; else normalVolume" nzColor="error">{{item.volumeMultiple |
                 percent}}</nz-tag>
