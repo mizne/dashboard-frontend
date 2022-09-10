@@ -39,7 +39,7 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzFor="latestIntervals">最近周期数（填0表示所有）</nz-form-label>
+        <nz-form-label nzFor="latestIntervals" [nzTooltipTitle]="'填0表示所有'">最近周期数</nz-form-label>
         <nz-form-control>
           <nz-input-number formControlName="latestIntervals" [attr.id]="'latestIntervals'" [nzMin]="0" [nzStep]="1">
           </nz-input-number>
