@@ -32,10 +32,9 @@
     <div nz-row>
       <div nz-col nzSpan="6" *ngFor="let item of tagDailyItems">
         <nz-card style="width:300px; margin-bottom: 8px" [nzTitle]="item.label">
-          <p>交易量: {{item.volume | currency}}</p>
-          <p>tokens: {{item.tokenNames.length}}</p>
-          <p [title]="'相对前' + item.volumeIntervals + '周期'">
-            交易量增幅:
+          <div style="margin-bottom: 4px">总交易量: {{item.volume | currency}}</div>
+          <div style="margin-bottom: 4px" [title]="'相对前' + item.volumeIntervals + '周期'">
+            总交易量增幅:
             <nz-tag *ngIf="item.volumeMultiple >= 3; else normalVolume" nzColor="error">{{item.volumeMultiple |
               percent}}</nz-tag>
 
@@ -43,8 +42,24 @@
               <nz-tag nzColor="default">
                 {{item.volumeMultiple | percent}}</nz-tag>
             </ng-template>
-          </p>
-          <small-chart [data]="item.volumes180Interval" type="bar" [width]="250" [height]="100" [showAxis]="false">
+          </div>
+          <div style="margin-bottom: 4px" [title]="'共 ' + item.tokenNames.length + ' tokens'"
+            *ngIf="item.volumePercents && item.volumePercents.length > 0">
+            <span>交易量占比: </span>
+            <div *ngFor="let p of item.volumePercents.slice(0, 3)" class="token-item"
+              style="margin-bottom: 4px; font-size: 12px;">
+              <span class="token-symbol" style="margin-right: 12px">{{p.token}}</span>
+              <nz-tag *ngIf="p.percent >= 0.5; else normalTokenPercent" nzColor="error">{{p.percent |
+                percent}}</nz-tag>
+
+              <ng-template #normalTokenPercent>
+                <nz-tag nzColor="default">
+                  {{p.percent | percent}}</nz-tag>
+              </ng-template>
+            </div>
+          </div>
+
+          <small-chart [data]="item.volumes180Interval" type="bar" [width]="250" [height]="80" [showAxis]="false">
           </small-chart>
         </nz-card>
       </div>

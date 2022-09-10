@@ -37,13 +37,27 @@ export class TagOverviewComponent implements OnInit {
 
   intervalTime$ = this.form.valueChanges.pipe(
     startWith(this.form.value),
-    map(
-      () =>
-        this.resolveLatestIntervals(
-          this.form.value?.latestIntervals as number,
-          this.form.value.interval as DailyInterval
-        )['time'] || 0
-    )
+    map(() => {
+      switch (this.form.get('interval')?.value) {
+        case DailyInterval.FOUR_HOURS:
+          return this.resolveFourHoursIntervalMills(
+            this.form.get('latestIntervals')?.value as number
+          );
+        case DailyInterval.ONE_DAY:
+          return this.resolveOneDayIntervalMills(
+            this.form.get('latestIntervals')?.value as number
+          );
+        default:
+          console.log(
+            `intervalTime$ unknown interval: ${
+              this.form.get('interval')?.value
+            }`
+          );
+          return this.resolveFourHoursIntervalMills(
+            this.form.get('latestIntervals')?.value as number
+          );
+      }
+    })
   );
 
   ngOnInit() {
@@ -112,19 +126,33 @@ export class TagOverviewComponent implements OnInit {
       return {};
     }
 
+    const fourHours = 4 * 60 * 60 * 1000;
+    const oneDay = 24 * 60 * 60 * 1000;
+
     switch (interval) {
       case DailyInterval.FOUR_HOURS:
         return {
-          time: this.resolveFourHoursIntervalMills(latestIntervals),
+          time: {
+            $gte: this.resolveFourHoursIntervalMills(latestIntervals),
+            $lt:
+              this.resolveFourHoursIntervalMills(latestIntervals) + fourHours,
+          },
         };
       case DailyInterval.ONE_DAY:
         return {
-          time: this.resolveOneDayIntervalMills(latestIntervals),
+          time: {
+            $gte: this.resolveOneDayIntervalMills(latestIntervals),
+            $lt: this.resolveOneDayIntervalMills(latestIntervals) + oneDay,
+          },
         };
       default:
         console.warn(`resolveLatestIntervals() unknown interval: ${interval}`);
         return {
-          time: this.resolveFourHoursIntervalMills(latestIntervals),
+          time: {
+            $gte: this.resolveFourHoursIntervalMills(latestIntervals),
+            $lt:
+              this.resolveFourHoursIntervalMills(latestIntervals) + fourHours,
+          },
         };
     }
   }
