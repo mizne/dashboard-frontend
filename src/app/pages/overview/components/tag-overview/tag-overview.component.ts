@@ -34,6 +34,7 @@ export class TagOverviewComponent implements OnInit {
   });
 
   tagDailyItems: Array<CexTokenTagDaily> = [];
+  loading = false;
 
   intervalTime$ = this.form.valueChanges.pipe(
     startWith(this.form.value),
@@ -79,6 +80,7 @@ export class TagOverviewComponent implements OnInit {
   }
 
   private fetchTagsAndTagDailyItems() {
+    this.loading = true;
     this.cexTokenDailyService.queryTags().subscribe((tags) => {
       forkJoin(
         tags.map((tag) =>
@@ -91,6 +93,7 @@ export class TagOverviewComponent implements OnInit {
           )
         )
       ).subscribe((items) => {
+        this.loading = false;
         this.tagDailyItems = items
           .map((e) => e[0])
           .filter((e) => !!e)
