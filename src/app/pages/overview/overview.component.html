@@ -1,5 +1,11 @@
-<div class="fund-raise-container">
-  <nz-card>
+<div class="overview-container">
+  <nz-collapse>
+    <nz-collapse-panel [nzHeader]="'板块概览'" [nzActive]="false">
+      <tag-overview></tag-overview>
+    </nz-collapse-panel>
+  </nz-collapse>
+
+  <nz-card style="margin-top: 12px">
     <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
 
       <nz-form-item>

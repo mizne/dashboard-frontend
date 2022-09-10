@@ -1,0 +1,54 @@
+<div class="tag-overview-container">
+  <nz-card>
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
+
+      <nz-form-item>
+        <nz-form-label nzFor="interval">周期</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group formControlName="interval">
+            <label nz-radio-button *ngFor="let item of intervals" [nzValue]="item.name">{{item.name}}</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="latestIntervals">倒数第几个周期({{intervalTime$ | async | date:'MM-dd HH:mm'}})</nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="latestIntervals" [attr.id]="'latestIntervals'" [nzMin]="1" [nzStep]="1">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="search-area">
+        <nz-form-control>
+          <button nz-button [nzType]="'primary'">搜索</button>
+          <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-card>
+
+  <div class="tag-overview-content" style="margin-top: 12px">
+    <div nz-row>
+      <div nz-col nzSpan="6" *ngFor="let item of tagDailyItems">
+        <nz-card style="width:300px; margin-bottom: 8px" [nzTitle]="item.label">
+          <p>交易量: {{item.volume | currency}}</p>
+          <p>tokens: {{item.tokenNames.length}}</p>
+          <p [title]="'相对前' + item.volumeIntervals + '周期'">
+            交易量增幅:
+            <nz-tag *ngIf="item.volumeMultiple >= 3; else normalVolume" nzColor="error">{{item.volumeMultiple |
+              percent}}</nz-tag>
+
+            <ng-template #normalVolume>
+              <nz-tag nzColor="default">
+                {{item.volumeMultiple | percent}}</nz-tag>
+            </ng-template>
+          </p>
+          <small-chart [data]="item.volumes180Interval" type="bar" [width]="250" [height]="100" [showAxis]="false">
+          </small-chart>
+        </nz-card>
+      </div>
+    </div>
+
+  </div>
+</div>
