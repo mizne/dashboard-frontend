@@ -228,6 +228,7 @@ export class OverviewComponent implements OnInit {
             ? {
                 volumeMultiple: { $gte: 3 },
                 emaCompressionRelative: { $lte: 0.1 },
+                volume: { $gte: this.resolveVolumeLimit(query['interval']) },
               }
             : {}
         );
@@ -261,6 +262,18 @@ export class OverviewComponent implements OnInit {
         return {
           time: { $gte: this.resolveFourHoursIntervalMills(latestIntervals) },
         };
+    }
+  }
+
+  private resolveVolumeLimit(interval: DailyInterval): number {
+    switch (interval) {
+      case DailyInterval.FOUR_HOURS:
+        return 1e6;
+      case DailyInterval.ONE_DAY:
+        return 6e6;
+      default:
+        console.warn(`resolveVolumeLimit() unknown interval: ${interval}`);
+        return 1e6;
     }
   }
 
