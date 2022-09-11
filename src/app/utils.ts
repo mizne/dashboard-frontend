@@ -91,7 +91,7 @@ export function stringifyMills(ms: number): string {
     const seconds = Math.floor((ms - minutes * oneMinute) / oneSecond);
     return `${paddingZero(String(minutes))}m ${paddingZero(
       String(seconds)
-    )}  ago`;
+    )}s  ago`;
   }
   const hours = Math.floor(ms / oneHour);
   const minutes = Math.floor((ms - hours * oneHour) / oneMinute);
