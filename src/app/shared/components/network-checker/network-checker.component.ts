@@ -1,16 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SharedService } from '../../services';
-import {
-  concatWith,
-  firstValueFrom,
-  map,
-  Observable,
-  of,
-  startWith,
-} from 'rxjs';
-import { format } from 'date-fns';
-import { sleep, stringifyMills } from 'src/app/utils';
+import { firstValueFrom } from 'rxjs';
+import { sleep } from 'src/app/utils';
 
 @Component({
   selector: 'network-checker',

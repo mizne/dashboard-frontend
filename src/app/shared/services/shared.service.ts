@@ -1,20 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import {
-  filter,
-  interval,
-  map,
-  multicast,
-  Observable,
-  refCount,
-  share,
-  Subject,
-  take,
-  tap,
-} from 'rxjs';
+import { filter, interval, Observable, share } from 'rxjs';
 import { isNil } from 'src/app/utils';
-import { format } from 'date-fns';
 
 @Injectable()
 export class SharedService {
