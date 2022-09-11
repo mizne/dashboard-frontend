@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SharedService } from '../../services';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, map, Observable, of } from 'rxjs';
 import { format } from 'date-fns';
-import { sleep } from 'src/app/utils';
+import { sleep, stringifyMills } from 'src/app/utils';
 
 @Component({
   selector: 'network-checker',
@@ -66,8 +66,7 @@ export class NetworkCheckerComponent implements OnInit {
       message: 'loading',
     },
   ];
-  lastUpdateAtStrPrefix = '更新时间: ';
-  lastUpdateAtStr = this.lastUpdateAtStrPrefix + '';
+  lastUpdateAtStr$: Observable<string> = of('');
 
   ngOnInit() {
     this.intervalCheckConnections();
@@ -75,7 +74,7 @@ export class NetworkCheckerComponent implements OnInit {
   private async intervalCheckConnections() {
     for (;;) {
       try {
-        this.lastUpdateAtStr = this.lastUpdateAtStrPrefix + '正在更新';
+        this.lastUpdateAtStr$ = of('更新时间：正在更新');
         for (const con of this.connections) {
           con.message = 'loading';
           con.status = 'loading';
@@ -84,8 +83,15 @@ export class NetworkCheckerComponent implements OnInit {
           this.sharedService.checkConnections()
         );
 
-        this.lastUpdateAtStr =
-          this.lastUpdateAtStrPrefix + format(new Date(), 'MM-dd HH:mm:ss');
+        const updatedAt = new Date().getTime();
+        this.lastUpdateAtStr$ = this.sharedService
+          .interval(1)
+          .pipe(
+            map(
+              () =>
+                '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
+            )
+          );
         for (const con of this.connections) {
           const the = items.find((e) => e.hostname === con.hostname);
           if (the) {
@@ -95,6 +101,15 @@ export class NetworkCheckerComponent implements OnInit {
         }
       } catch (e) {
         this.notification.error(`检查链接失败`, `${(e as Error).message}`);
+        const updatedAt = new Date().getTime();
+        this.lastUpdateAtStr$ = this.sharedService
+          .interval(1)
+          .pipe(
+            map(
+              () =>
+                '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
+            )
+          );
       }
 
       await sleep(10 * 60 * 1e3);

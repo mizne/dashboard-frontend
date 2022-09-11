@@ -1,9 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SharedService } from '../../services';
-import { firstValueFrom } from 'rxjs';
+import {
+  delay,
+  filter,
+  first,
+  firstValueFrom,
+  map,
+  merge,
+  Observable,
+  of,
+  startWith,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import { format } from 'date-fns';
-import { sleep } from 'src/app/utils';
+import { sleep, stringifyMills } from 'src/app/utils';
 
 @Component({
   selector: 'btc-future-checker',
@@ -88,8 +100,8 @@ export class BtcFutureCheckerComponent implements OnInit {
       },
     },
   ];
-  lastUpdateAtStrPrefix = '更新时间: ';
-  lastUpdateAtStr = this.lastUpdateAtStrPrefix + '';
+
+  lastUpdateAtStr$: Observable<string> = of('');
 
   ngOnInit() {
     this.intervalCheckBtcFutures();
@@ -108,23 +120,36 @@ export class BtcFutureCheckerComponent implements OnInit {
   }
 
   private async intervalCheckBtcFutures() {
-    for (;;) {
-      await this.fetchData();
-      await sleep(3 * 60 * 60 * 1e3);
-    }
+    merge(
+      this.sharedService.schedule({
+        hour: [0, 4, 8, 12, 16, 20],
+        minute: 2,
+        second: 42,
+      }),
+      this.sharedService.interval(10 * 60).pipe(startWith(0))
+    ).subscribe(() => {
+      this.fetchData();
+    });
   }
 
   private async fetchData() {
     try {
-      this.lastUpdateAtStr = this.lastUpdateAtStrPrefix + '正在更新';
+      this.lastUpdateAtStr$ = of('更新时间：正在更新');
       for (const con of this.items) {
         con.message = 'loading';
         con.status = 'loading';
       }
       const obj = await firstValueFrom(this.sharedService.btcFutures());
 
-      this.lastUpdateAtStr =
-        this.lastUpdateAtStrPrefix + format(new Date(), 'MM-dd HH:mm:ss');
+      const updatedAt = new Date().getTime();
+      this.lastUpdateAtStr$ = this.sharedService
+        .interval(1)
+        .pipe(
+          map(
+            () =>
+              '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
+          )
+        );
       for (const con of this.items) {
         con.status = 'success';
         con.message = 'success';
@@ -132,6 +157,15 @@ export class BtcFutureCheckerComponent implements OnInit {
       }
     } catch (e) {
       this.notification.error(`获取btc futures失败`, `${(e as Error).message}`);
+      const updatedAt = new Date().getTime();
+      this.lastUpdateAtStr$ = this.sharedService
+        .interval(1)
+        .pipe(
+          map(
+            () =>
+              '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
+          )
+        );
       for (const con of this.items) {
         con.status = 'error';
         con.message = 'error';

@@ -70,3 +70,35 @@ export function sleep(ms: number): Promise<void> {
     }, ms);
   });
 }
+
+export function stringifyMills(ms: number): string {
+  ms = Number(ms);
+  if (ms !== ms) {
+    return '--';
+  }
+
+  const oneSecond = 1e3;
+  const oneMinute = 60 * oneSecond;
+  const oneHour = 60 * oneMinute;
+  if (ms < oneSecond) {
+    return 'just now';
+  }
+  if (ms < oneMinute) {
+    return `${paddingZero(String(Math.floor(ms / oneSecond)))}s ago`;
+  }
+  if (ms < oneHour) {
+    const minutes = Math.floor(ms / oneMinute);
+    const seconds = Math.floor((ms - minutes * oneMinute) / oneSecond);
+    return `${paddingZero(String(minutes))}m ${paddingZero(
+      String(seconds)
+    )}  ago`;
+  }
+  const hours = Math.floor(ms / oneHour);
+  const minutes = Math.floor((ms - hours * oneHour) / oneMinute);
+  const seconds = Math.floor(
+    (ms - hours * oneHour - minutes * oneMinute) / oneSecond
+  );
+  return `${paddingZero(String(hours))}h ${paddingZero(
+    String(minutes)
+  )}m ${paddingZero(String(seconds))}s ago`;
+}

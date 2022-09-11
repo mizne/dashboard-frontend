@@ -8,7 +8,7 @@
       <div style="margin-bottom: 12px">
         <nz-tag nzColor="default">
           <i nz-icon nzType="clock-circle"></i>
-          <span>{{lastUpdateAtStr}}</span>
+          <span>{{lastUpdateAtStr$ | async}}</span>
         </nz-tag>
 
         <button nz-button nzType="primary" nzShape="circle" (click)="refresh()"><span nz-icon

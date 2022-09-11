@@ -8,7 +8,7 @@
       <li nz-menu-item>
         <nz-tag nzColor="default">
           <i nz-icon nzType="clock-circle"></i>
-          <span>{{lastUpdateAtStr}}</span>
+          <span>{{lastUpdateAtStr$ | async}}</span>
         </nz-tag>
       </li>
       <li nz-menu-item *ngFor="let item of connections">

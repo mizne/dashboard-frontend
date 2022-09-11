@@ -49,7 +49,7 @@ export class TagOverviewComponent implements OnInit {
             this.form.get('latestIntervals')?.value as number
           );
         default:
-          console.log(
+          console.warn(
             `intervalTime$ unknown interval: ${
               this.form.get('interval')?.value
             }`
@@ -66,7 +66,7 @@ export class TagOverviewComponent implements OnInit {
   }
 
   submitForm(): void {
-    console.log('submitForm', this.form.value);
+    // console.log('submitForm', this.form.value);
     this.fetchTagsAndTagDailyItems();
   }
 
@@ -75,7 +75,7 @@ export class TagOverviewComponent implements OnInit {
       interval: this.intervals[0].name,
       latestIntervals: 1,
     });
-    console.log('resetForm', this.form.value);
+    // console.log('resetForm', this.form.value);
     this.fetchTagsAndTagDailyItems();
   }
 
@@ -98,7 +98,7 @@ export class TagOverviewComponent implements OnInit {
           .map((e) => e[0])
           .filter((e) => !!e)
           .sort((a, b) => b.volumeMultiple - a.volumeMultiple);
-        console.log(`this.tagDailyItems: `, this.tagDailyItems);
+        // console.log(`this.tagDailyItems: `, this.tagDailyItems);
       });
     });
   }
