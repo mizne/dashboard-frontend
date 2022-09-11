@@ -24,7 +24,7 @@ export class UpdateTimeComponent implements OnInit, OnChanges {
 
   @Input() status: 'loading' | 'success' | 'error' | '' = '';
 
-  lastUpdateAtStr$: Observable<string> = of('');
+  lastUpdateAtStr$: Observable<string> = of('--');
 
   ngOnInit() {}
 
@@ -52,7 +52,7 @@ export class UpdateTimeComponent implements OnInit, OnChanges {
         )
       );
     } else {
-      this.lastUpdateAtStr$ = of('');
+      this.lastUpdateAtStr$ = of('--');
     }
   }
 }
