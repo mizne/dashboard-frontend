@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SharedService } from '../../services';
-import { firstValueFrom, map, Observable, of } from 'rxjs';
+import { firstValueFrom, map, Observable, of, startWith } from 'rxjs';
 import { format } from 'date-fns';
 import { sleep, stringifyMills } from 'src/app/utils';
 
@@ -84,14 +84,13 @@ export class NetworkCheckerComponent implements OnInit {
         );
 
         const updatedAt = new Date().getTime();
-        this.lastUpdateAtStr$ = this.sharedService
-          .interval(1)
-          .pipe(
-            map(
-              () =>
-                '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
-            )
-          );
+        this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
+          startWith(0),
+          map(
+            () =>
+              '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
+          )
+        );
         for (const con of this.connections) {
           const the = items.find((e) => e.hostname === con.hostname);
           if (the) {
@@ -102,14 +101,13 @@ export class NetworkCheckerComponent implements OnInit {
       } catch (e) {
         this.notification.error(`检查链接失败`, `${(e as Error).message}`);
         const updatedAt = new Date().getTime();
-        this.lastUpdateAtStr$ = this.sharedService
-          .interval(1)
-          .pipe(
-            map(
-              () =>
-                '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
-            )
-          );
+        this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
+          startWith(0),
+          map(
+            () =>
+              '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
+          )
+        );
       }
 
       await sleep(10 * 60 * 1e3);

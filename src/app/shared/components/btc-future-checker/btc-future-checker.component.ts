@@ -142,14 +142,12 @@ export class BtcFutureCheckerComponent implements OnInit {
       const obj = await firstValueFrom(this.sharedService.btcFutures());
 
       const updatedAt = new Date().getTime();
-      this.lastUpdateAtStr$ = this.sharedService
-        .interval(1)
-        .pipe(
-          map(
-            () =>
-              '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
-          )
-        );
+      this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
+        startWith(0),
+        map(
+          () => '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
+        )
+      );
       for (const con of this.items) {
         con.status = 'success';
         con.message = 'success';
@@ -158,14 +156,12 @@ export class BtcFutureCheckerComponent implements OnInit {
     } catch (e) {
       this.notification.error(`获取btc futures失败`, `${(e as Error).message}`);
       const updatedAt = new Date().getTime();
-      this.lastUpdateAtStr$ = this.sharedService
-        .interval(1)
-        .pipe(
-          map(
-            () =>
-              '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
-          )
-        );
+      this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
+        startWith(0),
+        map(
+          () => '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
+        )
+      );
       for (const con of this.items) {
         con.status = 'error';
         con.message = 'error';
