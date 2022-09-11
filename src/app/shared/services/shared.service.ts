@@ -1,13 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { filter, interval, Observable, share } from 'rxjs';
+import {
+  filter,
+  interval,
+  map,
+  multicast,
+  Observable,
+  refCount,
+  share,
+  Subject,
+  take,
+  tap,
+} from 'rxjs';
 import { isNil } from 'src/app/utils';
+import { format } from 'date-fns';
 
 @Injectable()
 export class SharedService {
   private readonly baseURL = environment.baseURL;
-  private readonly interval$ = interval(1e3).pipe(share());
+  private readonly interval$ = interval(1e3).pipe(
+    // tap(() => {
+    //   console.log(
+    //     `interval before share ${format(new Date(), 'MM-dd HH:mm:ss')}`
+    //   );
+    // }),
+    // 有点小bug 会生成2次 不是1次
+    share()
+  );
   constructor(private httpClient: HttpClient) {}
 
   checkConnections(): Observable<
