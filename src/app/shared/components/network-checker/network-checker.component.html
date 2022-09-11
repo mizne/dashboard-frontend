@@ -6,10 +6,7 @@
   <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu>
       <li nz-menu-item>
-        <nz-tag nzColor="default">
-          <i nz-icon nzType="clock-circle"></i>
-          <span>{{lastUpdateAtStr$ | async}}</span>
-        </nz-tag>
+        <update-time [status]="status"></update-time>
       </li>
       <li nz-menu-item *ngFor="let item of connections">
         <ng-container *ngIf="item.status === 'success'">

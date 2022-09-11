@@ -1,22 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SharedService } from '../../services';
-import {
-  concatWith,
-  delay,
-  filter,
-  first,
-  firstValueFrom,
-  map,
-  merge,
-  Observable,
-  of,
-  startWith,
-  Subject,
-  takeUntil,
-} from 'rxjs';
-import { format } from 'date-fns';
-import { sleep, stringifyMills } from 'src/app/utils';
+import { firstValueFrom, merge, startWith } from 'rxjs';
 
 @Component({
   selector: 'btc-future-checker',
@@ -102,7 +87,7 @@ export class BtcFutureCheckerComponent implements OnInit {
     },
   ];
 
-  lastUpdateAtStr$: Observable<string> = of('');
+  status: 'loading' | 'error' | 'success' | '' = '';
 
   ngOnInit() {
     this.intervalCheckBtcFutures();
@@ -135,32 +120,14 @@ export class BtcFutureCheckerComponent implements OnInit {
 
   private async fetchData() {
     try {
-      const fetcingAt = new Date().getTime();
-      this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
-        startWith(0),
-        map(
-          () =>
-            '更新时间：正在更新 ' +
-            stringifyMills(new Date().getTime() - fetcingAt)
-        )
-      );
-
+      this.status = 'loading';
       for (const con of this.items) {
         con.message = 'loading';
         con.status = 'loading';
       }
       const obj = await firstValueFrom(this.sharedService.btcFutures());
+      this.status = 'success';
 
-      const updatedAt = new Date().getTime();
-      this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
-        startWith(0),
-        map(
-          () =>
-            '更新时间：' +
-            stringifyMills(new Date().getTime() - updatedAt) +
-            ' ago'
-        )
-      );
       for (const con of this.items) {
         con.status = 'success';
         con.message = 'success';
@@ -168,16 +135,8 @@ export class BtcFutureCheckerComponent implements OnInit {
       }
     } catch (e) {
       this.notification.error(`获取btc futures失败`, `${(e as Error).message}`);
-      const updatedAt = new Date().getTime();
-      this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
-        startWith(0),
-        map(
-          () =>
-            '更新时间：' +
-            stringifyMills(new Date().getTime() - updatedAt) +
-            ' ago'
-        )
-      );
+      this.status = 'error';
+
       for (const con of this.items) {
         con.status = 'error';
         con.message = 'error';

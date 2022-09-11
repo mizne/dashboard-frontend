@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { format, parse } from 'date-fns';
-import { forkJoin, map, startWith } from 'rxjs';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { forkJoin, map, merge, startWith } from 'rxjs';
+import { SharedService } from 'src/app/shared';
 import { paddingZero } from 'src/app/utils';
 import { DailyInterval } from '../../models/cex-token-daily.model';
 import { CexTokenTagDaily } from '../../models/cex-token-tag-daily.model';
@@ -15,7 +17,9 @@ import { CexTokenDailyService } from '../../services/cex-token-daily.service';
 export class TagOverviewComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
-    private readonly cexTokenDailyService: CexTokenDailyService
+    private readonly sharedService: SharedService,
+    private readonly cexTokenDailyService: CexTokenDailyService,
+    private readonly notification: NzNotificationService
   ) {}
 
   intervals = [
@@ -35,8 +39,12 @@ export class TagOverviewComponent implements OnInit {
 
   tagDailyItems: Array<CexTokenTagDaily> = [];
   loading = false;
+  status: 'loading' | 'error' | 'success' | '' = '';
 
-  intervalTime$ = this.form.valueChanges.pipe(
+  intervalTime$ = merge(
+    this.form.valueChanges,
+    this.sharedService.interval(1)
+  ).pipe(
     startWith(this.form.value),
     map(() => {
       switch (this.form.get('interval')?.value) {
@@ -81,6 +89,7 @@ export class TagOverviewComponent implements OnInit {
 
   private fetchTagsAndTagDailyItems() {
     this.loading = true;
+    this.status = 'loading';
     this.cexTokenDailyService.queryTags().subscribe((tags) => {
       forkJoin(
         tags.map((tag) =>
@@ -92,14 +101,22 @@ export class TagOverviewComponent implements OnInit {
             { number: 1, size: 1 }
           )
         )
-      ).subscribe((items) => {
-        this.loading = false;
-        this.tagDailyItems = items
-          .map((e) => e[0])
-          .filter((e) => !!e)
-          .sort((a, b) => b.volumeMultiple - a.volumeMultiple);
-        // console.log(`this.tagDailyItems: `, this.tagDailyItems);
-      });
+      ).subscribe(
+        (items) => {
+          this.loading = false;
+          this.status = 'success';
+          this.tagDailyItems = items
+            .map((e) => e[0])
+            .filter((e) => !!e)
+            .sort((a, b) => b.volumeMultiple - a.volumeMultiple);
+          // console.log(`this.tagDailyItems: `, this.tagDailyItems);
+        },
+        (e: Error) => {
+          this.notification.error(`获取失败`, `${e.message}`);
+          this.loading = false;
+          this.status = 'error';
+        }
+      );
     });
   }
 

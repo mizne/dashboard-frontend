@@ -73,7 +73,7 @@ export class NetworkCheckerComponent implements OnInit {
       message: 'loading',
     },
   ];
-  lastUpdateAtStr$: Observable<string> = of('');
+  status: 'loading' | 'error' | 'success' | '' = '';
 
   ngOnInit() {
     this.intervalCheckConnections();
@@ -81,15 +81,7 @@ export class NetworkCheckerComponent implements OnInit {
   private async intervalCheckConnections() {
     for (;;) {
       try {
-        const fetcingAt = new Date().getTime();
-        this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
-          startWith(0),
-          map(
-            () =>
-              '更新时间：正在更新 ' +
-              stringifyMills(new Date().getTime() - fetcingAt)
-          )
-        );
+        this.status = 'loading';
 
         for (const con of this.connections) {
           con.message = 'loading';
@@ -99,16 +91,7 @@ export class NetworkCheckerComponent implements OnInit {
           this.sharedService.checkConnections()
         );
 
-        const updatedAt = new Date().getTime();
-        this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
-          startWith(0),
-          map(
-            () =>
-              '更新时间：' +
-              stringifyMills(new Date().getTime() - updatedAt) +
-              ' ago'
-          )
-        );
+        this.status = 'success';
         for (const con of this.connections) {
           const the = items.find((e) => e.hostname === con.hostname);
           if (the) {
@@ -118,16 +101,7 @@ export class NetworkCheckerComponent implements OnInit {
         }
       } catch (e) {
         this.notification.error(`检查链接失败`, `${(e as Error).message}`);
-        const updatedAt = new Date().getTime();
-        this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
-          startWith(0),
-          map(
-            () =>
-              '更新时间：' +
-              stringifyMills(new Date().getTime() - updatedAt) +
-              ' ago'
-          )
-        );
+        this.status = 'error';
       }
 
       await sleep(10 * 60 * 1e3);

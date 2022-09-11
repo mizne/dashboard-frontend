@@ -6,10 +6,7 @@
     (nzOnClose)="close()">
     <ng-container *nzDrawerContent>
       <div style="margin-bottom: 12px">
-        <nz-tag nzColor="default">
-          <i nz-icon nzType="clock-circle"></i>
-          <span>{{lastUpdateAtStr$ | async}}</span>
-        </nz-tag>
+        <update-time [status]="status"></update-time>
 
         <button nz-button nzType="primary" nzShape="circle" (click)="refresh()"><span nz-icon
             nzType="sync"></span></button>

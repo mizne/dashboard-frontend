@@ -51,6 +51,8 @@ export class OverviewComponent implements OnInit {
   tags: Array<{ label: string; name: string }> = [];
   tagCtrl = new FormControl('');
 
+  status: 'loading' | 'error' | 'success' | '' = '';
+
   submitForm(): void {
     // console.log('submitForm', this.form.value);
     this.pageIndex = 1;
@@ -186,6 +188,7 @@ export class OverviewComponent implements OnInit {
 
   private loadDataFromServer(): void {
     this.loading = true;
+    this.status = 'loading';
     this.query = {
       ...removeEmpty(this.form.value),
       ...(this.tagCtrl.value ? { tags: this.tagCtrl.value } : {}),
@@ -196,10 +199,18 @@ export class OverviewComponent implements OnInit {
         { number: this.pageIndex, size: this.pageSize },
         this.sort
       )
-      .subscribe((results) => {
-        this.loading = false;
-        this.cexTokenDailies = results;
-      });
+      .subscribe(
+        (results) => {
+          this.loading = false;
+          this.status = 'success';
+          this.cexTokenDailies = results;
+        },
+        (e: Error) => {
+          this.loading = false;
+          this.status = 'error';
+          this.notification.error(`获取失败`, `${e.message}`);
+        }
+      );
 
     this.cexTokenDailyService
       .queryCount(this.adjustQuery(this.query))
