@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SharedService } from '../../services';
-import { firstValueFrom, map, Observable, of, startWith } from 'rxjs';
+import {
+  concatWith,
+  firstValueFrom,
+  map,
+  Observable,
+  of,
+  startWith,
+} from 'rxjs';
 import { format } from 'date-fns';
 import { sleep, stringifyMills } from 'src/app/utils';
 
@@ -74,7 +81,16 @@ export class NetworkCheckerComponent implements OnInit {
   private async intervalCheckConnections() {
     for (;;) {
       try {
-        this.lastUpdateAtStr$ = of('更新时间：正在更新');
+        const fetcingAt = new Date().getTime();
+        this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
+          startWith(0),
+          map(
+            () =>
+              '更新时间：正在更新 ' +
+              stringifyMills(new Date().getTime() - fetcingAt)
+          )
+        );
+
         for (const con of this.connections) {
           con.message = 'loading';
           con.status = 'loading';
@@ -88,7 +104,9 @@ export class NetworkCheckerComponent implements OnInit {
           startWith(0),
           map(
             () =>
-              '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
+              '更新时间：' +
+              stringifyMills(new Date().getTime() - updatedAt) +
+              ' ago'
           )
         );
         for (const con of this.connections) {
@@ -105,7 +123,9 @@ export class NetworkCheckerComponent implements OnInit {
           startWith(0),
           map(
             () =>
-              '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
+              '更新时间：' +
+              stringifyMills(new Date().getTime() - updatedAt) +
+              ' ago'
           )
         );
       }

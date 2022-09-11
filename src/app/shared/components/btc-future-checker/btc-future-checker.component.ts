@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SharedService } from '../../services';
 import {
+  concatWith,
   delay,
   filter,
   first,
@@ -134,7 +135,16 @@ export class BtcFutureCheckerComponent implements OnInit {
 
   private async fetchData() {
     try {
-      this.lastUpdateAtStr$ = of('更新时间：正在更新');
+      const fetcingAt = new Date().getTime();
+      this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
+        startWith(0),
+        map(
+          () =>
+            '更新时间：正在更新 ' +
+            stringifyMills(new Date().getTime() - fetcingAt)
+        )
+      );
+
       for (const con of this.items) {
         con.message = 'loading';
         con.status = 'loading';
@@ -145,7 +155,10 @@ export class BtcFutureCheckerComponent implements OnInit {
       this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
         startWith(0),
         map(
-          () => '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
+          () =>
+            '更新时间：' +
+            stringifyMills(new Date().getTime() - updatedAt) +
+            ' ago'
         )
       );
       for (const con of this.items) {
@@ -159,7 +172,10 @@ export class BtcFutureCheckerComponent implements OnInit {
       this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
         startWith(0),
         map(
-          () => '更新时间：' + stringifyMills(new Date().getTime() - updatedAt)
+          () =>
+            '更新时间：' +
+            stringifyMills(new Date().getTime() - updatedAt) +
+            ' ago'
         )
       );
       for (const con of this.items) {

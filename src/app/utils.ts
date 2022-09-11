@@ -84,14 +84,12 @@ export function stringifyMills(ms: number): string {
     return 'just now';
   }
   if (ms < oneMinute) {
-    return `${paddingZero(String(Math.floor(ms / oneSecond)))}s ago`;
+    return `${paddingZero(String(Math.floor(ms / oneSecond)))}s`;
   }
   if (ms < oneHour) {
     const minutes = Math.floor(ms / oneMinute);
     const seconds = Math.floor((ms - minutes * oneMinute) / oneSecond);
-    return `${paddingZero(String(minutes))}m ${paddingZero(
-      String(seconds)
-    )}s  ago`;
+    return `${paddingZero(String(minutes))}m ${paddingZero(String(seconds))}s`;
   }
   const hours = Math.floor(ms / oneHour);
   const minutes = Math.floor((ms - hours * oneHour) / oneMinute);
@@ -100,5 +98,5 @@ export function stringifyMills(ms: number): string {
   );
   return `${paddingZero(String(hours))}h ${paddingZero(
     String(minutes)
-  )}m ${paddingZero(String(seconds))}s ago`;
+  )}m ${paddingZero(String(seconds))}s`;
 }
