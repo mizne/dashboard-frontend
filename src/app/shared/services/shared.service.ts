@@ -9,6 +9,8 @@ import {
   Subject,
   startWith,
   Observer,
+  fromEvent,
+  map,
 } from 'rxjs';
 import { isNil } from 'src/app/utils';
 import { format } from 'date-fns';
@@ -108,15 +110,9 @@ export class SharedService {
 
   // 返回document是否可见 如果browser tab被inactive则false
   documentVisible(): Observable<boolean> {
-    return new Observable((observer: Observer<boolean>) => {
-      const cb = () => {
-        observer.next(!document.hidden);
-      };
-      document.addEventListener('visibilitychange', cb);
-
-      return () => {
-        document.removeEventListener('visibilitychange', cb);
-      };
-    }).pipe(startWith(!document.hidden));
+    return fromEvent(document, 'visibilitychange').pipe(
+      map(() => !document.hidden),
+      startWith(!document.hidden)
+    );
   }
 }
