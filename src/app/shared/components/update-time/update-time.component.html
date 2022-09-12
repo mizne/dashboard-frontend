@@ -1,4 +1,4 @@
-<span class="update-time-container">
+<span class="update-time-container" [title]="timeAt">
   <nz-tag nzColor="default">
     <i nz-icon nzType="clock-circle"></i>
     <span>{{lastUpdateAtStr$ | async}}</span>

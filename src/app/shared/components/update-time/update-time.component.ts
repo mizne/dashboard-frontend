@@ -8,6 +8,7 @@ import {
 import { Observable, of, startWith, map } from 'rxjs';
 import { SharedService } from '../../services';
 import { stringifyMills } from 'src/app/utils';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'update-time',
@@ -25,6 +26,7 @@ export class UpdateTimeComponent implements OnInit, OnChanges {
   @Input() status: 'loading' | 'success' | 'error' | '' = '';
 
   lastUpdateAtStr$: Observable<string> = of('--');
+  timeAt = '--';
 
   ngOnInit() {}
 
@@ -32,6 +34,7 @@ export class UpdateTimeComponent implements OnInit, OnChanges {
     const status = changes['status'] && changes['status'].currentValue;
     if (status === 'loading') {
       const fetchingAt = new Date().getTime();
+      this.timeAt = format(fetchingAt, 'MM-dd HH:mm:ss');
       this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
         startWith(0),
         map(
@@ -42,6 +45,7 @@ export class UpdateTimeComponent implements OnInit, OnChanges {
       );
     } else if (status === 'success' || status === 'error') {
       const updatedAt = new Date().getTime();
+      this.timeAt = format(updatedAt, 'MM-dd HH:mm:ss');
       this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
         startWith(0),
         map(
@@ -52,6 +56,7 @@ export class UpdateTimeComponent implements OnInit, OnChanges {
         )
       );
     } else {
+      this.timeAt = '--';
       this.lastUpdateAtStr$ = of('--');
     }
   }
