@@ -4,7 +4,7 @@ import { Project } from '../models';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ProjectService {
   private readonly baseURL = environment.baseURL;
   constructor(private httpClient: HttpClient) {}

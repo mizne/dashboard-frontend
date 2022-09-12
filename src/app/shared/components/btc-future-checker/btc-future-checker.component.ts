@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SharedService } from '../../services';
-import { firstValueFrom, merge, startWith, Subscription } from 'rxjs';
+import { firstValueFrom, merge, startWith, Subscription, filter } from 'rxjs';
 
 @Component({
   selector: 'btc-future-checker',
@@ -113,7 +113,10 @@ export class BtcFutureCheckerComponent implements OnInit {
         minute: 2,
         second: 42,
       }),
-      this.sharedService.interval(10 * 60)
+      this.sharedService.interval(10 * 60),
+      this.sharedService
+        .documentVisible()
+        .pipe(filter((e, i) => !!e && i !== 0))
     )
       .pipe(startWith(0))
       .subscribe(() => {

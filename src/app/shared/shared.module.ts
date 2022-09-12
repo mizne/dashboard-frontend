@@ -67,6 +67,6 @@ const ngModules = [CommonModule, ReactiveFormsModule];
   imports: [...nzModules, ...ngModules],
   exports: [...nzModules, ...ngModules, ...components, ...pipes],
   declarations: [...components, ...pipes],
-  providers: [...services],
+  providers: [],
 })
 export class SharedModule {}
