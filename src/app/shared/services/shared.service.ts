@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { filter, interval, Observable, share, Subject, startWith } from 'rxjs';
+import {
+  filter,
+  interval,
+  Observable,
+  share,
+  Subject,
+  startWith,
+  Observer,
+} from 'rxjs';
 import { isNil } from 'src/app/utils';
 import { format } from 'date-fns';
 
@@ -100,10 +108,15 @@ export class SharedService {
 
   // 返回document是否可见 如果browser tab被inactive则false
   documentVisible(): Observable<boolean> {
-    const sub: Subject<boolean> = new Subject<boolean>();
-    document.addEventListener('visibilitychange', (ev) => {
-      sub.next(!document.hidden);
-    });
-    return sub.asObservable().pipe(startWith(!document.hidden));
+    return new Observable((observer: Observer<boolean>) => {
+      const cb = () => {
+        observer.next(!document.hidden);
+      };
+      document.addEventListener('visibilitychange', cb);
+
+      return () => {
+        document.removeEventListener('visibilitychange', cb);
+      };
+    }).pipe(startWith(!document.hidden));
   }
 }
