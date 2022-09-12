@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { filter, interval, Observable, share } from 'rxjs';
+import { filter, interval, Observable, share, tap } from 'rxjs';
 import { isNil } from 'src/app/utils';
+import { format } from 'date-fns';
 
 @Injectable()
 export class SharedService {
@@ -93,7 +94,7 @@ export class SharedService {
       filter(() => {
         const now = new Date();
         const diffSeconds = Math.floor((now.getTime() - invokeTime) / 1e3);
-        return diffSeconds % seconds === 0;
+        return diffSeconds > 0 && diffSeconds % seconds === 0;
       })
     );
   }

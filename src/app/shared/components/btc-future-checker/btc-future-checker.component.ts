@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SharedService } from '../../services';
-import { firstValueFrom, merge, startWith } from 'rxjs';
+import { firstValueFrom, merge, startWith, Subscription } from 'rxjs';
 
 @Component({
   selector: 'btc-future-checker',
@@ -88,17 +88,18 @@ export class BtcFutureCheckerComponent implements OnInit {
   ];
 
   status: 'loading' | 'error' | 'success' | '' = '';
+  subscription: Subscription = Subscription.EMPTY;
 
-  ngOnInit() {
-    this.intervalCheckBtcFutures();
-  }
+  ngOnInit() {}
 
   open(): void {
     this.visible = true;
+    this.intervalCheckBtcFutures();
   }
 
   close(): void {
     this.visible = false;
+    this.subscription.unsubscribe();
   }
 
   refresh() {
@@ -106,16 +107,18 @@ export class BtcFutureCheckerComponent implements OnInit {
   }
 
   private async intervalCheckBtcFutures() {
-    merge(
+    this.subscription = merge(
       this.sharedService.schedule({
         hour: [0, 4, 8, 12, 16, 20],
         minute: 2,
         second: 42,
       }),
-      this.sharedService.interval(10 * 60).pipe(startWith(0))
-    ).subscribe(() => {
-      this.fetchData();
-    });
+      this.sharedService.interval(10 * 60)
+    )
+      .pipe(startWith(0))
+      .subscribe(() => {
+        this.fetchData();
+      });
   }
 
   private async fetchData() {
