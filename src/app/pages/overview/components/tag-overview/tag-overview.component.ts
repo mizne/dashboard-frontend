@@ -276,7 +276,7 @@ export class TagOverviewComponent implements OnInit {
           this.volumePercentRankingItems.filter((e) => e.color === 'red').length
         }↓ ${
           this.volumePercentRankingItems.filter((e) => e.color === '').length
-        }--${
+        }-- ${
           this.volumePercentRankingItems.filter((e) => e.color === 'purple')
             .length
         }new`;
