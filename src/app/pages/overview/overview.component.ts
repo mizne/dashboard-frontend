@@ -7,6 +7,7 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { paddingZero, removeEmpty } from 'src/app/utils';
 import { format, parse } from 'date-fns';
 import { ActivatedRoute } from '@angular/router';
+import { tokenTagNameOfTotalMarket } from './models/cex-token-tag.model';
 
 @Component({
   selector: 'app-overview',
@@ -181,7 +182,9 @@ export class OverviewComponent implements OnInit {
   private loadTags() {
     this.cexTokenDailyService.queryTags().subscribe((items) => {
       this.tags = [{ label: '全部', name: '' }].concat(
-        items.map((e) => ({ label: e.label, name: e.name }))
+        items
+          .map((e) => ({ label: e.label, name: e.name }))
+          .filter((e) => e.name !== tokenTagNameOfTotalMarket)
       );
     });
   }
