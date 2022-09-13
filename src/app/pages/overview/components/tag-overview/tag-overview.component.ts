@@ -183,10 +183,10 @@ export class TagOverviewComponent implements OnInit {
       });
 
       this.volumePercentRankingDescription = `${
-        zippedItems.filter((e) => e.newly).length
-      }new ${zippedItems.filter((e) => !e.newly && e.delta > 0).length}↑ ${
-        zippedItems.filter((e) => !e.newly && e.delta < 0).length
-      }↓ ${zippedItems.filter((e) => !e.newly && e.delta === 0).length}--`;
+        zippedItems.filter((e) => !e.newly && e.delta > 0).length
+      }↑ ${zippedItems.filter((e) => !e.newly && e.delta < 0).length}↓ ${
+        zippedItems.filter((e) => !e.newly && e.delta === 0).length
+      }-- ${zippedItems.filter((e) => e.newly).length}new`;
     } else {
       this.volumePercentRankingItems = [];
       this.volumePercentRankingDescription = '--';
@@ -225,16 +225,16 @@ export class TagOverviewComponent implements OnInit {
           });
 
         this.volumePercentRankingDescription = `${
-          this.volumePercentRankingItems.filter((e) => e.color === 'purple')
-            .length
-        }new ${
           this.volumePercentRankingItems.filter((e) => e.color === 'green')
             .length
         }↑ ${
           this.volumePercentRankingItems.filter((e) => e.color === 'red').length
         }↓ ${
           this.volumePercentRankingItems.filter((e) => e.color === '').length
-        }--`;
+        }-- ${
+          this.volumePercentRankingItems.filter((e) => e.color === 'purple')
+            .length
+        }new`;
       }
     } else {
       const theTag = this.otherTagDailyItems.find((e) => e.name === tagName);
@@ -270,16 +270,16 @@ export class TagOverviewComponent implements OnInit {
         });
 
         this.volumePercentRankingDescription = `${
-          this.volumePercentRankingItems.filter((e) => e.color === 'purple')
-            .length
-        }new ${
           this.volumePercentRankingItems.filter((e) => e.color === 'green')
             .length
         }↑ ${
           this.volumePercentRankingItems.filter((e) => e.color === 'red').length
         }↓ ${
           this.volumePercentRankingItems.filter((e) => e.color === '').length
-        }--`;
+        }--${
+          this.volumePercentRankingItems.filter((e) => e.color === 'purple')
+            .length
+        }new`;
       } else {
         this.volumePercentRankingItems = [];
         this.volumePercentRankingDescription = '--';
