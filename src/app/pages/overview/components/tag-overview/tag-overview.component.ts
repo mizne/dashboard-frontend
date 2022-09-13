@@ -201,6 +201,11 @@ export class TagOverviewComponent implements OnInit {
           this.totalMarketTagDailyItem?.volumePercents.map((e) => {
             const newly = false;
             const delta = 0;
+            // const newly = Math.random() > 0.5;
+            // const delta =
+            //   Math.random() > 0.5
+            //     ? Math.floor(Math.random() * 10)
+            //     : Math.floor(Math.random() * -10);
 
             const color = newly
               ? 'purple'
@@ -246,6 +251,11 @@ export class TagOverviewComponent implements OnInit {
         this.volumePercentRankingItems = theTag.volumePercents.map((e) => {
           const newly = false;
           const delta = 0;
+          // const newly = Math.random() > 0.5;
+          // const delta =
+          //   Math.random() > 0.5
+          //     ? Math.floor(Math.random() * 10)
+          //     : Math.floor(Math.random() * -10);
 
           const color = newly
             ? 'purple'
