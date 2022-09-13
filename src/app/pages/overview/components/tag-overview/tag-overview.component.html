@@ -146,8 +146,8 @@
       </div>
       <nz-list nzBordered nzSize="small" style="max-height: 70vh;overflow: auto;">
         <!-- <nz-list-header>Header</nz-list-header> -->
-        <nz-list-item *ngFor="let item of volumePercentRankingItems">
-          <span>{{item.symbol}}</span>
+        <nz-list-item *ngFor="let item of volumePercentRankingItems; let i = index;">
+          <span>{{(i+1) + '. ' + item.symbol}}</span>
           <span [title]="item.percent | percent:4">{{item.percent | percent:4}}</span>
           <nz-tag [nzColor]="item.color">{{item.text}}</nz-tag>
         </nz-list-item>
