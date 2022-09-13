@@ -131,6 +131,19 @@
   <nz-modal [(nzVisible)]="showVolumePercentRanking" [nzTitle]="volumePercentRankingModalTitle" [nzFooter]="null"
     (nzOnCancel)="showVolumePercentRanking=false">
     <ng-container *nzModalContent>
+      <div style="display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: rgba(0, 0, 0, 0.85);
+      padding: 8px 16px;
+      border-top: 1px solid #d9d9d9;
+      border-left: 1px solid #d9d9d9;
+      border-right: 1px solid #d9d9d9;
+      border-radius: 2px;">
+        <span>symbol</span>
+        <span>占比</span>
+        <span>排行变动</span>
+      </div>
       <nz-list nzBordered nzSize="small" style="max-height: 70vh;overflow: auto;">
         <!-- <nz-list-header>Header</nz-list-header> -->
         <nz-list-item *ngFor="let item of volumePercentRankingItems">
@@ -140,6 +153,19 @@
         </nz-list-item>
         <!-- <nz-list-footer>Footer</nz-list-footer> -->
       </nz-list>
+      <div style="display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: rgba(0, 0, 0, 0.85);
+      padding: 8px 16px;
+      border-bottom: 1px solid #d9d9d9;
+      border-left: 1px solid #d9d9d9;
+      border-right: 1px solid #d9d9d9;
+      border-radius: 2px;">
+        <span>{{'共 ' + volumePercentRankingItems.length}}</span>
+        <span>100%</span>
+        <span>{{volumePercentRankingDescription}}</span>
+      </div>
     </ng-container>
   </nz-modal>
 </div>
