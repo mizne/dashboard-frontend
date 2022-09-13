@@ -34,8 +34,59 @@
 
   <div class="tag-overview-content" style="margin-top: 12px">
     <nz-spin [nzSpinning]="loading"></nz-spin>
+
+    <div *ngIf="totalMarketTagDailyItem" nz-row>
+      <nz-spin [nzSpinning]="loading">
+        <nz-card style="width:100%; margin-bottom: 12px;">
+          <div nz-row>
+            <div nz-col nzSpan="12"
+              style="display: flex;justify-content: space-evenly;flex-direction: column;font-size: 16px;font-weight: bold;">
+              <div style="margin-bottom: 6px;">
+                <span>总交易量: {{totalMarketTagDailyItem.volume | currency}}</span>
+                <span [title]="'相对前 ' + totalMarketTagDailyItem.volumeIntervals + ' 周期'" style="margin-right: 16px">
+                  总交易量增幅:
+                  <nz-tag *ngIf="totalMarketTagDailyItem.volumeMultiple >= 3; else normalVolume" nzColor="error">
+                    {{totalMarketTagDailyItem.volumeMultiple |
+                    percent}}</nz-tag>
+
+                  <ng-template #normalVolume>
+                    <nz-tag nzColor="default">
+                      {{totalMarketTagDailyItem.volumeMultiple | percent}}</nz-tag>
+                  </ng-template>
+                </span>
+              </div>
+
+              <div *ngIf="totalMarketTagDailyItem.volumePercents && totalMarketTagDailyItem.volumePercents.length > 0">
+                <span [title]="'共 ' + totalMarketTagDailyItem.tokenNames.length + ' tokens'">交易量占比: </span>
+                <span nz-icon nzType="bars" nzTheme="outline"
+                  (click)="showVolumePercentRankingModal(tokenTagNameOfTotalMarket)" [title]="'查看所有排行'"
+                  style="margin-right: 6px; cursor:pointer"></span>
+                <span *ngFor="let p of totalMarketTagDailyItem.volumePercents.slice(0, 20)" class="token-item"
+                  style="margin-bottom: 12px; font-size: 12px;">
+                  <span class="token-symbol" style="margin-right: 4px">{{p.token}}</span>
+                  <nz-tag *ngIf="p.percent >= 0.5; else normalTokenPercent" nzColor="error">{{p.percent |
+                    percent}}</nz-tag>
+
+                  <ng-template #normalTokenPercent>
+                    <nz-tag nzColor="default">
+                      {{p.percent | percent}}</nz-tag>
+                  </ng-template>
+                </span>
+              </div>
+            </div>
+            <div nz-col nzSpan="12" style="display: flex; justify-content: center; align-items: center;">
+              <small-chart [data]="totalMarketTagDailyItem.volumes180Interval" type="bar" [width]="500" [height]="140"
+                [showAxis]="false">
+              </small-chart>
+            </div>
+          </div>
+        </nz-card>
+      </nz-spin>
+
+    </div>
+
     <div nz-row>
-      <div nz-col nzSpan="6" *ngFor="let item of tagDailyItems"
+      <div nz-col nzSpan="6" *ngFor="let item of otherTagDailyItems"
         style="display: flex; justify-content: center; align-items: center;">
         <nz-spin [nzSpinning]="loading">
           <nz-card style="width:300px; margin-bottom: 8px" [nzTitle]="item.label">
@@ -53,6 +104,8 @@
             <div style="margin-bottom: 4px" [title]="'共 ' + item.tokenNames.length + ' tokens'"
               *ngIf="item.volumePercents && item.volumePercents.length > 0">
               <span>交易量占比: </span>
+              <span nz-icon nzType="bars" nzTheme="outline" (click)="showVolumePercentRankingModal(item.name)"
+                [title]="'查看所有排行'" style="margin-right: 6px; cursor:pointer"></span>
               <div *ngFor="let p of item.volumePercents.slice(0, 3)" class="token-item"
                 style="margin-bottom: 4px; font-size: 12px;">
                 <span class="token-symbol" style="margin-right: 12px">{{p.token}}</span>
@@ -72,6 +125,21 @@
         </nz-spin>
       </div>
     </div>
-
   </div>
+
+
+  <nz-modal [(nzVisible)]="showVolumePercentRanking" [nzTitle]="volumePercentRankingModalTitle" [nzFooter]="null"
+    (nzOnCancel)="showVolumePercentRanking=false">
+    <ng-container *nzModalContent>
+      <nz-list nzBordered nzSize="small" style="max-height: 70vh;overflow: auto;">
+        <!-- <nz-list-header>Header</nz-list-header> -->
+        <nz-list-item *ngFor="let item of volumePercentRankingItems">
+          <span>{{item.symbol}}</span>
+          <span [title]="item.percent | percent:4">{{item.percent | percent:4}}</span>
+          <nz-tag [nzColor]="item.color">{{item.text}}</nz-tag>
+        </nz-list-item>
+        <!-- <nz-list-footer>Footer</nz-list-footer> -->
+      </nz-list>
+    </ng-container>
+  </nz-modal>
 </div>
