@@ -26,6 +26,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzListModule } from 'ng-zorro-antd/list';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -62,6 +63,7 @@ const nzModules = [
   NzDrawerModule,
   NzCollapseModule,
   NzListModule,
+  NzPopoverModule,
 ];
 const ngModules = [CommonModule, ReactiveFormsModule];
 

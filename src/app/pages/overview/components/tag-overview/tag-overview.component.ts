@@ -12,6 +12,9 @@ import {
   tokenTagNameOfTotalMarket,
 } from '../../models/cex-token-tag.model';
 import { CexTokenDailyService } from '../../services/cex-token-daily.service';
+import { CexTokenTagDailyService } from '../../services/cex-token-tag-daily.service';
+import { CexTokenTagService } from '../../services/cex-token-tag.service';
+import { CexTokenService } from '../../services/cex-token.service';
 
 @Component({
   selector: 'tag-overview',
@@ -22,6 +25,9 @@ export class TagOverviewComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly sharedService: SharedService,
     private readonly cexTokenDailyService: CexTokenDailyService,
+    private readonly cexTokenTagService: CexTokenTagService,
+    private readonly cexTokenService: CexTokenService,
+    private readonly cexTokenTagDailyService: CexTokenTagDailyService,
     private readonly notification: NzNotificationService
   ) {}
 
@@ -52,6 +58,7 @@ export class TagOverviewComponent implements OnInit {
   volumePercentRankingModalTitle = '';
   volumePercentRankingItems: Array<{
     symbol: string;
+    slug?: string;
     percent: number;
     color?: string;
     text?: string;
@@ -114,6 +121,8 @@ export class TagOverviewComponent implements OnInit {
           this.showVolumePercentRanking = true;
           this.handleRankingItemsWhenHasLast(tagName, lastDataItems);
         }
+
+        this.addSlugToRankingItems();
       },
       error: (e: Error) => {
         this.notification.error(
@@ -297,13 +306,29 @@ export class TagOverviewComponent implements OnInit {
     }
   }
 
+  private addSlugToRankingItems() {
+    const symbols = this.volumePercentRankingItems.map((e) => e.symbol);
+    if (symbols.length > 0) {
+      this.cexTokenService
+        .queryList({ symbol: { $in: symbols } })
+        .subscribe((tokens) => {
+          this.volumePercentRankingItems.forEach((rankingItem) => {
+            const theToken = tokens.find(
+              (token) => token.symbol === rankingItem.symbol
+            );
+            rankingItem.slug = theToken?.slug || '';
+          });
+        });
+    }
+  }
+
   private fetchTagsAndTagDailyItems() {
     this.loading = true;
     this.status = 'loading';
-    this.cexTokenDailyService.queryTags().subscribe((tags) => {
+    this.cexTokenTagService.queryList().subscribe((tags) => {
       forkJoin(
         tags.map((tag) =>
-          this.cexTokenDailyService.queryTagDaily(
+          this.cexTokenTagDailyService.queryList(
             {
               name: tag.name,
               ...this.resolveFormValue(),
@@ -355,7 +380,7 @@ export class TagOverviewComponent implements OnInit {
         )
       );
     }
-    return this.cexTokenDailyService.queryTagDaily(
+    return this.cexTokenTagDailyService.queryList(
       {
         name: tagName,
         ...o,

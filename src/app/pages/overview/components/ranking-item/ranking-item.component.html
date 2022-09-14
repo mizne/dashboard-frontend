@@ -1,0 +1,22 @@
+<div class="ranking-item-container">
+  <span style="width: 30%" nz-popover [nzPopoverTitle]="titleTemplate" [nzPopoverContent]="contentTemplate">{{(index+1)
+    + '. ' + symbol}}</span>
+  <span style="width: 30%" [title]="percent | percent:4">{{percent | percent:4}}</span>
+  <span style="width: 12%;display: flex;justify-content: flex-end;">
+    <nz-tag [nzColor]="color">{{text}}</nz-tag>
+  </span>
+</div>
+
+<ng-template #titleTemplate>
+  {{symbol}}
+</ng-template>
+<ng-template #contentTemplate>
+  <token-actions [symbol]="symbol" [slug]="slug||''"></token-actions>
+</ng-template>
+<style>
+  .ranking-item-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+</style>

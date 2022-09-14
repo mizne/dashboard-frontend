@@ -139,21 +139,7 @@
           <td>{{data.createdAt | date:'HH:mm:ss'}}</td>
 
           <td>
-            <linkable [title]="'TradingView ' + data.symbol" icon="line-height"
-              [href]="'https://cn.tradingview.com/chart/Krvl8xc0/?symbol=BINANCE:' + data.symbol">
-            </linkable>
-
-            <linkable [title]="'Binance ' + data.symbol" icon="bold"
-              [href]="'https://www.binance.com/zh-CN/trade/' + data.symbol" style="margin-left: 6px">
-            </linkable>
-
-            <linkable *ngIf="data.slug" [title]="'CMC ' + data.symbol" icon="copyright-circle"
-              [href]="'https://coinmarketcap.com/currencies/' + data.slug" style="margin-left: 6px">
-            </linkable>
-
-            <linkable *ngIf="data.symbol" [title]="'查看 ' + data.symbol + ' 所有数据'" icon="more"
-              [href]="resolveMoreHref(data.symbol)" style="margin-left: 6px">
-            </linkable>
+            <token-actions [symbol]="data.symbol" [slug]="data.slug"></token-actions>
           </td>
         </tr>
       </tbody>

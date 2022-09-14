@@ -3,6 +3,7 @@ import { SmallChartComponent } from './small-chart/small-chart.component';
 import { NetworkCheckerComponent } from './network-checker/network-checker.component';
 import { BtcFutureCheckerComponent } from './btc-future-checker/btc-future-checker.component';
 import { UpdateTimeComponent } from './update-time/update-time.component';
+import { TokenActionsComponent } from './token-actions/token-actions.component';
 
 export const components = [
   LinkableComponent,
@@ -10,6 +11,7 @@ export const components = [
   NetworkCheckerComponent,
   BtcFutureCheckerComponent,
   UpdateTimeComponent,
+  TokenActionsComponent,
 ];
 
 export {
@@ -18,4 +20,5 @@ export {
   NetworkCheckerComponent,
   BtcFutureCheckerComponent,
   UpdateTimeComponent,
+  TokenActionsComponent,
 };

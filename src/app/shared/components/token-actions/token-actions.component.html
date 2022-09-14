@@ -1,0 +1,17 @@
+<span class="token-actions-container">
+  <linkable *ngIf="symbol" [title]="'TradingView ' + symbol" icon="line-height"
+    [href]="'https://cn.tradingview.com/chart/Krvl8xc0/?symbol=BINANCE:' + symbol">
+  </linkable>
+
+  <linkable *ngIf="symbol" [title]="'Binance ' + symbol" icon="bold"
+    [href]="'https://www.binance.com/zh-CN/trade/' + symbol" style="margin-left: 6px">
+  </linkable>
+
+  <linkable *ngIf="slug" [title]="'CMC ' + slug" icon="copyright-circle"
+    [href]="'https://coinmarketcap.com/currencies/' + slug" style="margin-left: 6px">
+  </linkable>
+
+  <linkable *ngIf="symbol" [title]="'查看 ' + symbol + ' 所有数据'" icon="more" [href]="resolveMoreHref(symbol)"
+    style="margin-left: 6px">
+  </linkable>
+</span>

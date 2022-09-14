@@ -8,6 +8,7 @@ import { paddingZero, removeEmpty } from 'src/app/utils';
 import { format, parse } from 'date-fns';
 import { ActivatedRoute } from '@angular/router';
 import { tokenTagNameOfTotalMarket } from './models/cex-token-tag.model';
+import { CexTokenTagService } from './services/cex-token-tag.service';
 
 @Component({
   selector: 'app-overview',
@@ -17,6 +18,7 @@ import { tokenTagNameOfTotalMarket } from './models/cex-token-tag.model';
 export class OverviewComponent implements OnInit {
   constructor(
     private readonly cexTokenDailyService: CexTokenDailyService,
+    private readonly cexTokenTagService: CexTokenTagService,
     private readonly notification: NzNotificationService,
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute
@@ -180,7 +182,7 @@ export class OverviewComponent implements OnInit {
   cancelDelete(item: CexTokenDaily) {}
 
   private loadTags() {
-    this.cexTokenDailyService.queryTags().subscribe((items) => {
+    this.cexTokenTagService.queryList().subscribe((items) => {
       this.tags = [{ label: '全部', name: '' }].concat(
         items
           .map((e) => ({ label: e.label, name: e.name }))
