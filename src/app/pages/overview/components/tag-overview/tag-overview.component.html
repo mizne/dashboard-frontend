@@ -63,7 +63,7 @@
                   style="margin-right: 6px; cursor:pointer"></span>
                 <span *ngFor="let p of totalMarketTagDailyItem.volumePercents.slice(0, 10)" class="token-item"
                   style="margin-bottom: 12px; font-size: 12px;">
-                  <span class="token-symbol" style="margin-right: 4px">{{p.token}}</span>
+                  <symbol-item [symbol]="p.token" style="margin-right: 4px"></symbol-item>
                   <nz-tag *ngIf="p.percent >= 0.5; else normalTokenPercent" nzColor="error">{{p.percent |
                     percent}}</nz-tag>
 
@@ -78,7 +78,7 @@
                 <span [title]="'共 ' + totalMarketTagDailyItem.tokenNames.length + ' tokens'">排行异动: </span>
                 <span *ngFor="let p of volumePercentRankingOfTotalMarket" class="token-item"
                   style="margin-bottom: 12px; font-size: 12px;">
-                  <span class="token-symbol" style="margin-right: 4px">{{p.symbol}}</span>
+                  <symbol-item [symbol]="p.symbol" style="margin-right: 4px"></symbol-item>
                   <nz-tag [nzColor]="p.delta > 0 ? 'green' : (p.delta < 0 ? 'red' : 'default')">{{ (p.delta >= 0 ? '+' :
                     '') +
                     p.delta}}</nz-tag>
@@ -120,7 +120,7 @@
                 [title]="'查看所有排行'" style="margin-right: 6px; cursor:pointer"></span>
               <div *ngFor="let p of item.volumePercents.slice(0, 3)" class="token-item"
                 style="margin-bottom: 4px; font-size: 12px;">
-                <span class="token-symbol" style="margin-right: 12px">{{p.token}}</span>
+                <symbol-item [symbol]="p.token" style="margin-right: 12px"></symbol-item>
                 <nz-tag *ngIf="p.percent >= 0.5; else normalTokenPercent" nzColor="error">{{p.percent |
                   percent}}</nz-tag>
 
@@ -151,8 +151,8 @@
       <nz-list nzBordered nzSize="small" style="max-height: 70vh;overflow: auto;">
         <!-- <nz-list-header>Header</nz-list-header> -->
         <nz-list-item *ngFor="let item of volumePercentRankingItems; let i = index;">
-          <ranking-item [index]="i" [symbol]="item.symbol" [slug]="item.slug" [percent]="item.percent"
-            [prevPercent]="item.prevPercent" [color]="item.color" [text]="item.text" style="width:100%"></ranking-item>
+          <ranking-item [index]="i" [symbol]="item.symbol" [percent]="item.percent" [prevPercent]="item.prevPercent"
+            [color]="item.color" [text]="item.text" style="width:100%"></ranking-item>
         </nz-list-item>
         <!-- <nz-list-footer>Footer</nz-list-footer> -->
       </nz-list>

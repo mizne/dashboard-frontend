@@ -1,6 +1,5 @@
 <div class="ranking-item-container">
-  <span style="width: 30%" nz-popover [nzPopoverTitle]="titleTemplate" [nzPopoverContent]="contentTemplate">{{(index+1)
-    + '. ' + symbol}}</span>
+  <symbol-item [prefix]="'' + (index+1) + '. '" [symbol]="symbol" style="width: 30%"></symbol-item>
   <span style="width: 40%" [title]="percent | percent:4">{{(prevPercent | percent) + ' -> ' + (percent |
     percent)}}</span>
   <span style="width: 12%;display: flex;justify-content: flex-end;">
@@ -8,12 +7,6 @@
   </span>
 </div>
 
-<ng-template #titleTemplate>
-  {{symbol}}
-</ng-template>
-<ng-template #contentTemplate>
-  <token-actions [symbol]="symbol" [slug]="slug||''"></token-actions>
-</ng-template>
 <style>
   .ranking-item-container {
     display: flex;

@@ -1,0 +1,9 @@
+<span class="symbol-item-container" nz-popover [nzPopoverTitle]="titleTemplate"
+  [nzPopoverContent]="contentTemplate">{{prefix + symbol}}</span>
+
+<ng-template #titleTemplate>
+  {{symbol}}
+</ng-template>
+<ng-template #contentTemplate>
+  <token-actions [symbol]="symbol" [slug]="slug"></token-actions>
+</ng-template>

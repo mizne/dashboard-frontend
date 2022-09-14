@@ -63,7 +63,6 @@ export class TagOverviewComponent implements OnInit {
   volumePercentRankingModalTitle = '';
   volumePercentRankingItems: Array<{
     symbol: string;
-    slug?: string;
     percent: number;
     prevPercent: number;
     color?: string;
@@ -127,8 +126,6 @@ export class TagOverviewComponent implements OnInit {
           this.showVolumePercentRanking = true;
           this.handleRankingItemsWhenHasLast(tagName, lastDataItems);
         }
-
-        this.addSlugToRankingItems();
       },
       error: (e: Error) => {
         this.notification.error(
@@ -317,22 +314,6 @@ export class TagOverviewComponent implements OnInit {
         this.volumePercentRankingItems = [];
         this.volumePercentRankingDescription = '--';
       }
-    }
-  }
-
-  private addSlugToRankingItems() {
-    const symbols = this.volumePercentRankingItems.map((e) => e.symbol);
-    if (symbols.length > 0) {
-      this.cexTokenService
-        .queryList({ symbol: { $in: symbols } })
-        .subscribe((tokens) => {
-          this.volumePercentRankingItems.forEach((rankingItem) => {
-            const theToken = tokens.find(
-              (token) => token.symbol === rankingItem.symbol
-            );
-            rankingItem.slug = theToken?.slug || '';
-          });
-        });
     }
   }
 
