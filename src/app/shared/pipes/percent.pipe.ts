@@ -11,7 +11,7 @@ export class PercentPipe implements PipeTransform {
       return '--';
     }
     if (isNil(fixedCount)) {
-      if (n <= 1e-4) {
+      if (Math.abs(n) <= 1e-4) {
         fixedCount = 4;
       } else {
         fixedCount = 2;
