@@ -54,12 +54,18 @@ export class TagOverviewComponent implements OnInit {
   tokenTagNameOfTotalMarket = tokenTagNameOfTotalMarket;
   otherTagDailyItems: Array<CexTokenTagDaily> = [];
 
+  volumePercentRankingOfTotalMarket: Array<{
+    symbol: string;
+    delta: number;
+  }> = [];
+
   showVolumePercentRanking = false;
   volumePercentRankingModalTitle = '';
   volumePercentRankingItems: Array<{
     symbol: string;
     slug?: string;
     percent: number;
+    prevPercent: number;
     color?: string;
     text?: string;
   }> = [];
@@ -152,6 +158,7 @@ export class TagOverviewComponent implements OnInit {
       const zippedItems: Array<{
         symbol: string;
         percent: number;
+        prevPercent: number;
         newly: boolean;
         delta: number;
       }> = [];
@@ -164,6 +171,10 @@ export class TagOverviewComponent implements OnInit {
         zippedItems.push({
           symbol: theCurrent.token,
           percent: theCurrent.percent,
+          prevPercent:
+            theLastIndex === -1
+              ? 0
+              : theLastTag.volumePercents[theLastIndex].percent,
           newly: theLastIndex === -1,
           delta: theLastIndex === -1 ? 0 : theLastIndex - i,
         });
@@ -186,6 +197,7 @@ export class TagOverviewComponent implements OnInit {
         return {
           symbol: e.symbol,
           percent: e.percent,
+          prevPercent: e.prevPercent,
           color,
           text,
         };
@@ -233,6 +245,7 @@ export class TagOverviewComponent implements OnInit {
             return {
               symbol: e.token,
               percent: e.percent,
+              prevPercent: 0,
               color,
               text,
             };
@@ -283,6 +296,7 @@ export class TagOverviewComponent implements OnInit {
           return {
             symbol: e.token,
             percent: e.percent,
+            prevPercent: 0,
             color,
             text,
           };
@@ -352,6 +366,7 @@ export class TagOverviewComponent implements OnInit {
           this.otherTagDailyItems = this.tagDailyItems.filter(
             (e) => e.name !== tokenTagNameOfTotalMarket
           );
+          this.resolveVolumePercentRankingOfTotalMarket();
         },
         (e: Error) => {
           this.notification.error(`获取失败`, `${e.message}`);
@@ -359,6 +374,59 @@ export class TagOverviewComponent implements OnInit {
           this.status = 'error';
         }
       );
+    });
+  }
+
+  private resolveVolumePercentRankingOfTotalMarket() {
+    if (!this.totalMarketTagDailyItem) {
+      return;
+    }
+
+    this.resolveLastIntervalTagDailyItems(tokenTagNameOfTotalMarket).subscribe({
+      next: (lastDataItems: CexTokenTagDaily[]) => {
+        if (lastDataItems.length > 0) {
+          const theTag = this.totalMarketTagDailyItem;
+          const theLastTag = lastDataItems[0];
+          if (theTag) {
+            const zippedItems: Array<{
+              symbol: string;
+              percent: number;
+              newly: boolean;
+              delta: number;
+            }> = [];
+
+            for (let i = 0; i <= theTag.volumePercents.length - 1; i += 1) {
+              const theCurrent = theTag.volumePercents[i];
+              const theLastIndex = theLastTag.volumePercents.findIndex(
+                (e) => e.token === theCurrent.token
+              );
+              zippedItems.push({
+                symbol: theCurrent.token,
+                percent: theCurrent.percent,
+                newly: theLastIndex === -1,
+                delta: theLastIndex === -1 ? 0 : theLastIndex - i,
+              });
+            }
+            this.volumePercentRankingOfTotalMarket = zippedItems
+              .map((e) => ({
+                symbol: e.symbol,
+                delta: e.delta,
+              }))
+              .sort((a, b) => b.delta - a.delta)
+              .slice(0, 10);
+          } else {
+            this.volumePercentRankingOfTotalMarket = [];
+          }
+        } else {
+          this.volumePercentRankingOfTotalMarket = [];
+        }
+      },
+      error: (e: Error) => {
+        this.notification.error(
+          `获取上一周期${tokenTagNameOfTotalMarket}数据失败`,
+          `${e.message}`
+        );
+      },
     });
   }
 

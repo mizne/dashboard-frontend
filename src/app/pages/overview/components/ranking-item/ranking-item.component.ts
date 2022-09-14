@@ -11,6 +11,7 @@ export class RankingItemComponent implements OnInit {
   @Input() symbol = '';
   @Input() slug: string | undefined = '';
   @Input() percent = 0;
+  @Input() prevPercent = 0;
   @Input() color: string | undefined = '';
   @Input() text: string | undefined = '';
 

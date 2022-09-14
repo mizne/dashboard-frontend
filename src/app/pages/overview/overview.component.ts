@@ -230,7 +230,10 @@ export class OverviewComponent implements OnInit {
     Object.keys(query).forEach((key) => {
       if (key === 'name') {
         Object.assign(o, {
-          ['name']: { $regex: query['name'], $options: 'i' },
+          ['$or']: [
+            { name: { $regex: query['name'], $options: 'i' } },
+            { symbol: { $regex: query['name'], $options: 'i' } },
+          ],
         });
       } else if (key === 'latestIntervals') {
         Object.assign(
