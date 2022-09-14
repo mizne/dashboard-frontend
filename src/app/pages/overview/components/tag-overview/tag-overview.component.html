@@ -79,7 +79,9 @@
                 <span *ngFor="let p of volumePercentRankingOfTotalMarket" class="token-item"
                   style="margin-bottom: 12px; font-size: 12px;">
                   <span class="token-symbol" style="margin-right: 4px">{{p.symbol}}</span>
-                  <nz-tag nzColor="green">{{ (p.delta >= 0 ? '+' : '-') + p.delta}}</nz-tag>
+                  <nz-tag [nzColor]="p.delta > 0 ? 'green' : (p.delta < 0 ? 'red' : 'default')">{{ (p.delta >= 0 ? '+' :
+                    '') +
+                    p.delta}}</nz-tag>
                 </span>
               </div>
 

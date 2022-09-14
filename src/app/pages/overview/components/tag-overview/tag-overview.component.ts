@@ -407,13 +407,15 @@ export class TagOverviewComponent implements OnInit {
                 delta: theLastIndex === -1 ? 0 : theLastIndex - i,
               });
             }
-            this.volumePercentRankingOfTotalMarket = zippedItems
+            const sorted = zippedItems
               .map((e) => ({
                 symbol: e.symbol,
                 delta: e.delta,
               }))
-              .sort((a, b) => b.delta - a.delta)
-              .slice(0, 10);
+              .sort((a, b) => b.delta - a.delta);
+            this.volumePercentRankingOfTotalMarket = sorted
+              .slice(0, 5)
+              .concat(sorted.slice(-5));
           } else {
             this.volumePercentRankingOfTotalMarket = [];
           }
