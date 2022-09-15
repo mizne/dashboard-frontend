@@ -2,8 +2,8 @@
   <button nz-button nzType="primary" nzShape="circle" (click)="open()" style="margin-bottom: 24px">
     <i nz-icon [nzType]="'bold'" nzTheme="outline"></i>
   </button>
-  <nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="最近30天 BTCUSDTPERP 数据"
-    (nzOnClose)="close()">
+  <nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right"
+    [nzTitle]="'最近'+ (days$ | async) + '天 BTCUSDTPERP 数据'" (nzOnClose)="close()">
     <ng-container *nzDrawerContent>
       <div style="margin-bottom: 12px">
         <nz-radio-group [formControl]="intervalCtrl">

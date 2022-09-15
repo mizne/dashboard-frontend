@@ -1,7 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SharedService } from '../../services';
-import { firstValueFrom, merge, startWith, Subscription, filter } from 'rxjs';
+import {
+  firstValueFrom,
+  merge,
+  startWith,
+  Subscription,
+  filter,
+  map,
+  Observable,
+} from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { KlineIntervals } from '../../models';
 
@@ -26,6 +34,21 @@ export class BtcFutureCheckerComponent implements OnInit {
     },
   ];
   intervalCtrl = new FormControl(this.intervals[0].value);
+  days$: Observable<number> = this.intervalCtrl.valueChanges.pipe(
+    map((interval: KlineIntervals | null) => {
+      switch (interval) {
+        case KlineIntervals.FOUR_HOURS:
+          return 30;
+        case KlineIntervals.ONE_DAY:
+          return 180;
+        default:
+          console.warn(
+            `[BtcFutureCheckerComponent] unknown interval: ${interval}`
+          );
+          return 30;
+      }
+    })
+  );
 
   visible = false;
 

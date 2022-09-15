@@ -57,7 +57,10 @@ export class SharedService {
     }>;
   }
 
-  btcDailies(interval: KlineIntervals): Observable<{
+  btcDailies(
+    interval: KlineIntervals,
+    limit = 180
+  ): Observable<{
     prices: number[];
     volumes: number[];
     fundingRates: number[];
@@ -68,6 +71,7 @@ export class SharedService {
   }> {
     return this.httpClient.post(`${this.baseURL}/app/btc-dailies`, {
       interval,
+      limit,
     }) as Observable<{
       prices: number[];
       volumes: number[];
