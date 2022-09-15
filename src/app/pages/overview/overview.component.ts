@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { CexTokenDaily, DailyInterval } from './models/cex-token-daily.model';
+import { CexTokenDaily } from './models/cex-token-daily.model';
 import { CexTokenDailyService } from './services/cex-token-daily.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { FormBuilder, FormControl } from '@angular/forms';
@@ -9,6 +9,7 @@ import { format, parse } from 'date-fns';
 import { ActivatedRoute } from '@angular/router';
 import { tokenTagNameOfTotalMarket } from './models/cex-token-tag.model';
 import { CexTokenTagService } from './services/cex-token-tag.service';
+import { DailyInterval } from 'src/app/shared';
 
 @Component({
   selector: 'app-overview',

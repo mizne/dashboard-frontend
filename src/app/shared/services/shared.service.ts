@@ -14,6 +14,7 @@ import {
 } from 'rxjs';
 import { isNil } from 'src/app/utils';
 import { format } from 'date-fns';
+import { DailyInterval } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class SharedService {
@@ -54,6 +55,18 @@ export class SharedService {
       longShortRatios: number[];
       openInterests: number[];
     }>;
+  }
+
+  executeTaskCustom(
+    task: string,
+    interval: DailyInterval,
+    endTime: number
+  ): Observable<any> {
+    return this.httpClient.post(`${this.baseURL}/app/execute-task-custom`, {
+      task,
+      interval,
+      endTime,
+    }) as Observable<any>;
   }
 
   schedule(rule: {

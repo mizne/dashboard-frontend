@@ -3,9 +3,8 @@ import { FormBuilder } from '@angular/forms';
 import { format, parse } from 'date-fns';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { forkJoin, map, merge, Observable, startWith } from 'rxjs';
-import { SharedService } from 'src/app/shared';
+import { DailyInterval, SharedService } from 'src/app/shared';
 import { paddingZero } from 'src/app/utils';
-import { DailyInterval } from '../../models/cex-token-daily.model';
 import { CexTokenTagDaily } from '../../models/cex-token-tag-daily.model';
 import {
   CexTokenTag,
@@ -320,41 +319,48 @@ export class TagOverviewComponent implements OnInit {
   private fetchTagsAndTagDailyItems() {
     this.loading = true;
     this.status = 'loading';
-    this.cexTokenTagService.queryList().subscribe((tags) => {
-      forkJoin(
-        tags.map((tag) =>
-          this.cexTokenTagDailyService.queryList(
-            {
-              name: tag.name,
-              ...this.resolveFormValue(),
-            },
-            { number: 1, size: 1 }
+    this.cexTokenTagService.queryList().subscribe({
+      next: (tags) => {
+        forkJoin(
+          tags.map((tag) =>
+            this.cexTokenTagDailyService.queryList(
+              {
+                name: tag.name,
+                ...this.resolveFormValue(),
+              },
+              { number: 1, size: 1 }
+            )
           )
-        )
-      ).subscribe(
-        (items) => {
-          this.loading = false;
-          this.status = 'success';
-          this.tagDailyItems = items
-            .map((e) => e[0])
-            .filter((e) => !!e)
-            .sort((a, b) => b.volumeMultiple - a.volumeMultiple);
-          // console.log(`this.tagDailyItems: `, this.tagDailyItems);
+        ).subscribe({
+          next: (items) => {
+            this.loading = false;
+            this.status = 'success';
+            this.tagDailyItems = items
+              .map((e) => e[0])
+              .filter((e) => !!e)
+              .sort((a, b) => b.volumeMultiple - a.volumeMultiple);
+            // console.log(`this.tagDailyItems: `, this.tagDailyItems);
 
-          this.totalMarketTagDailyItem = this.tagDailyItems.find(
-            (e) => e.name === tokenTagNameOfTotalMarket
-          );
-          this.otherTagDailyItems = this.tagDailyItems.filter(
-            (e) => e.name !== tokenTagNameOfTotalMarket
-          );
-          this.resolveVolumePercentRankingOfTotalMarket();
-        },
-        (e: Error) => {
-          this.notification.error(`获取失败`, `${e.message}`);
-          this.loading = false;
-          this.status = 'error';
-        }
-      );
+            this.totalMarketTagDailyItem = this.tagDailyItems.find(
+              (e) => e.name === tokenTagNameOfTotalMarket
+            );
+            this.otherTagDailyItems = this.tagDailyItems.filter(
+              (e) => e.name !== tokenTagNameOfTotalMarket
+            );
+            this.resolveVolumePercentRankingOfTotalMarket();
+          },
+          error: (e: Error) => {
+            this.notification.error(`获取失败`, `${e.message}`);
+            this.loading = false;
+            this.status = 'error';
+          },
+        });
+      },
+      error: (e: Error) => {
+        this.notification.error(`获取 token tag 失败`, `${e.message}`);
+        this.loading = false;
+        this.status = 'error';
+      },
     });
   }
 

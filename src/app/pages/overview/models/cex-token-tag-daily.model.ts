@@ -1,4 +1,4 @@
-import { DailyInterval } from './cex-token-daily.model';
+import { DailyInterval } from 'src/app/shared';
 
 export interface CexTokenTagDaily {
   readonly _id: string;

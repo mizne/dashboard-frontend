@@ -1,0 +1,47 @@
+<div class="execute-task-custom-container" style="position:fixed; top: 24px; right: 104px; z-index: 100">
+  <button nz-button nzType="primary" nzShape="circle" (click)="open()" style="margin-bottom: 24px">
+    <i nz-icon [nzType]="'clock-circle'" nzTheme="outline"></i>
+  </button>
+  <nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="执行自定义任务" (nzOnClose)="close()">
+    <ng-container *nzDrawerContent>
+      <nz-card>
+        <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'horizontal'">
+
+          <nz-form-item>
+            <nz-form-label nzFor="task">任务</nz-form-label>
+            <nz-form-control>
+              <nz-radio-group formControlName="task">
+                <label nz-radio-button *ngFor="let item of tasks" [nzValue]="item.name">{{item.label}}</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label nzFor="interval">周期</nz-form-label>
+            <nz-form-control>
+              <nz-radio-group formControlName="interval">
+                <label nz-radio-button *ngFor="let item of intervals" [nzValue]="item.name">{{item.name}}</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label nzFor="latestIntervals">倒数第几个周期({{intervalTime$ | async | date:'MM-dd HH:mm'}})
+            </nz-form-label>
+            <nz-form-control>
+              <nz-input-number formControlName="latestIntervals" [attr.id]="'latestIntervals'" [nzMin]="1" [nzStep]="1">
+              </nz-input-number>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="search-area">
+            <nz-form-control>
+              <button nz-button [nzType]="'primary'">执行</button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </nz-card>
+
+    </ng-container>
+  </nz-drawer>
+</div>

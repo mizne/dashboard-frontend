@@ -4,6 +4,7 @@ import { NetworkCheckerComponent } from './network-checker/network-checker.compo
 import { BtcFutureCheckerComponent } from './btc-future-checker/btc-future-checker.component';
 import { UpdateTimeComponent } from './update-time/update-time.component';
 import { TokenActionsComponent } from './token-actions/token-actions.component';
+import { ExecuteTaskCustomComponent } from './execute-task-custom/execute-task-custom.component';
 
 export const components = [
   LinkableComponent,
@@ -12,6 +13,7 @@ export const components = [
   BtcFutureCheckerComponent,
   UpdateTimeComponent,
   TokenActionsComponent,
+  ExecuteTaskCustomComponent,
 ];
 
 export {
@@ -21,4 +23,5 @@ export {
   BtcFutureCheckerComponent,
   UpdateTimeComponent,
   TokenActionsComponent,
+  ExecuteTaskCustomComponent,
 };

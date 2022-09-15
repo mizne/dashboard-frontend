@@ -1,7 +1,4 @@
-export enum DailyInterval {
-  FOUR_HOURS = '4h',
-  ONE_DAY = '1d',
-}
+import { DailyInterval } from 'src/app/shared';
 
 export interface CexTokenDaily {
   readonly _id: string;
