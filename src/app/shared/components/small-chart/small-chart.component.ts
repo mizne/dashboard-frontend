@@ -71,9 +71,6 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toShowLargeChart() {
     this.isVisible = true;
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
 
     this.subscription = interval(1e2)
       .pipe(
@@ -90,6 +87,11 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this._largeChart) {
       this._largeChart.destroy();
       this._largeChart = null;
+    }
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = null;
     }
   }
 
