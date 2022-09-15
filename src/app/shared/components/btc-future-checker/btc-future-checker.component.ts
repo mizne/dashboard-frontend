@@ -182,11 +182,6 @@ export class BtcFutureCheckerComponent implements OnInit {
 
   private async intervalCheckBtcFutures() {
     this.subscription = merge(
-      this.sharedService.schedule({
-        hour: [0, 4, 8, 12, 16, 20],
-        minute: 2,
-        second: 42,
-      }),
       this.sharedService.interval(10 * 60),
       this.sharedService
         .documentVisible()
