@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { SharedService } from '../../services';
+import { KlineIntervalService, SharedService } from '../../services';
 import {
   firstValueFrom,
   merge,
@@ -21,6 +21,7 @@ import { paddingZero } from 'src/app/utils';
 export class ExecuteTaskCustomComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
+    private klineIntervalService: KlineIntervalService,
     private notification: NzNotificationService,
     private fb: FormBuilder
   ) {}
@@ -88,18 +89,18 @@ export class ExecuteTaskCustomComponent implements OnInit {
   private resolveEndTime(): number {
     switch (this.form.get('interval')?.value) {
       case KlineIntervals.FOUR_HOURS:
-        return this.resolveFourHoursIntervalMills(
+        return this.klineIntervalService.resolveFourHoursIntervalMills(
           this.form.get('latestIntervals')?.value as number
         );
       case KlineIntervals.ONE_DAY:
-        return this.resolveOneDayIntervalMills(
+        return this.klineIntervalService.resolveOneDayIntervalMills(
           this.form.get('latestIntervals')?.value as number
         );
       default:
         console.warn(
           `intervalTime$ unknown interval: ${this.form.get('interval')?.value}`
         );
-        return this.resolveFourHoursIntervalMills(
+        return this.klineIntervalService.resolveFourHoursIntervalMills(
           this.form.get('latestIntervals')?.value as number
         );
     }
@@ -111,49 +112,5 @@ export class ExecuteTaskCustomComponent implements OnInit {
 
   close(): void {
     this.visible = false;
-  }
-
-  private resolveFourHoursIntervalMills(latestIntervals: number): number {
-    const fourHours = 4 * 60 * 60 * 1e3;
-    const hours = [0, 4, 8, 12, 16, 20];
-    const currentHour = new Date().getHours();
-    const theHourIndex = hours.findIndex((e) => e > currentHour);
-    const theHour =
-      theHourIndex >= 0 ? hours[theHourIndex - 1] : hours[hours.length - 1];
-
-    const theMills = parse(
-      format(new Date(), 'yyyy-MM-dd') +
-        ` ${paddingZero(String(theHour))}:00:00`,
-      'yyyy-MM-dd HH:mm:ss',
-      new Date()
-    ).getTime();
-
-    return theMills - (latestIntervals - 1) * fourHours;
-  }
-
-  private resolveOneDayIntervalMills(latestIntervals: number): number {
-    const oneDay = 24 * 60 * 60 * 1e3;
-    const currentHour = new Date().getHours();
-    if (currentHour >= 8) {
-      // 返回当天08:00:00的时间戳 及天数差值
-      return (
-        parse(
-          format(new Date(), 'yyyy-MM-dd') + ' 08:00:00',
-          'yyyy-MM-dd HH:mm:ss',
-          new Date()
-        ).getTime() -
-        (latestIntervals - 1) * oneDay
-      );
-    } else {
-      // 返回前一天08:00:00的时间戳 及天数差值
-      return (
-        parse(
-          format(new Date().getTime() - oneDay, 'yyyy-MM-dd') + ' 08:00:00',
-          'yyyy-MM-dd HH:mm:ss',
-          new Date()
-        ).getTime() -
-        (latestIntervals - 1) * oneDay
-      );
-    }
   }
 }

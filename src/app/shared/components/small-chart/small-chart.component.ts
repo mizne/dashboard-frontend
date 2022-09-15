@@ -22,9 +22,9 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
   largeChartID = 'large-chart-wrapper-' + uuid.v4();
 
   @Input() data: number[] = [];
-  @Input() interval: KlineIntervals = KlineIntervals.FOUR_HOURS;
+  @Input() interval: string | null = KlineIntervals.FOUR_HOURS;
   @Input() time: number = 0;
-  @Input() title: string = '--';
+  @Input() title: string = '标题';
 
   @Input() type: 'line' | 'bar' | 'area' = 'line';
   @Input() height = 40;
@@ -46,6 +46,7 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(`[SmallChartComponent] ngOnChanges() changes: `, changes);
     this.renderChart(this._smallChart);
     this.renderChart(this._largeChart);
   }
@@ -123,14 +124,15 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
   private renderChart(chart: Chart | null) {
     if (chart) {
       // const chart = this._smallChart;
-      const hasTimeAndInterval = this.time && this.interval;
+      const hasTimeAndInterval = !!(this.time && this.interval);
       const adjustedData = hasTimeAndInterval
         ? this.data.map((e, i) => {
             return {
               value: e,
               time: format(
                 this.time -
-                  (this.data.length - i) * this.resolveDuration(this.interval),
+                  (this.data.length - i) *
+                    this.resolveDuration(this.interval as KlineIntervals),
                 'MM-dd HH:mm'
               ),
             };
@@ -163,7 +165,7 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
           .position(hasTimeAndInterval ? 'time*value' : 'index*value');
       }
 
-      if (hasTimeAndInterval) {
+      if (hasTimeAndInterval && chart === this._largeChart) {
         geometry.tooltip('time*value', (time, value) => {
           return {
             time: time,

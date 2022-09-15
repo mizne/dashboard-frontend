@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { SharedService } from '../../services';
+import { KlineIntervalService, SharedService } from '../../services';
 import {
   firstValueFrom,
   merge,
@@ -20,6 +20,7 @@ import { KlineIntervals } from '../../models';
 export class BtcFutureCheckerComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
+    private klineIntervalService: KlineIntervalService,
     private notification: NzNotificationService
   ) {}
 
@@ -34,6 +35,7 @@ export class BtcFutureCheckerComponent implements OnInit {
     },
   ];
   intervalCtrl = new FormControl(this.intervals[0].value);
+  time = 0;
   days$: Observable<number> = this.intervalCtrl.valueChanges.pipe(
     startWith(this.intervalCtrl.value),
     map((interval: KlineIntervals | null) => {
@@ -208,6 +210,7 @@ export class BtcFutureCheckerComponent implements OnInit {
           this.intervalCtrl.value || KlineIntervals.FOUR_HOURS
         )
       );
+      this.time = this.resolveTime();
       this.status = 'success';
 
       for (const con of this.items) {
@@ -224,6 +227,20 @@ export class BtcFutureCheckerComponent implements OnInit {
         con.message = 'error';
         con.values = [];
       }
+    }
+  }
+
+  private resolveTime() {
+    switch (this.intervalCtrl.value) {
+      case KlineIntervals.FOUR_HOURS:
+        return this.klineIntervalService.resolveFourHoursIntervalMills(0);
+      case KlineIntervals.ONE_DAY:
+        return this.klineIntervalService.resolveOneDayIntervalMills(0);
+      default:
+        console.error(
+          `[BtcFutureCheckerComponent] resolveTime() unknown interval: ${this.intervalCtrl.value}`
+        );
+        return this.klineIntervalService.resolveFourHoursIntervalMills(0);
     }
   }
 }

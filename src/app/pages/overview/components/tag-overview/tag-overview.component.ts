@@ -3,14 +3,15 @@ import { FormBuilder } from '@angular/forms';
 import { format, parse } from 'date-fns';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { forkJoin, map, merge, Observable, startWith } from 'rxjs';
-import { KlineIntervals, SharedService } from 'src/app/shared';
-import { paddingZero } from 'src/app/utils';
+import {
+  KlineIntervals,
+  KlineIntervalService,
+  SharedService,
+} from 'src/app/shared';
 import { CexTokenTagDaily } from '../../models/cex-token-tag-daily.model';
 import { tokenTagNameOfTotalMarket } from '../../models/cex-token-tag.model';
-import { CexTokenDailyService } from '../../services/cex-token-daily.service';
 import { CexTokenTagDailyService } from '../../services/cex-token-tag-daily.service';
 import { CexTokenTagService } from '../../services/cex-token-tag.service';
-import { CexTokenService } from '../../services/cex-token.service';
 
 @Component({
   selector: 'tag-overview',
@@ -20,6 +21,7 @@ export class TagOverviewComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly sharedService: SharedService,
+    private readonly klineIntervalService: KlineIntervalService,
     private readonly cexTokenTagService: CexTokenTagService,
     private readonly cexTokenTagDailyService: CexTokenTagDailyService,
     private readonly notification: NzNotificationService
@@ -72,11 +74,11 @@ export class TagOverviewComponent implements OnInit {
     map(() => {
       switch (this.form.get('interval')?.value) {
         case KlineIntervals.FOUR_HOURS:
-          return this.resolveFourHoursIntervalMills(
+          return this.klineIntervalService.resolveFourHoursIntervalMills(
             this.form.get('latestIntervals')?.value as number
           );
         case KlineIntervals.ONE_DAY:
-          return this.resolveOneDayIntervalMills(
+          return this.klineIntervalService.resolveOneDayIntervalMills(
             this.form.get('latestIntervals')?.value as number
           );
         default:
@@ -85,7 +87,7 @@ export class TagOverviewComponent implements OnInit {
               this.form.get('interval')?.value
             }`
           );
-          return this.resolveFourHoursIntervalMills(
+          return this.klineIntervalService.resolveFourHoursIntervalMills(
             this.form.get('latestIntervals')?.value as number
           );
       }
@@ -477,10 +479,14 @@ export class TagOverviewComponent implements OnInit {
         return {
           time: {
             $gte:
-              this.resolveFourHoursIntervalMills(latestIntervals) +
+              this.klineIntervalService.resolveFourHoursIntervalMills(
+                latestIntervals
+              ) +
               deltaInterval * fourHours,
             $lt:
-              this.resolveFourHoursIntervalMills(latestIntervals) +
+              this.klineIntervalService.resolveFourHoursIntervalMills(
+                latestIntervals
+              ) +
               fourHours +
               deltaInterval * fourHours,
           },
@@ -489,10 +495,14 @@ export class TagOverviewComponent implements OnInit {
         return {
           time: {
             $gte:
-              this.resolveOneDayIntervalMills(latestIntervals) +
+              this.klineIntervalService.resolveOneDayIntervalMills(
+                latestIntervals
+              ) +
               deltaInterval * oneDay,
             $lt:
-              this.resolveOneDayIntervalMills(latestIntervals) +
+              this.klineIntervalService.resolveOneDayIntervalMills(
+                latestIntervals
+              ) +
               oneDay +
               deltaInterval * oneDay,
           },
@@ -502,58 +512,18 @@ export class TagOverviewComponent implements OnInit {
         return {
           time: {
             $gte:
-              this.resolveFourHoursIntervalMills(latestIntervals) +
+              this.klineIntervalService.resolveFourHoursIntervalMills(
+                latestIntervals
+              ) +
               deltaInterval * fourHours,
             $lt:
-              this.resolveFourHoursIntervalMills(latestIntervals) +
+              this.klineIntervalService.resolveFourHoursIntervalMills(
+                latestIntervals
+              ) +
               fourHours +
               deltaInterval * fourHours,
           },
         };
-    }
-  }
-
-  private resolveFourHoursIntervalMills(latestIntervals: number): number {
-    const fourHours = 4 * 60 * 60 * 1e3;
-    const hours = [0, 4, 8, 12, 16, 20];
-    const currentHour = new Date().getHours();
-    const theHourIndex = hours.findIndex((e) => e > currentHour);
-    const theHour =
-      theHourIndex >= 0 ? hours[theHourIndex - 1] : hours[hours.length - 1];
-
-    const theMills = parse(
-      format(new Date(), 'yyyy-MM-dd') +
-        ` ${paddingZero(String(theHour))}:00:00`,
-      'yyyy-MM-dd HH:mm:ss',
-      new Date()
-    ).getTime();
-
-    return theMills - (latestIntervals - 1) * fourHours;
-  }
-
-  private resolveOneDayIntervalMills(latestIntervals: number): number {
-    const oneDay = 24 * 60 * 60 * 1e3;
-    const currentHour = new Date().getHours();
-    if (currentHour >= 8) {
-      // 返回当天08:00:00的时间戳 及天数差值
-      return (
-        parse(
-          format(new Date(), 'yyyy-MM-dd') + ' 08:00:00',
-          'yyyy-MM-dd HH:mm:ss',
-          new Date()
-        ).getTime() -
-        (latestIntervals - 1) * oneDay
-      );
-    } else {
-      // 返回前一天08:00:00的时间戳 及天数差值
-      return (
-        parse(
-          format(new Date().getTime() - oneDay, 'yyyy-MM-dd') + ' 08:00:00',
-          'yyyy-MM-dd HH:mm:ss',
-          new Date()
-        ).getTime() -
-        (latestIntervals - 1) * oneDay
-      );
     }
   }
 }
