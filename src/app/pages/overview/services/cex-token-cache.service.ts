@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Observable, of, tap, map, catchError, interval, filter } from 'rxjs';
-import { SharedService } from 'src/app/shared';
+import { Observable, of, tap, map, catchError, filter } from 'rxjs';
+import { TimerService } from 'src/app/shared';
 import { CexToken } from '../models/cex-token.model';
 import { CexTokenService } from './cex-token.service';
 
@@ -10,7 +10,7 @@ export class CexTokenCacheService {
   constructor(
     private readonly cexTokenService: CexTokenService,
     private readonly notification: NzNotificationService,
-    private readonly sharedService: SharedService
+    private readonly timerService: TimerService
   ) {}
 
   private allTokens: CexToken[] = [];
@@ -23,7 +23,7 @@ export class CexTokenCacheService {
     }
 
     if (this.loading) {
-      return this.sharedService.interval(1).pipe(
+      return this.timerService.interval(1).pipe(
         filter(() => this.loading === false),
         map(() => this.allTokens.find((e) => e.symbol === symbol))
       );

@@ -1,18 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { KlineIntervalService, SharedService } from '../../services';
 import {
-  firstValueFrom,
-  merge,
-  startWith,
-  Subscription,
-  filter,
-  map,
-} from 'rxjs';
+  KlineIntervalService,
+  SharedService,
+  TimerService,
+} from '../../services';
+import { merge, startWith, map } from 'rxjs';
 import { KlineIntervals } from '../../models/base.model';
 import { FormBuilder } from '@angular/forms';
-import { format, parse } from 'date-fns';
-import { paddingZero } from 'src/app/utils';
 
 @Component({
   selector: 'execute-task-custom',
@@ -21,6 +16,7 @@ import { paddingZero } from 'src/app/utils';
 export class ExecuteTaskCustomComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
+    private timerService: TimerService,
     private klineIntervalService: KlineIntervalService,
     private notification: NzNotificationService,
     private fb: FormBuilder
@@ -57,7 +53,7 @@ export class ExecuteTaskCustomComponent implements OnInit {
 
   intervalTime$ = merge(
     this.form.valueChanges,
-    this.sharedService.interval(1)
+    this.timerService.interval(1)
   ).pipe(
     startWith(this.form.value),
     map(() => {

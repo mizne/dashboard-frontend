@@ -6,7 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Observable, of, startWith, map } from 'rxjs';
-import { SharedService } from '../../services';
+import { TimerService } from '../../services';
 import { stringifyMills } from 'src/app/utils';
 import { format } from 'date-fns';
 
@@ -21,7 +21,7 @@ import { format } from 'date-fns';
   ],
 })
 export class UpdateTimeComponent implements OnInit, OnChanges {
-  constructor(private readonly sharedService: SharedService) {}
+  constructor(private readonly timerService: TimerService) {}
 
   @Input() status: 'loading' | 'success' | 'error' | '' = '';
 
@@ -35,7 +35,7 @@ export class UpdateTimeComponent implements OnInit, OnChanges {
     if (status === 'loading') {
       const fetchingAt = new Date().getTime();
       this.timeAt = format(fetchingAt, 'MM-dd HH:mm:ss');
-      this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
+      this.lastUpdateAtStr$ = this.timerService.interval(1).pipe(
         startWith(0),
         map(
           () =>
@@ -46,7 +46,7 @@ export class UpdateTimeComponent implements OnInit, OnChanges {
     } else if (status === 'success' || status === 'error') {
       const updatedAt = new Date().getTime();
       this.timeAt = format(updatedAt, 'MM-dd HH:mm:ss');
-      this.lastUpdateAtStr$ = this.sharedService.interval(1).pipe(
+      this.lastUpdateAtStr$ = this.timerService.interval(1).pipe(
         startWith(0),
         map(
           () =>

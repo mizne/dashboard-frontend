@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { KlineIntervalService, SharedService } from '../../services';
+import {
+  KlineIntervalService,
+  SharedService,
+  TimerService,
+} from '../../services';
 import {
   firstValueFrom,
   merge,
@@ -20,6 +24,7 @@ import { KlineIntervals } from '../../models';
 export class BtcFutureCheckerComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
+    private timerService: TimerService,
     private klineIntervalService: KlineIntervalService,
     private notification: NzNotificationService
   ) {}
@@ -182,7 +187,7 @@ export class BtcFutureCheckerComponent implements OnInit {
 
   private async intervalCheckBtcFutures() {
     this.subscription = merge(
-      this.sharedService.interval(10 * 60),
+      this.timerService.interval(10 * 60),
       this.sharedService
         .documentVisible()
         .pipe(filter((e, i) => !!e && i !== 0))

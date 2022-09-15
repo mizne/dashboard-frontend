@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { format, parse } from 'date-fns';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { forkJoin, map, merge, Observable, startWith } from 'rxjs';
 import {
   KlineIntervals,
   KlineIntervalService,
   SharedService,
+  TimerService,
 } from 'src/app/shared';
 import { CexTokenTagDaily } from '../../models/cex-token-tag-daily.model';
 import { tokenTagNameOfTotalMarket } from '../../models/cex-token-tag.model';
@@ -21,6 +21,7 @@ export class TagOverviewComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly sharedService: SharedService,
+    private readonly timerService: TimerService,
     private readonly klineIntervalService: KlineIntervalService,
     private readonly cexTokenTagService: CexTokenTagService,
     private readonly cexTokenTagDailyService: CexTokenTagDailyService,
@@ -68,7 +69,7 @@ export class TagOverviewComponent implements OnInit {
 
   intervalTime$ = merge(
     this.form.valueChanges,
-    this.sharedService.interval(1)
+    this.timerService.interval(1)
   ).pipe(
     startWith(this.form.value),
     map(() => {
