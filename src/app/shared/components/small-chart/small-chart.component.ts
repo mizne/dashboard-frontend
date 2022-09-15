@@ -123,6 +123,7 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private renderChart(chart: Chart | null) {
     if (chart) {
+      chart.clear();
       // const chart = this._smallChart;
       const hasTimeAndInterval = !!(this.time && this.interval);
       const adjustedData = hasTimeAndInterval
