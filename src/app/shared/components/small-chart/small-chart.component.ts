@@ -11,6 +11,7 @@ import { Chart } from '@antv/g2';
 import { KlineIntervals } from '../../models';
 import { format } from 'date-fns';
 import { filter, interval, Subscription, take } from 'rxjs';
+import { stringifyNumber } from 'src/app/utils';
 
 @Component({
   selector: 'small-chart',
@@ -137,16 +138,17 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
         : this.data.map((e, i) => ({ value: e, index: i }));
       chart.data(adjustedData);
 
+      let geometry = null;
       if (this.type === 'line') {
-        chart
+        geometry = chart
           .line()
           .position(hasTimeAndInterval ? 'time*value' : 'index*value');
       } else if (this.type === 'bar') {
-        chart
+        geometry = chart
           .interval()
           .position(hasTimeAndInterval ? 'time*value' : 'index*value');
       } else if (this.type === 'area') {
-        chart
+        geometry = chart
           .line()
           .position(hasTimeAndInterval ? 'time*value' : 'index*value');
         chart
@@ -156,15 +158,28 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
         console.warn(
           `[small-chart.component] unknown chart type: ${this.type}`
         );
-        chart
+        geometry = chart
           .line()
           .position(hasTimeAndInterval ? 'time*value' : 'index*value');
       }
 
       if (hasTimeAndInterval) {
+        geometry.tooltip('time*value', (time, value) => {
+          return {
+            time: time,
+            value: stringifyNumber(value as number),
+          };
+        });
+      }
+
+      if (hasTimeAndInterval) {
         chart.axis('time', chart === this._largeChart);
         chart.axis('value', chart === this._largeChart || this.showAxis);
-        chart.tooltip(chart === this._largeChart);
+        if (chart === this._largeChart) {
+          chart.tooltip(true);
+        } else {
+          chart.tooltip(false);
+        }
       } else {
         chart.axis('index', false);
         chart.axis('value', this.showAxis);

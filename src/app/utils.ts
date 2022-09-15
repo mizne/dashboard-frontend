@@ -100,3 +100,20 @@ export function stringifyMills(ms: number): string {
     String(minutes)
   )}m ${paddingZero(String(seconds))}s`;
 }
+
+export function stringifyNumber(n: number): string {
+  n = Number(n);
+  if (n !== n) {
+    return `stringifyNumber() ${n} not a number`;
+  }
+  const oneWan = 1e4;
+  const oneYi = 1e8;
+
+  if (n >= oneYi) {
+    return (n / oneYi).toFixed(2) + ' 亿';
+  }
+  if (n >= oneWan) {
+    return (n / oneWan).toFixed(2) + ' 万';
+  }
+  return String(n);
+}
