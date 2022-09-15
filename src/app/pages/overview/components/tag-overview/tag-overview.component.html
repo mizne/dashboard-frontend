@@ -43,8 +43,8 @@
               style="display: flex;justify-content: space-evenly;flex-direction: column;font-size: 16px;font-weight: bold;">
               <div style="margin-bottom: 6px;">
                 <span>总交易量: {{totalMarketTagDailyItem.volume | currency}}</span>
-                <span [title]="'相对前 ' + totalMarketTagDailyItem.volumeIntervals + ' 周期'" style="margin-right: 16px">
-                  总交易量增幅:
+                <span [title]="'相对前 ' + totalMarketTagDailyItem.volumeIntervals + ' 周期平均值'" style="margin-right: 16px">
+                  总交易量变动:
                   <nz-tag *ngIf="totalMarketTagDailyItem.volumeMultiple >= 3; else normalVolume" nzColor="error">
                     {{totalMarketTagDailyItem.volumeMultiple |
                     percent}}</nz-tag>
@@ -103,8 +103,8 @@
         <nz-spin [nzSpinning]="loading">
           <nz-card style="width:300px; margin-bottom: 8px" [nzTitle]="item.label">
             <div style="margin-bottom: 4px">总交易量: {{item.volume | currency}}</div>
-            <div style="margin-bottom: 4px" [title]="'相对前 ' + item.volumeIntervals + ' 周期'">
-              总交易量增幅:
+            <div style="margin-bottom: 4px" [title]="'相对前 ' + item.volumeIntervals + ' 周期平均值'">
+              总交易量变动:
               <nz-tag *ngIf="item.volumeMultiple >= 3; else normalVolume" nzColor="error">{{item.volumeMultiple |
                 percent}}</nz-tag>
 
