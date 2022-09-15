@@ -173,11 +173,19 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       if (hasTimeAndInterval) {
-        chart.axis('time', chart === this._largeChart);
-        chart.axis('value', chart === this._largeChart || this.showAxis);
         if (chart === this._largeChart) {
+          chart.axis('time', true);
+          chart.axis('value', {
+            label: {
+              formatter: (text: string, item, index: number) => {
+                return Number(text).toLocaleString();
+              },
+            },
+          });
           chart.tooltip(true);
         } else {
+          chart.axis('time', false);
+          chart.axis('value', this.showAxis);
           chart.tooltip(false);
         }
       } else {
