@@ -35,6 +35,7 @@ export class BtcFutureCheckerComponent implements OnInit {
   ];
   intervalCtrl = new FormControl(this.intervals[0].value);
   days$: Observable<number> = this.intervalCtrl.valueChanges.pipe(
+    startWith(this.intervalCtrl.value),
     map((interval: KlineIntervals | null) => {
       switch (interval) {
         case KlineIntervals.FOUR_HOURS:
