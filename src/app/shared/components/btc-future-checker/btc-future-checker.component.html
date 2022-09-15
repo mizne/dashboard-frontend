@@ -6,8 +6,11 @@
     (nzOnClose)="close()">
     <ng-container *nzDrawerContent>
       <div style="margin-bottom: 12px">
-        <update-time [status]="status"></update-time>
+        <nz-radio-group [formControl]="intervalCtrl">
+          <label nz-radio-button *ngFor="let item of intervals" [nzValue]="item.value">{{item.label}}</label>
+        </nz-radio-group>
 
+        <update-time [status]="status" style="margin-left: 12px"></update-time>
         <button nz-button nzType="primary" nzShape="circle" (click)="refresh()"><span nz-icon
             nzType="sync"></span></button>
       </div>
@@ -17,8 +20,8 @@
         </nz-tag>
         <nz-spin [nzSpinning]="item.status === 'loading'">
           <small-chart [data]="item.values" [type]="item.chartOptions.chartType"
-            [priceMode]="item.chartOptions.priceMode" [regionFilters]="item.chartOptions.regionFilters"
-            [showAxis]="true" [width]="330" [height]="140">
+            [priceMode]="!!item.chartOptions.priceMode" [regionFilters]="item.chartOptions.regionFilters"
+            [showAxis]="true" [width]="300" [height]="120">
           </small-chart>
         </nz-spin>
       </div>

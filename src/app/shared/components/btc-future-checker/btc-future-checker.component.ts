@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SharedService } from '../../services';
 import { firstValueFrom, merge, startWith, Subscription, filter } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { KlineIntervals } from '../../models';
 
 @Component({
   selector: 'btc-future-checker',
@@ -13,17 +15,36 @@ export class BtcFutureCheckerComponent implements OnInit {
     private notification: NzNotificationService
   ) {}
 
+  intervals = [
+    {
+      label: '4h',
+      value: KlineIntervals.FOUR_HOURS,
+    },
+    {
+      label: '1d',
+      value: KlineIntervals.ONE_DAY,
+    },
+  ];
+  intervalCtrl = new FormControl(this.intervals[0].value);
+
   visible = false;
 
   items: Array<{
     label: string;
-    key: 'prices' | 'fundingRates' | 'longShortRatios' | 'openInterests';
+    key:
+      | 'prices'
+      | 'volumes'
+      | 'fundingRates'
+      | 'longShortRatios'
+      | 'openInterests'
+      | 'dominances'
+      | 'dominancesExcludeStableCoins';
     status: 'success' | 'error' | 'loading';
     message: string;
     values: number[];
     chartOptions: {
       chartType: 'line' | 'bar' | 'area';
-      priceMode: boolean;
+      priceMode?: boolean;
       regionFilters?: Array<any>;
     };
   }> = [
@@ -39,6 +60,16 @@ export class BtcFutureCheckerComponent implements OnInit {
       },
     },
     {
+      label: 'volume',
+      key: 'volumes',
+      status: 'loading',
+      message: 'loading',
+      values: [],
+      chartOptions: {
+        chartType: 'bar',
+      },
+    },
+    {
       label: 'funding rate',
       key: 'fundingRates',
       status: 'loading',
@@ -46,7 +77,6 @@ export class BtcFutureCheckerComponent implements OnInit {
       values: [],
       chartOptions: {
         chartType: 'bar',
-        priceMode: false,
       },
     },
     {
@@ -71,7 +101,6 @@ export class BtcFutureCheckerComponent implements OnInit {
             color: 'green',
           },
         ],
-        priceMode: false,
       },
     },
     {
@@ -82,7 +111,26 @@ export class BtcFutureCheckerComponent implements OnInit {
       values: [],
       chartOptions: {
         chartType: 'area',
-        priceMode: false,
+      },
+    },
+    {
+      label: 'dominace',
+      key: 'dominances',
+      status: 'loading',
+      message: 'loading',
+      values: [],
+      chartOptions: {
+        chartType: 'line',
+      },
+    },
+    {
+      label: 'dominance exclude stable coins',
+      key: 'dominancesExcludeStableCoins',
+      status: 'loading',
+      message: 'loading',
+      values: [],
+      chartOptions: {
+        chartType: 'line',
       },
     },
   ];
@@ -131,7 +179,11 @@ export class BtcFutureCheckerComponent implements OnInit {
         con.message = 'loading';
         con.status = 'loading';
       }
-      const obj = await firstValueFrom(this.sharedService.btcFutures());
+      const obj = await firstValueFrom(
+        this.sharedService.btcDailies(
+          this.intervalCtrl.value || KlineIntervals.FOUR_HOURS
+        )
+      );
       this.status = 'success';
 
       for (const con of this.items) {

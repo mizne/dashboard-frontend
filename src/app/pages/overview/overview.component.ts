@@ -9,7 +9,7 @@ import { format, parse } from 'date-fns';
 import { ActivatedRoute } from '@angular/router';
 import { tokenTagNameOfTotalMarket } from './models/cex-token-tag.model';
 import { CexTokenTagService } from './services/cex-token-tag.service';
-import { DailyInterval } from 'src/app/shared';
+import { KlineIntervals } from 'src/app/shared';
 
 @Component({
   selector: 'app-overview',
@@ -37,11 +37,11 @@ export class OverviewComponent implements OnInit {
   intervals = [
     {
       label: '4h',
-      name: DailyInterval.FOUR_HOURS,
+      name: KlineIntervals.FOUR_HOURS,
     },
     {
       label: '1d',
-      name: DailyInterval.ONE_DAY,
+      name: KlineIntervals.ONE_DAY,
     },
   ];
   form = this.fb.group({
@@ -262,18 +262,18 @@ export class OverviewComponent implements OnInit {
 
   private resolveLatestIntervals(
     latestIntervals: number,
-    interval: DailyInterval
+    interval: KlineIntervals
   ): { [key: string]: any } {
     if (latestIntervals <= 0) {
       return {};
     }
 
     switch (interval) {
-      case DailyInterval.FOUR_HOURS:
+      case KlineIntervals.FOUR_HOURS:
         return {
           time: { $gte: this.resolveFourHoursIntervalMills(latestIntervals) },
         };
-      case DailyInterval.ONE_DAY:
+      case KlineIntervals.ONE_DAY:
         return {
           time: { $gte: this.resolveOneDayIntervalMills(latestIntervals) },
         };
@@ -285,11 +285,11 @@ export class OverviewComponent implements OnInit {
     }
   }
 
-  private resolveVolumeLimit(interval: DailyInterval): number {
+  private resolveVolumeLimit(interval: KlineIntervals): number {
     switch (interval) {
-      case DailyInterval.FOUR_HOURS:
+      case KlineIntervals.FOUR_HOURS:
         return 1e6;
-      case DailyInterval.ONE_DAY:
+      case KlineIntervals.ONE_DAY:
         return 6e6;
       default:
         console.warn(`resolveVolumeLimit() unknown interval: ${interval}`);

@@ -14,7 +14,7 @@ import {
 } from 'rxjs';
 import { isNil } from 'src/app/utils';
 import { format } from 'date-fns';
-import { DailyInterval } from '../models';
+import { KlineIntervals, FilterQuery } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class SharedService {
@@ -57,9 +57,31 @@ export class SharedService {
     }>;
   }
 
+  btcDailies(interval: KlineIntervals): Observable<{
+    prices: number[];
+    volumes: number[];
+    fundingRates: number[];
+    longShortRatios: number[];
+    openInterests: number[];
+    dominances: number[];
+    dominancesExcludeStableCoins: number[];
+  }> {
+    return this.httpClient.post(`${this.baseURL}/app/btc-dailies`, {
+      interval,
+    }) as Observable<{
+      prices: number[];
+      volumes: number[];
+      fundingRates: number[];
+      longShortRatios: number[];
+      openInterests: number[];
+      dominances: number[];
+      dominancesExcludeStableCoins: number[];
+    }>;
+  }
+
   executeTaskCustom(
     task: string,
-    interval: DailyInterval,
+    interval: KlineIntervals,
     endTime: number
   ): Observable<any> {
     return this.httpClient.post(`${this.baseURL}/app/execute-task-custom`, {

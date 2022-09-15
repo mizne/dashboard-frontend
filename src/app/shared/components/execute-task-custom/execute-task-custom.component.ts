@@ -9,7 +9,7 @@ import {
   filter,
   map,
 } from 'rxjs';
-import { DailyInterval } from '../../models/base.model';
+import { KlineIntervals } from '../../models/base.model';
 import { FormBuilder } from '@angular/forms';
 import { format, parse } from 'date-fns';
 import { paddingZero } from 'src/app/utils';
@@ -41,11 +41,11 @@ export class ExecuteTaskCustomComponent implements OnInit {
   intervals = [
     {
       label: '4h',
-      name: DailyInterval.FOUR_HOURS,
+      name: KlineIntervals.FOUR_HOURS,
     },
     {
       label: '1d',
-      name: DailyInterval.ONE_DAY,
+      name: KlineIntervals.ONE_DAY,
     },
   ];
   form = this.fb.group({
@@ -69,7 +69,7 @@ export class ExecuteTaskCustomComponent implements OnInit {
   submitForm(): void {
     // console.log('submitForm', this.form.value);
     const task = this.form.get('task')?.value as string;
-    const interval = this.form.get('interval')?.value as DailyInterval;
+    const interval = this.form.get('interval')?.value as KlineIntervals;
     const endTime = this.resolveEndTime() + 11 * 1e3;
     this.sharedService.executeTaskCustom(task, interval, endTime).subscribe({
       next: (v) => {
@@ -87,11 +87,11 @@ export class ExecuteTaskCustomComponent implements OnInit {
 
   private resolveEndTime(): number {
     switch (this.form.get('interval')?.value) {
-      case DailyInterval.FOUR_HOURS:
+      case KlineIntervals.FOUR_HOURS:
         return this.resolveFourHoursIntervalMills(
           this.form.get('latestIntervals')?.value as number
         );
-      case DailyInterval.ONE_DAY:
+      case KlineIntervals.ONE_DAY:
         return this.resolveOneDayIntervalMills(
           this.form.get('latestIntervals')?.value as number
         );

@@ -3,13 +3,10 @@ import { FormBuilder } from '@angular/forms';
 import { format, parse } from 'date-fns';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { forkJoin, map, merge, Observable, startWith } from 'rxjs';
-import { DailyInterval, SharedService } from 'src/app/shared';
+import { KlineIntervals, SharedService } from 'src/app/shared';
 import { paddingZero } from 'src/app/utils';
 import { CexTokenTagDaily } from '../../models/cex-token-tag-daily.model';
-import {
-  CexTokenTag,
-  tokenTagNameOfTotalMarket,
-} from '../../models/cex-token-tag.model';
+import { tokenTagNameOfTotalMarket } from '../../models/cex-token-tag.model';
 import { CexTokenDailyService } from '../../services/cex-token-daily.service';
 import { CexTokenTagDailyService } from '../../services/cex-token-tag-daily.service';
 import { CexTokenTagService } from '../../services/cex-token-tag.service';
@@ -23,9 +20,7 @@ export class TagOverviewComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly sharedService: SharedService,
-    private readonly cexTokenDailyService: CexTokenDailyService,
     private readonly cexTokenTagService: CexTokenTagService,
-    private readonly cexTokenService: CexTokenService,
     private readonly cexTokenTagDailyService: CexTokenTagDailyService,
     private readonly notification: NzNotificationService
   ) {}
@@ -33,11 +28,11 @@ export class TagOverviewComponent implements OnInit {
   intervals = [
     {
       label: '4h',
-      name: DailyInterval.FOUR_HOURS,
+      name: KlineIntervals.FOUR_HOURS,
     },
     {
       label: '1d',
-      name: DailyInterval.ONE_DAY,
+      name: KlineIntervals.ONE_DAY,
     },
   ];
   form = this.fb.group({
@@ -76,11 +71,11 @@ export class TagOverviewComponent implements OnInit {
     startWith(this.form.value),
     map(() => {
       switch (this.form.get('interval')?.value) {
-        case DailyInterval.FOUR_HOURS:
+        case KlineIntervals.FOUR_HOURS:
           return this.resolveFourHoursIntervalMills(
             this.form.get('latestIntervals')?.value as number
           );
-        case DailyInterval.ONE_DAY:
+        case KlineIntervals.ONE_DAY:
           return this.resolveOneDayIntervalMills(
             this.form.get('latestIntervals')?.value as number
           );
@@ -467,7 +462,7 @@ export class TagOverviewComponent implements OnInit {
 
   private resolveLatestIntervals(
     latestIntervals: number,
-    interval: DailyInterval,
+    interval: KlineIntervals,
     deltaInterval: number
   ): { [key: string]: any } {
     if (latestIntervals <= 0) {
@@ -478,7 +473,7 @@ export class TagOverviewComponent implements OnInit {
     const oneDay = 24 * 60 * 60 * 1000;
 
     switch (interval) {
-      case DailyInterval.FOUR_HOURS:
+      case KlineIntervals.FOUR_HOURS:
         return {
           time: {
             $gte:
@@ -490,7 +485,7 @@ export class TagOverviewComponent implements OnInit {
               deltaInterval * fourHours,
           },
         };
-      case DailyInterval.ONE_DAY:
+      case KlineIntervals.ONE_DAY:
         return {
           time: {
             $gte:

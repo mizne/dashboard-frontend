@@ -1,11 +1,11 @@
-import { DailyInterval } from 'src/app/shared';
+import { KlineIntervals } from 'src/app/shared';
 
 export interface CexTokenTagDaily {
   readonly _id: string;
   readonly name: string;
   readonly label: string;
 
-  readonly interval: DailyInterval;
+  readonly interval: KlineIntervals;
 
   readonly tokenNames: string[];
   readonly volume: number;
