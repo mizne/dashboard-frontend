@@ -170,7 +170,8 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
         geometry.tooltip('time*value', (time, value) => {
           return {
             time: time,
-            value: stringifyNumber(value as number),
+            value:
+              value <= 0.001 ? String(value) : Number(value).toLocaleString(),
           };
         });
       }
