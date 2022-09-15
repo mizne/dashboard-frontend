@@ -8,15 +8,23 @@ import {
 } from '@angular/core';
 import * as uuid from 'uuid';
 import { Chart } from '@antv/g2';
+import { KlineIntervals } from '../../models';
+import { format } from 'date-fns';
+import { filter, interval, Subscription, take } from 'rxjs';
 
 @Component({
   selector: 'small-chart',
   templateUrl: './small-chart.component.html',
 })
 export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
-  smallChartID = 'small-chart-container-' + uuid.v4();
+  smallChartID = 'small-chart-wrapper-' + uuid.v4();
+  largeChartID = 'large-chart-wrapper-' + uuid.v4();
 
   @Input() data: number[] = [];
+  @Input() interval: KlineIntervals = KlineIntervals.FOUR_HOURS;
+  @Input() time: number = 0;
+  @Input() title: string = '--';
+
   @Input() type: 'line' | 'bar' | 'area' = 'line';
   @Input() height = 40;
   @Input() width = 120;
@@ -24,31 +32,72 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() showAxis = false;
   @Input() regionFilters: any = null;
 
-  private _chart: Chart | null = null;
+  @Input() largeHeight = 400;
+  @Input() largeWidth = 900;
+
+  private _smallChart: Chart | null = null;
+  private _largeChart: Chart | null = null;
+
+  isVisible = false;
+  subscription: Subscription | null = null;
 
   constructor() {}
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.renderChart();
+    this.renderChart(this._smallChart);
+    this.renderChart(this._largeChart);
   }
 
   ngAfterViewInit(): void {
-    this.initChart();
-    this.renderChart();
+    this.initSmallChart();
+    this.renderChart(this._smallChart);
   }
 
   ngOnDestroy(): void {
-    if (this._chart) {
-      this._chart.destroy();
+    if (this._smallChart) {
+      this._smallChart.destroy();
+      this._smallChart = null;
+    }
+    if (this._largeChart) {
+      this._largeChart.destroy();
+      this._largeChart = null;
+    }
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = null;
     }
   }
 
-  private initChart() {
-    if (this._chart) {
+  toShowLargeChart() {
+    this.isVisible = true;
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
+    this.subscription = interval(1e2)
+      .pipe(
+        filter(() => !!document.getElementById(this.largeChartID)),
+        take(1)
+      )
+      .subscribe(() => {
+        this.initLargeChart();
+        this.renderChart(this._largeChart);
+      });
+  }
+  handleCancel() {
+    this.isVisible = false;
+    if (this._largeChart) {
+      this._largeChart.destroy();
+      this._largeChart = null;
+    }
+  }
+
+  private initSmallChart() {
+    if (this._smallChart) {
       return;
     }
-    this._chart = new Chart({
+    this._smallChart = new Chart({
       container: this.smallChartID,
       autoFit: false,
       height: this.height,
@@ -56,27 +105,69 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  private renderChart() {
-    if (this._chart) {
-      const chart = this._chart;
-      chart.data(this.data.map((e, i) => ({ value: e, index: i })));
+  private initLargeChart() {
+    if (this._largeChart) {
+      return;
+    }
+    this._largeChart = new Chart({
+      container: this.largeChartID,
+      autoFit: false,
+      height: this.largeHeight,
+      width: this.largeWidth,
+    });
+  }
+
+  private renderChart(chart: Chart | null) {
+    if (chart) {
+      // const chart = this._smallChart;
+      const hasTimeAndInterval = this.time && this.interval;
+      const adjustedData = hasTimeAndInterval
+        ? this.data.map((e, i) => {
+            return {
+              value: e,
+              time: format(
+                this.time -
+                  (this.data.length - i) * this.resolveDuration(this.interval),
+                'MM-dd HH:mm'
+              ),
+            };
+          })
+        : this.data.map((e, i) => ({ value: e, index: i }));
+      chart.data(adjustedData);
 
       if (this.type === 'line') {
-        chart.line().position('index*value');
+        chart
+          .line()
+          .position(hasTimeAndInterval ? 'time*value' : 'index*value');
       } else if (this.type === 'bar') {
-        chart.interval().position('index*value');
+        chart
+          .interval()
+          .position(hasTimeAndInterval ? 'time*value' : 'index*value');
       } else if (this.type === 'area') {
-        chart.line().position('index*value');
-        chart.area().position('index*value');
+        chart
+          .line()
+          .position(hasTimeAndInterval ? 'time*value' : 'index*value');
+        chart
+          .area()
+          .position(hasTimeAndInterval ? 'time*value' : 'index*value');
       } else {
         console.warn(
           `[small-chart.component] unknown chart type: ${this.type}`
         );
-        chart.line().position('index*value');
+        chart
+          .line()
+          .position(hasTimeAndInterval ? 'time*value' : 'index*value');
       }
-      chart.axis('index', false);
-      chart.axis('value', this.showAxis);
-      chart.tooltip(false);
+
+      if (hasTimeAndInterval) {
+        chart.axis('time', chart === this._largeChart);
+        chart.axis('value', chart === this._largeChart || this.showAxis);
+        chart.tooltip(chart === this._largeChart);
+      } else {
+        chart.axis('index', false);
+        chart.axis('value', this.showAxis);
+        chart.tooltip(false);
+      }
 
       if (this.regionFilters && this.regionFilters.length > 0) {
         const filters = this.regionFilters as any[];
@@ -104,6 +195,20 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       chart.render();
+    }
+  }
+
+  private resolveDuration(interval: KlineIntervals): number {
+    switch (interval) {
+      case KlineIntervals.FOUR_HOURS:
+        return 4 * 60 * 60 * 1e3;
+      case KlineIntervals.ONE_DAY:
+        return 24 * 60 * 60 * 1e3;
+      default:
+        console.error(
+          `[SmallChartComponent] resolveDuration() unknown interval: ${interval}`
+        );
+        return 4 * 60 * 60 * 1e3;
     }
   }
 }

@@ -98,11 +98,14 @@
           <td [title]="data.volume | currency">{{ data.volume | currency }}</td>
 
           <td [ngStyle]="genTdStyle()">
-            <small-chart [priceMode]="true" [data]="data.prices60Interval"></small-chart>
+            <small-chart [priceMode]="true" [data]="data.prices60Interval" [title]="data.symbol + ' price'"
+              [interval]="data.interval" [time]="data.time"></small-chart>
           </td>
 
           <td style="position: relative">
-            <small-chart [data]="data.volumes60Interval" type="bar"></small-chart>
+            <small-chart [data]="data.volumes60Interval" [title]="data.symbol + ' volume'" type="bar"
+              [interval]="data.interval" [time]="data.time">
+            </small-chart>
             <nz-tag *ngIf="data.volumeMultiple >= 3; else normalVolume" nzColor="error" nz-tooltip
               [nzTooltipTitle]="'相对于' + data.volumeIntervals + '周期平均交易量倍数'" style="position: absolute;
               top: 10px;">{{data.volumeMultiple |

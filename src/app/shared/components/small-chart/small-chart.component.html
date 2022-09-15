@@ -1,1 +1,10 @@
-<div [id]="smallChartID" [ngStyle]="{width: '100%', height: this.height + 'px'}"></div>
+<div class="small-chart-container" (click)="toShowLargeChart()" [title]="'点击放大'">
+  <div [id]="smallChartID" [ngStyle]="{width: '100%', height: this.height + 'px'}"></div>
+</div>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="title" [nzWidth]="largeWidth+60" [nzMaskClosable]="false"
+  (nzOnCancel)="handleCancel()" [nzFooter]="null">
+  <ng-container *nzModalContent>
+    <div [id]="largeChartID" [ngStyle]="{width: this.largeWidth + 'px', height: this.largeHeight + 'px'}"></div>
+  </ng-container>
+</nz-modal>

@@ -87,8 +87,9 @@
 
             </div>
             <div nz-col nzSpan="12" style="display: flex; justify-content: center; align-items: center;">
-              <small-chart [data]="totalMarketTagDailyItem.volumes180Interval" type="bar" [width]="500" [height]="140"
-                [showAxis]="false">
+              <small-chart [data]="totalMarketTagDailyItem.volumes180Interval" [title]="'全市场 volume'" type="bar"
+                [width]="500" [height]="140" [showAxis]="false" [interval]="totalMarketTagDailyItem.interval"
+                [time]="totalMarketTagDailyItem.time">
               </small-chart>
             </div>
           </div>
@@ -131,7 +132,8 @@
               </div>
             </div>
 
-            <small-chart [data]="item.volumes180Interval" type="bar" [width]="250" [height]="80" [showAxis]="false">
+            <small-chart [data]="item.volumes180Interval" [title]="item.label + ' -- volume'" type="bar" [width]="250"
+              [height]="80" [showAxis]="false" [interval]="item.interval" [time]="item.time">
             </small-chart>
           </nz-card>
         </nz-spin>
