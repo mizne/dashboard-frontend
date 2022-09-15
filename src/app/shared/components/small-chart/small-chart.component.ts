@@ -181,6 +181,9 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
           chart.axis('value', {
             label: {
               formatter: (text: string, item, index: number) => {
+                if (Number(text) <= 0.001) {
+                  return text;
+                }
                 return Number(text).toLocaleString();
               },
             },
@@ -188,7 +191,20 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
           chart.tooltip(true);
         } else {
           chart.axis('time', false);
-          chart.axis('value', this.showAxis);
+          if (this.showAxis) {
+            chart.axis('value', {
+              label: {
+                formatter: (text: string, item, index: number) => {
+                  if (Number(text) <= 0.001) {
+                    return text;
+                  }
+                  return Number(text).toLocaleString();
+                },
+              },
+            });
+          } else {
+            chart.axis('value', false);
+          }
           chart.tooltip(false);
         }
       } else {
