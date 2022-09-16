@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { environment } from 'src/environments/environment';
 import { SystemNotificationService, ClientNotifyService } from './shared';
 
@@ -12,12 +13,11 @@ export class AppComponent implements OnInit {
 
   constructor(
     private readonly clientNotifyService: ClientNotifyService,
-    private readonly systemNotificationService: SystemNotificationService
+    private readonly systemNotificationService: SystemNotificationService,
+    private readonly nzNotificationService: NzNotificationService
   ) {}
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
     if (!environment.production) {
       document.title = `DEV - ${document.title}`;
     }
@@ -29,18 +29,17 @@ export class AppComponent implements OnInit {
     this.clientNotifyService.listenNewlyCoin().subscribe((data) => {
       console.log(`[AppComponent] listenNotify() data: `, data);
 
-      const notification = this.systemNotificationService.notify(
+      this.systemNotificationService.notify(
         data.type,
-        `name: ${data.payload.name}, symbol: ${data.payload.symbol}`
+        `name: ${data.payload.name}, symbol: ${data.payload.symbol}`,
+        (event: Event) => {
+          event.preventDefault(); // prevent the browser from focusing the Notification's tab
+          window.open(
+            `https://www.binance.com/zh-CN/trade/${data.payload.symbol}`,
+            '_blank'
+          );
+        }
       );
-
-      notification.addEventListener('click', (event) => {
-        event.preventDefault(); // prevent the browser from focusing the Notification's tab
-        window.open(
-          `https://www.binance.com/zh-CN/trade/${data.payload.symbol}`,
-          '_blank'
-        );
-      });
     });
   }
 }
