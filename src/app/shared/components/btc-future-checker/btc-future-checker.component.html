@@ -1,5 +1,6 @@
 <div class="btc-future-checker-container" style="position:fixed; top: 24px; right: 24px; z-index: 100">
-  <button nz-button nzType="primary" nzShape="circle" (click)="open()" style="margin-bottom: 24px">
+  <button nz-button nzType="primary" nzShape="circle" (click)="open()" style="margin-bottom: 24px"
+    [title]="'BTC 市场概览（价格、交易量、资金费率等）'">
     <i nz-icon [nzType]="'bold'" nzTheme="outline"></i>
   </button>
   <nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right"

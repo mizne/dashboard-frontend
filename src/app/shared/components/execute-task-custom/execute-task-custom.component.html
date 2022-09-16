@@ -1,5 +1,6 @@
 <div class="execute-task-custom-container" style="position:fixed; top: 24px; right: 104px; z-index: 100">
-  <button nz-button nzType="primary" nzShape="circle" (click)="open()" style="margin-bottom: 24px">
+  <button nz-button nzType="primary" nzShape="circle" (click)="open()" style="margin-bottom: 24px"
+    [title]="'手动执行任务（用于任务失败时的补救措施）'">
     <i nz-icon [nzType]="'clock-circle'" nzTheme="outline"></i>
   </button>
   <nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="执行自定义任务" (nzOnClose)="close()">
