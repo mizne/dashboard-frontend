@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { environment } from 'src/environments/environment';
 import { SystemNotificationService, ClientNotifyService } from './shared';
 
@@ -13,8 +12,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private readonly clientNotifyService: ClientNotifyService,
-    private readonly systemNotificationService: SystemNotificationService,
-    private readonly nzNotificationService: NzNotificationService
+    private readonly systemNotificationService: SystemNotificationService
   ) {}
 
   ngOnInit(): void {

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Injectable({ providedIn: 'root' })
 export class SystemNotificationService {
-  constructor() {}
+  constructor(private readonly nzNotificationService: NzNotificationService) {}
 
   notify(title: string, desc: string, click?: Function): Promise<Notification> {
     return this.checkPermission().then(() => {
@@ -12,9 +13,9 @@ export class SystemNotificationService {
 
   private checkPermission(): Promise<void> {
     if (!('Notification' in window)) {
-      return Promise.reject(
-        new Error('This browser does not support desktop notification')
-      );
+      const msg = 'This browser does not support desktop notification';
+      this.nzNotificationService.error(`系统通知失败`, `${msg}`);
+      return Promise.reject(new Error(msg));
     } else if (Notification.permission === 'granted') {
       return Promise.resolve();
     } else if (Notification.permission !== 'denied') {
@@ -22,11 +23,15 @@ export class SystemNotificationService {
         if (permission === 'granted') {
           return Promise.resolve();
         } else {
-          return Promise.reject(new Error(`user denied permission`));
+          const msg = `user denied permission`;
+          this.nzNotificationService.error(`系统通知失败`, `${msg}`);
+          return Promise.reject(new Error(msg));
         }
       });
     } else {
-      return Promise.reject(new Error(`user denied permission`));
+      const msg = `user denied permission`;
+      this.nzNotificationService.error(`系统通知失败`, `${msg}`);
+      return Promise.reject(new Error(msg));
     }
   }
 
