@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { SystemNotificationService, WebsocketService } from './shared';
+import { SystemNotificationService, ClientNotifyService } from './shared';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   isCollapsed = false;
 
   constructor(
-    private readonly websocketService: WebsocketService,
+    private readonly clientNotifyService: ClientNotifyService,
     private readonly systemNotificationService: SystemNotificationService
   ) {}
 
@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   }
 
   private listenNewlyCoinNotify() {
-    this.websocketService.listenNewlyCoin().subscribe((data) => {
+    this.clientNotifyService.listenNewlyCoin().subscribe((data) => {
       console.log(`[AppComponent] listenNotify() data: `, data);
 
       const notification = this.systemNotificationService.notify(

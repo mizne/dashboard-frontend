@@ -11,7 +11,7 @@ interface ClientNotifyNewlyCoinData {
 export type ClientNotifyData = ClientNotifyNewlyCoinData;
 
 @Injectable({ providedIn: 'root' })
-export class WebsocketService {
+export class ClientNotifyService {
   private socket: Socket | null = null;
   private readonly subject = new Subject<ClientNotifyData>();
 
