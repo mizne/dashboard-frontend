@@ -20,10 +20,9 @@
             '')}}</span>
         </nz-tag>
         <nz-spin [nzSpinning]="item.status === 'loading'">
-          <small-chart [data]="item.values" [interval]="intervalCtrl.value || ''" [time]="time"
-            [title]="'btc ' + item.label" [type]="item.chartOptions.chartType"
-            [priceMode]="!!item.chartOptions.priceMode" [regionFilters]="item.chartOptions.regionFilters"
-            [showAxis]="true" [width]="300" [height]="120">
+          <small-chart [data]="item.values" [interval]="interval" [time]="time" [title]="'btc ' + item.label"
+            [type]="item.chartOptions.chartType" [priceMode]="!!item.chartOptions.priceMode"
+            [regionFilters]="item.chartOptions.regionFilters" [showAxis]="true" [width]="300" [height]="120">
           </small-chart>
         </nz-spin>
       </div>

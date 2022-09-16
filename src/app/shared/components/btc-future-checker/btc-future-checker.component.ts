@@ -41,6 +41,7 @@ export class BtcFutureCheckerComponent implements OnInit {
   ];
   intervalCtrl = new FormControl(this.intervals[0].value);
   time = 0;
+  interval = this.intervals[0].value;
   days$: Observable<number> = this.intervalCtrl.valueChanges.pipe(
     startWith(this.intervalCtrl.value),
     map((interval: KlineIntervals | null) => {
@@ -211,6 +212,7 @@ export class BtcFutureCheckerComponent implements OnInit {
         )
       );
       this.time = this.resolveTime();
+      this.interval = this.intervalCtrl.value as KlineIntervals;
       this.status = 'success';
 
       for (const con of this.items) {
