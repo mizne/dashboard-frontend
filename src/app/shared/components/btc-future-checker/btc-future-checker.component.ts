@@ -42,22 +42,7 @@ export class BtcFutureCheckerComponent implements OnInit {
   intervalCtrl = new FormControl(this.intervals[0].value);
   time = 0;
   interval = this.intervals[0].value;
-  days$: Observable<number> = this.intervalCtrl.valueChanges.pipe(
-    startWith(this.intervalCtrl.value),
-    map((interval: KlineIntervals | null) => {
-      switch (interval) {
-        case KlineIntervals.FOUR_HOURS:
-          return 30;
-        case KlineIntervals.ONE_DAY:
-          return 180;
-        default:
-          console.warn(
-            `[BtcFutureCheckerComponent] unknown interval: ${interval}`
-          );
-          return 30;
-      }
-    })
-  );
+  days = 0;
 
   visible = false;
 
@@ -213,6 +198,7 @@ export class BtcFutureCheckerComponent implements OnInit {
       );
       this.time = this.resolveTime();
       this.interval = this.intervalCtrl.value as KlineIntervals;
+      this.days = this.resolveDays();
       this.status = 'success';
 
       for (const con of this.items) {
@@ -243,6 +229,20 @@ export class BtcFutureCheckerComponent implements OnInit {
           `[BtcFutureCheckerComponent] resolveTime() unknown interval: ${this.intervalCtrl.value}`
         );
         return this.klineIntervalService.resolveFourHoursIntervalMills(0);
+    }
+  }
+
+  private resolveDays() {
+    switch (this.intervalCtrl.value) {
+      case KlineIntervals.FOUR_HOURS:
+        return 30;
+      case KlineIntervals.ONE_DAY:
+        return 180;
+      default:
+        console.warn(
+          `[BtcFutureCheckerComponent] unknown interval: ${this.intervalCtrl.value}`
+        );
+        return 30;
     }
   }
 }
