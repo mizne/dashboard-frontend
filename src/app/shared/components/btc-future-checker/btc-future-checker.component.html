@@ -6,7 +6,7 @@
     [nzTitle]="'最近'+ (days) + '天 BTCUSDTPERP 数据'" (nzOnClose)="close()">
     <ng-container *nzDrawerContent>
       <div style="margin-bottom: 12px">
-        <nz-radio-group [formControl]="intervalCtrl">
+        <nz-radio-group [formControl]="intervalCtrl" nzButtonStyle="solid">
           <label nz-radio-button *ngFor="let item of intervals" [nzValue]="item.value">{{item.label}}</label>
         </nz-radio-group>
 

@@ -16,7 +16,7 @@
                 </nz-option>
               </nz-select> -->
 
-          <nz-radio-group formControlName="interval">
+          <nz-radio-group formControlName="interval" nzButtonStyle="solid">
             <label nz-radio-button *ngFor="let investor of intervals"
               [nzValue]="investor.name">{{investor.name}}</label>
           </nz-radio-group>

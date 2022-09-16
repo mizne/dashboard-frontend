@@ -3,7 +3,7 @@
   <nz-card class="project-item-container" *ngFor="let project of projects" [nzTitle]="project.projectName"
     [nzExtra]="extraTemplate">
 
-    <nz-radio-group [formControl]="project.chainCtrl" style="margin-bottom: 12px">
+    <nz-radio-group [formControl]="project.chainCtrl" nzButtonStyle="solid" style="margin-bottom: 12px">
       <label nz-radio-button *ngFor="let chain of project.chains" [nzValue]="chain">{{chain}}</label>
     </nz-radio-group>
 

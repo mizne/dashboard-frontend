@@ -10,7 +10,7 @@
           <nz-form-item>
             <nz-form-label nzFor="task">任务</nz-form-label>
             <nz-form-control>
-              <nz-radio-group formControlName="task">
+              <nz-radio-group formControlName="task" nzButtonStyle="solid">
                 <label nz-radio-button *ngFor="let item of tasks" [nzValue]="item.name">{{item.label}}</label>
               </nz-radio-group>
             </nz-form-control>
@@ -19,7 +19,7 @@
           <nz-form-item>
             <nz-form-label nzFor="interval">周期</nz-form-label>
             <nz-form-control>
-              <nz-radio-group formControlName="interval">
+              <nz-radio-group formControlName="interval" nzButtonStyle="solid">
                 <label nz-radio-button *ngFor="let item of intervals" [nzValue]="item.name">{{item.name}}</label>
               </nz-radio-group>
             </nz-form-control>
