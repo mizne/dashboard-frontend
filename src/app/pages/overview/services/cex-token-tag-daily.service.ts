@@ -15,22 +15,14 @@ export class CexTokenTagDailyService {
     page?: { number: number; size: number },
     sort?: any
   ): Observable<CexTokenTagDaily[]> {
-    return this.httpClient
-      .post(`${this.baseURL}/cex-token-tag-daily/queryList`, {
+    return this.httpClient.post(
+      `${this.baseURL}/cex-token-tag-daily/queryList`,
+      {
         query,
         page,
         sort,
-      })
-      .pipe(
-        map((results) => {
-          const res = results as CexTokenTagDaily[];
-
-          return res.map((e) => ({
-            ...e,
-            emaCompressionRelative: 1 - e.emaCompressionRelative,
-          }));
-        })
-      ) as Observable<CexTokenTagDaily[]>;
+      }
+    ) as Observable<CexTokenTagDaily[]>;
   }
 
   queryCount(query?: FilterQuery<CexTokenTagDaily>): Observable<number> {

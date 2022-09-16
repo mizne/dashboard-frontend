@@ -60,7 +60,7 @@
   </nz-card>
 
   <div class="tags-container" style="margin-top: 12px;">
-    <nz-radio-group [formControl]="tagCtrl">
+    <nz-radio-group [formControl]="tagCtrl" nzButtonStyle="solid">
       <label *ngFor="let tag of tags" [nzValue]="tag.name" nz-radio-button>{{tag.label}}</label>
     </nz-radio-group>
   </div>
