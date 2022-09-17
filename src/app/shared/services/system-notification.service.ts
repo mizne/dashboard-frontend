@@ -1,13 +1,43 @@
 import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
+interface NotifyOptions {
+  title: string;
+  desc: string;
+  click?: Function;
+}
+
 @Injectable({ providedIn: 'root' })
 export class SystemNotificationService {
   constructor(private readonly nzNotificationService: NzNotificationService) {}
 
-  notify(title: string, desc: string, click?: Function): Promise<Notification> {
+  success(options: NotifyOptions): Promise<Notification> {
     return this.checkPermission().then(() => {
-      return this.realNotify(title, desc, click);
+      return this.realNotify(options, '/assets/success.png');
+    });
+  }
+
+  error(options: NotifyOptions): Promise<Notification> {
+    return this.checkPermission().then(() => {
+      return this.realNotify(options, '/assets/error.png');
+    });
+  }
+
+  warning(options: NotifyOptions): Promise<Notification> {
+    return this.checkPermission().then(() => {
+      return this.realNotify(options, '/assets/warning.png');
+    });
+  }
+
+  info(options: NotifyOptions): Promise<Notification> {
+    return this.checkPermission().then(() => {
+      return this.realNotify(options, '/assets/info.png');
+    });
+  }
+
+  notify(options: NotifyOptions): Promise<Notification> {
+    return this.checkPermission().then(() => {
+      return this.realNotify(options);
     });
   }
 
@@ -35,15 +65,14 @@ export class SystemNotificationService {
     }
   }
 
-  private realNotify(
-    title: string,
-    desc: string,
-    click?: Function
-  ): Notification {
-    const notification = new Notification(title, { body: desc });
-    if (click) {
+  private realNotify(options: NotifyOptions, icon?: string): Notification {
+    const notification = new Notification(options.title, {
+      body: options.desc,
+      ...(icon ? { icon: icon } : {}),
+    });
+    if (options.click) {
       notification.addEventListener('click', (event) => {
-        click(event);
+        (options.click as Function)(event);
       });
     }
     return notification;
