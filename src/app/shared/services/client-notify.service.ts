@@ -10,7 +10,7 @@ interface ClientNotifyNewlyCoinData {
 
 interface ClientNotifyTaskCompleteData {
   type: 'task-complete';
-  payload: { name: string; desc: string };
+  payload: { desc: string };
 }
 
 interface ClientNotifyTaskErrorData {
