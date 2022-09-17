@@ -8,7 +8,20 @@ interface ClientNotifyNewlyCoinData {
   payload: { name: string; symbol: string };
 }
 
-export type ClientNotifyData = ClientNotifyNewlyCoinData;
+interface ClientNotifyTaskCompleteData {
+  type: 'task-complete';
+  payload: { name: string; desc: string };
+}
+
+interface ClientNotifyTaskErrorData {
+  type: 'task-error';
+  payload: { desc: string };
+}
+
+export type ClientNotifyData =
+  | ClientNotifyNewlyCoinData
+  | ClientNotifyTaskCompleteData
+  | ClientNotifyTaskErrorData;
 
 @Injectable({ providedIn: 'root' })
 export class ClientNotifyService {
@@ -45,6 +58,24 @@ export class ClientNotifyService {
   listenNewlyCoin(): Observable<ClientNotifyNewlyCoinData> {
     return this.subject
       .asObservable()
-      .pipe(filter((e) => e.type === 'newly-coin'));
+      .pipe(
+        filter((e) => e.type === 'newly-coin')
+      ) as Observable<ClientNotifyNewlyCoinData>;
+  }
+
+  listenTaskComplete(): Observable<ClientNotifyTaskCompleteData> {
+    return this.subject
+      .asObservable()
+      .pipe(
+        filter((e) => e.type === 'task-complete')
+      ) as Observable<ClientNotifyTaskCompleteData>;
+  }
+
+  listenTaskError(): Observable<ClientNotifyTaskErrorData> {
+    return this.subject
+      .asObservable()
+      .pipe(
+        filter((e) => e.type === 'task-error')
+      ) as Observable<ClientNotifyTaskErrorData>;
   }
 }

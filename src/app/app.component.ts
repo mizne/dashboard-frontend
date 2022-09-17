@@ -21,12 +21,12 @@ export class AppComponent implements OnInit {
     }
 
     this.listenNewlyCoinNotify();
+    this.listenTaskCompleteNotify();
+    this.listenTaskErrorNotify();
   }
 
   private listenNewlyCoinNotify() {
     this.clientNotifyService.listenNewlyCoin().subscribe((data) => {
-      console.log(`[AppComponent] listenNotify() data: `, data);
-
       this.systemNotificationService.notify(
         data.type,
         `name: ${data.payload.name}, symbol: ${data.payload.symbol}`,
@@ -38,6 +38,18 @@ export class AppComponent implements OnInit {
           );
         }
       );
+    });
+  }
+
+  private listenTaskCompleteNotify() {
+    this.clientNotifyService.listenTaskComplete().subscribe((data) => {
+      this.systemNotificationService.notify(data.type, `${data.payload.desc}`);
+    });
+  }
+
+  private listenTaskErrorNotify() {
+    this.clientNotifyService.listenTaskError().subscribe((data) => {
+      this.systemNotificationService.notify(data.type, `${data.payload.desc}`);
     });
   }
 }
