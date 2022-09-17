@@ -24,7 +24,9 @@ export class ClientNotifyService {
       return;
     }
 
-    this.socket = io(environment.baseURL);
+    this.socket = io(environment.baseURL, {
+      auth: { token: 'DashboardFrontend' },
+    });
 
     this.socket.on('connect', () => {
       console.log('[WebsocketService] Connected');
@@ -40,7 +42,7 @@ export class ClientNotifyService {
     });
   }
 
-  listenNewlyCoin(): Observable<ClientNotifyData> {
+  listenNewlyCoin(): Observable<ClientNotifyNewlyCoinData> {
     return this.subject
       .asObservable()
       .pipe(filter((e) => e.type === 'newly-coin'));
