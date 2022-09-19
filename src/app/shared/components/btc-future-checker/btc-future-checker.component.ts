@@ -131,7 +131,7 @@ export class BtcFutureCheckerComponent implements OnInit {
       },
     },
     {
-      label: 'dominace',
+      label: 'dominance',
       key: 'dominances',
       status: 'loading',
       message: 'loading',
