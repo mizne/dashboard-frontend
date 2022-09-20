@@ -434,7 +434,7 @@ export class TagItemComponent implements OnInit, OnChanges {
           : 'shock';
       return {
         status: status,
-        compression: emaCompressionRelative <= 0.1,
+        compression: emaCompressionRelative,
       };
     };
 
@@ -452,7 +452,12 @@ export class TagItemComponent implements OnInit, OnChanges {
         ? '空头'
         : '震荡';
 
-    const suffix = status.compression ? '密集' : '';
+    const suffix =
+      status.compression <= 0.1
+        ? '密集'
+        : status.compression >= 0.9
+        ? '极限乖离'
+        : '';
 
     return prefix + suffix;
   }
