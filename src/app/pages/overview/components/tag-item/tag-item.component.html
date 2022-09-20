@@ -31,12 +31,12 @@
 </div>
 
 <ng-template #extraTemplate>
-  <button *ngIf="item" nz-button nzType="text" (click)="showVolumePercentRankingModal(item.name)">详情</button>
+  <button *ngIf="item" nz-button nzType="link" (click)="showVolumePercentRankingModal(item.name)">详情</button>
 </ng-template>
 
 <div nz-row class="tag-item-total-container" *ngIf="item && item.name === tokenTagNameOfTotalMarket"
   style="position: relative">
-  <button nz-button nzType="text" (click)="showVolumePercentRankingModal(item.name)"
+  <button nz-button nzType="link" (click)="showVolumePercentRankingModal(item.name)"
     style="position: absolute; right: 0; z-index: 10;">详情</button>
 
   <div nz-col nzSpan="12"
