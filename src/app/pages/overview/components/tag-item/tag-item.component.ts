@@ -44,6 +44,17 @@ export class TagItemComponent implements OnInit, OnChanges {
   }> = [];
   volumePercentRankingDescription = '';
 
+  prevPriceStatusChartData: Array<{
+    label: string;
+    value: number;
+    color?: string;
+  }> = [];
+  priceStatusChartData: Array<{
+    label: string;
+    value: number;
+    color?: string;
+  }> = [];
+
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {}
@@ -58,6 +69,8 @@ export class TagItemComponent implements OnInit, OnChanges {
           this.showVolumePercentRanking = true;
           this.handleRankingItemsWhenHasLast(tagName, lastDataItems);
         }
+
+        this.resolvePriceStatusChartData();
       },
       error: (e: Error) => {
         this.notification.error(
@@ -460,5 +473,58 @@ export class TagItemComponent implements OnInit, OnChanges {
         : '';
 
     return prefix + suffix;
+  }
+
+  private resolvePriceStatusChartData() {
+    const prevPriceStatusChartData = this.volumePercentRankingItems.reduce<
+      Array<{ label: string; value: number }>
+    >((accu, curr) => {
+      const theSame = accu.find(
+        (e) => e.label === this.resolveLabel(curr.prevPriceStatus)
+      );
+      if (theSame) {
+        theSame.value += 1;
+      } else {
+        accu.push({ label: this.resolveLabel(curr.prevPriceStatus), value: 1 });
+      }
+      return accu;
+    }, []);
+
+    const priceStatusChartData = this.volumePercentRankingItems.reduce<
+      Array<{ label: string; value: number }>
+    >((accu, curr) => {
+      const theSame = accu.find(
+        (e) => e.label === this.resolveLabel(curr.priceStatus)
+      );
+      if (theSame) {
+        theSame.value += 1;
+      } else {
+        accu.push({ label: this.resolveLabel(curr.priceStatus), value: 1 });
+      }
+      return accu;
+    }, []);
+
+    this.prevPriceStatusChartData = prevPriceStatusChartData.map((e) => ({
+      label: e.label,
+      value: e.value,
+      color: this.resolveColor(e.label),
+    }));
+    this.priceStatusChartData = priceStatusChartData.map((e) => ({
+      label: e.label,
+      value: e.value,
+      color: this.resolveColor(e.label),
+    }));
+  }
+
+  private resolveLabel(s: string) {
+    return s.slice(0, 2);
+  }
+
+  private resolveColor(label: string): string {
+    return label === '多头'
+      ? '#b7eb8f'
+      : label === '空头'
+      ? '#ffa39e'
+      : '#47abfc';
   }
 }

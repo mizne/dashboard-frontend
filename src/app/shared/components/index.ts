@@ -1,5 +1,6 @@
 import { LinkableComponent } from './linkable/linkable.component';
 import { SmallChartComponent } from './small-chart/small-chart.component';
+import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { NetworkCheckerComponent } from './network-checker/network-checker.component';
 import { BtcFutureCheckerComponent } from './btc-future-checker/btc-future-checker.component';
 import { UpdateTimeComponent } from './update-time/update-time.component';
@@ -9,6 +10,7 @@ import { ExecuteTaskCustomComponent } from './execute-task-custom/execute-task-c
 export const components = [
   LinkableComponent,
   SmallChartComponent,
+  PieChartComponent,
   NetworkCheckerComponent,
   BtcFutureCheckerComponent,
   UpdateTimeComponent,
@@ -19,6 +21,7 @@ export const components = [
 export {
   LinkableComponent,
   SmallChartComponent,
+  PieChartComponent,
   NetworkCheckerComponent,
   BtcFutureCheckerComponent,
   UpdateTimeComponent,
