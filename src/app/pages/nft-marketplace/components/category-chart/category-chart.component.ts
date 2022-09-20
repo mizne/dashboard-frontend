@@ -58,13 +58,6 @@ export class CategoryChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // console.log(
-    //   `ngAfterViewInit() projectName ${this.projectName} chain ${this.chain} category ${this.category} filters `,
-    //   this.filters,
-    //   ' filterControls ',
-    //   this.filterControls
-    // );
-
     this.initialed = true;
     this.initCharts();
     this.rerenderChartsWhenQueryChange();

@@ -81,7 +81,6 @@ export class ProjectListComponent implements OnInit {
   subscriptions: Subscription[] = [];
 
   submitForm(): void {
-    console.log('submitForm', this.form.value);
     this.query = removeNullOrUndefined(this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
@@ -90,7 +89,6 @@ export class ProjectListComponent implements OnInit {
 
   resetForm() {
     this.form.reset();
-    console.log('resetForm', this.form.value);
     this.query = removeNullOrUndefined(this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
@@ -140,7 +138,6 @@ export class ProjectListComponent implements OnInit {
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
-    console.log('onQueryParamsChange ', params);
     const { pageSize, pageIndex, sort, filter } = params;
     const currentSort = sort.find((item) => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
@@ -152,7 +149,6 @@ export class ProjectListComponent implements OnInit {
   }
 
   confirmDelete(item: TableItem) {
-    console.log(`confirmDelete(): `, item);
     this.projectService.deleteByID(item._id).subscribe({
       next: () => {
         this.notification.success(`删除成功`, `删除数据成功`);

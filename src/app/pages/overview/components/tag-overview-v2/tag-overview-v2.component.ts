@@ -83,7 +83,6 @@ export class TagOverviewV2Component implements OnInit {
   }
 
   submitForm(): void {
-    // console.log('submitForm', this.form.value);
     this.fetchTagsAndTagDailyItems();
   }
 
@@ -92,7 +91,6 @@ export class TagOverviewV2Component implements OnInit {
       interval: this.intervals[0].name,
       latestIntervals: 1,
     });
-    // console.log('resetForm', this.form.value);
     this.fetchTagsAndTagDailyItems();
   }
 
@@ -119,7 +117,6 @@ export class TagOverviewV2Component implements OnInit {
               .map((e) => e[0])
               .filter((e) => !!e)
               .sort((a, b) => b.volumeMultiple - a.volumeMultiple);
-            // console.log(`this.tagDailyItems: `, this.tagDailyItems);
 
             this.totalMarketTagDailyItem = this.tagDailyItems.find(
               (e) => e.name === tokenTagNameOfTotalMarket

@@ -9,7 +9,5 @@ import { ActivatedRoute } from '@angular/router';
 export class ProjectDetailComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
-  ngOnInit() {
-    console.log(`id: ${this.route.snapshot.params['id']}`);
-  }
+  ngOnInit() {}
 }

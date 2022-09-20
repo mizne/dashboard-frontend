@@ -118,7 +118,6 @@ export class NFTMarketplaceService {
 
   systemNotify(title: string, content: string) {
     const notification = new Notification(title, { body: content });
-    console.log(`AppService systemNotify() title:${title} content:${content}`);
     return notification;
   }
 

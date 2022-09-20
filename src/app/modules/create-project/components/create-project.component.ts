@@ -21,9 +21,7 @@ export class CreateProjectComponent implements OnInit {
   fetchingSocialLinks = false;
 
   ngOnInit(): void {
-    this.form?.valueChanges.subscribe((value) => {
-      console.log(`form value: `, value);
-    });
+    this.form?.valueChanges.subscribe((value) => {});
 
     this.patchForm();
   }
@@ -46,7 +44,6 @@ export class CreateProjectComponent implements OnInit {
       .subscribe({
         next: (links) => {
           this.fetchingSocialLinks = false;
-          console.log(`patchForm() links: `, links);
           if (links.twitter) {
             this.form.patchValue({ twitterHomeLink: links.twitter });
           }

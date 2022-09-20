@@ -5,6 +5,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { KlineIntervals, KlineIntervalService } from 'src/app/shared';
@@ -45,6 +46,20 @@ export class TagItemComponent implements OnInit, OnChanges {
   }> = [];
   volumePercentRankingDescription = '';
 
+  filterCtrl = new FormControl('');
+  filteredVolumePercentRankingItems: Array<{
+    symbol: string;
+    percent: number;
+    volume: number;
+    prevPercent: number;
+    prevVolume: number;
+
+    priceStatus: string;
+    prevPriceStatus: string;
+    color?: string;
+    text?: string;
+  }> = [];
+
   prevPriceStatusChartData: Array<{
     label: string;
     value: number;
@@ -60,6 +75,10 @@ export class TagItemComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {}
 
+  toFilter() {
+    this.filterRankingItems();
+  }
+
   showVolumePercentRankingModal(tagName: string) {
     this.resolveLastIntervalTagDailyItems(tagName).subscribe({
       next: (lastDataItems: CexTokenTagDaily[]) => {
@@ -72,6 +91,7 @@ export class TagItemComponent implements OnInit, OnChanges {
         }
 
         this.resolvePriceStatusChartData();
+        this.filterRankingItems();
       },
       error: (e: Error) => {
         this.notification.error(
@@ -87,7 +107,6 @@ export class TagItemComponent implements OnInit, OnChanges {
   ): Observable<CexTokenTagDaily[]> {
     const o: Partial<CexTokenTagDaily> = {};
     const formValue = this.formValue;
-    console.log(`resolveLastIntervalTagDailyItems() formValue: `, formValue);
     if (formValue?.interval) {
       Object.assign(o, { interval: formValue.interval });
     }
@@ -514,6 +533,17 @@ export class TagItemComponent implements OnInit, OnChanges {
       value: e.value,
       color: this.resolveColor(e.label),
     }));
+  }
+
+  private filterRankingItems() {
+    this.filteredVolumePercentRankingItems =
+      this.volumePercentRankingItems.filter((e) => {
+        const reg = new RegExp(this.filterCtrl.value || '', 'i');
+        const matchedSymbol = reg.test(e.symbol);
+        const matchedPrevPriceStatus = reg.test(e.prevPriceStatus);
+        const matchedPriceStatus = reg.test(e.priceStatus);
+        return matchedSymbol || matchedPrevPriceStatus || matchedPriceStatus;
+      });
   }
 
   private resolveLabel(s: string) {

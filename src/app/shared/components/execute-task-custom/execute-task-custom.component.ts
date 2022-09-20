@@ -64,7 +64,6 @@ export class ExecuteTaskCustomComponent implements OnInit {
   ngOnInit() {}
 
   submitForm(): void {
-    // console.log('submitForm', this.form.value);
     const task = this.form.get('task')?.value as string;
     const interval = this.form.get('interval')?.value as KlineIntervals;
     const endTime = this.resolveEndTime() + 11 * 1e3;

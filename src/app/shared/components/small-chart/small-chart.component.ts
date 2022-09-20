@@ -45,7 +45,6 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log(`[SmallChartComponent] ngOnChanges() changes: `, changes);
     this.renderChart(this._smallChart);
     this.renderChart(this._largeChart);
   }

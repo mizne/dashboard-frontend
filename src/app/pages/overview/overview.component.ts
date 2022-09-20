@@ -63,7 +63,6 @@ export class OverviewComponent implements OnInit {
   status: 'loading' | 'error' | 'success' | '' = '';
 
   submitForm(): void {
-    // console.log('submitForm', this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
     this.loadDataFromServer();
@@ -75,7 +74,6 @@ export class OverviewComponent implements OnInit {
       latestIntervals: 1,
       lucky: false,
     });
-    // console.log('resetForm', this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
     this.loadDataFromServer();
@@ -160,7 +158,6 @@ export class OverviewComponent implements OnInit {
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
-    // console.log('onQueryParamsChange ', params);
     const { pageSize, pageIndex, sort, filter } = params;
     const currentSort = sort.find((item) => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
@@ -172,7 +169,6 @@ export class OverviewComponent implements OnInit {
   }
 
   confirmDelete(item: CexTokenDaily) {
-    // console.log(`confirmDelete(): `, item);
     this.cexTokenDailyService.deleteByID(item._id).subscribe({
       next: () => {
         this.notification.success(`删除成功`, `删除数据成功`);
@@ -261,7 +257,6 @@ export class OverviewComponent implements OnInit {
         Object.assign(o, { [key]: query[key] });
       }
     });
-    // console.log(`adjustQuery() o: `, o);
     return o;
   }
 

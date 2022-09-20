@@ -6,11 +6,11 @@ import { Observable, Subject } from 'rxjs';
 import { ProjectService, Project } from 'src/app/shared';
 import { isNil } from 'src/app/utils';
 import { CreateProjectComponent } from './components/create-project.component';
-import { environment } from 'src/environments/environment'
+import { environment } from 'src/environments/environment';
 
 export enum ProjectModalActions {
   CREATE = 'create',
-  UPDATE = 'update'
+  UPDATE = 'update',
 }
 
 @Injectable()
@@ -31,11 +31,10 @@ export class CreateProjectService {
     viewContainerRef: ViewContainerRef,
     action: ProjectModalActions = ProjectModalActions.CREATE
   ): {
-    modal: NzModalRef<any>,
-    success: Observable<any>,
-    error: Observable<Error>
+    modal: NzModalRef<any>;
+    success: Observable<any>;
+    error: Observable<Error>;
   } {
-    console.log(`form: `, this.fb.group({name: []}))
     const form = this.fb.group({
       name: [obj.name, [Validators.required]],
       website: [obj.website, [Validators.required]],
@@ -49,28 +48,30 @@ export class CreateProjectService {
       tokens: [obj.tokens],
       contracts: [obj.contracts],
       enableTracking: [!!obj.enableTracking],
-    })
+    });
     // 创建成功时 会next值 弹框会关闭 且会结束
-    const successSubject = new Subject<any>;
+    const successSubject = new Subject<any>();
 
     // 创建失败时 会next Error 弹框不会关闭且不会结束 只有弹框被取消时才会结束
-    const errorSubject = new Subject<Error>;
+    const errorSubject = new Subject<Error>();
     const modal = this.modal.create({
       nzTitle: title,
       nzContent: CreateProjectComponent,
       nzViewContainerRef: viewContainerRef,
       nzComponentParams: {
         needFetchSocialLinks: !obj._id,
-        form: form
+        form: form,
       },
       nzOnOk: () => {
-        return action === ProjectModalActions.CREATE ? this.createproject(form, errorSubject) : this.updateproject(obj._id, form, errorSubject)
+        return action === ProjectModalActions.CREATE
+          ? this.createproject(form, errorSubject)
+          : this.updateproject(obj._id, form, errorSubject);
       },
     });
 
     modal.afterClose.subscribe((res) => {
       if (isNil(res)) {
-        errorSubject.next(new Error('用户取消'))
+        errorSubject.next(new Error('用户取消'));
         errorSubject.complete();
         successSubject.complete();
       } else {
@@ -78,72 +79,76 @@ export class CreateProjectService {
         successSubject.complete();
         errorSubject.complete();
       }
-    })
+    });
 
     return {
       modal,
       success: successSubject.asObservable(),
-      error: errorSubject.asObservable()
+      error: errorSubject.asObservable(),
     };
   }
 
   fetchSocialLinkByWebsite(website: string): Observable<any> {
-    website = website.startsWith('http') ? website : `https://${website}`
+    website = website.startsWith('http') ? website : `https://${website}`;
     return this.http.post(`${environment.baseURL}/app/social-links`, {
-      url: website
-    })
-  }
-
-  private createproject(form: FormGroup, errorSub: Subject<Error>): Promise<any> {
-    if (form.invalid) {
-      errorSub.next(new Error('请检查表单非法字段'))
-      return Promise.resolve(false);
-    }
-
-    return new Promise((resolve, reject) => {
-      // 这里写 新增project接口
-      this.projectService.create(form.value)
-      .subscribe({
-        next: (v) => {
-          if (v.code === 0) {
-            resolve(v.result || '添加成功')
-          } else {
-            errorSub.next(new Error(v.message));
-            resolve(false)
-          }
-        },
-        error: (e) => {
-          errorSub.next(new Error(e.message));
-          resolve(false)
-        }
-      })
+      url: website,
     });
   }
 
-  private updateproject(id: string | undefined
-    , form: FormGroup, errorSub: Subject<Error>): Promise<any> {
+  private createproject(
+    form: FormGroup,
+    errorSub: Subject<Error>
+  ): Promise<any> {
     if (form.invalid) {
-      errorSub.next(new Error('请检查表单非法字段'))
+      errorSub.next(new Error('请检查表单非法字段'));
       return Promise.resolve(false);
     }
 
     return new Promise((resolve, reject) => {
       // 这里写 新增project接口
-      this.projectService.update(id, form.value)
-      .subscribe({
+      this.projectService.create(form.value).subscribe({
         next: (v) => {
           if (v.code === 0) {
-            resolve(v.result || '修改成功')
+            resolve(v.result || '添加成功');
           } else {
             errorSub.next(new Error(v.message));
-            resolve(false)
+            resolve(false);
           }
         },
         error: (e) => {
           errorSub.next(new Error(e.message));
-          resolve(false)
-        }
-      })
+          resolve(false);
+        },
+      });
+    });
+  }
+
+  private updateproject(
+    id: string | undefined,
+    form: FormGroup,
+    errorSub: Subject<Error>
+  ): Promise<any> {
+    if (form.invalid) {
+      errorSub.next(new Error('请检查表单非法字段'));
+      return Promise.resolve(false);
+    }
+
+    return new Promise((resolve, reject) => {
+      // 这里写 新增project接口
+      this.projectService.update(id, form.value).subscribe({
+        next: (v) => {
+          if (v.code === 0) {
+            resolve(v.result || '修改成功');
+          } else {
+            errorSub.next(new Error(v.message));
+            resolve(false);
+          }
+        },
+        error: (e) => {
+          errorSub.next(new Error(e.message));
+          resolve(false);
+        },
+      });
     });
   }
 }
