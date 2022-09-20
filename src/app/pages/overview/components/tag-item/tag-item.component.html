@@ -84,8 +84,10 @@
 
     <div class="filter-container" style="margin: 12px 0;width: 50%;">
       <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" [nzSuffix]="inputClearTpl">
-        <input type="text" [formControl]="filterCtrl" (keyup.enter)="toFilter()" nz-input placeholder="symbol / 价格形态" />
+        <input type="text" [formControl]="filterCtrl" (keyup.enter)="toFilter()" nz-input [nzAutocomplete]="auto"
+          placeholder="symbol / 价格形态" />
       </nz-input-group>
+      <nz-autocomplete [nzDataSource]="filteredOptions" #auto></nz-autocomplete>
       <ng-template #suffixIconButton>
         <button nz-button nzType="primary" nzSearch (click)="toFilter()"><span nz-icon nzType="search"></span></button>
       </ng-template>

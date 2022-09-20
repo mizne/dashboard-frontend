@@ -59,6 +59,8 @@ export class TagItemComponent implements OnInit, OnChanges {
     color?: string;
     text?: string;
   }> = [];
+  allOptions = ['多头', '多头密集', '空头', '空头密集', '震荡', '震荡密集'];
+  filteredOptions = this.allOptions.slice(0);
 
   prevPriceStatusChartData: Array<{
     label: string;
@@ -71,7 +73,12 @@ export class TagItemComponent implements OnInit, OnChanges {
     color?: string;
   }> = [];
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.filterCtrl.valueChanges.subscribe((v) => {
+      const reg = new RegExp(this.filterCtrl.value || '', 'i');
+      this.filteredOptions = this.allOptions.filter((e) => reg.test(e));
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {}
 
@@ -538,15 +545,7 @@ export class TagItemComponent implements OnInit, OnChanges {
   private filterRankingItems() {
     this.filteredVolumePercentRankingItems =
       this.volumePercentRankingItems.filter((e) => {
-        const adjustValue =
-          this.filterCtrl.value === 'long'
-            ? '多头'
-            : this.filterCtrl.value === 'short'
-            ? '空头'
-            : this.filterCtrl.value === 'shock'
-            ? '震荡'
-            : this.filterCtrl.value;
-        const reg = new RegExp(adjustValue || '', 'i');
+        const reg = new RegExp(this.filterCtrl.value || '', 'i');
         const matchedSymbol = reg.test(e.symbol);
         const matchedPrevPriceStatus = reg.test(e.prevPriceStatus);
         const matchedPriceStatus = reg.test(e.priceStatus);
