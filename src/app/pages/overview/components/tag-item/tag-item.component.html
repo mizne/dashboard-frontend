@@ -1,0 +1,121 @@
+<div class="tag-item-other-container" *ngIf="item && item.name !== tokenTagNameOfTotalMarket"
+  style="display: flex; justify-content: center; align-items: center;">
+  <nz-card style="width:300px; margin-bottom: 8px" [nzTitle]="item.label" [nzExtra]="extraTemplate">
+    <div style="margin-bottom: 4px">总交易量: {{item.volume | currency}}</div>
+    <div style="margin-bottom: 4px" [title]="'相对前 ' + item.volumeIntervals + ' 周期平均值'">
+      总交易量变动:
+      <nz-tag [nzColor]="item.volumeMultiple >= 3 ? 'error' : 'default'">
+        {{item.volumeMultiple |
+        percent}}</nz-tag>
+    </div>
+    <div style="margin-bottom: 4px" [title]="'共 ' + item.tokenNames.length + ' tokens'"
+      *ngIf="item.volumePercents && item.volumePercents.length > 0">
+      <span>交易量占比: </span>
+      <div *ngFor="let p of item.volumePercents.slice(0, 3)" class="token-item"
+        style="margin-bottom: 4px; font-size: 12px;">
+        <symbol-item [symbol]="p.token" style="margin-right: 12px"></symbol-item>
+        <nz-tag [nzColor]="p.percent >= 0.5 ? 'error' : 'default'">{{p.percent |
+          percent}}</nz-tag>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 4px" *ngIf="item.emaCompressions && item.emaCompressions.length > 0">
+      <span>价格形态: </span>
+      <span style="margin-left: 6px;">{{item.emaCompressions | emaCompressionsString}}</span>
+    </div>
+
+    <small-chart [data]="item.volumes180Interval" [title]="item.label + ' -- volume'" type="bar" [width]="250"
+      [height]="80" [showAxis]="false" [interval]="item.interval" [time]="item.time">
+    </small-chart>
+  </nz-card>
+</div>
+
+<ng-template #extraTemplate>
+  <button *ngIf="item" nz-button nzType="text" (click)="showVolumePercentRankingModal(item.name)">详情</button>
+</ng-template>
+
+<div nz-row class="tag-item-total-container" *ngIf="item && item.name === tokenTagNameOfTotalMarket"
+  style="position: relative">
+  <button nz-button nzType="text" (click)="showVolumePercentRankingModal(item.name)"
+    style="position: absolute; right: 0; z-index: 10;">详情</button>
+
+  <div nz-col nzSpan="12"
+    style="display: flex;justify-content: space-evenly;flex-direction: column;font-size: 16px;font-weight: bold;">
+    <div style="margin-bottom: 6px;">
+      <span>总交易量: {{item.volume | currency}}</span>
+      <span [title]="'相对前 ' + item.volumeIntervals + ' 周期平均值'" style="margin-right: 16px">
+        总交易量变动:
+        <nz-tag [nzColor]="item.volumeMultiple >= 3 ? 'error' : 'default'">
+          {{item.volumeMultiple |
+          percent}}</nz-tag>
+      </span>
+    </div>
+
+    <div *ngIf="item.volumePercents && item.volumePercents.length > 0" style="margin-bottom: 6px;">
+      <span [title]="'共 ' + item.tokenNames.length + ' tokens'">交易量占比: </span>
+      <span *ngFor="let p of item.volumePercents.slice(0, 10)" class="token-item"
+        style="margin-bottom: 12px; font-size: 12px;">
+        <symbol-item [symbol]="p.token" style="margin-right: 4px"></symbol-item>
+        <nz-tag [nzColor]="p.percent >= 0.5 ? 'error' : 'default'">{{p.percent |
+          percent}}</nz-tag>
+      </span>
+    </div>
+
+    <div style="margin-bottom: 6px" *ngIf="item.emaCompressions && item.emaCompressions.length > 0">
+      <span>价格形态: </span>
+      <span style="margin-left: 6px;">{{item.emaCompressions | emaCompressionsString}}</span>
+    </div>
+  </div>
+  <div nz-col nzSpan="12" style="display: flex; justify-content: center; align-items: center;">
+    <small-chart [data]="item.volumes180Interval" [title]="'全市场 volume'" type="bar" [width]="500" [height]="140"
+      [showAxis]="false" [interval]="item.interval" [time]="item.time">
+    </small-chart>
+  </div>
+</div>
+
+<nz-modal [(nzVisible)]="showVolumePercentRanking" [nzTitle]="volumePercentRankingModalTitle" [nzFooter]="null"
+  (nzOnCancel)="showVolumePercentRanking=false">
+  <ng-container *nzModalContent>
+    <div class="modal-list-header">
+      <span style="width: 30%">symbol</span>
+      <span style="width: 30%">占比</span>
+      <span style="max-width: 40%">排行变动</span>
+    </div>
+    <nz-list nzBordered nzSize="small" style="max-height: 70vh;overflow: auto;">
+      <nz-list-item *ngFor="let item of volumePercentRankingItems; let i = index;">
+        <ranking-item [index]="i" [symbol]="item.symbol" [percent]="item.percent" [prevPercent]="item.prevPercent"
+          [color]="item.color" [text]="item.text" style="width:100%"></ranking-item>
+      </nz-list-item>
+    </nz-list>
+    <div class="modal-list-footer">
+      <span style="width: 30%">{{'共 ' + volumePercentRankingItems.length}}</span>
+      <span style="width: 20%">100%</span>
+      <span style="max-width: 40%">{{volumePercentRankingDescription}}</span>
+    </div>
+  </ng-container>
+</nz-modal>
+<style>
+  .modal-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.85);
+    padding: 8px 16px;
+    border-top: 1px solid #d9d9d9;
+    border-left: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
+    border-radius: 2px;
+  }
+
+  .modal-list-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.85);
+    padding: 8px 16px;
+    border-bottom: 1px solid #d9d9d9;
+    border-left: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
+    border-radius: 2px;
+  }
+</style>

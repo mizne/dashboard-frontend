@@ -1,0 +1,55 @@
+<div class="tag-overview-container">
+  <nz-card>
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
+
+      <nz-form-item>
+        <nz-form-label nzFor="interval">周期</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group formControlName="interval" nzButtonStyle="solid">
+            <label nz-radio-button *ngFor="let item of intervals" [nzValue]="item.name">{{item.name}}</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="latestIntervals">倒数第几个周期({{intervalTime$ | async | date:'MM-dd HH:mm'}})</nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="latestIntervals" [attr.id]="'latestIntervals'" [nzMin]="1" [nzStep]="1">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="search-area">
+        <nz-form-control>
+          <button nz-button [nzType]="'primary'">搜索</button>
+          <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="register-area" style="display: flex;align-items: center;justify-content: center;">
+        <update-time [status]="status"></update-time>
+      </nz-form-item>
+    </form>
+  </nz-card>
+
+  <div class="tag-overview-content" style="margin-top: 12px">
+    <nz-spin [nzSpinning]="loading"></nz-spin>
+
+    <div *ngIf="totalMarketTagDailyItem" nz-row>
+      <nz-spin [nzSpinning]="loading">
+        <nz-card style="width:100%; margin-bottom: 12px;">
+          <tag-item [item]="totalMarketTagDailyItem" [formValue]="form.value"></tag-item>
+        </nz-card>
+      </nz-spin>
+
+    </div>
+
+    <div nz-row>
+      <div nz-col nzSpan="6" *ngFor="let item of otherTagDailyItems">
+        <nz-spin [nzSpinning]="loading">
+          <tag-item [item]="item" [formValue]="form.value"></tag-item>
+        </nz-spin>
+      </div>
+    </div>
+  </div>
+</div>
