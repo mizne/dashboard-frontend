@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { resolvePriceStatus } from 'src/app/utils';
 
 @Pipe({
   name: 'emaCompressionsString',
@@ -20,12 +21,11 @@ export class EMACompressionsStringPipe implements PipeTransform {
         ema55DeltaEma144: number,
         emaCompressionRelative: number
       ) => {
-        const status =
-          closeDeltaEma21 >= 0 && ema21DeltaEma55 >= 0 && ema55DeltaEma144 >= 0
-            ? 'long'
-            : closeDeltaEma21 < 0 && ema21DeltaEma55 < 0 && ema55DeltaEma144 < 0
-            ? 'short'
-            : 'shock';
+        const status = resolvePriceStatus(
+          closeDeltaEma21,
+          ema21DeltaEma55,
+          ema55DeltaEma144
+        );
         return {
           status: status,
           compression: emaCompressionRelative <= 0.1,

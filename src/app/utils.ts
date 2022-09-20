@@ -121,3 +121,15 @@ export function stringifyNumber(n: number): string {
   }
   return String(n);
 }
+
+export function resolvePriceStatus(
+  closeDeltaEma21: number,
+  ema21DeltaEma55: number,
+  ema55DeltaEma144: number
+): 'long' | 'short' | 'shock' {
+  return ema21DeltaEma55 >= 0 && ema55DeltaEma144 >= 0
+    ? 'long'
+    : ema21DeltaEma55 < 0 && ema55DeltaEma144 < 0
+    ? 'short'
+    : 'shock';
+}

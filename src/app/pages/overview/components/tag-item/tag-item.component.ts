@@ -8,6 +8,7 @@ import {
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { KlineIntervals, KlineIntervalService } from 'src/app/shared';
+import { resolvePriceStatus } from 'src/app/utils';
 import { CexTokenTagDaily } from '../../models/cex-token-tag-daily.model';
 import { tokenTagNameOfTotalMarket } from '../../models/cex-token-tag.model';
 import { CexTokenTagDailyService } from '../../services/cex-token-tag-daily.service';
@@ -439,12 +440,11 @@ export class TagItemComponent implements OnInit, OnChanges {
       ema55DeltaEma144: number,
       emaCompressionRelative: number
     ) => {
-      const status =
-        closeDeltaEma21 >= 0 && ema21DeltaEma55 >= 0 && ema55DeltaEma144 >= 0
-          ? 'long'
-          : closeDeltaEma21 < 0 && ema21DeltaEma55 < 0 && ema55DeltaEma144 < 0
-          ? 'short'
-          : 'shock';
+      const status = resolvePriceStatus(
+        closeDeltaEma21,
+        ema21DeltaEma55,
+        ema55DeltaEma144
+      );
       return {
         status: status,
         compression: emaCompressionRelative,
