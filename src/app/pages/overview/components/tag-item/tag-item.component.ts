@@ -538,7 +538,15 @@ export class TagItemComponent implements OnInit, OnChanges {
   private filterRankingItems() {
     this.filteredVolumePercentRankingItems =
       this.volumePercentRankingItems.filter((e) => {
-        const reg = new RegExp(this.filterCtrl.value || '', 'i');
+        const adjustValue =
+          this.filterCtrl.value === 'long'
+            ? '多头'
+            : this.filterCtrl.value === 'short'
+            ? '空头'
+            : this.filterCtrl.value === 'shock'
+            ? '震荡'
+            : this.filterCtrl.value;
+        const reg = new RegExp(adjustValue || '', 'i');
         const matchedSymbol = reg.test(e.symbol);
         const matchedPrevPriceStatus = reg.test(e.prevPriceStatus);
         const matchedPriceStatus = reg.test(e.priceStatus);
