@@ -11,7 +11,6 @@ import { Chart } from '@antv/g2';
 import { KlineIntervals } from '../../models';
 import { format } from 'date-fns';
 import { filter, interval, Subscription, take } from 'rxjs';
-import { stringifyNumber } from 'src/app/utils';
 
 @Component({
   selector: 'small-chart',

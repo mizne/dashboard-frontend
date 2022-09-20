@@ -11,6 +11,10 @@ export class RankingItemComponent implements OnInit {
   @Input() symbol = '';
   @Input() percent = 0;
   @Input() prevPercent = 0;
+  @Input() volume = 0;
+  @Input() prevVolume = 0;
+  @Input() priceStatus = '';
+  @Input() prevPriceStatus = '';
   @Input() color: string | undefined = '';
   @Input() text: string | undefined = '';
 

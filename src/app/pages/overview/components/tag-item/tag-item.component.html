@@ -73,24 +73,30 @@
   </div>
 </div>
 
-<nz-modal [(nzVisible)]="showVolumePercentRanking" [nzTitle]="volumePercentRankingModalTitle" [nzFooter]="null"
-  (nzOnCancel)="showVolumePercentRanking=false">
+<nz-modal [(nzVisible)]="showVolumePercentRanking" [nzWidth]="1000" [nzTitle]="volumePercentRankingModalTitle"
+  [nzFooter]="null" (nzOnCancel)="showVolumePercentRanking=false">
   <ng-container *nzModalContent>
     <div class="modal-list-header">
-      <span style="width: 30%">symbol</span>
-      <span style="width: 30%">占比</span>
-      <span style="max-width: 40%">排行变动</span>
+      <span style="width: 20%">symbol</span>
+      <span style="width: 20%">交易量</span>
+      <span style="width: 20%">占比</span>
+      <span style="width: 20%">排行异动</span>
+      <span style="max-width: 20%">价格形态</span>
     </div>
     <nz-list nzBordered nzSize="small" style="max-height: 70vh;overflow: auto;">
       <nz-list-item *ngFor="let item of volumePercentRankingItems; let i = index;">
         <ranking-item [index]="i" [symbol]="item.symbol" [percent]="item.percent" [prevPercent]="item.prevPercent"
-          [color]="item.color" [text]="item.text" style="width:100%"></ranking-item>
+          [volume]="item.volume" [prevVolume]="item.prevVolume" [priceStatus]="item.priceStatus"
+          [prevPriceStatus]="item.prevPriceStatus" [color]="item.color" [text]="item.text" style="width:100%">
+        </ranking-item>
       </nz-list-item>
     </nz-list>
     <div class="modal-list-footer">
-      <span style="width: 30%">{{'共 ' + volumePercentRankingItems.length}}</span>
+      <span style="width: 20%">{{'共 ' + volumePercentRankingItems.length}}</span>
+      <span style="width: 20%">--</span>
       <span style="width: 20%">100%</span>
-      <span style="max-width: 40%">{{volumePercentRankingDescription}}</span>
+      <span style="width: 20%">{{volumePercentRankingDescription}}</span>
+      <span style="max-width: 20%">--</span>
     </div>
   </ng-container>
 </nz-modal>

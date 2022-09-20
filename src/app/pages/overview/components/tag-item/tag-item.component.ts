@@ -33,7 +33,12 @@ export class TagItemComponent implements OnInit, OnChanges {
   volumePercentRankingItems: Array<{
     symbol: string;
     percent: number;
+    volume: number;
     prevPercent: number;
+    prevVolume: number;
+
+    priceStatus: string;
+    prevPriceStatus: string;
     color?: string;
     text?: string;
   }> = [];
@@ -96,11 +101,11 @@ export class TagItemComponent implements OnInit, OnChanges {
     lastDataItems: CexTokenTagDaily[]
   ) {
     if (tagName === tokenTagNameOfTotalMarket) {
-      this.volumePercentRankingModalTitle = '全市场token 交易量排行';
+      this.volumePercentRankingModalTitle = '全市场';
     } else {
       const theTag = this.item;
       this.volumePercentRankingModalTitle = theTag
-        ? `${theTag.label} 交易量排行`
+        ? `${theTag.label}`
         : '【未知分类】';
     }
 
@@ -109,6 +114,20 @@ export class TagItemComponent implements OnInit, OnChanges {
     if (theTag) {
       const zippedItems: Array<{
         symbol: string;
+        emaCompression?: {
+          token: string;
+          closeDeltaEma21: number;
+          ema21DeltaEma55: number;
+          ema55DeltaEma144: number;
+          emaCompressionRelative: number;
+        };
+        prevEMACompression?: {
+          token: string;
+          closeDeltaEma21: number;
+          ema21DeltaEma55: number;
+          ema55DeltaEma144: number;
+          emaCompressionRelative: number;
+        };
         percent: number;
         prevPercent: number;
         newly: boolean;
@@ -120,8 +139,17 @@ export class TagItemComponent implements OnInit, OnChanges {
         const theLastIndex = theLastTag.volumePercents.findIndex(
           (e) => e.token === theCurrent.token
         );
+        const theEMACompression = (theTag.emaCompressions || []).find(
+          (e) => e.token === theCurrent.token
+        );
+        const prevEMACompression = (theLastTag.emaCompressions || []).find(
+          (e) => e.token === theCurrent.token
+        );
+
         zippedItems.push({
           symbol: theCurrent.token,
+          emaCompression: theEMACompression,
+          prevEMACompression: prevEMACompression,
           percent: theCurrent.percent,
           prevPercent:
             theLastIndex === -1
@@ -149,7 +177,26 @@ export class TagItemComponent implements OnInit, OnChanges {
         return {
           symbol: e.symbol,
           percent: e.percent,
+          volume: e.percent * theTag.volume,
           prevPercent: e.prevPercent,
+          prevVolume: e.prevPercent * theLastTag.volume,
+
+          priceStatus: e.emaCompression
+            ? this.resolvePriceStatus(
+                e.emaCompression.closeDeltaEma21,
+                e.emaCompression.ema21DeltaEma55,
+                e.emaCompression.ema55DeltaEma144,
+                e.emaCompression.emaCompressionRelative
+              )
+            : '',
+          prevPriceStatus: e.prevEMACompression
+            ? this.resolvePriceStatus(
+                e.prevEMACompression.closeDeltaEma21,
+                e.prevEMACompression.ema21DeltaEma55,
+                e.prevEMACompression.ema55DeltaEma144,
+                e.prevEMACompression.emaCompressionRelative
+              )
+            : '',
           color,
           text,
         };
@@ -168,7 +215,7 @@ export class TagItemComponent implements OnInit, OnChanges {
 
   private handleRankingItemsWhenNoLast(tagName: string) {
     if (tagName === tokenTagNameOfTotalMarket) {
-      this.volumePercentRankingModalTitle = '全市场token 交易量排行';
+      this.volumePercentRankingModalTitle = '全市场';
       if (this.item) {
         this.volumePercentRankingItems = this.item?.volumePercents.map((e) => {
           const newly = false;
@@ -178,6 +225,10 @@ export class TagItemComponent implements OnInit, OnChanges {
           //   Math.random() > 0.5
           //     ? Math.floor(Math.random() * 10)
           //     : Math.floor(Math.random() * -10);
+
+          const theEMACompression = this.item?.emaCompressions.find(
+            (f) => f.token === e.token
+          );
 
           const color = newly
             ? 'purple'
@@ -195,8 +246,20 @@ export class TagItemComponent implements OnInit, OnChanges {
             : '0';
           return {
             symbol: e.token,
+            volume: (this.item?.volume || 0) * e.percent,
             percent: e.percent,
             prevPercent: 0,
+            prevVolume: 0,
+
+            priceStatus: theEMACompression
+              ? this.resolvePriceStatus(
+                  theEMACompression.closeDeltaEma21,
+                  theEMACompression.ema21DeltaEma55,
+                  theEMACompression.ema55DeltaEma144,
+                  theEMACompression.emaCompressionRelative
+                )
+              : '',
+            prevPriceStatus: '',
             color,
             text,
           };
@@ -217,7 +280,7 @@ export class TagItemComponent implements OnInit, OnChanges {
     } else {
       const theTag = this.item;
       this.volumePercentRankingModalTitle = theTag
-        ? `${theTag.label} 交易量排行`
+        ? `${theTag.label}`
         : '【未知分类】';
 
       if (theTag) {
@@ -229,6 +292,9 @@ export class TagItemComponent implements OnInit, OnChanges {
           //   Math.random() > 0.5
           //     ? Math.floor(Math.random() * 10)
           //     : Math.floor(Math.random() * -10);
+          const theEMACompression = this.item?.emaCompressions.find(
+            (f) => f.token === e.token
+          );
 
           const color = newly
             ? 'purple'
@@ -246,8 +312,20 @@ export class TagItemComponent implements OnInit, OnChanges {
             : '0';
           return {
             symbol: e.token,
+            volume: (this.item?.volume || 0) * e.percent,
             percent: e.percent,
             prevPercent: 0,
+            prevVolume: 0,
+
+            priceStatus: theEMACompression
+              ? this.resolvePriceStatus(
+                  theEMACompression.closeDeltaEma21,
+                  theEMACompression.ema21DeltaEma55,
+                  theEMACompression.ema55DeltaEma144,
+                  theEMACompression.emaCompressionRelative
+                )
+              : '',
+            prevPriceStatus: '',
             color,
             text,
           };
@@ -334,5 +412,48 @@ export class TagItemComponent implements OnInit, OnChanges {
           },
         };
     }
+  }
+
+  private resolvePriceStatus(
+    closeDeltaEma21: number,
+    ema21DeltaEma55: number,
+    ema55DeltaEma144: number,
+    emaCompressionRelative: number
+  ): string {
+    const statusGen = (
+      closeDeltaEma21: number,
+      ema21DeltaEma55: number,
+      ema55DeltaEma144: number,
+      emaCompressionRelative: number
+    ) => {
+      const status =
+        closeDeltaEma21 >= 0 && ema21DeltaEma55 >= 0 && ema55DeltaEma144 >= 0
+          ? 'long'
+          : closeDeltaEma21 < 0 && ema21DeltaEma55 < 0 && ema55DeltaEma144 < 0
+          ? 'short'
+          : 'shock';
+      return {
+        status: status,
+        compression: emaCompressionRelative <= 0.1,
+      };
+    };
+
+    const status = statusGen(
+      closeDeltaEma21,
+      ema21DeltaEma55,
+      ema55DeltaEma144,
+      emaCompressionRelative
+    );
+
+    const prefix =
+      status.status === 'long'
+        ? '多头'
+        : status.status === 'short'
+        ? '空头'
+        : '震荡';
+
+    const suffix = status.compression ? '密集' : '';
+
+    return prefix + suffix;
   }
 }

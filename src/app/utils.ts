@@ -115,5 +115,9 @@ export function stringifyNumber(n: number): string {
   if (n >= oneWan) {
     return (n / oneWan).toFixed(2) + ' 万';
   }
+
+  if (n >= 100) {
+    return (n / oneWan).toFixed(2) + ' 万';
+  }
   return String(n);
 }

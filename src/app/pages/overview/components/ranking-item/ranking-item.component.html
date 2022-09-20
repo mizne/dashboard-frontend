@@ -1,10 +1,20 @@
 <div class="ranking-item-container">
-  <symbol-item [prefix]="'' + (index+1) + '. '" [symbol]="symbol" style="width: 30%"></symbol-item>
-  <span style="width: 40%" [title]="percent | percent:4">{{(prevPercent | percent) + ' -> ' + (percent |
+  <symbol-item [prefix]="'' + (index+1) + '. '" [symbol]="symbol" style="width: 20%"></symbol-item>
+
+  <span style="width: 20%;display: flex;justify-content: center;" [title]="'交易量'">{{(prevVolume | volume) + ' -> ' +
+    (volume | volume)}}</span>
+
+  <span style="width: 20%;display: flex;justify-content: center;" [title]="percent | percent:4">{{(prevPercent |
+    percent) + ' -> ' + (percent |
     percent)}}</span>
-  <span style="width: 12%;display: flex;justify-content: flex-end;">
+
+
+  <span style="width: 20%;display: flex;justify-content: flex-end;">
     <nz-tag [nzColor]="color">{{text}}</nz-tag>
   </span>
+
+  <span style="width: 20%;display: flex;justify-content: flex-end;" [title]="'价格形态'">{{(prevPriceStatus) + ' -> ' +
+    (priceStatus)}}</span>
 </div>
 
 <style>
