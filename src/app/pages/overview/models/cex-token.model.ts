@@ -7,6 +7,7 @@ export interface CexToken {
   readonly slug: string;
 
   readonly logo: string;
+  readonly logoName: string;
   readonly tags: Array<string>;
 
   readonly createdAt: number;

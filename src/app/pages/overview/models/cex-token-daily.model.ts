@@ -9,6 +9,7 @@ export interface CexTokenDaily {
   readonly slug: string;
 
   readonly logo: string;
+  readonly logoName: string;
   readonly tags: Array<string>;
 
   readonly interval: KlineIntervals;

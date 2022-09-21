@@ -71,7 +71,9 @@
       (nzQueryParams)="onQueryParamsChange($event)">
       <thead>
         <tr>
-          <th nzColumnKey="name">名称</th>
+          <th nzColumnKey="name">
+            名称
+          </th>
           <th nzColumnKey="price" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">价格</th>
           <th nzColumnKey="volume" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">交易量</th>
 
@@ -92,6 +94,8 @@
       <tbody>
         <tr *ngFor="let data of cexTokenDailies">
           <td [title]="data.symbol + ' - ' + data.fullname + ' - ' + data.tags.join(', ')">
+            <img *ngIf="data.logoName" [src]="logoBasePath + data.logoName" alt="logo"
+              style="max-width: 40px; max-height: 40px; margin-right: 4px;">
             <span class="token-name" style="font-weight: bold">{{data.name}}</span>
           </td>
           <td [title]="data.price | currency">{{ data.price | currency }}</td>

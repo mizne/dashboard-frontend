@@ -14,6 +14,7 @@ import {
   KlineIntervalService,
   SharedService,
 } from 'src/app/shared';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-overview',
@@ -29,6 +30,8 @@ export class OverviewComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute
   ) {}
+
+  logoBasePath = environment.imageBaseURL;
 
   total = 1;
   cexTokenDailies: CexTokenDaily[] = [];
