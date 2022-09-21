@@ -178,7 +178,10 @@ export class BtcFutureCheckerComponent implements OnInit {
         .documentVisible()
         .pipe(filter((e, i) => !!e && i !== 0))
     )
-      .pipe(startWith(0))
+      .pipe(
+        startWith(0),
+        filter(() => this.status !== 'loading')
+      )
       .subscribe(() => {
         this.fetchData();
       });
