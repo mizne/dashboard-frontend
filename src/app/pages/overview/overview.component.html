@@ -95,7 +95,7 @@
         <tr *ngFor="let data of cexTokenDailies">
           <td [title]="data.symbol + ' - ' + data.fullname + ' - ' + data.tags.join(', ')">
             <img *ngIf="data.logoName" [src]="logoBasePath + data.logoName" alt="logo"
-              style="max-width: 40px; max-height: 40px; margin-right: 4px;">
+              style="max-width: 32px; max-height: 32px; margin-right: 4px;">
             <span class="token-name" style="font-weight: bold">{{data.name}}</span>
           </td>
           <td [title]="data.price | currency">{{ data.price | currency }}</td>
