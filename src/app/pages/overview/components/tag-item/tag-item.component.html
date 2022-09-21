@@ -8,7 +8,7 @@
         {{item.volumeMultiple |
         percent}}</nz-tag>
     </div>
-    <div style="margin-bottom: 4px" [title]="'共 ' + item.tokenNames.length + ' tokens'"
+    <div style="margin-bottom: 4px" [title]="'共 ' + item.volumePercents.length + ' tokens'"
       *ngIf="item.volumePercents && item.volumePercents.length > 0">
       <span>交易量占比: </span>
       <div *ngFor="let p of item.volumePercents.slice(0, 3)" class="token-item"
@@ -52,7 +52,7 @@
     </div>
 
     <div *ngIf="item.volumePercents && item.volumePercents.length > 0" style="margin-bottom: 6px;">
-      <span [title]="'共 ' + item.tokenNames.length + ' tokens'">交易量占比: </span>
+      <span [title]="'共 ' + item.volumePercents.length + ' tokens'">交易量占比: </span>
       <span *ngFor="let p of item.volumePercents.slice(0, 10)" class="token-item"
         style="margin-bottom: 12px; font-size: 12px;">
         <symbol-item [symbol]="p.token" style="margin-right: 4px"></symbol-item>
