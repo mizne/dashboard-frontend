@@ -1,0 +1,97 @@
+<div class="leverage-calc-container">
+  <button nz-button nzType="primary" (click)="open()" [title]="'杠杆计算器（用于快速计算盈亏分析）'">
+    杠杆计算器
+  </button>
+</div>
+
+<nz-modal [(nzVisible)]="visible" [nzWidth]="500" [nzTitle]="'杠杆计算器'" [nzFooter]="null" (nzOnCancel)="visible=false">
+  <ng-container *nzModalContent>
+
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'horizontal'">
+
+      <nz-form-item>
+        <nz-form-label nzFor="type">杠杆类型</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group formControlName="type" nzButtonStyle="solid">
+            <label nz-radio-button *ngFor="let item of types" [nzValue]="item.name">{{item.label}}</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="capital">本金
+        </nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="capital" [attr.id]="'capital'" [nzMin]="1" [nzStep]="1">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="multiple">杠杆倍数
+        </nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="multiple" [attr.id]="'multiple'" [nzMin]="1" [nzStep]="0.1">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="openPrice">开仓价
+        </nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="openPrice" [attr.id]="'openPrice'">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="takeProfit">止盈价
+        </nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="takeProfit" [attr.id]="'takeProfit'">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="stopLossPrice">止损价
+        </nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="stopLossPrice" [attr.id]="'stopLossPrice'">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="debtRatioLimit" [nzTooltipTitle]="titleTemplate">清算阈值
+        </nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="debtRatioLimit" [attr.id]="'debtRatioLimit'" [nzMax]="1">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <ng-template #titleTemplate>
+        <linkable title="默认的清算阈值"
+          [href]="'https://docs.alpacafinance.org/leveraged-yield-farming/pool-specific-parameters-1/pool-specific-parameters'">
+        </linkable>
+        <linkable title="stake alpie后的清算阈值" [href]="'https://docs.alpacafinance.org/alpies/boosted-leverage'"
+          style="margin-left: 6px">
+        </linkable>
+      </ng-template>
+
+
+      <nz-form-item class="search-area">
+        <nz-form-control>
+          <button nz-button [nzType]="'primary'">计算</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+
+    <nz-descriptions nzTitle="结果" nzBordered [nzSize]="'small'">
+      <nz-descriptions-item nzTitle="盈利">{{profit | localeString}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="亏损">{{loss | localeString}}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="清算价">{{liquidationPrice | localeString}}</nz-descriptions-item>
+    </nz-descriptions>
+  </ng-container>
+</nz-modal>

@@ -1,0 +1,26 @@
+<div class="toolkit-container" style="position:fixed; top: 24px; right: 104px; z-index: 100">
+  <button nz-button nzType="primary" nzShape="circle" (click)="open()" style="margin-bottom: 24px" [title]="'工具包'">
+    <i nz-icon [nzType]="'folder'" nzTheme="outline"></i>
+  </button>
+  <nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="工具包" (nzOnClose)="close()">
+    <ng-container *nzDrawerContent>
+      <nz-card>
+        <div nz-row [nzGutter]="16">
+          <div nz-col class="gutter-row" [nzSpan]="12" style="margin-bottom: 8px">
+            <execute-task-custom></execute-task-custom>
+          </div>
+          <div nz-col class="gutter-row" [nzSpan]="12" style="margin-bottom: 8px">
+            <leverage-calc></leverage-calc>
+          </div>
+          <!-- <div nz-col class="gutter-row" [nzSpan]="12" style="margin-bottom: 8px">
+            <execute-task-custom></execute-task-custom>
+          </div>
+          <div nz-col class="gutter-row" [nzSpan]="12" style="margin-bottom: 8px">
+            <execute-task-custom></execute-task-custom>
+          </div> -->
+        </div>
+      </nz-card>
+
+    </ng-container>
+  </nz-drawer>
+</div>

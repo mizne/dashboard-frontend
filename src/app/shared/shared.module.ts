@@ -28,6 +28,7 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -66,6 +67,7 @@ const nzModules = [
   NzListModule,
   NzPopoverModule,
   NzAutocompleteModule,
+  NzDescriptionsModule,
 ];
 const ngModules = [CommonModule, ReactiveFormsModule];
 
