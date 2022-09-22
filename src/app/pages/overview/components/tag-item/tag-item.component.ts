@@ -59,7 +59,59 @@ export class TagItemComponent implements OnInit, OnChanges {
     color?: string;
     text?: string;
   }> = [];
-  allOptions = ['多头', '多头密集', '空头', '空头密集', '震荡', '震荡密集'];
+
+  allOptions = [
+    {
+      label: '趋势转折',
+      children: [
+        {
+          label: '空头 -> 震荡',
+          value: '空头 -> 震荡',
+        },
+        {
+          label: '震荡 -> 多头',
+          value: '震荡 -> 多头',
+        },
+        {
+          label: '多头 -> 震荡',
+          value: '多头 -> 震荡',
+        },
+        {
+          label: '震荡 -> 空头',
+          value: '震荡 -> 空头',
+        },
+      ],
+    },
+    {
+      label: '价格形态',
+      children: [
+        {
+          label: '多头',
+          value: '多头',
+        },
+        {
+          label: '多头密集',
+          value: '多头密集',
+        },
+        {
+          label: '空头',
+          value: '空头',
+        },
+        {
+          label: '空头密集',
+          value: '空头密集',
+        },
+        {
+          label: '震荡',
+          value: '震荡',
+        },
+        {
+          label: '震荡密集',
+          value: '震荡密集',
+        },
+      ],
+    },
+  ];
   filteredOptions = this.allOptions.slice(0);
 
   prevPriceStatusChartData: Array<{
@@ -76,7 +128,17 @@ export class TagItemComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.filterCtrl.valueChanges.subscribe((v) => {
       const reg = new RegExp(this.filterCtrl.value || '', 'i');
-      this.filteredOptions = this.allOptions.filter((e) => reg.test(e));
+      this.filteredOptions = this.allOptions
+        .filter((group) => {
+          const has = group.children.find((e) => reg.test(e.value));
+          return !!has;
+        })
+        .map((group) => {
+          return {
+            label: group.label,
+            children: group.children.filter((e) => reg.test(e.value)),
+          };
+        });
     });
   }
 
@@ -545,11 +607,21 @@ export class TagItemComponent implements OnInit, OnChanges {
   private filterRankingItems() {
     this.filteredVolumePercentRankingItems =
       this.volumePercentRankingItems.filter((e) => {
-        const reg = new RegExp(this.filterCtrl.value || '', 'i');
-        const matchedSymbol = reg.test(e.symbol);
-        const matchedPrevPriceStatus = reg.test(e.prevPriceStatus);
-        const matchedPriceStatus = reg.test(e.priceStatus);
-        return matchedSymbol || matchedPrevPriceStatus || matchedPriceStatus;
+        const value = this.filterCtrl.value || '';
+        if (value.indexOf('->') >= 0) {
+          const [prev, curr] = value.split('->').map((e) => e.trim());
+          const matchedPrevPriceStatus = new RegExp(prev, 'i').test(
+            e.prevPriceStatus
+          );
+          const matchedPriceStatus = new RegExp(curr, 'i').test(e.priceStatus);
+          return matchedPrevPriceStatus && matchedPriceStatus;
+        } else {
+          const reg = new RegExp(value, 'i');
+          const matchedSymbol = reg.test(e.symbol);
+          const matchedPrevPriceStatus = reg.test(e.prevPriceStatus);
+          const matchedPriceStatus = reg.test(e.priceStatus);
+          return matchedSymbol || matchedPrevPriceStatus || matchedPriceStatus;
+        }
       });
   }
 

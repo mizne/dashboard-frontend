@@ -87,7 +87,18 @@
         <input type="text" [formControl]="filterCtrl" (keyup.enter)="toFilter()" nz-input [nzAutocomplete]="auto"
           placeholder="symbol / 价格形态" />
       </nz-input-group>
-      <nz-autocomplete [nzDataSource]="filteredOptions" #auto></nz-autocomplete>
+      <nz-autocomplete #auto>
+        <nz-auto-optgroup *ngFor="let group of filteredOptions" [nzLabel]="groupTitle">
+          <ng-template #groupTitle>
+            <span>
+              {{ group.label }}
+            </span>
+          </ng-template>
+          <nz-auto-option *ngFor="let option of group.children" [nzLabel]="option.label" [nzValue]="option.value">
+            {{ option.label }}
+          </nz-auto-option>
+        </nz-auto-optgroup>
+      </nz-autocomplete>
       <ng-template #suffixIconButton>
         <button nz-button nzType="primary" nzSearch (click)="toFilter()"><span nz-icon nzType="search"></span></button>
       </ng-template>
