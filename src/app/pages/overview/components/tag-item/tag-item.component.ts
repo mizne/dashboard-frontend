@@ -14,6 +14,19 @@ import { CexTokenTagDaily } from '../../models/cex-token-tag-daily.model';
 import { tokenTagNameOfTotalMarket } from '../../models/cex-token-tag.model';
 import { CexTokenTagDailyService } from '../../services/cex-token-tag-daily.service';
 
+interface RankingItem {
+  symbol: string;
+  percent: number;
+  volume: number;
+  prevPercent: number;
+  prevVolume: number;
+
+  priceStatus: string;
+  prevPriceStatus: string;
+  color?: string;
+  text?: string;
+}
+
 @Component({
   selector: 'tag-item',
   templateUrl: 'tag-item.component.html',
@@ -30,35 +43,13 @@ export class TagItemComponent implements OnInit, OnChanges {
   @Input() formValue: any = null;
   @Input() item: CexTokenTagDaily | null = null;
 
-  showVolumePercentRanking = false;
-  volumePercentRankingModalTitle = '';
-  volumePercentRankingItems: Array<{
-    symbol: string;
-    percent: number;
-    volume: number;
-    prevPercent: number;
-    prevVolume: number;
-
-    priceStatus: string;
-    prevPriceStatus: string;
-    color?: string;
-    text?: string;
-  }> = [];
-  volumePercentRankingDescription = '';
+  showModal = false;
+  modalTitle = '';
+  rankingItems: Array<RankingItem> = [];
+  modalListDescription = '';
 
   filterCtrl = new FormControl('');
-  filteredVolumePercentRankingItems: Array<{
-    symbol: string;
-    percent: number;
-    volume: number;
-    prevPercent: number;
-    prevVolume: number;
-
-    priceStatus: string;
-    prevPriceStatus: string;
-    color?: string;
-    text?: string;
-  }> = [];
+  filteredRankingItems: Array<RankingItem> = [];
 
   allOptions = [
     {
@@ -125,6 +116,11 @@ export class TagItemComponent implements OnInit, OnChanges {
     color?: string;
   }> = [];
 
+  shortToShockRankingItems: Array<RankingItem> = [];
+  shockToLongRankingItems: Array<RankingItem> = [];
+  longToShockRankingItems: Array<RankingItem> = [];
+  shockToShortRankingItems: Array<RankingItem> = [];
+
   ngOnInit() {
     this.filterCtrl.valueChanges.subscribe((v) => {
       const reg = new RegExp(this.filterCtrl.value || '', 'i');
@@ -152,14 +148,15 @@ export class TagItemComponent implements OnInit, OnChanges {
     this.resolveLastIntervalTagDailyItems(tagName).subscribe({
       next: (lastDataItems: CexTokenTagDaily[]) => {
         if (lastDataItems.length === 0) {
-          this.showVolumePercentRanking = true;
+          this.showModal = true;
           this.handleRankingItemsWhenNoLast(tagName);
         } else {
-          this.showVolumePercentRanking = true;
+          this.showModal = true;
           this.handleRankingItemsWhenHasLast(tagName, lastDataItems);
         }
 
         this.resolvePriceStatusChartData();
+        this.resolveStatsData();
         this.filterRankingItems();
       },
       error: (e: Error) => {
@@ -203,12 +200,10 @@ export class TagItemComponent implements OnInit, OnChanges {
     lastDataItems: CexTokenTagDaily[]
   ) {
     if (tagName === tokenTagNameOfTotalMarket) {
-      this.volumePercentRankingModalTitle = '全市场';
+      this.modalTitle = '全市场';
     } else {
       const theTag = this.item;
-      this.volumePercentRankingModalTitle = theTag
-        ? `${theTag.label}`
-        : '【未知分类】';
+      this.modalTitle = theTag ? `${theTag.label}` : '【未知分类】';
     }
 
     const theTag = this.item;
@@ -261,7 +256,7 @@ export class TagItemComponent implements OnInit, OnChanges {
           delta: theLastIndex === -1 ? 0 : theLastIndex - i,
         });
       }
-      this.volumePercentRankingItems = zippedItems.map((e) => {
+      this.rankingItems = zippedItems.map((e) => {
         const color = e.newly
           ? 'purple'
           : e.delta > 0
@@ -304,22 +299,22 @@ export class TagItemComponent implements OnInit, OnChanges {
         };
       });
 
-      this.volumePercentRankingDescription = `${
+      this.modalListDescription = `${
         zippedItems.filter((e) => !e.newly && e.delta > 0).length
       }↑ ${zippedItems.filter((e) => !e.newly && e.delta < 0).length}↓ ${
         zippedItems.filter((e) => !e.newly && e.delta === 0).length
       }-- ${zippedItems.filter((e) => e.newly).length}new`;
     } else {
-      this.volumePercentRankingItems = [];
-      this.volumePercentRankingDescription = '--';
+      this.rankingItems = [];
+      this.modalListDescription = '--';
     }
   }
 
   private handleRankingItemsWhenNoLast(tagName: string) {
     if (tagName === tokenTagNameOfTotalMarket) {
-      this.volumePercentRankingModalTitle = '全市场';
+      this.modalTitle = '全市场';
       if (this.item) {
-        this.volumePercentRankingItems = this.item?.volumePercents.map((e) => {
+        this.rankingItems = this.item?.volumePercents.map((e) => {
           const newly = false;
           const delta = 0;
           // const newly = Math.random() > 0.5;
@@ -367,26 +362,18 @@ export class TagItemComponent implements OnInit, OnChanges {
           };
         });
 
-        this.volumePercentRankingDescription = `${
-          this.volumePercentRankingItems.filter((e) => e.color === 'green')
-            .length
-        }↑ ${
-          this.volumePercentRankingItems.filter((e) => e.color === 'red').length
-        }↓ ${
-          this.volumePercentRankingItems.filter((e) => e.color === '').length
-        }-- ${
-          this.volumePercentRankingItems.filter((e) => e.color === 'purple')
-            .length
-        }new`;
+        this.modalListDescription = `${
+          this.rankingItems.filter((e) => e.color === 'green').length
+        }↑ ${this.rankingItems.filter((e) => e.color === 'red').length}↓ ${
+          this.rankingItems.filter((e) => e.color === '').length
+        }-- ${this.rankingItems.filter((e) => e.color === 'purple').length}new`;
       }
     } else {
       const theTag = this.item;
-      this.volumePercentRankingModalTitle = theTag
-        ? `${theTag.label}`
-        : '【未知分类】';
+      this.modalTitle = theTag ? `${theTag.label}` : '【未知分类】';
 
       if (theTag) {
-        this.volumePercentRankingItems = theTag.volumePercents.map((e) => {
+        this.rankingItems = theTag.volumePercents.map((e) => {
           const newly = false;
           const delta = 0;
           // const newly = Math.random() > 0.5;
@@ -433,20 +420,14 @@ export class TagItemComponent implements OnInit, OnChanges {
           };
         });
 
-        this.volumePercentRankingDescription = `${
-          this.volumePercentRankingItems.filter((e) => e.color === 'green')
-            .length
-        }↑ ${
-          this.volumePercentRankingItems.filter((e) => e.color === 'red').length
-        }↓ ${
-          this.volumePercentRankingItems.filter((e) => e.color === '').length
-        }-- ${
-          this.volumePercentRankingItems.filter((e) => e.color === 'purple')
-            .length
-        }new`;
+        this.modalListDescription = `${
+          this.rankingItems.filter((e) => e.color === 'green').length
+        }↑ ${this.rankingItems.filter((e) => e.color === 'red').length}↓ ${
+          this.rankingItems.filter((e) => e.color === '').length
+        }-- ${this.rankingItems.filter((e) => e.color === 'purple').length}new`;
       } else {
-        this.volumePercentRankingItems = [];
-        this.volumePercentRankingDescription = '--';
+        this.rankingItems = [];
+        this.modalListDescription = '--';
       }
     }
   }
@@ -564,7 +545,7 @@ export class TagItemComponent implements OnInit, OnChanges {
   }
 
   private resolvePriceStatusChartData() {
-    const prevPriceStatusChartData = this.volumePercentRankingItems.reduce<
+    const prevPriceStatusChartData = this.rankingItems.reduce<
       Array<{ label: string; value: number }>
     >((accu, curr) => {
       const theSame = accu.find(
@@ -578,7 +559,7 @@ export class TagItemComponent implements OnInit, OnChanges {
       return accu;
     }, []);
 
-    const priceStatusChartData = this.volumePercentRankingItems.reduce<
+    const priceStatusChartData = this.rankingItems.reduce<
       Array<{ label: string; value: number }>
     >((accu, curr) => {
       const theSame = accu.find(
@@ -604,25 +585,50 @@ export class TagItemComponent implements OnInit, OnChanges {
     }));
   }
 
+  private resolveStatsData() {
+    this.shortToShockRankingItems = this.rankingItems.filter(
+      (e) =>
+        e.prevPriceStatus.indexOf('空头') >= 0 &&
+        e.priceStatus.indexOf('震荡') >= 0
+    );
+
+    this.shockToLongRankingItems = this.rankingItems.filter(
+      (e) =>
+        e.prevPriceStatus.indexOf('震荡') >= 0 &&
+        e.priceStatus.indexOf('多头') >= 0
+    );
+
+    this.longToShockRankingItems = this.rankingItems.filter(
+      (e) =>
+        e.prevPriceStatus.indexOf('多头') >= 0 &&
+        e.priceStatus.indexOf('震荡') >= 0
+    );
+
+    this.shockToShortRankingItems = this.rankingItems.filter(
+      (e) =>
+        e.prevPriceStatus.indexOf('震荡') >= 0 &&
+        e.priceStatus.indexOf('空头') >= 0
+    );
+  }
+
   private filterRankingItems() {
-    this.filteredVolumePercentRankingItems =
-      this.volumePercentRankingItems.filter((e) => {
-        const value = this.filterCtrl.value || '';
-        if (value.indexOf('->') >= 0) {
-          const [prev, curr] = value.split('->').map((e) => e.trim());
-          const matchedPrevPriceStatus = new RegExp(prev, 'i').test(
-            e.prevPriceStatus
-          );
-          const matchedPriceStatus = new RegExp(curr, 'i').test(e.priceStatus);
-          return matchedPrevPriceStatus && matchedPriceStatus;
-        } else {
-          const reg = new RegExp(value, 'i');
-          const matchedSymbol = reg.test(e.symbol);
-          const matchedPrevPriceStatus = reg.test(e.prevPriceStatus);
-          const matchedPriceStatus = reg.test(e.priceStatus);
-          return matchedSymbol || matchedPrevPriceStatus || matchedPriceStatus;
-        }
-      });
+    this.filteredRankingItems = this.rankingItems.filter((e) => {
+      const value = this.filterCtrl.value || '';
+      if (value.indexOf('->') >= 0) {
+        const [prev, curr] = value.split('->').map((e) => e.trim());
+        const matchedPrevPriceStatus = new RegExp(prev, 'i').test(
+          e.prevPriceStatus
+        );
+        const matchedPriceStatus = new RegExp(curr, 'i').test(e.priceStatus);
+        return matchedPrevPriceStatus && matchedPriceStatus;
+      } else {
+        const reg = new RegExp(value, 'i');
+        const matchedSymbol = reg.test(e.symbol);
+        const matchedPrevPriceStatus = reg.test(e.prevPriceStatus);
+        const matchedPriceStatus = reg.test(e.priceStatus);
+        return matchedSymbol || matchedPrevPriceStatus || matchedPriceStatus;
+      }
+    });
   }
 
   private resolveLabel(s: string) {

@@ -73,62 +73,105 @@
   </div>
 </div>
 
-<nz-modal [(nzVisible)]="showVolumePercentRanking" [nzWidth]="1000" [nzTitle]="volumePercentRankingModalTitle"
-  [nzFooter]="null" (nzOnCancel)="showVolumePercentRanking=false">
+<nz-modal [(nzVisible)]="showModal" [nzWidth]="1000" [nzTitle]="modalTitle" [nzFooter]="null"
+  (nzOnCancel)="showModal=false">
   <ng-container *nzModalContent>
 
-    <div class="charts-container" style="display: flex; justify-content: center; align-items: center;">
-      <pie-chart [data]="prevPriceStatusChartData"></pie-chart>
-      <pie-chart [data]="priceStatusChartData"></pie-chart>
-    </div>
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="'统计'" [nzActive]="true">
+        <div class="charts-container" style="display: flex; justify-content: center; align-items: center;">
+          <pie-chart [data]="prevPriceStatusChartData"></pie-chart>
+          <pie-chart [data]="priceStatusChartData"></pie-chart>
+        </div>
 
-    <div class="filter-container" style="margin: 12px 0;width: 50%;">
-      <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" [nzSuffix]="inputClearTpl">
-        <input type="text" [formControl]="filterCtrl" (keyup.enter)="toFilter()" nz-input [nzAutocomplete]="auto"
-          placeholder="symbol / 价格形态" />
-      </nz-input-group>
-      <nz-autocomplete #auto>
-        <nz-auto-optgroup *ngFor="let group of filteredOptions" [nzLabel]="groupTitle">
-          <ng-template #groupTitle>
-            <span>
-              {{ group.label }}
-            </span>
+        <div class="stats-container">
+          <nz-descriptions nzTitle="趋势转折统计" nzBordered [nzSize]="'small'" [nzColumn]="2">
+            <nz-descriptions-item nzTitle="空头 -> 震荡">
+              <nz-tag [nzColor]="'#b7eb8f'" style="margin-right: 6px">空转多倾向</nz-tag>
+              <symbol-item *ngFor="let item of shortToShockRankingItems.slice(0, 3)" [symbol]="item.symbol"
+                style="margin-right: 6px"></symbol-item>
+              <span>{{'共 ' + shortToShockRankingItems.length}}</span>
+
+            </nz-descriptions-item>
+
+            <nz-descriptions-item nzTitle="震荡 -> 多头">
+              <nz-tag [nzColor]="'#b7eb8f'" style="margin-right: 6px">空转多倾向</nz-tag>
+              <symbol-item *ngFor="let item of shockToLongRankingItems.slice(0, 3)" [symbol]="item.symbol"
+                style="margin-right: 6px"></symbol-item>
+              <span>{{'共 ' + shockToLongRankingItems.length}}</span>
+
+            </nz-descriptions-item>
+
+            <nz-descriptions-item nzTitle="多头 -> 震荡">
+              <nz-tag [nzColor]="'#ffa39e'" style="margin-right: 6px">多转空倾向</nz-tag>
+              <symbol-item *ngFor="let item of longToShockRankingItems.slice(0, 3)" [symbol]="item.symbol"
+                style="margin-right: 6px"></symbol-item>
+              <span>{{'共 ' + longToShockRankingItems.length}}</span>
+
+            </nz-descriptions-item>
+
+            <nz-descriptions-item nzTitle="震荡 -> 空头">
+              <nz-tag [nzColor]="'#ffa39e'" style="margin-right: 6px">多转空倾向</nz-tag>
+              <symbol-item *ngFor="let item of shockToShortRankingItems.slice(0, 3)" [symbol]="item.symbol"
+                style="margin-right: 6px"></symbol-item>
+              <span>{{'共 ' + shockToShortRankingItems.length}}</span>
+            </nz-descriptions-item>
+          </nz-descriptions>
+        </div>
+      </nz-collapse-panel>
+
+      <nz-collapse-panel [nzHeader]="'列表'" [nzActive]="false">
+        <div class="filter-container" style="margin: 12px 0;width: 50%;">
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" [nzSuffix]="inputClearTpl">
+            <input type="text" [formControl]="filterCtrl" (keyup.enter)="toFilter()" nz-input [nzAutocomplete]="auto"
+              placeholder="symbol / 价格形态" />
+          </nz-input-group>
+          <nz-autocomplete #auto>
+            <nz-auto-optgroup *ngFor="let group of filteredOptions" [nzLabel]="groupTitle">
+              <ng-template #groupTitle>
+                <span>
+                  {{ group.label }}
+                </span>
+              </ng-template>
+              <nz-auto-option *ngFor="let option of group.children" [nzLabel]="option.label" [nzValue]="option.value">
+                {{ option.label }}
+              </nz-auto-option>
+            </nz-auto-optgroup>
+          </nz-autocomplete>
+          <ng-template #suffixIconButton>
+            <button nz-button nzType="primary" nzSearch (click)="toFilter()"><span nz-icon
+                nzType="search"></span></button>
           </ng-template>
-          <nz-auto-option *ngFor="let option of group.children" [nzLabel]="option.label" [nzValue]="option.value">
-            {{ option.label }}
-          </nz-auto-option>
-        </nz-auto-optgroup>
-      </nz-autocomplete>
-      <ng-template #suffixIconButton>
-        <button nz-button nzType="primary" nzSearch (click)="toFilter()"><span nz-icon nzType="search"></span></button>
-      </ng-template>
-      <ng-template #inputClearTpl>
-        <span nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="filterCtrl.value"
-          (click)="filterCtrl.patchValue('');toFilter()"></span>
-      </ng-template>
-    </div>
-    <div class="modal-list-header">
-      <span style="width: 20%">symbol</span>
-      <span style="width: 20%">交易量</span>
-      <span style="width: 20%">占比</span>
-      <span style="width: 20%">排行异动</span>
-      <span style="max-width: 20%">价格形态</span>
-    </div>
-    <nz-list nzBordered nzSize="small" style="max-height: 40vh;overflow: auto;">
-      <nz-list-item *ngFor="let item of filteredVolumePercentRankingItems; let i = index;">
-        <ranking-item [index]="i" [symbol]="item.symbol" [percent]="item.percent" [prevPercent]="item.prevPercent"
-          [volume]="item.volume" [prevVolume]="item.prevVolume" [priceStatus]="item.priceStatus"
-          [prevPriceStatus]="item.prevPriceStatus" [color]="item.color" [text]="item.text" style="width:100%">
-        </ranking-item>
-      </nz-list-item>
-    </nz-list>
-    <div class="modal-list-footer">
-      <span style="width: 20%">{{'共 ' + filteredVolumePercentRankingItems.length}}</span>
-      <span style="width: 20%">--</span>
-      <span style="width: 20%">100%</span>
-      <span style="width: 20%">{{volumePercentRankingDescription}}</span>
-      <span style="max-width: 20%">--</span>
-    </div>
+          <ng-template #inputClearTpl>
+            <span nz-icon class="ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="filterCtrl.value"
+              (click)="filterCtrl.patchValue('');toFilter()"></span>
+          </ng-template>
+        </div>
+        <div class="modal-list-header">
+          <span style="width: 20%">symbol</span>
+          <span style="width: 20%">交易量</span>
+          <span style="width: 20%">占比</span>
+          <span style="width: 20%">排行异动</span>
+          <span style="max-width: 20%">价格形态</span>
+        </div>
+        <nz-list nzBordered nzSize="small" style="max-height: 45vh;overflow: auto;">
+          <nz-list-item *ngFor="let item of filteredRankingItems; let i = index;">
+            <ranking-item [index]="i" [symbol]="item.symbol" [percent]="item.percent" [prevPercent]="item.prevPercent"
+              [volume]="item.volume" [prevVolume]="item.prevVolume" [priceStatus]="item.priceStatus"
+              [prevPriceStatus]="item.prevPriceStatus" [color]="item.color" [text]="item.text" style="width:100%">
+            </ranking-item>
+          </nz-list-item>
+        </nz-list>
+        <div class="modal-list-footer">
+          <span style="width: 20%">{{'共 ' + filteredRankingItems.length}}</span>
+          <span style="width: 20%">--</span>
+          <span style="width: 20%">100%</span>
+          <span style="width: 20%">{{modalListDescription}}</span>
+          <span style="max-width: 20%">--</span>
+        </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+
   </ng-container>
 </nz-modal>
 <style>
