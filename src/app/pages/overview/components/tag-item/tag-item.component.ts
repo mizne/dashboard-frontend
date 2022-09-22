@@ -118,8 +118,11 @@ export class TagItemComponent implements OnInit, OnChanges {
 
   shortToShockRankingItems: Array<RankingItem> = [];
   shockToLongRankingItems: Array<RankingItem> = [];
+  shortToLongRankingItems: Array<RankingItem> = [];
+
   longToShockRankingItems: Array<RankingItem> = [];
   shockToShortRankingItems: Array<RankingItem> = [];
+  longToShortRankingItems: Array<RankingItem> = [];
 
   ngOnInit() {
     this.filterCtrl.valueChanges.subscribe((v) => {
@@ -598,6 +601,12 @@ export class TagItemComponent implements OnInit, OnChanges {
         e.priceStatus.indexOf('多头') >= 0
     );
 
+    this.shortToLongRankingItems = this.rankingItems.filter(
+      (e) =>
+        e.prevPriceStatus.indexOf('空头') >= 0 &&
+        e.priceStatus.indexOf('多头') >= 0
+    );
+
     this.longToShockRankingItems = this.rankingItems.filter(
       (e) =>
         e.prevPriceStatus.indexOf('多头') >= 0 &&
@@ -607,6 +616,12 @@ export class TagItemComponent implements OnInit, OnChanges {
     this.shockToShortRankingItems = this.rankingItems.filter(
       (e) =>
         e.prevPriceStatus.indexOf('震荡') >= 0 &&
+        e.priceStatus.indexOf('空头') >= 0
+    );
+
+    this.longToShortRankingItems = this.rankingItems.filter(
+      (e) =>
+        e.prevPriceStatus.indexOf('多头') >= 0 &&
         e.priceStatus.indexOf('空头') >= 0
     );
   }

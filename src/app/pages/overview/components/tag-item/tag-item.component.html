@@ -73,7 +73,7 @@
   </div>
 </div>
 
-<nz-modal [(nzVisible)]="showModal" [nzWidth]="1000" [nzTitle]="modalTitle" [nzFooter]="null"
+<nz-modal [(nzVisible)]="showModal" [nzWidth]="1200" [nzTitle]="modalTitle" [nzFooter]="null"
   (nzOnCancel)="showModal=false">
   <ng-container *nzModalContent>
 
@@ -85,36 +85,52 @@
         </div>
 
         <div class="stats-container">
-          <nz-descriptions nzTitle="趋势转折统计" nzBordered [nzSize]="'small'" [nzColumn]="2">
-            <nz-descriptions-item nzTitle="空头 -> 震荡">
-              <nz-tag [nzColor]="'#b7eb8f'" style="margin-right: 6px">空转多倾向</nz-tag>
+          <nz-descriptions nzTitle="趋势转折统计" nzBordered [nzSize]="'small'" [nzColumn]="3">
+            <nz-descriptions-item nzTitle="空头->震荡">
+              <nz-tag [nzColor]="'#b7eb8f'" style="margin-right: 6px">空转多</nz-tag>
               <symbol-item *ngFor="let item of shortToShockRankingItems.slice(0, 3)" [symbol]="item.symbol"
                 style="margin-right: 6px"></symbol-item>
               <span>{{'共 ' + shortToShockRankingItems.length}}</span>
 
             </nz-descriptions-item>
 
-            <nz-descriptions-item nzTitle="震荡 -> 多头">
-              <nz-tag [nzColor]="'#b7eb8f'" style="margin-right: 6px">空转多倾向</nz-tag>
+            <nz-descriptions-item nzTitle="震荡->多头">
+              <nz-tag [nzColor]="'#b7eb8f'" style="margin-right: 6px">空转多</nz-tag>
               <symbol-item *ngFor="let item of shockToLongRankingItems.slice(0, 3)" [symbol]="item.symbol"
                 style="margin-right: 6px"></symbol-item>
               <span>{{'共 ' + shockToLongRankingItems.length}}</span>
 
             </nz-descriptions-item>
 
-            <nz-descriptions-item nzTitle="多头 -> 震荡">
-              <nz-tag [nzColor]="'#ffa39e'" style="margin-right: 6px">多转空倾向</nz-tag>
+            <nz-descriptions-item nzTitle="空头->多头">
+              <nz-tag [nzColor]="'#b7eb8f'" style="margin-right: 6px">空转多</nz-tag>
+              <symbol-item *ngFor="let item of shortToLongRankingItems.slice(0, 3)" [symbol]="item.symbol"
+                style="margin-right: 6px"></symbol-item>
+              <span>{{'共 ' + shortToLongRankingItems.length}}</span>
+
+            </nz-descriptions-item>
+
+            <nz-descriptions-item nzTitle="多头->震荡">
+              <nz-tag [nzColor]="'#ffa39e'" style="margin-right: 6px">多转空</nz-tag>
               <symbol-item *ngFor="let item of longToShockRankingItems.slice(0, 3)" [symbol]="item.symbol"
                 style="margin-right: 6px"></symbol-item>
               <span>{{'共 ' + longToShockRankingItems.length}}</span>
 
             </nz-descriptions-item>
 
-            <nz-descriptions-item nzTitle="震荡 -> 空头">
-              <nz-tag [nzColor]="'#ffa39e'" style="margin-right: 6px">多转空倾向</nz-tag>
+            <nz-descriptions-item nzTitle="震荡->空头">
+              <nz-tag [nzColor]="'#ffa39e'" style="margin-right: 6px">多转空</nz-tag>
               <symbol-item *ngFor="let item of shockToShortRankingItems.slice(0, 3)" [symbol]="item.symbol"
                 style="margin-right: 6px"></symbol-item>
               <span>{{'共 ' + shockToShortRankingItems.length}}</span>
+            </nz-descriptions-item>
+
+            <nz-descriptions-item nzTitle="多头->空头">
+              <nz-tag [nzColor]="'#ffa39e'" style="margin-right: 6px">多转空</nz-tag>
+              <symbol-item *ngFor="let item of longToShortRankingItems.slice(0, 3)" [symbol]="item.symbol"
+                style="margin-right: 6px"></symbol-item>
+              <span>{{'共 ' + longToShortRankingItems.length}}</span>
+
             </nz-descriptions-item>
           </nz-descriptions>
         </div>
