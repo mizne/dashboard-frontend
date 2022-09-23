@@ -6,7 +6,7 @@ import {
   SimpleChanges,
   TemplateRef,
 } from '@angular/core';
-import { Observable, map, forkJoin } from 'rxjs';
+import { Observable, map, forkJoin, firstValueFrom } from 'rxjs';
 import { CexTokenCacheService } from '../../services/cex-token-cache.service';
 import { CexTokenTagCacheService } from '../../services/cex-token-tag-cache.service';
 
@@ -60,20 +60,24 @@ export class SymbolItemComponent implements OnInit, OnChanges {
           this.templateContext['twitter'] = this.twitter = token.twitter || '';
 
           if (token.tags && token.tags.length > 0) {
-            forkJoin(token.tags.map((e) => this.resolveTagLabel(e))).subscribe(
+            Promise.all(token.tags.map((e) => this.resolveTagLabel(e))).then(
               (labels) => {
                 this.templateContext['tagLabels'] = this.tagLabels = labels;
               }
             );
           }
+        } else {
+          console.warn(`symbol: ${symbol} token: `, token);
         }
       });
     }
   }
 
-  private resolveTagLabel(tagName: string): Observable<string> {
-    return this.cexTokenTagCacheService
-      .queryByName(tagName)
-      .pipe(map((tag) => (tag ? tag.label : '')));
+  private resolveTagLabel(tagName: string): Promise<string> {
+    return firstValueFrom(
+      this.cexTokenTagCacheService
+        .queryByName(tagName)
+        .pipe(map((tag) => (tag ? tag.label : '')))
+    );
   }
 }

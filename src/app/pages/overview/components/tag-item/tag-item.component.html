@@ -14,7 +14,6 @@
       <div *ngFor="let p of item.volumePercents.slice(0, 3)" class="token-item"
         style="margin-bottom: 4px; font-size: 12px;">
         <symbol-item [symbol]="p.token" style="margin-right: 12px">
-
         </symbol-item>
         <nz-tag [nzColor]="p.percent >= 0.5 ? 'error' : 'default'">{{p.percent |
           percent}}</nz-tag>
