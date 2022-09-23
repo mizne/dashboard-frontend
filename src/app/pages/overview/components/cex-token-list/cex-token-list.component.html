@@ -54,7 +54,7 @@
             <th nzColumnKey="name">
               名称
             </th>
-
+            <th nzColumnKey="marketCap" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">市值</th>
             <th nzColumnKey="createdAtStr" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">添加时间</th>
 
             <th nzColumnKey="Action">操作</th>
@@ -66,6 +66,9 @@
               <token-logo [name]="data.logoName" style="margin-right: 4px;"></token-logo>
               <span class="token-name" style="font-weight: bold">{{data.name}}</span>
             </td>
+
+            <td [title]="data.marketCap | currency">{{ data.marketCap | currency }}</td>
+
             <td>{{data.createdAt | date:'MM-dd HH:mm:ss'}}</td>
 
             <td>
