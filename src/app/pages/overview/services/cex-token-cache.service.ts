@@ -31,8 +31,8 @@ export class CexTokenCacheService {
 
     return this.queryList().pipe(
       tap((tokens) => {
-        this.loading = false;
         this.allTokens = tokens;
+        this.loading = false;
       }),
       map((tokens) => {
         return tokens.find((e) => e.symbol === symbol);
