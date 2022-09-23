@@ -95,8 +95,8 @@
             <span class="token-name" style="font-weight: bold">
               <symbol-item [symbol]="data.symbol" [content]="symbolContent"></symbol-item>
             </span>
-            <ng-template #symbolContent>
-              <span class="symbol-item-custom-content">{{data.name}}</span>
+            <ng-template #symbolContent let-name="name">
+              <span class="symbol-item-custom-content">{{name}}</span>
             </ng-template>
           </td>
           <td [title]="data.marketCap | currency">{{ data.marketCap | currency }}</td>

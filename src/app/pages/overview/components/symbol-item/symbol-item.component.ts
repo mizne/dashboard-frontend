@@ -25,7 +25,7 @@ export class SymbolItemComponent implements OnInit, OnChanges {
   @Input() content: TemplateRef<any> | null = null;
 
   slug = '';
-  tokenName = '';
+  name = '';
   fullname = '';
   logoName = '';
   marketCap = 0;
@@ -35,26 +35,34 @@ export class SymbolItemComponent implements OnInit, OnChanges {
 
   tagLabels: string[] = [];
 
+  templateContext: { [key: string]: any } = {};
+
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
     const symbol = changes['symbol'] && changes['symbol'].currentValue;
     if (symbol) {
+      this.templateContext = {
+        $implicit: this.symbol,
+      };
       this.cexTokenCacheService.queryBySymbol(symbol).subscribe((token) => {
         if (token) {
-          this.slug = token.slug || '';
-          this.tokenName = token.name || '';
-          this.fullname = token.fullname || '';
-          this.logoName = token.logoName || '';
-          this.marketCap = token.marketCap || 0;
+          this.templateContext['slug'] = this.slug = token.slug || '';
+          this.templateContext['name'] = this.name = token.name || '';
+          this.templateContext['fullname'] = this.fullname =
+            token.fullname || '';
+          this.templateContext['logoName'] = this.logoName =
+            token.logoName || '';
+          this.templateContext['marketCap'] = this.marketCap =
+            token.marketCap || 0;
 
-          this.website = token.website || '';
-          this.twitter = token.twitter || '';
+          this.templateContext['website'] = this.website = token.website || '';
+          this.templateContext['twitter'] = this.twitter = token.twitter || '';
 
           if (token.tags && token.tags.length > 0) {
             forkJoin(token.tags.map((e) => this.resolveTagLabel(e))).subscribe(
               (labels) => {
-                this.tagLabels = labels;
+                this.templateContext['tagLabels'] = this.tagLabels = labels;
               }
             );
           }
