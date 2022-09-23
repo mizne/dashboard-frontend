@@ -2,8 +2,23 @@
   [nzPopoverContent]="contentTemplate">{{prefix + symbol}}</span>
 
 <ng-template #titleTemplate>
-  {{symbol}}
+  <div style="display: flex; align-items: center">
+    <token-logo [name]="logoName"></token-logo>
+    <span style="margin-left: 6px">{{name + ' - ' + fullname}}</span>
+  </div>
 </ng-template>
 <ng-template #contentTemplate>
-  <token-actions [symbol]="symbol" [slug]="slug"></token-actions>
+  <div class="symbol-item-content">
+    <div class="symbol-item-tags" style="margin-bottom: 12px;">
+      <span class="tags-label" style="margin-right: 6px">分类：</span>
+      <ng-container *ngIf="tagLabels.length > 0; else noTags">
+        <span class="tag-item-label">{{tagLabels.join(', ')}}</span>
+      </ng-container>
+
+      <ng-template #noTags>
+        <span>【无】</span>
+      </ng-template>
+    </div>
+    <token-actions [symbol]="symbol" [slug]="slug"></token-actions>
+  </div>
 </ng-template>
