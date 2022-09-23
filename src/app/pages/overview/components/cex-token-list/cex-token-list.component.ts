@@ -3,7 +3,6 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { removeEmpty } from 'src/app/utils';
-import { environment } from 'src/environments/environment';
 import { tokenTagNameOfTotalMarket } from '../../models/cex-token-tag.model';
 import { CexToken } from '../../models/cex-token.model';
 import { CexTokenTagService } from '../../services/cex-token-tag.service';
@@ -22,8 +21,6 @@ export class CexTokenListComponent implements OnInit {
   ) {}
 
   visible = false;
-
-  logoBasePath = environment.imageBaseURL;
 
   total = 1;
   cexTokens: CexToken[] = [];

@@ -4,17 +4,11 @@ import { CexTokenDaily } from './models/cex-token-daily.model';
 import { CexTokenDailyService } from './services/cex-token-daily.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { paddingZero, removeEmpty } from 'src/app/utils';
-import { format, parse } from 'date-fns';
+import { removeEmpty } from 'src/app/utils';
 import { ActivatedRoute } from '@angular/router';
 import { tokenTagNameOfTotalMarket } from './models/cex-token-tag.model';
 import { CexTokenTagService } from './services/cex-token-tag.service';
-import {
-  KlineIntervals,
-  KlineIntervalService,
-  SharedService,
-} from 'src/app/shared';
-import { environment } from 'src/environments/environment';
+import { KlineIntervals, KlineIntervalService } from 'src/app/shared';
 
 @Component({
   selector: 'app-overview',
@@ -30,8 +24,6 @@ export class OverviewComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute
   ) {}
-
-  logoBasePath = environment.imageBaseURL;
 
   total = 1;
   cexTokenDailies: CexTokenDaily[] = [];
