@@ -1,10 +1,10 @@
 <span class="symbol-item-container" nz-popover [nzPopoverTitle]="titleTemplate"
-  [nzPopoverContent]="contentTemplate">{{prefix + symbol}}</span>
+  [nzPopoverContent]="contentTemplate">{{prefix + (name || symbol)}}</span>
 
 <ng-template #titleTemplate>
   <div style="display: flex; align-items: center">
     <token-logo [name]="logoName"></token-logo>
-    <span style="margin-left: 6px">{{name + ' - ' + fullname}}</span>
+    <span style="margin-left: 6px">{{tokenName + ' - ' + fullname}}</span>
   </div>
 </ng-template>
 <ng-template #contentTemplate>

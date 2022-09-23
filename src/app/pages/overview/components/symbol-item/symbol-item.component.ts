@@ -21,9 +21,10 @@ export class SymbolItemComponent implements OnInit, OnChanges {
 
   @Input() prefix = '';
   @Input() symbol = '';
+  @Input() name = '';
 
   slug = '';
-  name = '';
+  tokenName = '';
   fullname = '';
   logoName = '';
   marketCap = 0;
@@ -41,7 +42,7 @@ export class SymbolItemComponent implements OnInit, OnChanges {
       this.cexTokenCacheService.queryBySymbol(symbol).subscribe((token) => {
         if (token) {
           this.slug = token.slug || '';
-          this.name = token.name || '';
+          this.tokenName = token.name || '';
           this.fullname = token.fullname || '';
           this.logoName = token.logoName || '';
           this.marketCap = token.marketCap || 0;

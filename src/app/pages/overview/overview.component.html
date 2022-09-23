@@ -97,9 +97,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of cexTokenDailies">
-          <td [title]="data.symbol + ' - ' + data.fullname + ' - ' + data.tags.join(', ')">
+          <td [title]="data.symbol + ' - ' + data.fullname">
             <token-logo [name]="data.logoName" style="margin-right: 4px;"></token-logo>
-            <span class="token-name" style="font-weight: bold">{{data.name}}</span>
+            <span class="token-name" style="font-weight: bold">
+              <symbol-item [symbol]="data.symbol" [name]="data.name"></symbol-item>
+            </span>
           </td>
           <td [title]="data.marketCap | currency">{{ data.marketCap | currency }}</td>
           <td [title]="data.price | currency">{{ data.price | currency }}</td>
