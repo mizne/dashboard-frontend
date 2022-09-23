@@ -92,7 +92,7 @@
           <th nzColumnKey="timeStr" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">周期时间</th>
           <th nzColumnKey="createdAtStr" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">添加时间</th>
 
-          <th nzColumnKey="Action">操作</th>
+          <!-- <th nzColumnKey="Action">操作</th> -->
         </tr>
       </thead>
       <tbody>
@@ -154,9 +154,9 @@
             <created-at [createdAt]="data.createdAt"></created-at>
           </td>
 
-          <td>
+          <!-- <td>
             <token-actions [symbol]="data.symbol" [slug]="data.slug"></token-actions>
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </nz-table>
