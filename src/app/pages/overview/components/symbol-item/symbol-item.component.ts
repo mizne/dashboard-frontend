@@ -4,6 +4,7 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  TemplateRef,
 } from '@angular/core';
 import { Observable, map, forkJoin } from 'rxjs';
 import { CexTokenCacheService } from '../../services/cex-token-cache.service';
@@ -19,9 +20,9 @@ export class SymbolItemComponent implements OnInit, OnChanges {
     private readonly cexTokenTagCacheService: CexTokenTagCacheService
   ) {}
 
-  @Input() prefix = '';
   @Input() symbol = '';
-  @Input() name = '';
+
+  @Input() content: TemplateRef<any> | null = null;
 
   slug = '';
   tokenName = '';

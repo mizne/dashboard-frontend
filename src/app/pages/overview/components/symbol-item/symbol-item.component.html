@@ -1,5 +1,9 @@
-<span class="symbol-item-container" nz-popover [nzPopoverTitle]="titleTemplate"
-  [nzPopoverContent]="contentTemplate">{{prefix + (name || symbol)}}</span>
+<span class="symbol-item-container" nz-popover [nzPopoverTitle]="titleTemplate" [nzPopoverContent]="contentTemplate">
+  <ng-container *ngIf="content" [ngTemplateOutlet]="content"></ng-container>
+  <ng-container *ngIf="!content">
+    <span class="symbol-item-default-content">{{symbol}}</span>
+  </ng-container>
+</span>
 
 <ng-template #titleTemplate>
   <div style="display: flex; align-items: center">
