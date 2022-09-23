@@ -69,7 +69,9 @@
 
             <td [title]="data.marketCap | currency">{{ data.marketCap | currency }}</td>
 
-            <td>{{data.createdAt | date:'MM-dd HH:mm:ss'}}</td>
+            <td>
+              <created-at [createdAt]="data.createdAt"></created-at>
+            </td>
 
             <td>
               <token-actions [symbol]="data.symbol" [slug]="data.slug"></token-actions>

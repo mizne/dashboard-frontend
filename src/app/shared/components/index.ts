@@ -9,6 +9,7 @@ import { ToolkitComponent } from './toolkit/toolkit.component';
 import { ExecuteTaskCustomComponent } from './execute-task-custom/execute-task-custom.component';
 import { LeverageCalcComponent } from './leverage-calc/leverage-calc.component';
 import { TokenLogoComponent } from './token-logo/token-logo.component';
+import { CreatedAtComponent } from './created-at/created-at.component';
 
 export const components = [
   LinkableComponent,
@@ -22,6 +23,7 @@ export const components = [
   ToolkitComponent,
   LeverageCalcComponent,
   TokenLogoComponent,
+  CreatedAtComponent,
 ];
 
 export {
@@ -36,4 +38,5 @@ export {
   ToolkitComponent,
   LeverageCalcComponent,
   TokenLogoComponent,
+  CreatedAtComponent,
 };

@@ -80,6 +80,7 @@ export function stringifyMills(ms: number): string {
   const oneSecond = 1e3;
   const oneMinute = 60 * oneSecond;
   const oneHour = 60 * oneMinute;
+  const oneDay = 24 * oneHour;
   if (ms < oneSecond) {
     return 'just now';
   }
@@ -91,14 +92,28 @@ export function stringifyMills(ms: number): string {
     const seconds = Math.floor((ms - minutes * oneMinute) / oneSecond);
     return `${paddingZero(String(minutes))}m ${paddingZero(String(seconds))}s`;
   }
-  const hours = Math.floor(ms / oneHour);
-  const minutes = Math.floor((ms - hours * oneHour) / oneMinute);
-  const seconds = Math.floor(
-    (ms - hours * oneHour - minutes * oneMinute) / oneSecond
+  if (ms < oneDay) {
+    const hours = Math.floor(ms / oneHour);
+    const minutes = Math.floor((ms - hours * oneHour) / oneMinute);
+    const seconds = Math.floor(
+      (ms - hours * oneHour - minutes * oneMinute) / oneSecond
+    );
+    return `${paddingZero(String(hours))}h ${paddingZero(
+      String(minutes)
+    )}m ${paddingZero(String(seconds))}s`;
+  }
+
+  const days = Math.floor(ms / oneDay);
+  const hours = Math.floor((ms - days * oneDay) / oneHour);
+  const minutes = Math.floor(
+    (ms - days * oneDay - hours * oneHour) / oneMinute
   );
-  return `${paddingZero(String(hours))}h ${paddingZero(
-    String(minutes)
-  )}m ${paddingZero(String(seconds))}s`;
+  const seconds = Math.floor(
+    (ms - days * oneDay - hours * oneHour - minutes * oneMinute) / oneSecond
+  );
+  return `${paddingZero(String(days))}day ${paddingZero(
+    String(hours)
+  )}h ${paddingZero(String(minutes))}m ${paddingZero(String(seconds))}s`;
 }
 
 export function stringifyNumber(n: number): string {

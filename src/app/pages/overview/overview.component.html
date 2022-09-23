@@ -147,7 +147,10 @@
           </td>
 
           <td>{{data.time | date:'MM/dd HH:mm'}}</td>
-          <td>{{data.createdAt | date:'HH:mm:ss'}}</td>
+
+          <td>
+            <created-at [createdAt]="data.createdAt"></created-at>
+          </td>
 
           <td>
             <token-actions [symbol]="data.symbol" [slug]="data.slug"></token-actions>
