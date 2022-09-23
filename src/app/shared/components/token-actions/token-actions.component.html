@@ -14,7 +14,7 @@
   <linkable *ngIf="symbol" [title]="'查看 ' + symbol + ' 所有数据'" icon="more" [href]="resolveMoreHref(symbol)"
     style="margin-left: 6px; margin-right: 12px">
   </linkable>
-  <nz-divider nzType="vertical"></nz-divider>
+  <nz-divider *ngIf="website && twitter" nzType="vertical"></nz-divider>
   <linkable *ngIf="website" [title]="'website'" icon="global" [href]="website" style="margin-left: 12px">
   </linkable>
   <linkable *ngIf="twitter" [title]="'twitter'" icon="twitter" [href]="twitter" style="margin-left: 6px">
