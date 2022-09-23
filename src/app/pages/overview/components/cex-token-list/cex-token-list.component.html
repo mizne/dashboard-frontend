@@ -1,0 +1,84 @@
+<div class="cex-token-list-container">
+  <button nz-button nzType="primary" (click)="open()" [title]="'查看全部 cex token'">
+    CEX Token
+  </button>
+</div>
+
+<nz-modal [(nzVisible)]="visible" [nzWidth]="800" [nzTitle]="'全部 cex token'" [nzFooter]="null"
+  (nzOnCancel)="visible=false">
+  <ng-container *nzModalContent>
+
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
+
+      <nz-form-item>
+        <nz-form-label nzFor="name">名称</nz-form-label>
+        <nz-form-control>
+          <input nz-input class="ant-input" placeholder="请输入名称" formControlName="name" [attr.id]="'name'"
+            style="width: 120px;" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="createdAt">添加时间</nz-form-label>
+        <nz-form-control>
+          <nz-select formControlName="createdAt" [attr.id]="'createdAt'" style="width: 100px;">
+            <nz-option *ngFor="let item of createdAtOptions" [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="register-area">
+        <nz-form-control>
+          <button nz-button [nzType]="'primary'">搜索</button>
+          <button nz-button type="button" (click)="resetForm()" style="margin-left: 6px">重置</button>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="register-area" style="display: flex;align-items: center;justify-content: center;">
+        <update-time [status]="status"></update-time>
+      </nz-form-item>
+    </form>
+
+    <div class="tags-container" style="margin-top: 12px;">
+      <nz-radio-group [formControl]="tagCtrl" nzButtonStyle="solid">
+        <label *ngFor="let tag of tags" [nzValue]="tag.name" nz-radio-button>{{tag.label}}</label>
+      </nz-radio-group>
+    </div>
+
+    <nz-card style="margin-top: 12px">
+      <nz-table nzShowSizeChanger [nzData]="cexTokens" [nzFrontPagination]="false" [nzLoading]="loading"
+        [nzTotal]="total" [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
+        (nzQueryParams)="onQueryParamsChange($event)">
+        <thead>
+          <tr>
+            <th nzColumnKey="name">
+              名称
+            </th>
+
+            <th nzColumnKey="createdAtStr" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">添加时间</th>
+
+            <th nzColumnKey="Action">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of cexTokens">
+            <td [title]="data.symbol + ' - ' + data.fullname + ' - ' + data.tags.join(', ')">
+              <img *ngIf="data.logoName" [src]="logoBasePath + data.logoName" alt="logo"
+                style="max-width: 32px; max-height: 32px; margin-right: 4px;">
+              <span class="token-name" style="font-weight: bold">{{data.name}}</span>
+            </td>
+            <td>{{data.createdAt | date:'MM-dd HH:mm:ss'}}</td>
+
+            <td>
+              <token-actions [symbol]="data.symbol" [slug]="data.slug"></token-actions>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+      <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} of {{ total }} items
+      </ng-template>
+    </nz-card>
+  </ng-container>
+</nz-modal>
