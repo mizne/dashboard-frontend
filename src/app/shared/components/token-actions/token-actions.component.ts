@@ -10,6 +10,9 @@ export class TokenActionsComponent implements OnInit {
   @Input() symbol = '';
   @Input() slug = '';
 
+  @Input() website = '';
+  @Input() twitter = '';
+
   ngOnInit() {}
 
   resolveMoreHref(symbol: string): string {

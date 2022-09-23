@@ -12,6 +12,9 @@ export interface CexToken {
 
   readonly marketCap: number;
 
+  readonly website?: string;
+  readonly twitter?: string;
+
   readonly createdAt: number;
   readonly createdAtStr: string;
 }
