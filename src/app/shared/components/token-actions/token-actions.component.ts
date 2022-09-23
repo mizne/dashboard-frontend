@@ -10,8 +10,8 @@ export class TokenActionsComponent implements OnInit {
   @Input() symbol = '';
   @Input() slug = '';
 
-  @Input() website = '';
-  @Input() twitter = '';
+  @Input() website: string | undefined = '';
+  @Input() twitter: string | undefined = '';
 
   ngOnInit() {}
 
