@@ -19,6 +19,11 @@
         <span>【无】</span>
       </ng-template>
     </div>
+
+    <div class="symbol-item-tags" style="margin-bottom: 12px;">
+      <span class="marketcap-label" style="margin-right: 6px">市值：</span>
+      <span class="marketcap-value">{{ marketCap | currency }}</span>
+    </div>
     <token-actions [symbol]="symbol" [slug]="slug"></token-actions>
   </div>
 </ng-template>

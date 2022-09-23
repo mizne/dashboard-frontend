@@ -77,6 +77,7 @@
           <th nzColumnKey="name">
             名称
           </th>
+          <th nzColumnKey="marketCap" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">市值</th>
           <th nzColumnKey="price" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">价格</th>
           <th nzColumnKey="volume" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">交易量</th>
 
@@ -100,6 +101,7 @@
             <token-logo [name]="data.logoName" style="margin-right: 4px;"></token-logo>
             <span class="token-name" style="font-weight: bold">{{data.name}}</span>
           </td>
+          <td [title]="data.marketCap | currency">{{ data.marketCap | currency }}</td>
           <td [title]="data.price | currency">{{ data.price | currency }}</td>
           <td [title]="data.volume | currency">{{ data.volume | currency }}</td>
 

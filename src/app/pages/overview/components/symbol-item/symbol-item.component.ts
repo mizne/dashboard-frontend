@@ -26,6 +26,7 @@ export class SymbolItemComponent implements OnInit, OnChanges {
   name = '';
   fullname = '';
   logoName = '';
+  marketCap = 0;
 
   tagLabels: string[] = [];
 
@@ -40,6 +41,7 @@ export class SymbolItemComponent implements OnInit, OnChanges {
           this.name = token.name || '';
           this.fullname = token.fullname || '';
           this.logoName = token.logoName || '';
+          this.marketCap = token.marketCap || 0;
 
           if (token.tags && token.tags.length > 0) {
             forkJoin(token.tags.map((e) => this.resolveTagLabel(e))).subscribe(

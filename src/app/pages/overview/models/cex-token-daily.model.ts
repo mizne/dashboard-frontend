@@ -12,6 +12,8 @@ export interface CexTokenDaily {
   readonly logoName: string;
   readonly tags: Array<string>;
 
+  readonly marketCap: number;
+
   readonly interval: KlineIntervals;
 
   readonly price: number;

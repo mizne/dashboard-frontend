@@ -10,6 +10,8 @@ export interface CexToken {
   readonly logoName: string;
   readonly tags: Array<string>;
 
+  readonly marketCap: number;
+
   readonly createdAt: number;
   readonly createdAtStr: string;
 }
