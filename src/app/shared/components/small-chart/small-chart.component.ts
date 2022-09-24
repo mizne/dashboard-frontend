@@ -10,11 +10,13 @@ import * as uuid from 'uuid';
 import { Chart } from '@antv/g2';
 import { KlineIntervals } from '../../models';
 import { format } from 'date-fns';
-import { filter, interval, Subscription, take } from 'rxjs';
+import { filter, interval, Subscription, take, takeUntil } from 'rxjs';
+import { DestroyService } from '../../services/destroy.service';
 
 @Component({
   selector: 'small-chart',
   templateUrl: './small-chart.component.html',
+  providers: [DestroyService],
 })
 export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
   smallChartID = 'small-chart-wrapper-' + uuid.v4();
@@ -41,7 +43,7 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
   isVisible = false;
   subscription: Subscription | null = null;
 
-  constructor() {}
+  constructor(private readonly destroy$: DestroyService) {}
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -75,7 +77,8 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscription = interval(1e2)
       .pipe(
         filter(() => !!document.getElementById(this.largeChartID)),
-        take(1)
+        take(1),
+        takeUntil(this.destroy$)
       )
       .subscribe(() => {
         this.initLargeChart();
