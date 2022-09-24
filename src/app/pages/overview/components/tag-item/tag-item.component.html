@@ -89,15 +89,15 @@
         <div class="stats-container">
           <nz-descriptions nzTitle="趋势转折统计" nzBordered [nzSize]="'small'" [nzColumn]="3">
             <nz-descriptions-item *ngFor="let item of descriptions" [nzTitle]="descItemTitle">
-              <symbol-item *ngFor="let item of item.rankingItems.slice(0, 3)" [symbol]="item.symbol"
+              <symbol-item *ngFor="let item of item.rankingItems.slice(0, 2)" [symbol]="item.symbol"
                 style="margin-right: 6px">
               </symbol-item>
               <span>{{'共 ' + item.rankingItems.length}}</span>
 
               <ng-template #descItemTitle>
-                <td class="ant-descriptions-item-label">
+                <td class="ant-descriptions-item-label" style="position: relative">
                   <span>{{item.title}}</span>
-                  <nz-tag [nzColor]="item.color" style="margin-left: 6px;">
+                  <nz-tag [nzColor]="item.color" style="position: absolute;right: 0;top: 0;">
                     {{item.label}}</nz-tag>
                 </td>
               </ng-template>
