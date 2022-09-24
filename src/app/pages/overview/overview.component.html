@@ -91,12 +91,10 @@
       <tbody>
         <tr *ngFor="let data of cexTokenDailies">
           <td [title]="data.symbol + ' - ' + data.fullname">
-            <token-logo [name]="data.logoName" style="margin-right: 4px;"></token-logo>
-            <span class="token-name" style="font-weight: bold">
-              <symbol-item [symbol]="data.symbol" [content]="symbolContent"></symbol-item>
-            </span>
-            <ng-template #symbolContent let-name="name">
-              <span class="symbol-item-custom-content">{{name}}</span>
+            <symbol-item [symbol]="data.symbol" [content]="symbolContent"></symbol-item>
+            <ng-template #symbolContent let-name="name" let-logoName="logoName">
+              <token-logo [name]="logoName" style="margin-right: 4px;"></token-logo>
+              <span class="symbol-item-custom-content" style="font-weight: bold">{{name}}</span>
             </ng-template>
           </td>
           <td [title]="data.marketCap | currency">{{ data.marketCap | currency }}</td>
