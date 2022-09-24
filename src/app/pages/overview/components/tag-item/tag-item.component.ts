@@ -64,12 +64,20 @@ export class TagItemComponent implements OnInit, OnChanges {
           value: '震荡 -> 多头',
         },
         {
+          label: '空头 -> 多头',
+          value: '空头 -> 多头',
+        },
+        {
           label: '多头 -> 震荡',
           value: '多头 -> 震荡',
         },
         {
           label: '震荡 -> 空头',
           value: '震荡 -> 空头',
+        },
+        {
+          label: '多头 -> 空头',
+          value: '多头 -> 空头',
         },
       ],
     },
@@ -116,13 +124,49 @@ export class TagItemComponent implements OnInit, OnChanges {
     color?: string;
   }> = [];
 
-  shortToShockRankingItems: Array<RankingItem> = [];
-  shockToLongRankingItems: Array<RankingItem> = [];
-  shortToLongRankingItems: Array<RankingItem> = [];
-
-  longToShockRankingItems: Array<RankingItem> = [];
-  shockToShortRankingItems: Array<RankingItem> = [];
-  longToShortRankingItems: Array<RankingItem> = [];
+  descriptions: Array<{
+    title: string;
+    color: string;
+    label: string;
+    rankingItems: Array<RankingItem>;
+  }> = [
+    {
+      title: '空头->震荡',
+      color: '#b7eb8f',
+      label: '空转多',
+      rankingItems: [],
+    },
+    {
+      title: '震荡->多头',
+      color: '#b7eb8f',
+      label: '空转多',
+      rankingItems: [],
+    },
+    {
+      title: '空头->多头',
+      color: '#b7eb8f',
+      label: '空转多',
+      rankingItems: [],
+    },
+    {
+      title: '多头->震荡',
+      color: '#ffa39e',
+      label: '多转空',
+      rankingItems: [],
+    },
+    {
+      title: '震荡->空头',
+      color: '#ffa39e',
+      label: '多转空',
+      rankingItems: [],
+    },
+    {
+      title: '多头->空头',
+      color: '#ffa39e',
+      label: '多转空',
+      rankingItems: [],
+    },
+  ];
 
   ngOnInit() {
     this.filterCtrl.valueChanges.subscribe((v) => {
@@ -589,41 +633,16 @@ export class TagItemComponent implements OnInit, OnChanges {
   }
 
   private resolveStatsData() {
-    this.shortToShockRankingItems = this.rankingItems.filter(
-      (e) =>
-        e.prevPriceStatus.indexOf('空头') >= 0 &&
-        e.priceStatus.indexOf('震荡') >= 0
-    );
-
-    this.shockToLongRankingItems = this.rankingItems.filter(
-      (e) =>
-        e.prevPriceStatus.indexOf('震荡') >= 0 &&
-        e.priceStatus.indexOf('多头') >= 0
-    );
-
-    this.shortToLongRankingItems = this.rankingItems.filter(
-      (e) =>
-        e.prevPriceStatus.indexOf('空头') >= 0 &&
-        e.priceStatus.indexOf('多头') >= 0
-    );
-
-    this.longToShockRankingItems = this.rankingItems.filter(
-      (e) =>
-        e.prevPriceStatus.indexOf('多头') >= 0 &&
-        e.priceStatus.indexOf('震荡') >= 0
-    );
-
-    this.shockToShortRankingItems = this.rankingItems.filter(
-      (e) =>
-        e.prevPriceStatus.indexOf('震荡') >= 0 &&
-        e.priceStatus.indexOf('空头') >= 0
-    );
-
-    this.longToShortRankingItems = this.rankingItems.filter(
-      (e) =>
-        e.prevPriceStatus.indexOf('多头') >= 0 &&
-        e.priceStatus.indexOf('空头') >= 0
-    );
+    this.descriptions.forEach((desc) => {
+      const [prevPriceStatus, priceStatus] = desc.title
+        .split('->')
+        .map((e) => e.trim());
+      desc.rankingItems = this.rankingItems.filter(
+        (e) =>
+          e.prevPriceStatus.indexOf(prevPriceStatus) >= 0 &&
+          e.priceStatus.indexOf(priceStatus) >= 0
+      );
+    });
   }
 
   private filterRankingItems() {
