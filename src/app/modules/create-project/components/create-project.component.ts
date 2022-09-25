@@ -21,8 +21,6 @@ export class CreateProjectComponent implements OnInit {
   fetchingSocialLinks = false;
 
   ngOnInit(): void {
-    this.form?.valueChanges.subscribe((value) => {});
-
     this.patchForm();
   }
 
