@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -12,6 +13,7 @@ import { KlineIntervals } from '../../models';
 import { format } from 'date-fns';
 import { filter, interval, Subscription, take, takeUntil } from 'rxjs';
 import { DestroyService } from '../../services/destroy.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'small-chart',
@@ -43,7 +45,10 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
   isVisible = false;
   subscription: Subscription | null = null;
 
-  constructor(private readonly destroy$: DestroyService) {}
+  constructor(
+    private readonly destroy$: DestroyService,
+    @Inject(DOCUMENT) private documentRef: Document
+  ) {}
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -76,7 +81,7 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subscription = interval(1e2)
       .pipe(
-        filter(() => !!document.getElementById(this.largeChartID)),
+        filter(() => !!this.documentRef.getElementById(this.largeChartID)),
         take(1),
         takeUntil(this.destroy$)
       )

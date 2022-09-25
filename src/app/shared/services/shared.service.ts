@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, startWith, fromEvent, map } from 'rxjs';
 import { KlineIntervals } from '../models';
+import { DOCUMENT } from '@angular/common';
 
 interface BTCDailyResp {
   prices: number[];
@@ -28,7 +29,10 @@ interface ExecuteTaskResp {
 @Injectable({ providedIn: 'root' })
 export class SharedService {
   private readonly baseURL = environment.baseURL;
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    @Inject(DOCUMENT) private documentRef: Document
+  ) {}
 
   checkConnections(): Observable<Array<Connection>> {
     return this.httpClient.post<Array<Connection>>(
@@ -64,9 +68,9 @@ export class SharedService {
 
   // 返回document是否可见 如果browser tab被inactive则false
   documentVisible(): Observable<boolean> {
-    return fromEvent(document, 'visibilitychange').pipe(
-      map(() => !document.hidden),
-      startWith(!document.hidden)
+    return fromEvent(this.documentRef, 'visibilitychange').pipe(
+      map(() => !this.documentRef.hidden),
+      startWith(!this.documentRef.hidden)
     );
   }
 }

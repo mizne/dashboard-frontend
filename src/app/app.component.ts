@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { SystemNotificationService, ClientNotifyService } from './shared';
 import { sleep } from './utils';
@@ -13,12 +14,13 @@ export class AppComponent implements OnInit {
 
   constructor(
     private readonly clientNotifyService: ClientNotifyService,
-    private readonly systemNotificationService: SystemNotificationService
+    private readonly systemNotificationService: SystemNotificationService,
+    @Inject(DOCUMENT) private documentRef: Document
   ) {}
 
   ngOnInit(): void {
     if (!environment.production) {
-      document.title = `DEV - ${document.title}`;
+      this.documentRef.title = `DEV - ${this.documentRef.title}`;
     }
 
     this.listenNewlyCoinNotify();
