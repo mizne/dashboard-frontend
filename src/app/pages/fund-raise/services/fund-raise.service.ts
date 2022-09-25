@@ -14,22 +14,26 @@ export class FundRaiseService {
     page?: { number: number; size: number },
     sort?: any
   ): Observable<FundRaise[]> {
-    return this.httpClient.post(`${this.baseURL}/fund-raises/queryList`, {
-      query,
-      page,
-      sort,
-    }) as Observable<FundRaise[]>;
+    return this.httpClient.post<FundRaise[]>(
+      `${this.baseURL}/fund-raises/queryList`,
+      {
+        query,
+        page,
+        sort,
+      }
+    );
   }
 
   queryCount(query?: Partial<FundRaise>): Observable<number> {
-    return this.httpClient.post(`${this.baseURL}/fund-raises/queryCount`, {
-      query,
-    }) as Observable<number>;
+    return this.httpClient.post<number>(
+      `${this.baseURL}/fund-raises/queryCount`,
+      {
+        query,
+      }
+    );
   }
 
   deleteByID(id: string): Observable<any> {
-    return this.httpClient.delete(
-      `${this.baseURL}/fund-raises/${id}`
-    ) as Observable<number>;
+    return this.httpClient.delete<any>(`${this.baseURL}/fund-raises/${id}`);
   }
 }

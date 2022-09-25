@@ -31,17 +31,20 @@ export class SharedService {
   constructor(private httpClient: HttpClient) {}
 
   checkConnections(): Observable<Array<Connection>> {
-    return this.httpClient.post(
+    return this.httpClient.post<Array<Connection>>(
       `${this.baseURL}/app/check-connections`,
       {}
-    ) as Observable<Array<Connection>>;
+    );
   }
 
   btcDailies(interval: KlineIntervals, limit = 180): Observable<BTCDailyResp> {
-    return this.httpClient.post(`${this.baseURL}/app/btc-dailies`, {
-      interval,
-      limit,
-    }) as Observable<BTCDailyResp>;
+    return this.httpClient.post<BTCDailyResp>(
+      `${this.baseURL}/app/btc-dailies`,
+      {
+        interval,
+        limit,
+      }
+    );
   }
 
   executeTaskCustom(
@@ -49,11 +52,14 @@ export class SharedService {
     interval: KlineIntervals,
     endTime: number
   ): Observable<ExecuteTaskResp> {
-    return this.httpClient.post(`${this.baseURL}/app/execute-task-custom`, {
-      task,
-      interval,
-      endTime,
-    }) as Observable<ExecuteTaskResp>;
+    return this.httpClient.post<ExecuteTaskResp>(
+      `${this.baseURL}/app/execute-task-custom`,
+      {
+        task,
+        interval,
+        endTime,
+      }
+    );
   }
 
   // 返回document是否可见 如果browser tab被inactive则false

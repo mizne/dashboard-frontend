@@ -16,32 +16,31 @@ export class CexTokenDailyService {
     sort?: any
   ): Observable<CexTokenDaily[]> {
     return this.httpClient
-      .post(`${this.baseURL}/cex-token-daily/queryList`, {
+      .post<CexTokenDaily[]>(`${this.baseURL}/cex-token-daily/queryList`, {
         query,
         page,
         sort,
       })
       .pipe(
         map((results) => {
-          const res = results as CexTokenDaily[];
-
-          return res.map((e) => ({
+          return results.map((e) => ({
             ...e,
             emaCompressionRelative: 1 - e.emaCompressionRelative,
           }));
         })
-      ) as Observable<CexTokenDaily[]>;
+      );
   }
 
   queryCount(query?: FilterQuery<CexTokenDaily>): Observable<number> {
-    return this.httpClient.post(`${this.baseURL}/cex-token-daily/queryCount`, {
-      query,
-    }) as Observable<number>;
+    return this.httpClient.post<number>(
+      `${this.baseURL}/cex-token-daily/queryCount`,
+      {
+        query,
+      }
+    );
   }
 
   deleteByID(id: string): Observable<any> {
-    return this.httpClient.delete(
-      `${this.baseURL}/cex-token-daily/${id}`
-    ) as Observable<number>;
+    return this.httpClient.delete<any>(`${this.baseURL}/cex-token-daily/${id}`);
   }
 }

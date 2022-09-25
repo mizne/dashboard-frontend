@@ -12,20 +12,23 @@ export class ProjectService {
   create(
     params: Partial<Project>
   ): Observable<{ code: number; message: string; result: any }> {
-    return this.httpClient.post(
+    return this.httpClient.post<{ code: number; message: string; result: any }>(
       `${this.baseURL}/projects/create`,
       params
-    ) as Observable<{ code: number; message: string; result: any }>;
+    );
   }
 
   update(
     id: string | undefined,
     record: Partial<Project>
   ): Observable<{ code: number; message: string; result: any }> {
-    return this.httpClient.post(`${this.baseURL}/projects/update`, {
-      id,
-      record,
-    }) as Observable<{ code: number; message: string; result: any }>;
+    return this.httpClient.post<{ code: number; message: string; result: any }>(
+      `${this.baseURL}/projects/update`,
+      {
+        id,
+        record,
+      }
+    );
   }
 
   queryList(
@@ -33,22 +36,23 @@ export class ProjectService {
     page?: { number: number; size: number },
     sort?: any
   ): Observable<Project[]> {
-    return this.httpClient.post(`${this.baseURL}/projects/queryList`, {
-      query,
-      page,
-      sort,
-    }) as Observable<Project[]>;
+    return this.httpClient.post<Project[]>(
+      `${this.baseURL}/projects/queryList`,
+      {
+        query,
+        page,
+        sort,
+      }
+    );
   }
 
   queryCount(query?: Partial<Project>): Observable<number> {
-    return this.httpClient.post(`${this.baseURL}/projects/queryCount`, {
+    return this.httpClient.post<number>(`${this.baseURL}/projects/queryCount`, {
       query,
-    }) as Observable<number>;
+    });
   }
 
   deleteByID(id: string): Observable<any> {
-    return this.httpClient.delete(
-      `${this.baseURL}/projects/${id}`
-    ) as Observable<number>;
+    return this.httpClient.delete<any>(`${this.baseURL}/projects/${id}`);
   }
 }

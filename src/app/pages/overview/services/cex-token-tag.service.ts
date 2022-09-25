@@ -15,22 +15,26 @@ export class CexTokenTagService {
     page?: { number: number; size: number },
     sort?: any
   ): Observable<CexTokenTag[]> {
-    return this.httpClient.post(`${this.baseURL}/cex-token-tag/queryList`, {
-      query,
-      page,
-      sort,
-    }) as Observable<CexTokenTag[]>;
+    return this.httpClient.post<CexTokenTag[]>(
+      `${this.baseURL}/cex-token-tag/queryList`,
+      {
+        query,
+        page,
+        sort,
+      }
+    );
   }
 
   queryCount(query?: FilterQuery<CexTokenTag>): Observable<number> {
-    return this.httpClient.post(`${this.baseURL}/cex-token-tag/queryCount`, {
-      query,
-    }) as Observable<number>;
+    return this.httpClient.post<number>(
+      `${this.baseURL}/cex-token-tag/queryCount`,
+      {
+        query,
+      }
+    );
   }
 
   deleteByID(id: string): Observable<any> {
-    return this.httpClient.delete(
-      `${this.baseURL}/cex-token-tag/${id}`
-    ) as Observable<number>;
+    return this.httpClient.delete<any>(`${this.baseURL}/cex-token-tag/${id}`);
   }
 }

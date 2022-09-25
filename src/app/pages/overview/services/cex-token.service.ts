@@ -17,22 +17,26 @@ export class CexTokenService {
     page?: { number: number; size: number },
     sort?: any
   ): Observable<CexToken[]> {
-    return this.httpClient.post(`${this.baseURL}/cex-token/queryList`, {
-      query,
-      page,
-      sort,
-    }) as Observable<CexTokenDaily[]>;
+    return this.httpClient.post<CexToken[]>(
+      `${this.baseURL}/cex-token/queryList`,
+      {
+        query,
+        page,
+        sort,
+      }
+    );
   }
 
   queryCount(query?: FilterQuery<CexToken>): Observable<number> {
-    return this.httpClient.post(`${this.baseURL}/cex-token/queryCount`, {
-      query,
-    }) as Observable<number>;
+    return this.httpClient.post<number>(
+      `${this.baseURL}/cex-token/queryCount`,
+      {
+        query,
+      }
+    );
   }
 
   deleteByID(id: string): Observable<any> {
-    return this.httpClient.delete(
-      `${this.baseURL}/cex-token/${id}`
-    ) as Observable<number>;
+    return this.httpClient.delete<any>(`${this.baseURL}/cex-token/${id}`);
   }
 }

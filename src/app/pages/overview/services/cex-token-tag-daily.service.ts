@@ -15,28 +15,28 @@ export class CexTokenTagDailyService {
     page?: { number: number; size: number },
     sort?: any
   ): Observable<CexTokenTagDaily[]> {
-    return this.httpClient.post(
+    return this.httpClient.post<CexTokenTagDaily[]>(
       `${this.baseURL}/cex-token-tag-daily/queryList`,
       {
         query,
         page,
         sort,
       }
-    ) as Observable<CexTokenTagDaily[]>;
+    );
   }
 
   queryCount(query?: FilterQuery<CexTokenTagDaily>): Observable<number> {
-    return this.httpClient.post(
+    return this.httpClient.post<number>(
       `${this.baseURL}/cex-token-tag-daily/queryCount`,
       {
         query,
       }
-    ) as Observable<number>;
+    );
   }
 
   deleteByID(id: string): Observable<any> {
-    return this.httpClient.delete(
+    return this.httpClient.delete<any>(
       `${this.baseURL}/cex-token-tag-daily/${id}`
-    ) as Observable<number>;
+    );
   }
 }
