@@ -3,6 +3,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { SharedService } from '../../services';
 import { firstValueFrom } from 'rxjs';
 import { sleep } from 'src/app/utils';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'network-checker',
@@ -68,7 +69,9 @@ export class NetworkCheckerComponent implements OnInit {
   status: 'loading' | 'error' | 'success' | '' = '';
 
   ngOnInit() {
-    this.intervalCheckConnections();
+    if (environment.production) {
+      this.intervalCheckConnections();
+    }
   }
   private async intervalCheckConnections() {
     for (;;) {
