@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
     this.listenNewlyCoinNotify();
     this.listenTaskCompleteNotify();
     this.listenTaskErrorNotify();
+    this.listenNotifyObserver();
   }
 
   private listenNewlyCoinNotify() {
@@ -58,6 +59,19 @@ export class AppComponent implements OnInit {
       this.systemNotificationService.error({
         title: data.type,
         desc: `${data.payload.desc}`,
+      });
+    });
+  }
+
+  private listenNotifyObserver() {
+    this.clientNotifyService.listenNotifyObserver().subscribe((data) => {
+      this.systemNotificationService.info({
+        title: data.type,
+        desc: `${data.payload.desc}`,
+        click: (event: Event) => {
+          event.preventDefault();
+          window.open(`${data.payload.link}`, '_blank');
+        },
       });
     });
   }

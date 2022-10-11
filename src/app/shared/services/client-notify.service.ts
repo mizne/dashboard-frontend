@@ -18,10 +18,16 @@ interface ClientNotifyTaskErrorData {
   payload: { desc: string };
 }
 
+interface ClientNotifyObserverData {
+  type: 'notify-observer';
+  payload: { desc: string; link?: string };
+}
+
 export type ClientNotifyData =
   | ClientNotifyNewlyCoinData
   | ClientNotifyTaskCompleteData
-  | ClientNotifyTaskErrorData;
+  | ClientNotifyTaskErrorData
+  | ClientNotifyObserverData;
 
 @Injectable({ providedIn: 'root' })
 export class ClientNotifyService {
@@ -77,5 +83,13 @@ export class ClientNotifyService {
       .pipe(
         filter((e) => e.type === 'task-error')
       ) as Observable<ClientNotifyTaskErrorData>;
+  }
+
+  listenNotifyObserver(): Observable<ClientNotifyObserverData> {
+    return this.subject
+      .asObservable()
+      .pipe(
+        filter((e) => e.type === 'notify-observer')
+      ) as Observable<ClientNotifyObserverData>;
   }
 }
