@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
   private listenNotifyObserver() {
     this.clientNotifyService.listenNotifyObserver().subscribe((data) => {
       this.systemNotificationService.info({
-        title: data.type,
+        title: data.payload.title,
         desc: `${data.payload.desc}`,
         click: (event: Event) => {
           event.preventDefault();
