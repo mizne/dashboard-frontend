@@ -53,11 +53,13 @@
 
         <nz-card *ngFor="let item of items" style="width: 380px; margin-bottom: 12px;" [nzTitle]="item.title"
           [nzExtra]="extraTemplate">
-          <p [innerHtml]="item.desc"></p>
-          <p>
-            <span>添加时间：</span>
-            <created-at [createdAt]="item.createdAt"></created-at>
-          </p>
+          <div style="position: relative; padding-bottom: 12px;">
+            <p [innerHtml]="item.desc"></p>
+            <p style="position: absolute; right: 12px;">
+              <span>添加时间：</span>
+              <created-at [createdAt]="item.createdAt"></created-at>
+            </p>
+          </div>
 
           <ng-template #extraTemplate>
             <linkable *ngIf="item.link" [href]="item.link">
