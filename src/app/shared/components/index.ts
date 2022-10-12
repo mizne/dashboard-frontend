@@ -10,6 +10,7 @@ import { ExecuteTaskCustomComponent } from './execute-task-custom/execute-task-c
 import { LeverageCalcComponent } from './leverage-calc/leverage-calc.component';
 import { TokenLogoComponent } from './token-logo/token-logo.component';
 import { CreatedAtComponent } from './created-at/created-at.component';
+import { NotifyHistoryComponent } from './notify-history/notify-history.component';
 
 export const components = [
   LinkableComponent,
@@ -24,6 +25,7 @@ export const components = [
   LeverageCalcComponent,
   TokenLogoComponent,
   CreatedAtComponent,
+  NotifyHistoryComponent,
 ];
 
 export {
@@ -39,4 +41,5 @@ export {
   LeverageCalcComponent,
   TokenLogoComponent,
   CreatedAtComponent,
+  NotifyHistoryComponent,
 };

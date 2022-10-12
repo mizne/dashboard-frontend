@@ -29,12 +29,12 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { components } from './components';
-import { services } from './services';
 import { pipes } from './pipes';
 
 const nzModules = [
@@ -68,6 +68,7 @@ const nzModules = [
   NzPopoverModule,
   NzAutocompleteModule,
   NzDescriptionsModule,
+  NzPaginationModule,
 ];
 const ngModules = [CommonModule, ReactiveFormsModule];
 

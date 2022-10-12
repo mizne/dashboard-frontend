@@ -1,0 +1,79 @@
+<div class="notify-history-container" style="position:fixed; top: 24px; right: 184px; z-index: 100">
+  <button nz-button nzType="primary" nzShape="circle" (click)="open()" [title]="'通知历史'">
+    <i nz-icon [nzType]="'bell'" nzTheme="outline"></i>
+  </button>
+  <nz-drawer [nzClosable]="false" [nzWidth]="450" [nzVisible]="visible" nzPlacement="right" nzTitle="通知历史"
+    (nzOnClose)="close()">
+    <ng-container *nzDrawerContent>
+      <div class="notify-history-list-container">
+        <nz-card style="margin-bottom: 12px;">
+          <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item>
+                  <nz-form-label [nzSpan]="5" nzFor="title">标题</nz-form-label>
+                  <nz-form-control [nzSpan]="19">
+                    <input nz-input class="ant-input" placeholder="请输入标题" formControlName="title" [attr.id]="'title'" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+            </div>
+
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item>
+                  <nz-form-label [nzSpan]="5" nzFor="sourceType">来源类型</nz-form-label>
+                  <nz-form-control [nzSpan]="19">
+                    <nz-select [attr.id]="'sourceType'" formControlName="type">
+                      <nz-option *ngFor="let item of types" [nzValue]="item.value" [nzLabel]="item.label">
+                      </nz-option>
+                    </nz-select>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item nz-row class="register-area">
+                  <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                    <button nz-button [nzType]="'primary'">搜索</button>
+                    <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+          </form>
+        </nz-card>
+
+        <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
+          [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)" style="margin-bottom: 12px;">
+        </nz-pagination>
+
+        <nz-card *ngFor="let item of items" style="width: 380px; margin-bottom: 12px;" [nzTitle]="item.title"
+          [nzExtra]="extraTemplate">
+          <p [innerHtml]="item.desc"></p>
+          <p>
+            <span>添加时间：</span>
+            <created-at [createdAt]="item.createdAt"></created-at>
+          </p>
+
+          <ng-template #extraTemplate>
+            <linkable *ngIf="item.link" [href]="item.link">
+            </linkable>
+          </ng-template>
+        </nz-card>
+
+        <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
+          [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)">
+        </nz-pagination>
+        <ng-template #rangeTemplate let-range="range" let-total>
+          {{ range[0] }}-{{ range[1] }} of {{ total }} items
+        </ng-template>
+      </div>
+
+
+    </ng-container>
+  </nz-drawer>
+</div>
