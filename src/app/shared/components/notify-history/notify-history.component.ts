@@ -42,9 +42,7 @@ export class NotifyHistoryComponent implements OnInit {
     type: [this.types[0].value],
   });
 
-  ngOnInit() {
-    this.loadDataFromServer();
-  }
+  ngOnInit() {}
 
   submitForm(): void {
     this.query = removeEmpty(this.form.value);
@@ -65,6 +63,7 @@ export class NotifyHistoryComponent implements OnInit {
 
   open(): void {
     this.visible = true;
+    this.loadDataFromServer();
   }
 
   close(): void {
