@@ -71,7 +71,7 @@ export class CreateProjectService {
 
     modal.afterClose.subscribe((res) => {
       if (isNil(res)) {
-        errorSubject.next(new Error('用户取消'));
+        // errorSubject.next(new Error('用户取消'));
         errorSubject.complete();
         successSubject.complete();
       } else {
