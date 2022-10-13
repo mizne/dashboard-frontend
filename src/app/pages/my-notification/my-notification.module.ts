@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 import { MyNotificationRoutingModule } from './my-notification-routing.module';
-
+import { SharedModule } from 'src/app/shared';
 import { MyNotificationComponent } from './my-notification.component';
+import { CreateNotifyObserverModule } from 'src/app/modules/create-notify-observer';
 
 @NgModule({
-  imports: [MyNotificationRoutingModule, NzButtonModule],
+  imports: [
+    SharedModule,
+    CreateNotifyObserverModule,
+    MyNotificationRoutingModule,
+  ],
   declarations: [MyNotificationComponent],
   exports: [MyNotificationComponent],
 })

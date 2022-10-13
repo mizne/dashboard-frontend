@@ -1,0 +1,75 @@
+<div class="create-notify-observer-container">
+  <form nz-form [formGroup]="form">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="sourceType" nzRequired nzTooltipTitle="来源类型">
+        <span>来源类型</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your 来源类型!">
+        <nz-select [attr.id]="'sourceType'" formControlName="type">
+          <nz-option *ngFor="let item of types" [nzValue]="item.value" [nzLabel]="item.label">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，定时追踪最新文章">
+        <span>每日统计</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-switch formControlName="enableTracking"></nz-switch>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="notifyShowTitle" nzTooltipTitle="通知标题，支持占位符{title}、{time}">
+        <span>通知标题</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input class="ant-input" id="notifyShowTitle" formControlName="notifyShowTitle" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <ng-container *ngIf="isMedium">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="mediumHomeLink" nzTooltipTitle="medium 主页链接">
+          <span>medium 主页链接</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input class="ant-input" id="mediumHomeLink" formControlName="mediumHomeLink" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="mediumTitleKey" nzTooltipTitle="如填写，则匹配该关键字">
+          <span>文章标题关键字</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input class="ant-input" id="mediumTitleKey" formControlName="mediumTitleKey" />
+        </nz-form-control>
+      </nz-form-item>
+    </ng-container>
+
+    <ng-container *ngIf="isMirror">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="mirrorHomeLink" nzTooltipTitle="mirror 主页链接">
+          <span>mirror 主页链接</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input class="ant-input" id="mirrorHomeLink" formControlName="mirrorHomeLink" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="mirrorTitleKey" nzTooltipTitle="如填写，则匹配该关键字">
+          <span>文章标题关键字</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input class="ant-input" id="mirrorTitleKey" formControlName="mirrorTitleKey" />
+        </nz-form-control>
+      </nz-form-item>
+    </ng-container>
+
+  </form>
+
+</div>
