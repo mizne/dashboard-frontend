@@ -100,7 +100,7 @@ export class MyNotificationComponent implements OnInit {
 
   showCreateModal() {
     const obj: Partial<NotifyObserver> = {
-      enableTracking: false,
+      enableTracking: true,
     };
     const { success, error } = this.createNotifyObserverService.createModal(
       '添加订阅源',
