@@ -55,6 +55,11 @@
 
   <nz-spin [nzSpinning]="loading">
     <nz-card style="margin-top: 12px">
+      <div style="display: flex; justify-content: center; margin-bottom: 12px">
+        <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="total" [nzShowTotal]="rangeTemplate"
+          (nzPageIndexChange)="pageIndexChange($event)">
+        </nz-pagination>
+      </div>
       <div nz-row [nzGutter]="16">
         <div *ngFor="let item of items" nz-col nzSpan="6" style="margin-bottom: 12px">
           <ng-container *ngIf="isMedium(item.type)">
@@ -123,16 +128,22 @@
             </ng-template>
           </ng-container>
         </div>
+
+        <ng-container *ngIf="items.length === 0">
+          <div style="width: 100%; display: flex; justify-content: center;">
+            <nz-empty></nz-empty>
+          </div>
+        </ng-container>
       </div>
 
       <div style="display: flex; justify-content: center;">
         <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="total" [nzShowTotal]="rangeTemplate"
           (nzPageIndexChange)="pageIndexChange($event)">
         </nz-pagination>
-        <ng-template #rangeTemplate let-range="range" let-total>
-          {{ range[0] }}-{{ range[1] }} of {{ total }} items
-        </ng-template>
       </div>
+      <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} of {{ total }} items
+      </ng-template>
     </nz-card>
   </nz-spin>
 </div>

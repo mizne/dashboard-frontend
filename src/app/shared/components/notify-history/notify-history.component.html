@@ -95,6 +95,10 @@
 
         </ng-container>
 
+        <ng-container *ngIf="items.length === 0">
+          <nz-empty></nz-empty>
+        </ng-container>
+
         <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
           [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)">
         </nz-pagination>

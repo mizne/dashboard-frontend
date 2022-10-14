@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
   private listenNewlyCoinNotify() {
     this.clientNotifyService.listenNewlyCoin().subscribe((data) => {
       this.systemNotificationService.info({
-        title: data.type,
+        title: '新币通知',
         desc: `name: ${data.payload.name}, symbol: ${data.payload.symbol}`,
         click: (event: Event) => {
           event.preventDefault(); // prevent the browser from focusing the Notification's tab
