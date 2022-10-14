@@ -40,7 +40,10 @@ export class CreateNotifyObserverService {
   } {
     const form = this.fb.group({
       type: [obj.type || NotifyObserverTypes.MEDIUM, [Validators.required]],
-      enableTracking: [!!obj.enableTracking, [Validators.required]],
+      enableTracking: [
+        obj.enableTracking === false ? false : true,
+        [Validators.required],
+      ],
       notifyShowTitle: [obj.notifyShowTitle],
       mediumHomeLink: [obj.mediumHomeLink],
       mediumTitleKey: [obj.mediumTitleKey],
