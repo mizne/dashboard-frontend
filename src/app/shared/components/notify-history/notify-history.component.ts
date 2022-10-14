@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { NotifyHistory, NotifyObserverTypes } from '../../models';
 import { removeEmpty } from 'src/app/utils';
 import { NotifyHistoryService } from '../../services';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'notify-history',
@@ -11,7 +12,8 @@ import { NotifyHistoryService } from '../../services';
 export class NotifyHistoryComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
-    private readonly notifyHistoryService: NotifyHistoryService
+    private readonly notifyHistoryService: NotifyHistoryService,
+    private readonly nzNotificationService: NzNotificationService
   ) {}
 
   visible = false;
@@ -37,15 +39,29 @@ export class NotifyHistoryComponent implements OnInit {
       value: NotifyObserverTypes.MIRROR,
     },
   ];
+  readStatuses = [
+    {
+      label: '未读',
+      value: false,
+    },
+    {
+      label: '已读',
+      value: true,
+    },
+    {
+      label: '所有',
+      value: '',
+    },
+  ];
   form = this.fb.group({
     title: [null],
     type: [this.types[0].value],
+    hasRead: [this.readStatuses[0].value],
   });
 
   ngOnInit() {}
 
   submitForm(): void {
-    this.query = removeEmpty(this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
     this.loadDataFromServer();
@@ -54,11 +70,27 @@ export class NotifyHistoryComponent implements OnInit {
   resetForm() {
     this.form.reset({
       type: this.types[0].value,
+      hasRead: this.readStatuses[0].value,
     });
-    this.query = removeEmpty(this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
     this.loadDataFromServer();
+  }
+
+  markRead(item: NotifyHistory) {
+    this.notifyHistoryService
+      .update(item._id, {
+        hasRead: true,
+      })
+      .subscribe({
+        next: () => {
+          this.loadDataFromServer();
+        },
+        complete: () => {},
+        error: (e: Error) => {
+          this.nzNotificationService.error(`标记已读失败`, e.message);
+        },
+      });
   }
 
   open(): void {
@@ -76,6 +108,7 @@ export class NotifyHistoryComponent implements OnInit {
   }
 
   private loadDataFromServer() {
+    this.query = removeEmpty(this.form.value);
     this.loading = true;
     this.notifyHistoryService
       .queryList(this.adjustQuery(this.query), {
@@ -101,6 +134,10 @@ export class NotifyHistoryComponent implements OnInit {
       if (key === 'title') {
         Object.assign(o, {
           ['title']: { $regex: query['title'], $options: 'i' },
+        });
+      } else if (key === 'hasRead' && query['hasRead'] === false) {
+        Object.assign(o, {
+          ['hasRead']: { $in: [false, undefined, null] },
         });
       } else {
         Object.assign(o, { [key]: query[key] });

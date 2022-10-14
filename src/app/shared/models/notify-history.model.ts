@@ -7,6 +7,7 @@ export interface NotifyHistory {
   title: string;
   desc: string;
   link?: string;
+  hasRead: boolean;
 
   readonly createdAt: number;
   readonly createdAtStr: string;

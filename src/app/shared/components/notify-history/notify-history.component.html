@@ -36,6 +36,21 @@
 
             <div nz-row>
               <div nz-col [nzSpan]="24">
+                <nz-form-item>
+                  <nz-form-label nzFor="hasRead">周期</nz-form-label>
+                  <nz-form-control>
+                    <nz-radio-group formControlName="hasRead" nzButtonStyle="solid">
+                      <label nz-radio-button *ngFor="let item of readStatuses"
+                        [nzValue]="item.value">{{item.label}}</label>
+                    </nz-radio-group>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+            </div>
+
+
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
                 <nz-form-item nz-row class="register-area">
                   <nz-form-control [nzSpan]="14" [nzOffset]="6">
                     <button nz-button [nzType]="'primary'">搜索</button>
@@ -51,21 +66,34 @@
           [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)" style="margin-bottom: 12px;">
         </nz-pagination>
 
-        <nz-card *ngFor="let item of items" style="width: 380px; margin-bottom: 12px;" [nzTitle]="item.title"
-          [nzExtra]="extraTemplate">
-          <div style="position: relative; padding-bottom: 12px;">
-            <p [innerHtml]="item.desc"></p>
-            <p style="position: absolute; right: 12px;">
-              <span>添加时间：</span>
-              <created-at [createdAt]="item.createdAt"></created-at>
-            </p>
-          </div>
 
-          <ng-template #extraTemplate>
-            <linkable *ngIf="item.link" [href]="item.link">
-            </linkable>
-          </ng-template>
-        </nz-card>
+
+        <ng-container *ngFor="let item of items">
+
+          <nz-ribbon [nzText]="item.hasRead ? '已读' : 'New'" [nzColor]="item.hasRead ? '#eee' : 'pink'">
+            <nz-card [ngStyle]="{width: '380px', marginBottom: '12px', color: item.hasRead ? '#eee' : ''}"
+              [nzTitle]="item.title" [nzExtra]="extraTemplate">
+              <div style="position: relative;">
+                <p [innerHtml]="item.desc"></p>
+                <p style="position: absolute; right: 12px;">
+                  <span>添加时间：</span>
+                  <created-at [createdAt]="item.createdAt"></created-at>
+                </p>
+                <p>
+                  <linkable *ngIf="item.link" [href]="item.link">
+                  </linkable>
+                </p>
+              </div>
+
+              <ng-template #extraTemplate>
+                <button *ngIf="!item.hasRead" nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popconfirm
+                  nzPopconfirmTitle="确认标记已读?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="markRead(item)"><span
+                    nz-icon nzType="eye"></span></button>
+              </ng-template>
+            </nz-card>
+          </nz-ribbon>
+
+        </ng-container>
 
         <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
           [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)">
