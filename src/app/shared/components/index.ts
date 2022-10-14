@@ -11,6 +11,7 @@ import { LeverageCalcComponent } from './leverage-calc/leverage-calc.component';
 import { TokenLogoComponent } from './token-logo/token-logo.component';
 import { MirrorLogoComponent } from './mirror-logo/mirror-logo.component';
 import { MediumLogoComponent } from './medium-logo/medium-logo.component';
+import { TwitterLogoComponent } from './twitter-logo/twitter-logo.component';
 import { CreatedAtComponent } from './created-at/created-at.component';
 import { NotifyHistoryComponent } from './notify-history/notify-history.component';
 
@@ -30,6 +31,7 @@ export const components = [
   NotifyHistoryComponent,
   MirrorLogoComponent,
   MediumLogoComponent,
+  TwitterLogoComponent,
 ];
 
 export {
@@ -48,4 +50,5 @@ export {
   NotifyHistoryComponent,
   MirrorLogoComponent,
   MediumLogoComponent,
+  TwitterLogoComponent,
 };

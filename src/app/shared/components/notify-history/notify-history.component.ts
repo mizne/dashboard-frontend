@@ -38,6 +38,10 @@ export class NotifyHistoryComponent implements OnInit {
       label: 'Mirror',
       value: NotifyObserverTypes.MIRROR,
     },
+    {
+      label: 'Twitter',
+      value: NotifyObserverTypes.TWITTER,
+    },
   ];
   readStatuses = [
     {

@@ -21,21 +21,23 @@ export class CreateNotifyObserverComponent implements OnInit {
       label: 'Mirror',
       value: NotifyObserverTypes.MIRROR,
     },
+    {
+      label: 'Twitter',
+      value: NotifyObserverTypes.TWITTER,
+    },
   ];
 
   get isMedium(): boolean {
     return this.form?.get('type')?.value === NotifyObserverTypes.MEDIUM;
   }
-
   get isMirror(): boolean {
     return this.form?.get('type')?.value === NotifyObserverTypes.MIRROR;
   }
+  get isTwitter(): boolean {
+    return this.form?.get('type')?.value === NotifyObserverTypes.TWITTER;
+  }
 
-  constructor(
-    private modal: NzModalRef,
-    private fb: FormBuilder,
-    private createNotifyObserverService: CreateNotifyObserverService
-  ) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.patchForm();

@@ -70,6 +70,27 @@
       </nz-form-item>
     </ng-container>
 
+
+    <ng-container *ngIf="isTwitter">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="twitterHomeLink" nzTooltipTitle="twitter 主页链接">
+          <span>twitter 主页链接</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input class="ant-input" id="twitterHomeLink" formControlName="twitterHomeLink" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="twitterTitleKey" nzTooltipTitle="如填写，则匹配该关键字，多个关键字可用英文逗号(,)分开">
+          <span>文章关键字</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input class="ant-input" id="twitterTitleKey" formControlName="twitterTitleKey" />
+        </nz-form-control>
+      </nz-form-item>
+    </ng-container>
+
   </form>
 
 </div>

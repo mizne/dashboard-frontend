@@ -81,7 +81,7 @@
                 </p>
                 <p>
                   <linkable *ngIf="item.link" [href]="item.link"
-                    [content]="item.type === 'MEDIUM' ? mediumLogo: mirrorLogo">
+                    [content]="item.type === 'MEDIUM' ? mediumLogo: (item.type === 'MIRROR' ? mirrorLogo : twitterLogo)">
                   </linkable>
                 </p>
 
@@ -90,6 +90,9 @@
                 </ng-template>
                 <ng-template #mirrorLogo>
                   <mirror-logo></mirror-logo>
+                </ng-template>
+                <ng-template #twitterLogo>
+                  <twitter-logo></twitter-logo>
                 </ng-template>
               </div>
 

@@ -46,6 +46,8 @@ export class CreateNotifyObserverService {
       mediumTitleKey: [obj.mediumTitleKey],
       mirrorHomeLink: [obj.mirrorHomeLink],
       mirrorTitleKey: [obj.mirrorTitleKey],
+      twitterHomeLink: [obj.twitterHomeLink],
+      twitterTitleKey: [obj.twitterTitleKey],
     });
     // 创建成功时 会next值 弹框会关闭 且会结束
     const successSubject = new Subject<any>();

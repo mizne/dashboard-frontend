@@ -62,77 +62,56 @@
       </div>
       <div nz-row [nzGutter]="16">
         <div *ngFor="let item of items" nz-col nzSpan="6" style="margin-bottom: 12px">
-          <ng-container *ngIf="isMedium(item.type)">
-            <nz-card style="width:320px;" [nzTitle]="item.notifyShowTitle || '【默认通知标题】'" [nzExtra]="extraTemplate">
-              <p>
-                <nz-tag *ngIf="item.enableTracking; else disableTrackingTpl" nzColor="success">
-                  <i nz-icon nzType="check-circle"></i>
-                  <span>已开启</span>
+          <nz-card style="width:320px;" [nzTitle]="item.notifyShowTitle || '【默认通知标题】'" [nzExtra]="extraTemplate">
+            <p>
+              <nz-tag *ngIf="item.enableTracking; else disableTrackingTpl" nzColor="success">
+                <i nz-icon nzType="check-circle"></i>
+                <span>已开启</span>
+              </nz-tag>
+              <ng-template #disableTrackingTpl>
+                <nz-tag nzColor="warning">
+                  <i nz-icon nzType="exclamation-circle"></i>
+                  <span>未开启</span>
                 </nz-tag>
-                <ng-template #disableTrackingTpl>
-                  <nz-tag nzColor="warning">
-                    <i nz-icon nzType="exclamation-circle"></i>
-                    <span>未开启</span>
-                  </nz-tag>
-                </ng-template>
-
-                <nz-switch [formControl]="item.enableTrackingCtrl"></nz-switch>
-              </p>
-              <p *ngIf="item.mediumTitleKey">{{item.mediumTitleKey}}</p>
-
-              <div style="display: flex;justify-content: space-between;align-items: center;">
-                <linkable [href]="item.mediumHomeLink || ''" [content]="mediumLogo"></linkable>
-                <created-at [createdAt]="item.createdAt"></created-at>
-              </div>
-              <ng-template #mediumLogo>
-                <medium-logo></medium-logo>
               </ng-template>
+              <nz-switch [formControl]="item.enableTrackingCtrl"></nz-switch>
 
-            </nz-card>
-            <ng-template #extraTemplate>
-              <button nz-button nzType="primary" nzShape="circle" (click)="confirmUpdate(item)"><span nz-icon
-                  nzType="edit"></span></button>
+              <span style="margin-left: 12px"
+                *ngIf="isMedium(item.type) && item.mediumTitleKey">{{item.mediumTitleKey}}</span>
+              <span style="margin-left: 12px"
+                *ngIf="isMirror(item.type) && item.mirrorTitleKey">{{item.mirrorTitleKey}}</span>
+              <span style="margin-left: 12px"
+                *ngIf="isTwitter(item.type) && item.twitterTitleKey">{{item.twitterTitleKey}}</span>
+            </p>
 
-              <button style="margin-left: 6px" nz-button nzType="primary" nzDanger nzShape="circle" nz-popconfirm
-                nzPopconfirmTitle="确认删除该订阅源?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete(item)"
-                (nzOnCancel)="cancelDelete(item)"><span nz-icon nzType="delete"></span></button>
+
+            <div style="display: flex;justify-content: space-between;align-items: center;">
+              <linkable *ngIf="isMedium(item.type)" [href]="item.mediumHomeLink || ''" [content]="mediumLogo">
+              </linkable>
+              <linkable *ngIf="isMirror(item.type)" [href]="item.mirrorHomeLink || ''" [content]="mirrorLogo">
+              </linkable>
+              <linkable *ngIf="isTwitter(item.type)" [href]="item.twitterHomeLink || ''" [content]="twitterLogo">
+              </linkable>
+              <created-at [createdAt]="item.createdAt"></created-at>
+            </div>
+            <ng-template #mediumLogo>
+              <medium-logo></medium-logo>
             </ng-template>
-          </ng-container>
-          <ng-container *ngIf="isMirror(item.type)">
-
-            <nz-card style="width:320px;" [nzTitle]="item.notifyShowTitle || '【默认通知标题】'" [nzExtra]="extraTemplate">
-              <p>
-                <nz-tag *ngIf="item.enableTracking; else disableTrackingTpl" nzColor="success">
-                  <i nz-icon nzType="check-circle"></i>
-                  <span>已开启</span>
-                </nz-tag>
-                <ng-template #disableTrackingTpl>
-                  <nz-tag nzColor="warning">
-                    <i nz-icon nzType="exclamation-circle"></i>
-                    <span>未开启</span>
-                  </nz-tag>
-                </ng-template>
-                <nz-switch [formControl]="item.enableTrackingCtrl"></nz-switch>
-              </p>
-              <p *ngIf="item.mirrorTitleKey">{{item.mirrorTitleKey}}</p>
-
-              <div style="display: flex;justify-content: space-between;align-items: center;">
-                <linkable [href]="item.mirrorHomeLink || ''" [content]="mirrorLogo"></linkable>
-                <created-at [createdAt]="item.createdAt"></created-at>
-              </div>
-              <ng-template #mirrorLogo>
-                <mirror-logo></mirror-logo>
-              </ng-template>
-            </nz-card>
-            <ng-template #extraTemplate>
-              <button nz-button nzType="primary" nzShape="circle" (click)="confirmUpdate(item)"><span nz-icon
-                  nzType="edit"></span></button>
-
-              <button style="margin-left: 6px" nz-button nzType="primary" nzDanger nzShape="circle" nz-popconfirm
-                nzPopconfirmTitle="确认删除该订阅源?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete(item)"
-                (nzOnCancel)="cancelDelete(item)"><span nz-icon nzType="delete"></span></button>
+            <ng-template #mirrorLogo>
+              <mirror-logo></mirror-logo>
             </ng-template>
-          </ng-container>
+            <ng-template #twitterLogo>
+              <twitter-logo></twitter-logo>
+            </ng-template>
+          </nz-card>
+          <ng-template #extraTemplate>
+            <button nz-button nzType="primary" nzShape="circle" (click)="confirmUpdate(item)"><span nz-icon
+                nzType="edit"></span></button>
+
+            <button style="margin-left: 6px" nz-button nzType="primary" nzDanger nzShape="circle" nz-popconfirm
+              nzPopconfirmTitle="确认删除该订阅源?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete(item)"
+              (nzOnCancel)="cancelDelete(item)"><span nz-icon nzType="delete"></span></button>
+          </ng-template>
         </div>
 
         <ng-container *ngIf="items.length === 0">

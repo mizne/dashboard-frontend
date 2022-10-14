@@ -1,6 +1,7 @@
 export enum NotifyObserverTypes {
   MEDIUM = 'MEDIUM',
   MIRROR = 'MIRROR',
+  TWITTER = 'TWITTER',
 }
 
 export interface NotifyObserver {
@@ -14,6 +15,9 @@ export interface NotifyObserver {
 
   mirrorHomeLink?: string;
   mirrorTitleKey?: string;
+
+  twitterHomeLink?: string;
+  twitterTitleKey?: string;
 
   readonly createdAt: number;
   readonly createdAtStr: string;

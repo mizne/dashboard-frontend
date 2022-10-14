@@ -55,6 +55,10 @@ export class MyNotificationComponent implements OnInit {
       label: 'Mirror',
       value: NotifyObserverTypes.MIRROR,
     },
+    {
+      label: 'Twitter',
+      value: NotifyObserverTypes.TWITTER,
+    },
   ];
   form = this.fb.group({
     notifyShowTitle: [null],
@@ -75,6 +79,10 @@ export class MyNotificationComponent implements OnInit {
 
   isMirror(type: NotifyObserverTypes) {
     return type === NotifyObserverTypes.MIRROR;
+  }
+
+  isTwitter(type: NotifyObserverTypes) {
+    return type === NotifyObserverTypes.TWITTER;
   }
 
   resetForm() {
