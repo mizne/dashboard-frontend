@@ -65,7 +65,6 @@ export class MyNotificationComponent implements OnInit {
   subscriptions: Subscription[] = [];
 
   submitForm(): void {
-    this.query = removeEmpty(this.form.value);
     this.pageIndex = 1;
     this.loadDataFromServer();
   }
@@ -82,7 +81,7 @@ export class MyNotificationComponent implements OnInit {
     this.form.reset({
       type: this.types[0].value,
     });
-    this.query = removeEmpty(this.form.value);
+
     this.pageIndex = 1;
     this.loadDataFromServer();
   }
@@ -151,6 +150,7 @@ export class MyNotificationComponent implements OnInit {
   cancelDelete(item: TableItem) {}
 
   private loadDataFromServer(): void {
+    this.query = removeEmpty(this.form.value);
     this.loading = true;
     this.notifyObserverService
       .queryList(
