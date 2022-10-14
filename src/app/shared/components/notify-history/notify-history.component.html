@@ -37,8 +37,8 @@
             <div nz-row>
               <div nz-col [nzSpan]="24">
                 <nz-form-item>
-                  <nz-form-label nzFor="hasRead">周期</nz-form-label>
-                  <nz-form-control>
+                  <nz-form-label [nzSpan]="5" nzFor="hasRead">阅读状态</nz-form-label>
+                  <nz-form-control [nzSpan]="19">
                     <nz-radio-group formControlName="hasRead" nzButtonStyle="solid">
                       <label nz-radio-button *ngFor="let item of readStatuses"
                         [nzValue]="item.value">{{item.label}}</label>
