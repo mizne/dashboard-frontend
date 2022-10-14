@@ -80,9 +80,17 @@
                   <created-at [createdAt]="item.createdAt"></created-at>
                 </p>
                 <p>
-                  <linkable *ngIf="item.link" [href]="item.link">
+                  <linkable *ngIf="item.link" [href]="item.link"
+                    [content]="item.type === 'MEDIUM' ? mediumLogo: mirrorLogo">
                   </linkable>
                 </p>
+
+                <ng-template #mediumLogo>
+                  <medium-logo></medium-logo>
+                </ng-template>
+                <ng-template #mirrorLogo>
+                  <mirror-logo></mirror-logo>
+                </ng-template>
               </div>
 
               <ng-template #extraTemplate>

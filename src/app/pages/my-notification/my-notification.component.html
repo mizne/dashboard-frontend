@@ -63,8 +63,7 @@
       <div nz-row [nzGutter]="16">
         <div *ngFor="let item of items" nz-col nzSpan="6" style="margin-bottom: 12px">
           <ng-container *ngIf="isMedium(item.type)">
-            <nz-card style="width:300px;" [nzTitle]="item.type" [nzExtra]="extraTemplate">
-              <p>{{item.notifyShowTitle || '【默认通知标题】'}}</p>
+            <nz-card style="width:320px;" [nzTitle]="item.notifyShowTitle || '【默认通知标题】'" [nzExtra]="extraTemplate">
               <p>
                 <nz-tag *ngIf="item.enableTracking; else disableTrackingTpl" nzColor="success">
                   <i nz-icon nzType="check-circle"></i>
@@ -80,10 +79,15 @@
                 <nz-switch [formControl]="item.enableTrackingCtrl"></nz-switch>
               </p>
               <p *ngIf="item.mediumTitleKey">{{item.mediumTitleKey}}</p>
+
               <div style="display: flex;justify-content: space-between;align-items: center;">
-                <linkable [href]="item.mediumHomeLink || ''"></linkable>
+                <linkable [href]="item.mediumHomeLink || ''" [content]="mediumLogo"></linkable>
                 <created-at [createdAt]="item.createdAt"></created-at>
               </div>
+              <ng-template #mediumLogo>
+                <medium-logo></medium-logo>
+              </ng-template>
+
             </nz-card>
             <ng-template #extraTemplate>
               <button nz-button nzType="primary" nzShape="circle" (click)="confirmUpdate(item)"><span nz-icon
@@ -96,8 +100,7 @@
           </ng-container>
           <ng-container *ngIf="isMirror(item.type)">
 
-            <nz-card style="width:300px;" [nzTitle]="item.type" [nzExtra]="extraTemplate">
-              <p>{{item.notifyShowTitle || '【默认通知标题】'}}</p>
+            <nz-card style="width:320px;" [nzTitle]="item.notifyShowTitle || '【默认通知标题】'" [nzExtra]="extraTemplate">
               <p>
                 <nz-tag *ngIf="item.enableTracking; else disableTrackingTpl" nzColor="success">
                   <i nz-icon nzType="check-circle"></i>
@@ -114,9 +117,12 @@
               <p *ngIf="item.mirrorTitleKey">{{item.mirrorTitleKey}}</p>
 
               <div style="display: flex;justify-content: space-between;align-items: center;">
-                <linkable [href]="item.mirrorHomeLink || ''"></linkable>
+                <linkable [href]="item.mirrorHomeLink || ''" [content]="mirrorLogo"></linkable>
                 <created-at [createdAt]="item.createdAt"></created-at>
               </div>
+              <ng-template #mirrorLogo>
+                <mirror-logo></mirror-logo>
+              </ng-template>
             </nz-card>
             <ng-template #extraTemplate>
               <button nz-button nzType="primary" nzShape="circle" (click)="confirmUpdate(item)"><span nz-icon

@@ -9,6 +9,8 @@ import { ToolkitComponent } from './toolkit/toolkit.component';
 import { ExecuteTaskCustomComponent } from './execute-task-custom/execute-task-custom.component';
 import { LeverageCalcComponent } from './leverage-calc/leverage-calc.component';
 import { TokenLogoComponent } from './token-logo/token-logo.component';
+import { MirrorLogoComponent } from './mirror-logo/mirror-logo.component';
+import { MediumLogoComponent } from './medium-logo/medium-logo.component';
 import { CreatedAtComponent } from './created-at/created-at.component';
 import { NotifyHistoryComponent } from './notify-history/notify-history.component';
 
@@ -26,6 +28,8 @@ export const components = [
   TokenLogoComponent,
   CreatedAtComponent,
   NotifyHistoryComponent,
+  MirrorLogoComponent,
+  MediumLogoComponent,
 ];
 
 export {
@@ -42,4 +46,6 @@ export {
   TokenLogoComponent,
   CreatedAtComponent,
   NotifyHistoryComponent,
+  MirrorLogoComponent,
+  MediumLogoComponent,
 };

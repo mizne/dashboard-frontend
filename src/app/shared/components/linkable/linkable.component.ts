@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'linkable',
@@ -20,6 +20,9 @@ export class LinkableComponent implements OnInit {
   @Input() size: 'small' | 'default' | 'large' = 'default';
 
   @Input() title = '';
+
+  @Input() content: TemplateRef<any> | null = null;
+  templateContext: { [key: string]: any } = {};
 
   validHref = false;
   constructor() {}
