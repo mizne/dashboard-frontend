@@ -75,15 +75,11 @@
                 </nz-tag>
               </ng-template>
               <nz-switch [formControl]="item.enableTrackingCtrl"></nz-switch>
-
-              <span style="margin-left: 12px"
-                *ngIf="isMedium(item.type) && item.mediumTitleKey">{{item.mediumTitleKey}}</span>
-              <span style="margin-left: 12px"
-                *ngIf="isMirror(item.type) && item.mirrorTitleKey">{{item.mirrorTitleKey}}</span>
-              <span style="margin-left: 12px"
-                *ngIf="isTwitter(item.type) && item.twitterTitleKey">{{item.twitterTitleKey}}</span>
             </p>
 
+            <p nz-typography nzEllipsis nzCopyable
+              [nzContent]="(isMedium(item.type) && item.mediumTitleKey) || (isMirror(item.type) && item.mirrorTitleKey) || (isTwitter(item.type) && item.twitterTitleKey) || ''">
+            </p>
 
             <div style="display: flex;justify-content: space-between;align-items: center;">
               <linkable *ngIf="isMedium(item.type)" [href]="item.mediumHomeLink || ''" [content]="mediumLogo">
