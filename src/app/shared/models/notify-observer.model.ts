@@ -2,6 +2,7 @@ export enum NotifyObserverTypes {
   MEDIUM = 'MEDIUM',
   MIRROR = 'MIRROR',
   TWITTER = 'TWITTER',
+  TWITTER_SPACE = 'TWITTER_SPACE',
 }
 
 export interface NotifyObserver {
@@ -18,6 +19,9 @@ export interface NotifyObserver {
 
   twitterHomeLink?: string;
   twitterTitleKey?: string;
+
+  twitterSpaceHomeLink?: string;
+  twitterSpaceTitleKey?: string;
 
   readonly createdAt: number;
   readonly createdAtStr: string;

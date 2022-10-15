@@ -48,6 +48,10 @@ export class NotifyHistoryComponent implements OnInit {
       label: 'Twitter',
       value: NotifyObserverTypes.TWITTER,
     },
+    {
+      label: 'Twitter Space',
+      value: NotifyObserverTypes.TWITTER_SPACE,
+    },
   ];
   readStatuses = [
     {

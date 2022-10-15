@@ -25,6 +25,10 @@ export class CreateNotifyObserverComponent implements OnInit {
       label: 'Twitter',
       value: NotifyObserverTypes.TWITTER,
     },
+    {
+      label: 'Twitter Space',
+      value: NotifyObserverTypes.TWITTER_SPACE,
+    },
   ];
 
   get isMedium(): boolean {
@@ -35,6 +39,9 @@ export class CreateNotifyObserverComponent implements OnInit {
   }
   get isTwitter(): boolean {
     return this.form?.get('type')?.value === NotifyObserverTypes.TWITTER;
+  }
+  get isTwitterSpace(): boolean {
+    return this.form?.get('type')?.value === NotifyObserverTypes.TWITTER_SPACE;
   }
 
   constructor(private fb: FormBuilder) {}

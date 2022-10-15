@@ -59,6 +59,10 @@ export class MyNotificationComponent implements OnInit {
       label: 'Twitter',
       value: NotifyObserverTypes.TWITTER,
     },
+    {
+      label: 'Twitter Space',
+      value: NotifyObserverTypes.TWITTER_SPACE,
+    },
   ];
   form = this.fb.group({
     notifyShowTitle: [null],
@@ -83,6 +87,10 @@ export class MyNotificationComponent implements OnInit {
 
   isTwitter(type: NotifyObserverTypes) {
     return type === NotifyObserverTypes.TWITTER;
+  }
+
+  isTwitterSpace(type: NotifyObserverTypes) {
+    return type === NotifyObserverTypes.TWITTER_SPACE;
   }
 
   resetForm() {
