@@ -2,21 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NotifyHistory, NotifyObserverTypes } from '../../models';
 import { removeEmpty } from 'src/app/utils';
-import { NotifyHistoryService } from '../../services';
+import { ClientNotifyService, NotifyHistoryService } from '../../services';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { DestroyService } from '../../services/destroy.service';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'notify-history',
   templateUrl: 'notify-history.component.html',
+  providers: [DestroyService],
 })
 export class NotifyHistoryComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
+    private readonly destroy$: DestroyService,
     private readonly notifyHistoryService: NotifyHistoryService,
-    private readonly nzNotificationService: NzNotificationService
+    private readonly nzNotificationService: NzNotificationService,
+    private readonly clientNotifyService: ClientNotifyService
   ) {}
 
   visible = false;
+  unReadCount = 0;
 
   loading = false;
   items: NotifyHistory[] = [];
@@ -63,7 +69,14 @@ export class NotifyHistoryComponent implements OnInit {
     hasRead: [this.readStatuses[0].value],
   });
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.clientNotifyService
+      .listenNotifyObserver()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.unReadCount += 1;
+      });
+  }
 
   submitForm(): void {
     this.pageIndex = 1;
@@ -99,6 +112,7 @@ export class NotifyHistoryComponent implements OnInit {
 
   open(): void {
     this.visible = true;
+    this.unReadCount = 0;
     this.loadDataFromServer();
   }
 

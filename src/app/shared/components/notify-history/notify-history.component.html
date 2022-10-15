@@ -1,7 +1,11 @@
 <div class="notify-history-container" style="position:fixed; top: 24px; right: 184px; z-index: 100">
-  <button nz-button nzType="primary" nzShape="circle" (click)="open()" [title]="'通知历史'">
-    <i nz-icon [nzType]="'bell'" nzTheme="outline"></i>
-  </button>
+
+  <nz-badge [nzCount]="unReadCount">
+    <button nz-button nzType="primary" nzShape="circle" (click)="open()" [title]="'通知历史'">
+      <i nz-icon [nzType]="'bell'" nzTheme="outline"></i>
+    </button>
+  </nz-badge>
+
   <nz-drawer [nzClosable]="false" [nzWidth]="450" [nzVisible]="visible" nzPlacement="right" nzTitle="通知历史"
     (nzOnClose)="close()">
     <ng-container *nzDrawerContent>
