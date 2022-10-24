@@ -19,7 +19,7 @@ export class NotifyHistoryComponent implements OnInit {
     private readonly notifyHistoryService: NotifyHistoryService,
     private readonly nzNotificationService: NzNotificationService,
     private readonly clientNotifyService: ClientNotifyService
-  ) {}
+  ) { }
 
   visible = false;
   unReadCount = 0;
@@ -51,6 +51,10 @@ export class NotifyHistoryComponent implements OnInit {
     {
       label: 'Twitter Space',
       value: NotifyObserverTypes.TWITTER_SPACE,
+    },
+    {
+      label: 'Quest3',
+      value: NotifyObserverTypes.QUEST3,
     },
   ];
   readStatuses = [
@@ -107,7 +111,7 @@ export class NotifyHistoryComponent implements OnInit {
         next: () => {
           this.loadDataFromServer();
         },
-        complete: () => {},
+        complete: () => { },
         error: (e: Error) => {
           this.nzNotificationService.error(`标记已读失败`, e.message);
         },

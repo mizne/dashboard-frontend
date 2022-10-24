@@ -30,7 +30,7 @@ export class MyNotificationComponent implements OnInit {
     private readonly fb: FormBuilder,
     private viewContainerRef: ViewContainerRef,
     private createNotifyObserverService: CreateNotifyObserverService
-  ) {}
+  ) { }
 
   total = 1;
   items: TableItem[] = [];
@@ -63,6 +63,10 @@ export class MyNotificationComponent implements OnInit {
       label: 'Twitter Space',
       value: NotifyObserverTypes.TWITTER_SPACE,
     },
+    {
+      label: 'Quest3',
+      value: NotifyObserverTypes.QUEST3,
+    },
   ];
   form = this.fb.group({
     notifyShowTitle: [null],
@@ -91,6 +95,10 @@ export class MyNotificationComponent implements OnInit {
 
   isTwitterSpace(type: NotifyObserverTypes) {
     return type === NotifyObserverTypes.TWITTER_SPACE;
+  }
+
+  isQuest3(type: NotifyObserverTypes) {
+    return type === NotifyObserverTypes.QUEST3;
   }
 
   resetForm() {
@@ -156,14 +164,14 @@ export class MyNotificationComponent implements OnInit {
         this.notification.success(`删除成功`, `删除数据成功`);
         this.loadDataFromServer();
       },
-      complete: () => {},
+      complete: () => { },
       error: (e) => {
         this.notification.error(`删除失败`, `请稍后重试，${e.message}`);
       },
     });
   }
 
-  cancelDelete(item: TableItem) {}
+  cancelDelete(item: TableItem) { }
 
   private loadDataFromServer(): void {
     this.query = removeEmpty(this.form.value);

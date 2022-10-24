@@ -23,7 +23,7 @@ export class CreateNotifyObserverService {
     private notifyObserverService: NotifyObserverService,
     private fb: FormBuilder,
     private http: HttpClient
-  ) {}
+  ) { }
 
   // 1. 成功 -> 结束
   // 2. 失败 -> 失败 -> 结束
@@ -53,6 +53,8 @@ export class CreateNotifyObserverService {
       twitterTitleKey: [obj.twitterTitleKey],
       twitterSpaceHomeLink: [obj.twitterSpaceHomeLink],
       twitterSpaceTitleKey: [obj.twitterSpaceTitleKey],
+      quest3HomeLink: [obj.quest3HomeLink],
+      quest3TitleKey: [obj.quest3TitleKey],
     });
     // 创建成功时 会next值 弹框会关闭 且会结束
     const successSubject = new Subject<any>();

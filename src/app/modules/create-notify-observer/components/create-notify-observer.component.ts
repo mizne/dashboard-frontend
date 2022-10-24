@@ -29,6 +29,10 @@ export class CreateNotifyObserverComponent implements OnInit {
       label: 'Twitter Space',
       value: NotifyObserverTypes.TWITTER_SPACE,
     },
+    {
+      label: 'Quest3',
+      value: NotifyObserverTypes.QUEST3,
+    },
   ];
 
   get isMedium(): boolean {
@@ -43,13 +47,16 @@ export class CreateNotifyObserverComponent implements OnInit {
   get isTwitterSpace(): boolean {
     return this.form?.get('type')?.value === NotifyObserverTypes.TWITTER_SPACE;
   }
+  get isQuest3(): boolean {
+    return this.form?.get('type')?.value === NotifyObserverTypes.QUEST3;
+  }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.patchForm();
   }
 
-  toSearch() {}
-  private patchForm() {}
+  toSearch() { }
+  private patchForm() { }
 }

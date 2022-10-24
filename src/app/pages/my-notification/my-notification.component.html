@@ -78,7 +78,7 @@
             </p>
 
             <p nz-typography nzEllipsis nzCopyable
-              [nzContent]="(isMedium(item.type) && item.mediumTitleKey) || (isMirror(item.type) && item.mirrorTitleKey) || (isTwitter(item.type) && item.twitterTitleKey) || (isTwitterSpace(item.type) && item.twitterSpaceTitleKey) || ''">
+              [nzContent]="(isMedium(item.type) && item.mediumTitleKey) || (isMirror(item.type) && item.mirrorTitleKey) || (isTwitter(item.type) && item.twitterTitleKey) || (isTwitterSpace(item.type) && item.twitterSpaceTitleKey) || (isQuest3(item.type) && item.quest3TitleKey) || ''">
             </p>
 
             <div style="display: flex;justify-content: space-between;align-items: center;">
@@ -90,6 +90,8 @@
               </linkable>
               <linkable *ngIf="isTwitterSpace(item.type)" [href]="item.twitterSpaceHomeLink || ''"
                 [content]="twitterSpaceLogo">
+              </linkable>
+              <linkable *ngIf="isQuest3(item.type)" [href]="item.quest3HomeLink || ''" [content]="quest3Logo">
               </linkable>
               <created-at [createdAt]="item.createdAt"></created-at>
             </div>
@@ -104,6 +106,9 @@
             </ng-template>
             <ng-template #twitterSpaceLogo>
               <twitter-logo color="rgb(156, 99, 250)"></twitter-logo>
+            </ng-template>
+            <ng-template #quest3Logo>
+              <quest3-logo></quest3-logo>
             </ng-template>
           </nz-card>
           <ng-template #extraTemplate>

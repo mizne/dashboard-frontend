@@ -12,6 +12,7 @@ import { TokenLogoComponent } from './token-logo/token-logo.component';
 import { MirrorLogoComponent } from './mirror-logo/mirror-logo.component';
 import { MediumLogoComponent } from './medium-logo/medium-logo.component';
 import { TwitterLogoComponent } from './twitter-logo/twitter-logo.component';
+import { Quest3LogoComponent } from './quest3-logo/quest3-logo.component';
 import { CreatedAtComponent } from './created-at/created-at.component';
 import { NotifyHistoryComponent } from './notify-history/notify-history.component';
 
@@ -32,6 +33,7 @@ export const components = [
   MirrorLogoComponent,
   MediumLogoComponent,
   TwitterLogoComponent,
+  Quest3LogoComponent
 ];
 
 export {
@@ -51,4 +53,5 @@ export {
   MirrorLogoComponent,
   MediumLogoComponent,
   TwitterLogoComponent,
+  Quest3LogoComponent
 };

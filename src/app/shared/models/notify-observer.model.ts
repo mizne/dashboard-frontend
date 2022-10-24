@@ -3,6 +3,7 @@ export enum NotifyObserverTypes {
   MIRROR = 'MIRROR',
   TWITTER = 'TWITTER',
   TWITTER_SPACE = 'TWITTER_SPACE',
+  QUEST3 = 'QUEST3',
 }
 
 export interface NotifyObserver {
@@ -22,6 +23,9 @@ export interface NotifyObserver {
 
   twitterSpaceHomeLink?: string;
   twitterSpaceTitleKey?: string;
+
+  quest3HomeLink?: string;
+  quest3TitleKey?: string;
 
   readonly createdAt: number;
   readonly createdAtStr: string;
