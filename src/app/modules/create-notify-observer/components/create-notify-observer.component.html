@@ -89,6 +89,24 @@
           <textarea nz-input class="ant-input" id="twitterTitleKey" formControlName="twitterTitleKey"></textarea>
         </nz-form-control>
       </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，追踪twitter reply">
+          <span>追踪 回复推文</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-switch formControlName="twitterWithReply"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，追踪twitter like">
+          <span>追踪 点赞推文</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-switch formControlName="twitterWithLike"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
     </ng-container>
 
     <ng-container *ngIf="isTwitterSpace">

@@ -51,6 +51,8 @@ export class CreateNotifyObserverService {
       mirrorTitleKey: [obj.mirrorTitleKey],
       twitterHomeLink: [obj.twitterHomeLink],
       twitterTitleKey: [obj.twitterTitleKey],
+      twitterWithReply: [!!obj.twitterWithReply],
+      twitterWithLike: [!!obj.twitterWithLike],
       twitterSpaceHomeLink: [obj.twitterSpaceHomeLink],
       twitterSpaceTitleKey: [obj.twitterSpaceTitleKey],
       quest3HomeLink: [obj.quest3HomeLink],

@@ -20,6 +20,8 @@ export interface NotifyObserver {
 
   twitterHomeLink?: string;
   twitterTitleKey?: string;
+  twitterWithReply?: boolean;
+  twitterWithLike?: boolean;
 
   twitterSpaceHomeLink?: string;
   twitterSpaceTitleKey?: string;
