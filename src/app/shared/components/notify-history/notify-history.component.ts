@@ -56,6 +56,10 @@ export class NotifyHistoryComponent implements OnInit {
       label: 'Quest3',
       value: NotifyObserverTypes.QUEST3,
     },
+    {
+      label: 'BNBCHAIN_BLOG',
+      value: NotifyObserverTypes.BNBCHAIN_BLOG,
+    },
   ];
   readStatuses = [
     {
