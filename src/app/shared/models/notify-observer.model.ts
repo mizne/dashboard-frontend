@@ -4,7 +4,8 @@ export enum NotifyObserverTypes {
   TWITTER = 'TWITTER',
   TWITTER_SPACE = 'TWITTER_SPACE',
   QUEST3 = 'QUEST3',
-  BNBCHAIN_BLOG = 'BNBCHAIN_BLOG'
+  BNBCHAIN_BLOG = 'BNBCHAIN_BLOG',
+  BINANCE_BLOG = 'BINANCE_BLOG',
 }
 
 export interface NotifyObserver {

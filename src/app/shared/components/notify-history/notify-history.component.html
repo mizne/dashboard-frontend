@@ -85,7 +85,7 @@
                 </p>
                 <p>
                   <linkable *ngIf="item.link" [href]="item.link"
-                    [content]="item.type === 'MEDIUM' ? mediumLogo: (item.type === 'MIRROR' ? mirrorLogo : (item.type === 'TWITTER' ? twitterLogo : (item.type === 'TWITTER_SPACE' ? twitterSpaceLogo : (item.type === 'BNBCHAIN_BLOG' ? bnbChainBlogLogo : quest3Logo))))">
+                    [content]="item.type === 'MEDIUM' ? mediumLogo: (item.type === 'MIRROR' ? mirrorLogo : (item.type === 'TWITTER' ? twitterLogo : (item.type === 'TWITTER_SPACE' ? twitterSpaceLogo : (item.type === 'BNBCHAIN_BLOG' ? bnbChainBlogLogo : (item.type === 'BINANCE_BLOG' ? binanceLogo: quest3Logo)))))">
                   </linkable>
                 </p>
 
@@ -106,6 +106,9 @@
                 </ng-template>
                 <ng-template #bnbChainBlogLogo>
                   <bnbchain-blog-logo></bnbchain-blog-logo>
+                </ng-template>
+                <ng-template #binanceLogo>
+                  <binance-logo></binance-logo>
                 </ng-template>
               </div>
 
