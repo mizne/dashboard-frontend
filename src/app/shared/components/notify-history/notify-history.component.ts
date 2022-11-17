@@ -85,6 +85,7 @@ export class NotifyHistoryComponent implements OnInit {
   ];
   form = this.fb.group({
     title: [null],
+    desc: [null],
     type: [this.types[0].value],
     hasRead: [this.readStatuses[0].value],
   });
@@ -166,12 +167,16 @@ export class NotifyHistoryComponent implements OnInit {
   }
 
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
-    // title 支持正则查询
+    // title desc 支持正则查询
     const o: { [key: string]: any } = {};
     Object.keys(query).forEach((key) => {
       if (key === 'title') {
         Object.assign(o, {
           ['title']: { $regex: query['title'], $options: 'i' },
+        });
+      } else if (key === 'desc') {
+        Object.assign(o, {
+          ['desc']: { $regex: query['desc'], $options: 'i' },
         });
       } else if (key === 'hasRead' && query['hasRead'] === false) {
         Object.assign(o, {

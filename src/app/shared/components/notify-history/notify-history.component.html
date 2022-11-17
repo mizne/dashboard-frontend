@@ -27,6 +27,18 @@
             <div nz-row>
               <div nz-col [nzSpan]="24">
                 <nz-form-item>
+                  <nz-form-label [nzSpan]="5" nzFor="desc">内容</nz-form-label>
+                  <nz-form-control [nzSpan]="19">
+                    <input nz-input class="ant-input" placeholder="请输入内容" formControlName="desc" [attr.id]="'desc'" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+
+            </div>
+
+            <div nz-row>
+              <div nz-col [nzSpan]="24">
+                <nz-form-item>
                   <nz-form-label [nzSpan]="5" nzFor="sourceType">来源类型</nz-form-label>
                   <nz-form-control [nzSpan]="19">
                     <nz-select [attr.id]="'sourceType'" formControlName="type">
