@@ -17,6 +17,7 @@ import { CreatedAtComponent } from './created-at/created-at.component';
 import { NotifyHistoryComponent } from './notify-history/notify-history.component';
 import { BNBChainBlogLogoComponent } from './bnbchain-blog-logo/bnbchain-blog-logo.component';
 import { BinanceLogoComponent } from './binance-logo/binance-logo.component';
+import { Link3LogoComponent } from './link3-logo/link3-logo.component';
 
 export const components = [
   LinkableComponent,
@@ -37,7 +38,8 @@ export const components = [
   TwitterLogoComponent,
   Quest3LogoComponent,
   BNBChainBlogLogoComponent,
-  BinanceLogoComponent
+  BinanceLogoComponent,
+  Link3LogoComponent
 ];
 
 export {
@@ -59,5 +61,6 @@ export {
   TwitterLogoComponent,
   Quest3LogoComponent,
   BNBChainBlogLogoComponent,
-  BinanceLogoComponent
+  BinanceLogoComponent,
+  Link3LogoComponent
 };

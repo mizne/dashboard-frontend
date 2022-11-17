@@ -57,8 +57,16 @@ export class NotifyHistoryComponent implements OnInit {
       value: NotifyObserverTypes.QUEST3,
     },
     {
-      label: 'BNBCHAIN_BLOG',
+      label: 'BNB Chain BLOG',
       value: NotifyObserverTypes.BNBCHAIN_BLOG,
+    },
+    {
+      label: 'Binance Blog',
+      value: NotifyObserverTypes.BINANCE_BLOG,
+    },
+    {
+      label: 'Link3',
+      value: NotifyObserverTypes.LINK3,
     },
   ];
   readStatuses = [
