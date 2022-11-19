@@ -39,7 +39,7 @@ export class CreateNotifyObserverService {
     error: Observable<Error>;
   } {
     const form = this.fb.group({
-      type: [obj.type || NotifyObserverTypes.MEDIUM, [Validators.required]],
+      type: [obj.type || this.resolveDefaultType(), [Validators.required]],
       enableTracking: [
         obj.enableTracking === false ? false : true,
         [Validators.required],
@@ -113,6 +113,7 @@ export class CreateNotifyObserverService {
       this.notifyObserverService.create(form.value).subscribe({
         next: (v) => {
           if (v.code === 0) {
+            this.updateDefaultType(form.value.type)
             resolve(v.result || '添加成功');
           } else {
             errorSub.next(new Error(v.message));
@@ -142,6 +143,7 @@ export class CreateNotifyObserverService {
       this.notifyObserverService.update(id, form.value).subscribe({
         next: (v) => {
           if (v.code === 0) {
+            this.updateDefaultType(form.value.type)
             resolve(v.result || '修改成功');
           } else {
             errorSub.next(new Error(v.message));
@@ -154,5 +156,14 @@ export class CreateNotifyObserverService {
         },
       });
     });
+  }
+
+  private resolveDefaultType(): NotifyObserverTypes {
+    const lastType = localStorage.getItem('CREATE_NOTIFY_OBSERVER_DEFAULT_TYPE') as NotifyObserverTypes
+    return lastType || NotifyObserverTypes.MEDIUM
+  }
+
+  private updateDefaultType(type: NotifyObserverTypes) {
+    localStorage.setItem('CREATE_NOTIFY_OBSERVER_DEFAULT_TYPE', type)
   }
 }
