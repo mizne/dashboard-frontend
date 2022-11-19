@@ -8,6 +8,7 @@ export enum NotifyObserverTypes {
   BINANCE_BLOG = 'BINANCE_BLOG',
   LINK3 = 'LINK3',
   GALXE = 'GALXE',
+  CWALLET = 'CWALLET',
 }
 
 export interface NotifyObserver {

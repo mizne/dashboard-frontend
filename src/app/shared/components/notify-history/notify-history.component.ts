@@ -72,6 +72,10 @@ export class NotifyHistoryComponent implements OnInit {
       label: 'Galxe',
       value: NotifyObserverTypes.GALXE,
     },
+    {
+      label: 'CWallet',
+      value: NotifyObserverTypes.CWALLET,
+    },
   ];
   readStatuses = [
     {

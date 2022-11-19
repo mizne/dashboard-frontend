@@ -97,7 +97,7 @@
                 </p>
                 <p>
                   <linkable *ngIf="item.link" [href]="item.link"
-                    [content]="item.type === 'MEDIUM' ? mediumLogo: (item.type === 'MIRROR' ? mirrorLogo : (item.type === 'TWITTER' ? twitterLogo : (item.type === 'TWITTER_SPACE' ? twitterSpaceLogo : (item.type === 'BNBCHAIN_BLOG' ? bnbChainBlogLogo : (item.type === 'BINANCE_BLOG' ? binanceLogo: (item.type === 'LINK3' ? link3Logo : (item.type === 'GALXE' ? galxeLogo : quest3Logo)))))))">
+                    [content]="item.type === 'MEDIUM' ? mediumLogo: (item.type === 'MIRROR' ? mirrorLogo : (item.type === 'TWITTER' ? twitterLogo : (item.type === 'TWITTER_SPACE' ? twitterSpaceLogo : (item.type === 'BNBCHAIN_BLOG' ? bnbChainBlogLogo : (item.type === 'BINANCE_BLOG' ? binanceLogo: (item.type === 'LINK3' ? link3Logo : (item.type === 'GALXE' ? galxeLogo : (item.type === 'CWALLET' ? cwalletLogo : quest3Logo))))))))">
                   </linkable>
                 </p>
 
@@ -127,6 +127,9 @@
                 </ng-template>
                 <ng-template #galxeLogo>
                   <galxe-logo></galxe-logo>
+                </ng-template>
+                <ng-template #cwalletLogo>
+                  <cwallet-logo></cwallet-logo>
                 </ng-template>
               </div>
 

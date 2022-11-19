@@ -19,6 +19,7 @@ import { BNBChainBlogLogoComponent } from './bnbchain-blog-logo/bnbchain-blog-lo
 import { BinanceLogoComponent } from './binance-logo/binance-logo.component';
 import { Link3LogoComponent } from './link3-logo/link3-logo.component';
 import { GalxeLogoComponent } from './galxe-logo/galxe-logo.component';
+import { CWalletLogoComponent } from './cwallet-logo/cwallet-logo.component';
 
 export const components = [
   LinkableComponent,
@@ -41,7 +42,8 @@ export const components = [
   BNBChainBlogLogoComponent,
   BinanceLogoComponent,
   Link3LogoComponent,
-  GalxeLogoComponent
+  GalxeLogoComponent,
+  CWalletLogoComponent
 ];
 
 export {
@@ -65,5 +67,6 @@ export {
   BNBChainBlogLogoComponent,
   BinanceLogoComponent,
   Link3LogoComponent,
-  GalxeLogoComponent
+  GalxeLogoComponent,
+  CWalletLogoComponent
 };
