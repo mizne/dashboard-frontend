@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
     private readonly clientNotifyService: ClientNotifyService,
     private readonly systemNotificationService: SystemNotificationService,
     @Inject(DOCUMENT) private documentRef: Document
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (!environment.production) {
@@ -70,7 +70,9 @@ export class AppComponent implements OnInit {
         desc: `${data.payload.desc}`,
         click: (event: Event) => {
           event.preventDefault();
-          window.open(`${data.payload.link}`, '_blank');
+          if (data.payload.link) {
+            window.open(`${data.payload.link}`, '_blank');
+          }
         },
       });
     });
