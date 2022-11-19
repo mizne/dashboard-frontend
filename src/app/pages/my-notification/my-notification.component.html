@@ -78,7 +78,7 @@
             </p>
 
             <p nz-typography nzEllipsis nzCopyable
-              [nzContent]="(isMedium(item.type) && item.mediumTitleKey) || (isMirror(item.type) && item.mirrorTitleKey) || (isTwitter(item.type) && item.twitterTitleKey) || (isTwitterSpace(item.type) && item.twitterSpaceTitleKey) || (isQuest3(item.type) && item.quest3TitleKey) || ''">
+              [nzContent]="(isMedium(item.type) && item.mediumTitleKey) || (isMirror(item.type) && item.mirrorTitleKey) || (isTwitter(item.type) && item.twitterTitleKey) || (isTwitterSpace(item.type) && item.twitterSpaceTitleKey) || (isQuest3(item.type) && item.quest3TitleKey) || (isGalxe(item.type) && item.galxeTitleKey) || ''">
             </p>
 
             <div style="display: flex;justify-content: space-between;align-items: center;">
@@ -92,6 +92,8 @@
                 [content]="twitterSpaceLogo">
               </linkable>
               <linkable *ngIf="isQuest3(item.type)" [href]="item.quest3HomeLink || ''" [content]="quest3Logo">
+              </linkable>
+              <linkable *ngIf="isGalxe(item.type)" [href]="item.galxeHomeLink || ''" [content]="galxeLogo">
               </linkable>
               <created-at [createdAt]="item.createdAt"></created-at>
             </div>
@@ -109,6 +111,9 @@
             </ng-template>
             <ng-template #quest3Logo>
               <quest3-logo></quest3-logo>
+            </ng-template>
+            <ng-template #galxeLogo>
+              <galxe-logo></galxe-logo>
             </ng-template>
           </nz-card>
           <ng-template #extraTemplate>

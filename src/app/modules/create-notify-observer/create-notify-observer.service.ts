@@ -57,6 +57,8 @@ export class CreateNotifyObserverService {
       twitterSpaceTitleKey: [obj.twitterSpaceTitleKey],
       quest3HomeLink: [obj.quest3HomeLink],
       quest3TitleKey: [obj.quest3TitleKey],
+      galxeHomeLink: [obj.galxeHomeLink],
+      galxeTitleKey: [obj.galxeTitleKey],
     });
     // 创建成功时 会next值 弹框会关闭 且会结束
     const successSubject = new Subject<any>();

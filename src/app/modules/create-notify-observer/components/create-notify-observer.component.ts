@@ -33,6 +33,10 @@ export class CreateNotifyObserverComponent implements OnInit {
       label: 'Quest3',
       value: NotifyObserverTypes.QUEST3,
     },
+    {
+      label: 'Galxe',
+      value: NotifyObserverTypes.GALXE,
+    },
   ];
 
   get isMedium(): boolean {
@@ -49,6 +53,9 @@ export class CreateNotifyObserverComponent implements OnInit {
   }
   get isQuest3(): boolean {
     return this.form?.get('type')?.value === NotifyObserverTypes.QUEST3;
+  }
+  get isGalxe(): boolean {
+    return this.form?.get('type')?.value === NotifyObserverTypes.GALXE;
   }
 
   constructor(private fb: FormBuilder) { }

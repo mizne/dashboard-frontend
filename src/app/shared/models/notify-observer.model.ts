@@ -7,6 +7,7 @@ export enum NotifyObserverTypes {
   BNBCHAIN_BLOG = 'BNBCHAIN_BLOG',
   BINANCE_BLOG = 'BINANCE_BLOG',
   LINK3 = 'LINK3',
+  GALXE = 'GALXE',
 }
 
 export interface NotifyObserver {
@@ -31,6 +32,9 @@ export interface NotifyObserver {
 
   quest3HomeLink?: string;
   quest3TitleKey?: string;
+
+  galxeHomeLink?: string;
+  galxeTitleKey?: string;
 
   readonly createdAt: number;
   readonly createdAtStr: string;

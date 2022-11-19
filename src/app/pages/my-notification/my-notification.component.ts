@@ -67,6 +67,10 @@ export class MyNotificationComponent implements OnInit {
       label: 'Quest3',
       value: NotifyObserverTypes.QUEST3,
     },
+    {
+      label: 'Galxe',
+      value: NotifyObserverTypes.GALXE,
+    },
   ];
   form = this.fb.group({
     notifyShowTitle: [null],
@@ -99,6 +103,10 @@ export class MyNotificationComponent implements OnInit {
 
   isQuest3(type: NotifyObserverTypes) {
     return type === NotifyObserverTypes.QUEST3;
+  }
+
+  isGalxe(type: NotifyObserverTypes) {
+    return type === NotifyObserverTypes.GALXE;
   }
 
   resetForm() {
