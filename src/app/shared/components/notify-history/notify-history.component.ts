@@ -68,6 +68,10 @@ export class NotifyHistoryComponent implements OnInit {
       label: 'Link3',
       value: NotifyObserverTypes.LINK3,
     },
+    {
+      label: 'Galxe',
+      value: NotifyObserverTypes.GALXE,
+    },
   ];
   readStatuses = [
     {
