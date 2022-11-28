@@ -114,7 +114,6 @@ export class CreateNotifyObserverService {
     }
 
     return new Promise((resolve, reject) => {
-      // 这里写 新增project接口
       this.notifyObserverService.create(form.value).subscribe({
         next: (v) => {
           if (v.code === 0) {
@@ -149,7 +148,6 @@ export class CreateNotifyObserverService {
     }
 
     return new Promise((resolve, reject) => {
-      // 这里写 新增project接口
       this.notifyObserverService.update(id, form.value).subscribe({
         next: (v) => {
           if (v.code === 0) {
