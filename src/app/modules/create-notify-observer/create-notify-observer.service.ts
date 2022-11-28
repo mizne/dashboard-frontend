@@ -99,12 +99,17 @@ export class CreateNotifyObserverService {
     };
   }
 
-  private createNotifyObserver(
+  private async createNotifyObserver(
     form: FormGroup,
     errorSub: Subject<Error>
   ): Promise<any> {
     if (form.invalid) {
       errorSub.next(new Error('请检查表单非法字段'));
+      return Promise.resolve(false);
+    }
+
+    const existed = await this.checkExisted(form, errorSub);
+    if (existed) {
       return Promise.resolve(false);
     }
 
@@ -128,13 +133,18 @@ export class CreateNotifyObserverService {
     });
   }
 
-  private updateNotifyObserver(
+  private async updateNotifyObserver(
     id: string | undefined,
     form: FormGroup,
     errorSub: Subject<Error>
   ): Promise<any> {
     if (form.invalid) {
       errorSub.next(new Error('请检查表单非法字段'));
+      return Promise.resolve(false);
+    }
+
+    const existed = await this.checkExisted(form, errorSub);
+    if (existed) {
       return Promise.resolve(false);
     }
 
@@ -156,6 +166,49 @@ export class CreateNotifyObserverService {
         },
       });
     });
+  }
+
+  private checkExisted(form: FormGroup, errorSub: Subject<Error>): Promise<boolean> {
+    const condition = this.resolveExistedCondition(form);
+    if (!condition) {
+      return Promise.resolve(false)
+    }
+
+    return new Promise((resolve, reject) => {
+      this.notifyObserverService.queryCount(condition).subscribe({
+        next: (v) => {
+          if (v > 0) {
+            errorSub.next(new Error('相同订阅源已存在'));
+            resolve(true)
+          } else {
+            resolve(false)
+          }
+        },
+        error: (e) => {
+          errorSub.next(new Error('查询是否有相同订阅源失败'));
+          resolve(true);
+        },
+      });
+    });
+  }
+
+  private resolveExistedCondition(form: FormGroup): Partial<NotifyObserver> | null {
+    switch (form.value.type) {
+      case NotifyObserverTypes.MEDIUM:
+        return form.value.mediumHomeLink ? { type: NotifyObserverTypes.MEDIUM, mediumHomeLink: form.value.mediumHomeLink } : null
+      case NotifyObserverTypes.MIRROR:
+        return form.value.mirrorHomeLink ? { type: NotifyObserverTypes.MIRROR, mirrorHomeLink: form.value.mirrorHomeLink } : null
+      case NotifyObserverTypes.TWITTER:
+        return form.value.twitterHomeLink ? { type: NotifyObserverTypes.TWITTER, twitterHomeLink: form.value.twitterHomeLink } : null
+      case NotifyObserverTypes.TWITTER_SPACE:
+        return form.value.twitterSpaceHomeLink ? { type: NotifyObserverTypes.TWITTER_SPACE, twitterSpaceHomeLink: form.value.twitterSpaceHomeLink } : null
+      case NotifyObserverTypes.QUEST3:
+        return form.value.quest3HomeLink ? { type: NotifyObserverTypes.QUEST3, quest3HomeLink: form.value.quest3HomeLink } : null
+      case NotifyObserverTypes.GALXE:
+        return form.value.galxeHomeLink ? { type: NotifyObserverTypes.GALXE, galxeHomeLink: form.value.galxeHomeLink } : null
+      default:
+        return null
+    }
   }
 
   private resolveDefaultType(): NotifyObserverTypes {
