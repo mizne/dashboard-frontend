@@ -31,6 +31,9 @@ export interface NotifyObserver {
   twitterSpaceHomeLink?: string;
   twitterSpaceTitleKey?: string;
 
+  twitterWithFollowingsChange?: boolean;
+  twitterFollowings?: string[];
+
   quest3HomeLink?: string;
   quest3TitleKey?: string;
 

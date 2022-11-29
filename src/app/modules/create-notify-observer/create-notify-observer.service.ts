@@ -53,6 +53,7 @@ export class CreateNotifyObserverService {
       twitterTitleKey: [obj.twitterTitleKey],
       twitterWithReply: [!!obj.twitterWithReply],
       twitterWithLike: [!!obj.twitterWithLike],
+      twitterWithFollowingsChange: [!!obj.twitterWithFollowingsChange],
       twitterSpaceHomeLink: [obj.twitterSpaceHomeLink],
       twitterSpaceTitleKey: [obj.twitterSpaceTitleKey],
       quest3HomeLink: [obj.quest3HomeLink],
@@ -142,7 +143,7 @@ export class CreateNotifyObserverService {
       return Promise.resolve(false);
     }
 
-    const existed = await this.checkExisted(form, errorSub);
+    const existed = await this.checkExisted(form, errorSub, id);
     if (existed) {
       return Promise.resolve(false);
     }
@@ -166,20 +167,30 @@ export class CreateNotifyObserverService {
     });
   }
 
-  private checkExisted(form: FormGroup, errorSub: Subject<Error>): Promise<boolean> {
+  private checkExisted(form: FormGroup, errorSub: Subject<Error>, id?: string): Promise<boolean> {
     const condition = this.resolveExistedCondition(form);
     if (!condition) {
       return Promise.resolve(false)
     }
 
     return new Promise((resolve, reject) => {
-      this.notifyObserverService.queryCount(condition).subscribe({
-        next: (v) => {
-          if (v > 0) {
-            errorSub.next(new Error('相同订阅源已存在'));
-            resolve(true)
+      this.notifyObserverService.queryList(condition).subscribe({
+        next: (results) => {
+          if (id) {
+            const theOther = results.find(e => e._id !== id);
+            if (theOther) {
+              errorSub.next(new Error('相同订阅源已存在'));
+              resolve(true)
+            } else {
+              resolve(false)
+            }
           } else {
-            resolve(false)
+            if (results.length > 0) {
+              errorSub.next(new Error('相同订阅源已存在'));
+              resolve(true)
+            } else {
+              resolve(false)
+            }
           }
         },
         error: (e) => {

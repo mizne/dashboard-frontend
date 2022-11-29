@@ -107,6 +107,15 @@
           <nz-switch formControlName="twitterWithLike"></nz-switch>
         </nz-form-control>
       </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，追踪twitter 关注列表变化">
+          <span>追踪 关注列表变化</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-switch formControlName="twitterWithFollowingsChange"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
     </ng-container>
 
     <ng-container *ngIf="isTwitterSpace">
