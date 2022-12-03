@@ -20,7 +20,7 @@ interface ClientNotifyTaskErrorData {
 
 interface ClientNotifyObserverData {
   type: 'notify-observer';
-  payload: { title: string; desc: string; link?: string };
+  payload: { title: string; desc: string; link?: string; icon?: string; };
 }
 
 export type ClientNotifyData =

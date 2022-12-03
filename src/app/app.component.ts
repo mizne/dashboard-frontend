@@ -68,6 +68,7 @@ export class AppComponent implements OnInit {
       this.systemNotificationService.info({
         title: data.payload.title,
         desc: `${data.payload.desc}`,
+        ...(data.payload.icon ? { icon: environment.baseURL + data.payload.icon } : {}),
         click: (event: Event) => {
           event.preventDefault();
           if (data.payload.link) {

@@ -5,11 +5,12 @@ interface NotifyOptions {
   title: string;
   desc: string;
   click?: Function;
+  icon?: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class SystemNotificationService {
-  constructor(private readonly nzNotificationService: NzNotificationService) {}
+  constructor(private readonly nzNotificationService: NzNotificationService) { }
 
   success(options: NotifyOptions): Promise<Notification> {
     return this.checkPermission().then(() => {
@@ -68,7 +69,7 @@ export class SystemNotificationService {
   private realNotify(options: NotifyOptions, icon?: string): Notification {
     const notification = new Notification(options.title, {
       body: options.desc,
-      ...(icon ? { icon: icon } : {}),
+      ...((options.icon || icon) ? { icon: options.icon || icon } : {}),
     });
     if (options.click) {
       notification.addEventListener('click', (event) => {
