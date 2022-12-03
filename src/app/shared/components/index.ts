@@ -9,17 +9,8 @@ import { ToolkitComponent } from './toolkit/toolkit.component';
 import { ExecuteTaskCustomComponent } from './execute-task-custom/execute-task-custom.component';
 import { LeverageCalcComponent } from './leverage-calc/leverage-calc.component';
 import { TokenLogoComponent } from './token-logo/token-logo.component';
-import { MirrorLogoComponent } from './mirror-logo/mirror-logo.component';
-import { MediumLogoComponent } from './medium-logo/medium-logo.component';
-import { TwitterLogoComponent } from './twitter-logo/twitter-logo.component';
-import { Quest3LogoComponent } from './quest3-logo/quest3-logo.component';
 import { CreatedAtComponent } from './created-at/created-at.component';
 import { NotifyHistoryComponent } from './notify-history/notify-history.component';
-import { BNBChainBlogLogoComponent } from './bnbchain-blog-logo/bnbchain-blog-logo.component';
-import { BinanceLogoComponent } from './binance-logo/binance-logo.component';
-import { Link3LogoComponent } from './link3-logo/link3-logo.component';
-import { GalxeLogoComponent } from './galxe-logo/galxe-logo.component';
-import { CWalletLogoComponent } from './cwallet-logo/cwallet-logo.component';
 
 export const components = [
   LinkableComponent,
@@ -35,15 +26,6 @@ export const components = [
   TokenLogoComponent,
   CreatedAtComponent,
   NotifyHistoryComponent,
-  MirrorLogoComponent,
-  MediumLogoComponent,
-  TwitterLogoComponent,
-  Quest3LogoComponent,
-  BNBChainBlogLogoComponent,
-  BinanceLogoComponent,
-  Link3LogoComponent,
-  GalxeLogoComponent,
-  CWalletLogoComponent
 ];
 
 export {
@@ -60,13 +42,4 @@ export {
   TokenLogoComponent,
   CreatedAtComponent,
   NotifyHistoryComponent,
-  MirrorLogoComponent,
-  MediumLogoComponent,
-  TwitterLogoComponent,
-  Quest3LogoComponent,
-  BNBChainBlogLogoComponent,
-  BinanceLogoComponent,
-  Link3LogoComponent,
-  GalxeLogoComponent,
-  CWalletLogoComponent
 };
