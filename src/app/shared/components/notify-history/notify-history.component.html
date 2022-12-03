@@ -96,40 +96,14 @@
                   <created-at [createdAt]="item.createdAt"></created-at>
                 </p>
                 <p>
-                  <linkable *ngIf="item.link" [href]="item.link"
-                    [content]="item.type === 'MEDIUM' ? mediumLogo: (item.type === 'MIRROR' ? mirrorLogo : (item.type === 'TWITTER' ? twitterLogo : (item.type === 'TWITTER_SPACE' ? twitterSpaceLogo : (item.type === 'BNBCHAIN_BLOG' ? bnbChainBlogLogo : (item.type === 'BINANCE_BLOG' ? binanceLogo: (item.type === 'LINK3' ? link3Logo : (item.type === 'GALXE' ? galxeLogo : (item.type === 'CWALLET' ? cwalletLogo : quest3Logo))))))))">
+                  <linkable *ngIf="item.link" [href]="item.link" [content]="defaultLogo">
                   </linkable>
                 </p>
 
-                <ng-template #mediumLogo>
-                  <medium-logo></medium-logo>
-                </ng-template>
-                <ng-template #mirrorLogo>
-                  <mirror-logo></mirror-logo>
-                </ng-template>
-                <ng-template #twitterLogo>
-                  <twitter-logo></twitter-logo>
-                </ng-template>
-                <ng-template #twitterSpaceLogo>
-                  <twitter-logo color="rgb(156, 99, 250)"></twitter-logo>
-                </ng-template>
-                <ng-template #quest3Logo>
-                  <quest3-logo></quest3-logo>
-                </ng-template>
-                <ng-template #bnbChainBlogLogo>
-                  <bnbchain-blog-logo></bnbchain-blog-logo>
-                </ng-template>
-                <ng-template #binanceLogo>
-                  <binance-logo></binance-logo>
-                </ng-template>
-                <ng-template #link3Logo>
-                  <link3-logo></link3-logo>
-                </ng-template>
-                <ng-template #galxeLogo>
-                  <galxe-logo></galxe-logo>
-                </ng-template>
-                <ng-template #cwalletLogo>
-                  <cwallet-logo></cwallet-logo>
+                <ng-template #defaultLogo>
+                  <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+                    <image [attr.href]="logoBasePath + item.logo" width="32" height="32" />
+                  </svg>
                 </ng-template>
               </div>
 

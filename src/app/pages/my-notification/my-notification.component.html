@@ -82,39 +82,27 @@
             </p>
 
             <div style="display: flex;justify-content: space-between;align-items: center;">
-              <linkable *ngIf="isMedium(item.type)" [href]="item.mediumHomeLink || ''" [content]="mediumLogo">
+              <linkable *ngIf="isMedium(item.type)" [href]="item.mediumHomeLink || ''" [content]="defaultLogo">
               </linkable>
-              <linkable *ngIf="isMirror(item.type)" [href]="item.mirrorHomeLink || ''" [content]="mirrorLogo">
+              <linkable *ngIf="isMirror(item.type)" [href]="item.mirrorHomeLink || ''" [content]="defaultLogo">
               </linkable>
-              <linkable *ngIf="isTwitter(item.type)" [href]="item.twitterHomeLink || ''" [content]="twitterLogo">
+              <linkable *ngIf="isTwitter(item.type)" [href]="item.twitterHomeLink || ''" [content]="defaultLogo">
               </linkable>
               <linkable *ngIf="isTwitterSpace(item.type)" [href]="item.twitterSpaceHomeLink || ''"
-                [content]="twitterSpaceLogo">
+                [content]="defaultLogo">
               </linkable>
-              <linkable *ngIf="isQuest3(item.type)" [href]="item.quest3HomeLink || ''" [content]="quest3Logo">
+              <linkable *ngIf="isQuest3(item.type)" [href]="item.quest3HomeLink || ''" [content]="defaultLogo">
               </linkable>
-              <linkable *ngIf="isGalxe(item.type)" [href]="item.galxeHomeLink || ''" [content]="galxeLogo">
+              <linkable *ngIf="isGalxe(item.type)" [href]="item.galxeHomeLink || ''" [content]="defaultLogo">
               </linkable>
               <created-at [createdAt]="item.createdAt"></created-at>
             </div>
-            <ng-template #mediumLogo>
-              <medium-logo></medium-logo>
+            <ng-template #defaultLogo>
+              <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+                <image [attr.href]="logoBasePath + item.logo" width="32" height="32" />
+              </svg>
             </ng-template>
-            <ng-template #mirrorLogo>
-              <mirror-logo></mirror-logo>
-            </ng-template>
-            <ng-template #twitterLogo>
-              <twitter-logo></twitter-logo>
-            </ng-template>
-            <ng-template #twitterSpaceLogo>
-              <twitter-logo color="rgb(156, 99, 250)"></twitter-logo>
-            </ng-template>
-            <ng-template #quest3Logo>
-              <quest3-logo></quest3-logo>
-            </ng-template>
-            <ng-template #galxeLogo>
-              <galxe-logo></galxe-logo>
-            </ng-template>
+
           </nz-card>
           <ng-template #extraTemplate>
             <button nz-button nzType="primary" nzShape="circle" (click)="confirmUpdate(item)"><span nz-icon

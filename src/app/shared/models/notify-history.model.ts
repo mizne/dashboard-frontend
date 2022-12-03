@@ -4,6 +4,7 @@ export interface NotifyHistory {
   readonly _id: string;
   type: NotifyObserverTypes;
   enableTracking: boolean; // 开启追踪数据
+  logo?: string;
   title: string;
   desc: string;
   link?: string;

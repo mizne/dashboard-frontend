@@ -16,6 +16,7 @@ export interface NotifyObserver {
   type: NotifyObserverTypes;
   enableTracking: boolean; // 开启追踪数据
   notifyShowTitle?: string;
+  logo?: string;
 
   mediumHomeLink?: string;
   mediumTitleKey?: string;

@@ -6,6 +6,7 @@ import { ClientNotifyService, NotifyHistoryService } from '../../services';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { DestroyService } from '../../services/destroy.service';
 import { takeUntil } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'notify-history',
@@ -20,6 +21,8 @@ export class NotifyHistoryComponent implements OnInit {
     private readonly nzNotificationService: NzNotificationService,
     private readonly clientNotifyService: ClientNotifyService
   ) { }
+
+  logoBasePath = environment.baseURL
 
   visible = false;
   unReadCount = 0;

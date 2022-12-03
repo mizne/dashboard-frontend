@@ -13,6 +13,7 @@ import {
   NotifyObserverTypes,
 } from 'src/app/shared';
 import { removeEmpty } from 'src/app/utils';
+import { environment } from 'src/environments/environment';
 
 interface TableItem extends NotifyObserver {
   enableTrackingCtrl: FormControl;
@@ -31,6 +32,8 @@ export class MyNotificationComponent implements OnInit {
     private viewContainerRef: ViewContainerRef,
     private createNotifyObserverService: CreateNotifyObserverService
   ) { }
+
+  logoBasePath = environment.baseURL
 
   total = 1;
   items: TableItem[] = [];
