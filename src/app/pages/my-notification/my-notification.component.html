@@ -95,6 +95,8 @@
               </linkable>
               <linkable *ngIf="isGalxe(item.type)" [href]="item.galxeHomeLink || ''" [content]="defaultLogo">
               </linkable>
+              <linkable *ngIf="isTimer(item.type)" [href]="item.timerNotifyShowUrl || ''" [content]="defaultLogo">
+              </linkable>
               <created-at [createdAt]="item.createdAt"></created-at>
             </div>
             <ng-template #defaultLogo>

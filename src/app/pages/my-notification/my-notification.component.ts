@@ -74,6 +74,10 @@ export class MyNotificationComponent implements OnInit {
       label: 'Galxe',
       value: NotifyObserverTypes.GALXE,
     },
+    {
+      label: 'Timer',
+      value: NotifyObserverTypes.TIMER,
+    },
   ];
   form = this.fb.group({
     notifyShowTitle: [null],
@@ -110,6 +114,10 @@ export class MyNotificationComponent implements OnInit {
 
   isGalxe(type: NotifyObserverTypes) {
     return type === NotifyObserverTypes.GALXE;
+  }
+
+  isTimer(type: NotifyObserverTypes) {
+    return type === NotifyObserverTypes.TIMER;
   }
 
   resetForm() {
