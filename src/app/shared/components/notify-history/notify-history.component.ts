@@ -79,6 +79,10 @@ export class NotifyHistoryComponent implements OnInit {
       label: 'CWallet',
       value: NotifyObserverTypes.CWALLET,
     },
+    {
+      label: 'Timer',
+      value: NotifyObserverTypes.TIMER,
+    },
   ];
   readStatuses = [
     {
