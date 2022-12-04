@@ -1,0 +1,10 @@
+<nz-tag *ngFor="let tag of tags; let i = index" [nzMode]="'closeable'" (nzOnClose)="handleClose(tag)">
+  {{ tag }}
+</nz-tag>
+<nz-tag *ngIf="!inputVisible" class="editable-tag" nzNoAnimation (click)="showInput()">
+  <span nz-icon nzType="plus"></span>
+  New
+</nz-tag>
+
+<nz-input-number *ngIf="inputVisible" [(ngModel)]="inputValue" [nzMin]="min" [nzMax]="max" [nzStep]="1"
+  (blur)="handleInputConfirm()" (keydown.enter)="handleInputConfirm()"></nz-input-number>

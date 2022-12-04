@@ -45,21 +45,32 @@ export class CreateNotifyObserverService {
         [Validators.required],
       ],
       notifyShowTitle: [obj.notifyShowTitle],
+
       mediumHomeLink: [obj.mediumHomeLink],
       mediumTitleKey: [obj.mediumTitleKey],
+
       mirrorHomeLink: [obj.mirrorHomeLink],
       mirrorTitleKey: [obj.mirrorTitleKey],
+
       twitterHomeLink: [obj.twitterHomeLink],
       twitterTitleKey: [obj.twitterTitleKey],
       twitterWithReply: [!!obj.twitterWithReply],
       twitterWithLike: [!!obj.twitterWithLike],
       twitterWithFollowingsChange: [!!obj.twitterWithFollowingsChange],
+
       twitterSpaceHomeLink: [obj.twitterSpaceHomeLink],
       twitterSpaceTitleKey: [obj.twitterSpaceTitleKey],
+
       quest3HomeLink: [obj.quest3HomeLink],
       quest3TitleKey: [obj.quest3TitleKey],
+
       galxeHomeLink: [obj.galxeHomeLink],
       galxeTitleKey: [obj.galxeTitleKey],
+
+      timerHour: [obj.timerHour],
+      timerMinute: [obj.timerMinute],
+      timerNotifyShowDesc: [obj.timerNotifyShowDesc],
+      timerNotifyShowUrl: [obj.timerNotifyShowUrl],
     });
     // 创建成功时 会next值 弹框会关闭 且会结束
     const successSubject = new Subject<any>();
@@ -215,6 +226,8 @@ export class CreateNotifyObserverService {
         return form.value.quest3HomeLink ? { type: NotifyObserverTypes.QUEST3, quest3HomeLink: form.value.quest3HomeLink } : null
       case NotifyObserverTypes.GALXE:
         return form.value.galxeHomeLink ? { type: NotifyObserverTypes.GALXE, galxeHomeLink: form.value.galxeHomeLink } : null
+      case NotifyObserverTypes.TIMER:
+        return form.value.notifyShowTitle ? { type: NotifyObserverTypes.TIMER, notifyShowTitle: form.value.notifyShowTitle } : null
       default:
         return null
     }

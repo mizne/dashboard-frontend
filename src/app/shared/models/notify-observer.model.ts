@@ -9,6 +9,7 @@ export enum NotifyObserverTypes {
   LINK3 = 'LINK3',
   GALXE = 'GALXE',
   CWALLET = 'CWALLET',
+  TIMER = 'TIMER'
 }
 
 export interface NotifyObserver {
@@ -40,6 +41,12 @@ export interface NotifyObserver {
 
   galxeHomeLink?: string;
   galxeTitleKey?: string;
+
+  timerHour?: number[];
+  timerMinute?: number[];
+
+  timerNotifyShowDesc?: string;
+  timerNotifyShowUrl?: string;
 
   readonly createdAt: number;
   readonly createdAtStr: string;

@@ -37,6 +37,10 @@ export class CreateNotifyObserverComponent implements OnInit {
       label: 'Galxe',
       value: NotifyObserverTypes.GALXE,
     },
+    {
+      label: 'Timer',
+      value: NotifyObserverTypes.TIMER,
+    },
   ];
 
   get isMedium(): boolean {
@@ -56,6 +60,9 @@ export class CreateNotifyObserverComponent implements OnInit {
   }
   get isGalxe(): boolean {
     return this.form?.get('type')?.value === NotifyObserverTypes.GALXE;
+  }
+  get isTimer(): boolean {
+    return this.form?.get('type')?.value === NotifyObserverTypes.TIMER;
   }
 
   constructor(private fb: FormBuilder) { }

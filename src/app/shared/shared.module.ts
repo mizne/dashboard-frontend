@@ -34,7 +34,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { components } from './components';
 import { pipes } from './pipes';
@@ -74,7 +74,7 @@ const nzModules = [
   NzEmptyModule,
   NzTypographyModule,
 ];
-const ngModules = [CommonModule, ReactiveFormsModule];
+const ngModules = [CommonModule, ReactiveFormsModule, FormsModule];
 
 @NgModule({
   imports: [...nzModules, ...ngModules],
@@ -82,4 +82,4 @@ const ngModules = [CommonModule, ReactiveFormsModule];
   declarations: [...components, ...pipes],
   providers: [],
 })
-export class SharedModule {}
+export class SharedModule { }

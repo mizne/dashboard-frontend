@@ -11,6 +11,7 @@ import { LeverageCalcComponent } from './leverage-calc/leverage-calc.component';
 import { TokenLogoComponent } from './token-logo/token-logo.component';
 import { CreatedAtComponent } from './created-at/created-at.component';
 import { NotifyHistoryComponent } from './notify-history/notify-history.component';
+import { MultiInputComponent } from './multi-input/multi-input.component';
 
 export const components = [
   LinkableComponent,
@@ -26,6 +27,7 @@ export const components = [
   TokenLogoComponent,
   CreatedAtComponent,
   NotifyHistoryComponent,
+  MultiInputComponent,
 ];
 
 export {
@@ -42,4 +44,5 @@ export {
   TokenLogoComponent,
   CreatedAtComponent,
   NotifyHistoryComponent,
+  MultiInputComponent
 };

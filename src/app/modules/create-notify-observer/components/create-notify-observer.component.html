@@ -181,6 +181,50 @@
       </nz-form-item>
     </ng-container>
 
+
+    <ng-container *ngIf="isTimer">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerHour" nzTooltipTitle="hour">
+          <span>hour</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <!-- <input nz-input class="ant-input" id="timerHour" formControlName="timerHour" /> -->
+
+          <app-multi-input formControlName="timerHour" [min]="0" [max]="23"></app-multi-input>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerMinute" nzTooltipTitle="minute">
+          <span>minute</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <!-- <input nz-input class="ant-input" id="timerMinute" formControlName="timerMinute" /> -->
+
+          <app-multi-input formControlName="timerMinute" [min]="0" [max]="59"></app-multi-input>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerNotifyShowDesc" nzTooltipTitle="通知显示详情">
+          <span>通知显示详情</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <textarea nz-input class="ant-input" id="timerNotifyShowDesc"
+            formControlName="timerNotifyShowDesc"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerNotifyShowUrl" nzTooltipTitle="通知跳转链接">
+          <span>通知跳转链接</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <textarea nz-input class="ant-input" id="timerNotifyShowUrl" formControlName="timerNotifyShowUrl"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </ng-container>
+
   </form>
 
 </div>
