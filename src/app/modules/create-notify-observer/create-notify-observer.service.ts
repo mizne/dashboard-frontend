@@ -84,6 +84,7 @@ export class CreateNotifyObserverService {
       nzViewContainerRef: viewContainerRef,
       nzComponentParams: {
         form: form,
+        disabledType: action === NotifyObserverModalActions.UPDATE
       },
       nzOnOk: () => {
         return action === NotifyObserverModalActions.CREATE

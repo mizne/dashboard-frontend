@@ -11,6 +11,7 @@ import { CreateNotifyObserverService } from '../create-notify-observer.service';
 })
 export class CreateNotifyObserverComponent implements OnInit {
   @Input() form: FormGroup = this.fb.group({});
+  @Input() disabledType = false
 
   types = [
     {

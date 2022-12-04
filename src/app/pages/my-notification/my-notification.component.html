@@ -14,7 +14,7 @@
 
         <div nz-col [nzSpan]="8">
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="enableTracking">每日统计</nz-form-label>
+            <nz-form-label [nzSpan]="10" nzFor="enableTracking">是否追踪</nz-form-label>
             <nz-form-control [nzSpan]="14">
               <nz-switch formControlName="enableTracking"></nz-switch>
             </nz-form-control>
@@ -77,25 +77,11 @@
               <nz-switch [formControl]="item.enableTrackingCtrl"></nz-switch>
             </p>
 
-            <p nz-typography nzEllipsis nzCopyable
-              [nzContent]="(isMedium(item.type) && item.mediumTitleKey) || (isMirror(item.type) && item.mirrorTitleKey) || (isTwitter(item.type) && item.twitterTitleKey) || (isTwitterSpace(item.type) && item.twitterSpaceTitleKey) || (isQuest3(item.type) && item.quest3TitleKey) || (isGalxe(item.type) && item.galxeTitleKey) || ''">
+            <p nz-typography nzEllipsis nzCopyable [nzContent]="resolveDesc(item)">
             </p>
 
             <div style="display: flex;justify-content: space-between;align-items: center;">
-              <linkable *ngIf="isMedium(item.type)" [href]="item.mediumHomeLink || ''" [content]="defaultLogo">
-              </linkable>
-              <linkable *ngIf="isMirror(item.type)" [href]="item.mirrorHomeLink || ''" [content]="defaultLogo">
-              </linkable>
-              <linkable *ngIf="isTwitter(item.type)" [href]="item.twitterHomeLink || ''" [content]="defaultLogo">
-              </linkable>
-              <linkable *ngIf="isTwitterSpace(item.type)" [href]="item.twitterSpaceHomeLink || ''"
-                [content]="defaultLogo">
-              </linkable>
-              <linkable *ngIf="isQuest3(item.type)" [href]="item.quest3HomeLink || ''" [content]="defaultLogo">
-              </linkable>
-              <linkable *ngIf="isGalxe(item.type)" [href]="item.galxeHomeLink || ''" [content]="defaultLogo">
-              </linkable>
-              <linkable *ngIf="isTimer(item.type)" [href]="item.timerNotifyShowUrl || ''" [content]="defaultLogo">
+              <linkable [href]="resolveHref(item) || ''" [content]="defaultLogo">
               </linkable>
               <created-at [createdAt]="item.createdAt"></created-at>
             </div>

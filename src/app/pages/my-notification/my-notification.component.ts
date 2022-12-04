@@ -92,34 +92,6 @@ export class MyNotificationComponent implements OnInit {
     this.loadDataFromServer();
   }
 
-  isMedium(type: NotifyObserverTypes) {
-    return type === NotifyObserverTypes.MEDIUM;
-  }
-
-  isMirror(type: NotifyObserverTypes) {
-    return type === NotifyObserverTypes.MIRROR;
-  }
-
-  isTwitter(type: NotifyObserverTypes) {
-    return type === NotifyObserverTypes.TWITTER;
-  }
-
-  isTwitterSpace(type: NotifyObserverTypes) {
-    return type === NotifyObserverTypes.TWITTER_SPACE;
-  }
-
-  isQuest3(type: NotifyObserverTypes) {
-    return type === NotifyObserverTypes.QUEST3;
-  }
-
-  isGalxe(type: NotifyObserverTypes) {
-    return type === NotifyObserverTypes.GALXE;
-  }
-
-  isTimer(type: NotifyObserverTypes) {
-    return type === NotifyObserverTypes.TIMER;
-  }
-
   resetForm() {
     this.form.reset({
       type: this.types[0].value,
@@ -131,6 +103,50 @@ export class MyNotificationComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDataFromServer();
+  }
+
+  resolveHref(item: NotifyObserver) {
+    switch (item.type) {
+      case NotifyObserverTypes.MEDIUM:
+        return item.mediumHomeLink
+      case NotifyObserverTypes.MIRROR:
+        return item.mirrorHomeLink
+      case NotifyObserverTypes.TWITTER:
+        return item.twitterHomeLink
+      case NotifyObserverTypes.TWITTER_SPACE:
+        return item.twitterSpaceHomeLink
+      case NotifyObserverTypes.GALXE:
+        return item.galxeHomeLink
+      case NotifyObserverTypes.QUEST3:
+        return item.quest3HomeLink
+      case NotifyObserverTypes.TIMER:
+        return item.timerNotifyShowUrl
+      default:
+        console.warn(`resolveHref() unknown type: ${item.type}`)
+        return ''
+    }
+  }
+
+  resolveDesc(item: NotifyObserver) {
+    switch (item.type) {
+      case NotifyObserverTypes.MEDIUM:
+        return item.mediumTitleKey
+      case NotifyObserverTypes.MIRROR:
+        return item.mirrorTitleKey
+      case NotifyObserverTypes.TWITTER:
+        return item.twitterTitleKey
+      case NotifyObserverTypes.TWITTER_SPACE:
+        return item.twitterSpaceTitleKey
+      case NotifyObserverTypes.GALXE:
+        return item.galxeTitleKey
+      case NotifyObserverTypes.QUEST3:
+        return item.quest3TitleKey
+      case NotifyObserverTypes.TIMER:
+        return item.timerNotifyShowDesc
+      default:
+        console.warn(`resolveDesc() unknown type: ${item.type}`)
+        return ''
+    }
   }
 
   showCreateModal() {

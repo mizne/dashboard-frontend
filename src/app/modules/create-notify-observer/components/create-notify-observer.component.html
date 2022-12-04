@@ -5,7 +5,7 @@
         <span>来源类型</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your 来源类型!">
-        <nz-select [attr.id]="'sourceType'" formControlName="type">
+        <nz-select [attr.id]="'sourceType'" formControlName="type" [nzDisabled]="disabledType">
           <nz-option *ngFor="let item of types" [nzValue]="item.value" [nzLabel]="item.label">
           </nz-option>
         </nz-select>
