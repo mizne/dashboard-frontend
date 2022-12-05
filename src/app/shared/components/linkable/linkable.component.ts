@@ -7,9 +7,11 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 export class LinkableComponent implements OnInit {
   private _href?: string;
   @Input()
-  set href(v: string) {
-    this._href = v;
-    this.validHref = (v || '').startsWith('http');
+  set href(v: string | undefined) {
+    if (v) {
+      this._href = v;
+      this.validHref = (v || '').startsWith('http');
+    }
   }
   get href() {
     return this._href || '';
@@ -25,6 +27,6 @@ export class LinkableComponent implements OnInit {
   templateContext: { [key: string]: any } = {};
 
   validHref = false;
-  constructor() {}
-  ngOnInit() {}
+  constructor() { }
+  ngOnInit() { }
 }
