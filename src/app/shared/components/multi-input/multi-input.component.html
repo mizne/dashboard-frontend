@@ -6,5 +6,5 @@
   New
 </nz-tag>
 
-<nz-input-number *ngIf="inputVisible" [(ngModel)]="inputValue" [nzMin]="min" [nzMax]="max" [nzStep]="1"
-  (blur)="handleInputConfirm()" (keydown.enter)="handleInputConfirm()"></nz-input-number>
+<nz-input-number #inputNumber *ngIf="inputVisible" [(ngModel)]="inputValue" [nzMin]="min" [nzMax]="max" [nzStep]="1"
+  (nzBlur)="handleInputConfirm()" (keydown.enter)="handleInputConfirm()"></nz-input-number>

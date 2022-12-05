@@ -9,6 +9,7 @@ import {
   ElementRef
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NzInputNumberComponent } from 'ng-zorro-antd/input-number';
 import * as uuid from 'uuid';
 
 
@@ -42,6 +43,8 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
   @Input() min = 0;
   @Input() max = 999;
 
+  @ViewChild('inputNumber') inputNumberCom: NzInputNumberComponent | null = null
+
   constructor() { }
 
   handleClose(removedTag: {}): void {
@@ -51,6 +54,12 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
 
   showInput(): void {
     this.inputVisible = true;
+
+    setTimeout(() => {
+      if (this.inputNumberCom) {
+        this.inputNumberCom.focus();
+      }
+    }, 10)
   }
 
   handleInputConfirm(): void {
