@@ -1,36 +1,37 @@
 import { NgModule } from '@angular/core';
+import { NzAffixModule } from 'ng-zorro-antd/affix';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzRadioModule } from 'ng-zorro-antd/radio';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
-import { NzNotificationModule } from 'ng-zorro-antd/notification';
-import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { NzSwitchModule } from 'ng-zorro-antd/switch';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzAffixModule } from 'ng-zorro-antd/affix';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
-import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { NzDrawerModule } from 'ng-zorro-antd/drawer';
-import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzListModule } from 'ng-zorro-antd/list';
-import { NzPopoverModule } from 'ng-zorro-antd/popover';
-import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
-import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 import { CommonModule } from '@angular/common';
@@ -40,38 +41,39 @@ import { components } from './components';
 import { pipes } from './pipes';
 
 const nzModules = [
+  NzAffixModule,
+  NzAlertModule,
+  NzAutocompleteModule,
+  NzBadgeModule,
   NzButtonModule,
   NzCardModule,
-  NzRadioModule,
-  NzSelectModule,
-  NzGridModule,
-  NzFormModule,
-  NzTableModule,
+  NzCollapseModule,
+  NzDescriptionsModule,
   NzDividerModule,
-  NzPopconfirmModule,
-  NzNotificationModule,
-  NzModalModule,
-  NzToolTipModule,
-  NzSwitchModule,
-  NzSpinModule,
+  NzDrawerModule,
+  NzDropDownModule,
+  NzEmptyModule,
+  NzFormModule,
+  NzGridModule,
   NzIconModule,
   NzInputModule,
-  NzTagModule,
-  NzAffixModule,
-  NzLayoutModule,
-  NzMenuModule,
-  NzDropDownModule,
-  NzBadgeModule,
   NzInputNumberModule,
-  NzTabsModule,
-  NzDrawerModule,
-  NzCollapseModule,
+  NzLayoutModule,
   NzListModule,
-  NzPopoverModule,
-  NzAutocompleteModule,
-  NzDescriptionsModule,
+  NzMenuModule,
+  NzModalModule,
+  NzNotificationModule,
   NzPaginationModule,
-  NzEmptyModule,
+  NzPopconfirmModule,
+  NzPopoverModule,
+  NzRadioModule,
+  NzSelectModule,
+  NzSpinModule,
+  NzSwitchModule,
+  NzTableModule,
+  NzTabsModule,
+  NzTagModule,
+  NzToolTipModule,
   NzTypographyModule,
 ];
 const ngModules = [CommonModule, ReactiveFormsModule, FormsModule];

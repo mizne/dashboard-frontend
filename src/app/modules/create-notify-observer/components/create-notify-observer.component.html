@@ -183,6 +183,7 @@
 
 
     <ng-container *ngIf="isTimer">
+      <nz-alert nzType="warning" [nzMessage]="timerMessage" style="margin: 12px 0"></nz-alert>
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerHour" nzTooltipTitle="hour">
           <span>hour</span>
