@@ -121,6 +121,12 @@ export class CreateNotifyObserverService {
       return Promise.resolve(false);
     }
 
+    const valid = await this.checkValidForm(form);
+    if (valid.code !== 0) {
+      errorSub.next(new Error(valid.message));
+      return Promise.resolve(false);
+    }
+
     const existed = await this.checkExisted(form, errorSub);
     if (existed) {
       return Promise.resolve(false);
@@ -152,6 +158,12 @@ export class CreateNotifyObserverService {
   ): Promise<any> {
     if (form.invalid) {
       errorSub.next(new Error('请检查表单非法字段'));
+      return Promise.resolve(false);
+    }
+
+    const valid = await this.checkValidForm(form);
+    if (valid.code !== 0) {
+      errorSub.next(new Error(valid.message));
       return Promise.resolve(false);
     }
 
@@ -211,6 +223,28 @@ export class CreateNotifyObserverService {
         },
       });
     });
+  }
+
+  private checkValidForm(form: FormGroup): { code: number; message?: string } {
+    switch (form.value.type) {
+      case NotifyObserverTypes.MEDIUM:
+        return form.value.mediumHomeLink ? { code: 0 } : { code: -1, message: `没有填写medium主页链接` }
+      case NotifyObserverTypes.MIRROR:
+        return form.value.mirrorHomeLink ? { code: 0 } : { code: -1, message: `没有填写mirror主页链接` }
+      case NotifyObserverTypes.TWITTER:
+        return form.value.twitterHomeLink ? { code: 0 } : { code: -1, message: `没有填写twitter主页链接` }
+      case NotifyObserverTypes.TWITTER_SPACE:
+        return form.value.twitterSpaceHomeLink ? { code: 0 } : { code: -1, message: `没有填写twitter主页链接` }
+      case NotifyObserverTypes.QUEST3:
+        return form.value.quest3HomeLink ? { code: 0 } : { code: -1, message: `没有填写quest3主页链接` }
+      case NotifyObserverTypes.GALXE:
+        return form.value.galxeHomeLink ? { code: 0 } : { code: -1, message: `没有填写galxe主页链接` }
+      case NotifyObserverTypes.TIMER:
+        return (form.value.notifyShowTitle && (Array.isArray(form.value.timerHour)) && form.value.timerHour.length > 0 && (Array.isArray(form.value.timerMinute)) && form.value.timerMinute.length > 0)
+          ? { code: 0 } : { code: -1, message: `通知标题必填，hour minute必填` }
+      default:
+        return { code: 0 }
+    }
   }
 
   private resolveExistedCondition(form: FormGroup): Partial<NotifyObserver> | null {
