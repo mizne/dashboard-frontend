@@ -142,7 +142,7 @@ export class MyNotificationComponent implements OnInit {
       case NotifyObserverTypes.QUEST3:
         return item.quest3TitleKey
       case NotifyObserverTypes.TIMER:
-        return item.timerNotifyShowDesc
+        return `${item.timerNotifyShowDesc} hour: ${item.timerHour?.join(', ')} minute: ${item.timerMinute?.join(', ')}`
       default:
         console.warn(`resolveDesc() unknown type: ${item.type}`)
         return ''
