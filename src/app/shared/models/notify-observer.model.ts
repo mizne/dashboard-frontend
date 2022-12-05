@@ -9,7 +9,9 @@ export enum NotifyObserverTypes {
   LINK3 = 'LINK3',
   GALXE = 'GALXE',
   CWALLET = 'CWALLET',
-  TIMER = 'TIMER'
+  TIMER = 'TIMER',
+  CMC_AIRDROP = 'CMC_AIRDROP',
+  CMC_LEARN_AND_EARN = 'CMC_LEARN_AND_EARN',
 }
 
 export interface NotifyObserver {

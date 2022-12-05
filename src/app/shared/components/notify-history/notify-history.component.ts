@@ -83,6 +83,14 @@ export class NotifyHistoryComponent implements OnInit {
       label: 'Timer',
       value: NotifyObserverTypes.TIMER,
     },
+    {
+      label: 'CMC AirDrop',
+      value: NotifyObserverTypes.CMC_AIRDROP,
+    },
+    {
+      label: 'CMC Learn And Earn',
+      value: NotifyObserverTypes.CMC_LEARN_AND_EARN,
+    },
   ];
   readStatuses = [
     {
