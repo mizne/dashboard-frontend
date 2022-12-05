@@ -11,6 +11,9 @@ export class LinkableComponent implements OnInit {
     if (v) {
       this._href = v;
       this.validHref = (v || '').startsWith('http');
+    } else {
+      this._href = '';
+      this.validHref = false;
     }
   }
   get href() {
