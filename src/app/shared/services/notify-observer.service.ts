@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NotifyObserver } from '../models';
+import { NotifyObserver, NotifyObserverTypes } from '../models';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class NotifyObserverService {
   private readonly baseURL = environment.baseURL;
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   create(
     params: Partial<NotifyObserver>
@@ -57,5 +57,12 @@ export class NotifyObserverService {
 
   deleteByID(id: string): Observable<any> {
     return this.httpClient.delete<any>(`${this.baseURL}/notify-observer/${id}`);
+  }
+
+  queryTypes(): Observable<{ label: string; value: NotifyObserverTypes }[]> {
+    return this.httpClient.post<{ label: string; value: NotifyObserverTypes }[]>(
+      `${this.baseURL}/notify-observer/queryTypes`,
+      {}
+    );
   }
 }

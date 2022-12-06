@@ -50,34 +50,6 @@ export class MyNotificationComponent implements OnInit {
       label: '所有',
       value: '',
     },
-    {
-      label: 'Medium',
-      value: NotifyObserverTypes.MEDIUM,
-    },
-    {
-      label: 'Mirror',
-      value: NotifyObserverTypes.MIRROR,
-    },
-    {
-      label: 'Twitter',
-      value: NotifyObserverTypes.TWITTER,
-    },
-    {
-      label: 'Twitter Space',
-      value: NotifyObserverTypes.TWITTER_SPACE,
-    },
-    {
-      label: 'Quest3',
-      value: NotifyObserverTypes.QUEST3,
-    },
-    {
-      label: 'Galxe',
-      value: NotifyObserverTypes.GALXE,
-    },
-    {
-      label: 'Timer',
-      value: NotifyObserverTypes.TIMER,
-    },
   ];
   form = this.fb.group({
     notifyShowTitle: [null],
@@ -103,6 +75,17 @@ export class MyNotificationComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDataFromServer();
+
+    this.notifyObserverService.queryTypes()
+      .subscribe(types => {
+        this.types = [
+          {
+            label: '所有',
+            value: '',
+          },
+          ...types
+        ]
+      })
   }
 
   resolveHref(item: NotifyObserver) {

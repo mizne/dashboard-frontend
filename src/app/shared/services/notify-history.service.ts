@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NotifyHistory } from '../models';
+import { NotifyHistory, NotifyObserverTypes } from '../models';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class NotifyHistoryService {
   private readonly baseURL = environment.baseURL;
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   create(
     params: Partial<NotifyHistory>
@@ -57,5 +57,12 @@ export class NotifyHistoryService {
 
   deleteByID(id: string): Observable<any> {
     return this.httpClient.delete<any>(`${this.baseURL}/notify-history/${id}`);
+  }
+
+  queryTypes(): Observable<{ label: string; value: NotifyObserverTypes }[]> {
+    return this.httpClient.post<{ label: string; value: NotifyObserverTypes }[]>(
+      `${this.baseURL}/notify-history/queryTypes`,
+      {}
+    );
   }
 }

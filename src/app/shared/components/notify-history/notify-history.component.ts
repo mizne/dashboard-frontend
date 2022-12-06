@@ -39,58 +39,6 @@ export class NotifyHistoryComponent implements OnInit {
       label: '所有',
       value: '',
     },
-    {
-      label: 'Medium',
-      value: NotifyObserverTypes.MEDIUM,
-    },
-    {
-      label: 'Mirror',
-      value: NotifyObserverTypes.MIRROR,
-    },
-    {
-      label: 'Twitter',
-      value: NotifyObserverTypes.TWITTER,
-    },
-    {
-      label: 'Twitter Space',
-      value: NotifyObserverTypes.TWITTER_SPACE,
-    },
-    {
-      label: 'Quest3',
-      value: NotifyObserverTypes.QUEST3,
-    },
-    {
-      label: 'BNB Chain BLOG',
-      value: NotifyObserverTypes.BNBCHAIN_BLOG,
-    },
-    {
-      label: 'Binance Blog',
-      value: NotifyObserverTypes.BINANCE_BLOG,
-    },
-    {
-      label: 'Link3',
-      value: NotifyObserverTypes.LINK3,
-    },
-    {
-      label: 'Galxe',
-      value: NotifyObserverTypes.GALXE,
-    },
-    {
-      label: 'CWallet',
-      value: NotifyObserverTypes.CWALLET,
-    },
-    {
-      label: 'Timer',
-      value: NotifyObserverTypes.TIMER,
-    },
-    {
-      label: 'CMC AirDrop',
-      value: NotifyObserverTypes.CMC_AIRDROP,
-    },
-    {
-      label: 'CMC Learn And Earn',
-      value: NotifyObserverTypes.CMC_LEARN_AND_EARN,
-    },
   ];
   readStatuses = [
     {
@@ -120,6 +68,17 @@ export class NotifyHistoryComponent implements OnInit {
       .subscribe(() => {
         this.unReadCount += 1;
       });
+
+    this.notifyHistoryService.queryTypes()
+      .subscribe((types) => {
+        this.types = [
+          {
+            label: '所有',
+            value: '',
+          },
+          ...types
+        ]
+      })
   }
 
   submitForm(): void {

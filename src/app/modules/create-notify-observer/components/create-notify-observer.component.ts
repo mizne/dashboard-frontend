@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzModalRef } from 'ng-zorro-antd/modal';
-import { NotifyObserverTypes } from 'src/app/shared';
+import { NotifyObserverService, NotifyObserverTypes } from 'src/app/shared';
 import { CreateNotifyObserverService } from '../create-notify-observer.service';
 
 @Component({
@@ -13,36 +13,7 @@ export class CreateNotifyObserverComponent implements OnInit {
   @Input() form: FormGroup = this.fb.group({});
   @Input() disabledType = false
 
-  types = [
-    {
-      label: 'Medium',
-      value: NotifyObserverTypes.MEDIUM,
-    },
-    {
-      label: 'Mirror',
-      value: NotifyObserverTypes.MIRROR,
-    },
-    {
-      label: 'Twitter',
-      value: NotifyObserverTypes.TWITTER,
-    },
-    {
-      label: 'Twitter Space',
-      value: NotifyObserverTypes.TWITTER_SPACE,
-    },
-    {
-      label: 'Quest3',
-      value: NotifyObserverTypes.QUEST3,
-    },
-    {
-      label: 'Galxe',
-      value: NotifyObserverTypes.GALXE,
-    },
-    {
-      label: 'Timer',
-      value: NotifyObserverTypes.TIMER,
-    },
-  ];
+  types: Array<{ label: string; value: NotifyObserverTypes }> = [];
 
   get isMedium(): boolean {
     return this.form?.get('type')?.value === NotifyObserverTypes.MEDIUM;
@@ -67,10 +38,15 @@ export class CreateNotifyObserverComponent implements OnInit {
   }
   timerMessage = '00:00 到 01:00 为服务维护时间，不建议在此时间段内设置定时任务'
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private service: NotifyObserverService) { }
 
   ngOnInit(): void {
     this.patchForm();
+
+    this.service.queryTypes()
+      .subscribe(types => {
+        this.types = types;
+      })
   }
 
   toSearch() { }
