@@ -19,7 +19,7 @@ export class NotifyHistoryComponent implements OnInit {
     private readonly destroy$: DestroyService,
     private readonly notifyHistoryService: NotifyHistoryService,
     private readonly nzNotificationService: NzNotificationService,
-    private readonly clientNotifyService: ClientNotifyService
+    private readonly clientNotifyService: ClientNotifyService,
   ) { }
 
   logoBasePath = environment.baseURL
@@ -112,6 +112,21 @@ export class NotifyHistoryComponent implements OnInit {
         },
       });
   }
+
+  confirmDelete(item: NotifyHistory) {
+    this.notifyHistoryService.deleteByID(item._id).subscribe({
+      next: () => {
+        this.nzNotificationService.success(`删除成功`, `删除数据成功`);
+        this.loadDataFromServer();
+      },
+      complete: () => { },
+      error: (e) => {
+        this.nzNotificationService.error(`删除失败`, `请稍后重试，${e.message}`);
+      },
+    });
+  }
+
+  cancelDelete(item: NotifyHistory) { }
 
   open(): void {
     this.visible = true;
