@@ -125,11 +125,15 @@ export class MyNotificationComponent implements OnInit {
       case NotifyObserverTypes.QUEST3:
         return item.quest3TitleKey
       case NotifyObserverTypes.TIMER:
-        return `${item.timerNotifyShowDesc} hour: ${item.timerHour?.join(', ')} minute: ${item.timerMinute?.join(', ')}`
+        return `${item.timerNotifyShowDesc} ${this.isNumberArray(item.timerMonth) ? `月: ${item.timerMonth?.join(', ')} ` : ''}${this.isNumberArray(item.timerDate) ? ` 日: ${item.timerDate?.join(', ')} ` : ''}时: ${item.timerHour?.join(', ')} 分: ${item.timerMinute?.join(', ')}`
       default:
         console.warn(`resolveDesc() unknown type: ${item.type}`)
         return ''
     }
+  }
+
+  private isNumberArray(v?: number[]): boolean {
+    return Array.isArray(v) && v.length > 0 && v.every(f => typeof f === 'number')
   }
 
   showCreateModal() {

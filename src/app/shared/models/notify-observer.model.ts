@@ -51,6 +51,8 @@ export interface NotifyObserver {
 
   timerHour?: number[];
   timerMinute?: number[];
+  timerDate?: number[];
+  timerMonth?: number[];
 
   timerNotifyShowDesc?: string;
   timerNotifyShowUrl?: string;

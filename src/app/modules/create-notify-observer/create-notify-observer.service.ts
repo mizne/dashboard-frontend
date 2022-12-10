@@ -69,6 +69,8 @@ export class CreateNotifyObserverService {
 
       timerHour: [obj.timerHour],
       timerMinute: [obj.timerMinute],
+      timerDate: [obj.timerDate],
+      timerMonth: [obj.timerMonth],
       timerNotifyShowDesc: [obj.timerNotifyShowDesc],
       timerNotifyShowUrl: [obj.timerNotifyShowUrl],
     });
