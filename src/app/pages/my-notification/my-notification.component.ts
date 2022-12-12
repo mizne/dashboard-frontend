@@ -125,7 +125,7 @@ export class MyNotificationComponent implements OnInit {
       case NotifyObserverTypes.QUEST3:
         return item.quest3TitleKey
       case NotifyObserverTypes.TIMER:
-        return `${item.timerNotifyShowDesc} ${this.isNumberArray(item.timerMonth) ? `${item.timerMonth?.join(', ')}月 ` : ''}${this.isNumberArray(item.timerDate) ? ` ${item.timerDate?.join(', ')}日 ` : ''}${item.timerHour?.join(', ')}时 ${item.timerMinute?.join(', ')}分`
+        return `${item.timerNotifyShowDesc || ''} ${this.isNumberArray(item.timerMonth) ? `${item.timerMonth?.join(', ')}月 ` : ''}${this.isNumberArray(item.timerDate) ? ` ${item.timerDate?.join(', ')}日 ` : ''}${item.timerHour?.join(', ')}时 ${item.timerMinute?.join(', ')}分`
       default:
         console.warn(`resolveDesc() unknown type: ${item.type}`)
         return ''
