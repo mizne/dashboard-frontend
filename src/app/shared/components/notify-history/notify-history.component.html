@@ -112,10 +112,10 @@
                   nzPopconfirmTitle="确认标记已读?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="markRead(item)"><span
                     nz-icon nzType="eye"></span></button>
 
-                <button *ngIf="item.type === 'GALXE_CLAIMABLE'" style="margin-left: 6px" nz-button nzType="primary"
+                <!-- <button *ngIf="item.type === 'GALXE_CLAIMABLE'" style="margin-left: 6px" nz-button nzType="primary"
                   nzDanger nzShape="circle" nz-popconfirm nzPopconfirmTitle="没有claim成功，可以删除后下次再来提醒"
                   nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete(item)"
-                  (nzOnCancel)="cancelDelete(item)"><span nz-icon nzType="delete"></span></button>
+                  (nzOnCancel)="cancelDelete(item)"><span nz-icon nzType="delete"></span></button> -->
               </ng-template>
             </nz-card>
           </nz-ribbon>
