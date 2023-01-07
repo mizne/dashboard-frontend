@@ -17,7 +17,8 @@ export enum NotifyObserverTypes {
   TIMER = 'TIMER',
   CMC_AIRDROP = 'CMC_AIRDROP',
   CMC_LEARN_AND_EARN = 'CMC_LEARN_AND_EARN',
-  SNAPSHOT = 'SNAPSHOT'
+  SNAPSHOT = 'SNAPSHOT',
+  GUILD = 'GUILD'
 }
 
 export interface NotifyObserver {
@@ -52,6 +53,9 @@ export interface NotifyObserver {
 
   snapshotHomeLink?: string;
   snapshotTitleKey?: string;
+
+  guildHomeLink?: string;
+  guildTitleKey?: string;
 
   timerHour?: number[];
   timerMinute?: number[];

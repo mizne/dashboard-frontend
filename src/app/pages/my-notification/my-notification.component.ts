@@ -106,6 +106,8 @@ export class MyNotificationComponent implements OnInit {
         return item.timerNotifyShowUrl
       case NotifyObserverTypes.SNAPSHOT:
         return item.snapshotHomeLink
+      case NotifyObserverTypes.GUILD:
+        return item.guildHomeLink
       default:
         console.warn(`resolveHref() unknown type: ${item.type}`)
         return ''
@@ -130,6 +132,8 @@ export class MyNotificationComponent implements OnInit {
         return `${item.timerNotifyShowDesc || ''} ${this.isNumberArray(item.timerMonth) ? `${item.timerMonth?.join(', ')}月 ` : ''}${this.isNumberArray(item.timerDate) ? ` ${item.timerDate?.join(', ')}日 ` : ''}${item.timerHour?.join(', ')}时 ${item.timerMinute?.join(', ')}分`
       case NotifyObserverTypes.SNAPSHOT:
         return item.snapshotTitleKey
+      case NotifyObserverTypes.GUILD:
+        return item.guildTitleKey
       default:
         console.warn(`resolveDesc() unknown type: ${item.type}`)
         return ''
