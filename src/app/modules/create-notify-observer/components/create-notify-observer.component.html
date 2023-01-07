@@ -240,6 +240,25 @@
       </nz-form-item>
     </ng-container>
 
+    <ng-container *ngIf="isSnapshot">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="snapshotHomeLink" nzTooltipTitle="snapshot 主页链接">
+          <span>snapshot 主页链接</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input class="ant-input" id="snapshotHomeLink" formControlName="snapshotHomeLink" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="snapshotTitleKey" nzTooltipTitle="如填写，则匹配该关键字，多个关键字可用英文逗号(,)分开">
+          <span>标题关键字</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <textarea nz-input class="ant-input" id="snapshotTitleKey" formControlName="snapshotTitleKey"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </ng-container>
   </form>
 
 </div>

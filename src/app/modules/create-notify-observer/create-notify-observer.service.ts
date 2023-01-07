@@ -67,6 +67,9 @@ export class CreateNotifyObserverService {
       galxeHomeLink: [obj.galxeHomeLink],
       galxeTitleKey: [obj.galxeTitleKey],
 
+      snapshotHomeLink: [obj.snapshotHomeLink],
+      snapshotTitleKey: [obj.snapshotTitleKey],
+
       timerHour: [obj.timerHour],
       timerMinute: [obj.timerMinute],
       timerDate: [obj.timerDate],
@@ -244,6 +247,8 @@ export class CreateNotifyObserverService {
       case NotifyObserverTypes.TIMER:
         return (form.value.notifyShowTitle && (Array.isArray(form.value.timerHour)) && form.value.timerHour.length > 0 && (Array.isArray(form.value.timerMinute)) && form.value.timerMinute.length > 0)
           ? { code: 0 } : { code: -1, message: `通知标题必填，hour minute必填` }
+      case NotifyObserverTypes.SNAPSHOT:
+        return form.value.snapshotHomeLink ? { code: 0 } : { code: -1, message: `没有填写snapshot主页链接` }
       default:
         return { code: 0 }
     }
@@ -265,6 +270,8 @@ export class CreateNotifyObserverService {
         return form.value.galxeHomeLink ? { type: NotifyObserverTypes.GALXE, galxeHomeLink: form.value.galxeHomeLink } : null
       case NotifyObserverTypes.TIMER:
         return form.value.timerNotifyShowUrl ? { type: NotifyObserverTypes.TIMER, timerNotifyShowUrl: form.value.timerNotifyShowUrl } : null
+      case NotifyObserverTypes.SNAPSHOT:
+        return form.value.snapshotHomeLink ? { type: NotifyObserverTypes.SNAPSHOT, snapshotHomeLink: form.value.snapshotHomeLink } : null
       default:
         return null
     }

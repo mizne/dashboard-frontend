@@ -17,6 +17,7 @@ export enum NotifyObserverTypes {
   TIMER = 'TIMER',
   CMC_AIRDROP = 'CMC_AIRDROP',
   CMC_LEARN_AND_EARN = 'CMC_LEARN_AND_EARN',
+  SNAPSHOT = 'SNAPSHOT'
 }
 
 export interface NotifyObserver {
@@ -48,6 +49,9 @@ export interface NotifyObserver {
 
   galxeHomeLink?: string;
   galxeTitleKey?: string;
+
+  snapshotHomeLink?: string;
+  snapshotTitleKey?: string;
 
   timerHour?: number[];
   timerMinute?: number[];
