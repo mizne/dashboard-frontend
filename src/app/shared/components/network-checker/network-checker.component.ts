@@ -13,68 +13,68 @@ export class NetworkCheckerComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
     private notification: NzNotificationService
-  ) {}
+  ) { }
 
   connections: Array<{
     hostname: string;
     status: 'success' | 'error' | 'loading';
     message: string;
   }> = [
-    {
-      hostname: 'api.stepn.com',
-      status: 'loading',
-      message: 'loading',
-    },
-    {
-      hostname: 'api.binance.com',
-      status: 'loading',
-      message: 'loading',
-    },
-    {
-      hostname: 'twitter.com',
-      status: 'loading',
-      message: 'loading',
-    },
-    {
-      hostname: 'medium.com',
-      status: 'loading',
-      message: 'loading',
-    },
-    {
-      hostname: 't.me',
-      status: 'loading',
-      message: 'loading',
-    },
-    {
-      hostname: 'www.youtube.com',
-      status: 'loading',
-      message: 'loading',
-    },
-    {
-      hostname: 'discord.com',
-      status: 'loading',
-      message: 'loading',
-    },
-    // {
-    //   hostname: 'www.crunchbase.com',
-    //   status: 'loading',
-    //   message: 'loading',
-    // },
-    {
-      hostname: 'crypto-fundraising.info',
-      status: 'loading',
-      message: 'loading',
-    },
-  ];
+      {
+        hostname: 'api.stepn.com',
+        status: 'loading',
+        message: 'loading',
+      },
+      {
+        hostname: 'api.binance.com',
+        status: 'loading',
+        message: 'loading',
+      },
+      {
+        hostname: 'twitter.com',
+        status: 'loading',
+        message: 'loading',
+      },
+      {
+        hostname: 'medium.com',
+        status: 'loading',
+        message: 'loading',
+      },
+      {
+        hostname: 't.me',
+        status: 'loading',
+        message: 'loading',
+      },
+      {
+        hostname: 'www.youtube.com',
+        status: 'loading',
+        message: 'loading',
+      },
+      {
+        hostname: 'discord.com',
+        status: 'loading',
+        message: 'loading',
+      },
+      // {
+      //   hostname: 'www.crunchbase.com',
+      //   status: 'loading',
+      //   message: 'loading',
+      // },
+      {
+        hostname: 'crypto-fundraising.info',
+        status: 'loading',
+        message: 'loading',
+      },
+    ];
   status: 'loading' | 'error' | 'success' | '' = '';
 
   ngOnInit() {
     if (environment.production) {
-      this.intervalCheckConnections();
+      // this.intervalCheckConnections();
     }
   }
   private async intervalCheckConnections() {
-    for (;;) {
+    for (; ;) {
       try {
         this.status = 'loading';
 
