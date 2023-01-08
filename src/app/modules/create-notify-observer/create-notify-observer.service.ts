@@ -73,6 +73,9 @@ export class CreateNotifyObserverService {
       guildHomeLink: [obj.guildHomeLink],
       guildTitleKey: [obj.guildTitleKey],
 
+      xiaoyuzhouHomeLink: [obj.xiaoyuzhouHomeLink],
+      xiaoyuzhouTitleKey: [obj.xiaoyuzhouTitleKey],
+
       timerHour: [obj.timerHour],
       timerMinute: [obj.timerMinute],
       timerDate: [obj.timerDate],
@@ -254,6 +257,9 @@ export class CreateNotifyObserverService {
         return form.value.snapshotHomeLink ? { code: 0 } : { code: -1, message: `没有填写snapshot主页链接` }
       case NotifyObserverTypes.GUILD:
         return form.value.guildHomeLink ? { code: 0 } : { code: -1, message: `没有填写guild主页链接` }
+
+      case NotifyObserverTypes.XIAOYUZHOU:
+        return form.value.xiaoyuzhouHomeLink ? { code: 0 } : { code: -1, message: `没有填写xiaoyuzhou主页链接` }
       default:
         return { code: 0 }
     }
@@ -279,6 +285,9 @@ export class CreateNotifyObserverService {
         return form.value.snapshotHomeLink ? { type: NotifyObserverTypes.SNAPSHOT, snapshotHomeLink: form.value.snapshotHomeLink } : null
       case NotifyObserverTypes.GUILD:
         return form.value.guildHomeLink ? { type: NotifyObserverTypes.GUILD, guildHomeLink: form.value.guildHomeLink } : null
+
+      case NotifyObserverTypes.XIAOYUZHOU:
+        return form.value.xiaoyuzhouHomeLink ? { type: NotifyObserverTypes.XIAOYUZHOU, xiaoyuzhouHomeLink: form.value.xiaoyuzhouHomeLink } : null
       default:
         return null
     }

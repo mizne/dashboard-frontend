@@ -18,7 +18,8 @@ export enum NotifyObserverTypes {
   CMC_AIRDROP = 'CMC_AIRDROP',
   CMC_LEARN_AND_EARN = 'CMC_LEARN_AND_EARN',
   SNAPSHOT = 'SNAPSHOT',
-  GUILD = 'GUILD'
+  GUILD = 'GUILD',
+  XIAOYUZHOU = 'XIAOYUZHOU'
 }
 
 export interface NotifyObserver {
@@ -56,6 +57,9 @@ export interface NotifyObserver {
 
   guildHomeLink?: string;
   guildTitleKey?: string;
+
+  xiaoyuzhouHomeLink?: string;
+  xiaoyuzhouTitleKey?: string;
 
   timerHour?: number[];
   timerMinute?: number[];

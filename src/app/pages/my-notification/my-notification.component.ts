@@ -108,6 +108,8 @@ export class MyNotificationComponent implements OnInit {
         return item.snapshotHomeLink
       case NotifyObserverTypes.GUILD:
         return item.guildHomeLink
+      case NotifyObserverTypes.XIAOYUZHOU:
+        return item.xiaoyuzhouHomeLink
       default:
         console.warn(`resolveHref() unknown type: ${item.type}`)
         return ''
@@ -134,6 +136,8 @@ export class MyNotificationComponent implements OnInit {
         return item.snapshotTitleKey
       case NotifyObserverTypes.GUILD:
         return item.guildTitleKey
+      case NotifyObserverTypes.XIAOYUZHOU:
+        return item.xiaoyuzhouTitleKey
       default:
         console.warn(`resolveDesc() unknown type: ${item.type}`)
         return ''
