@@ -1,7 +1,7 @@
 <button *ngIf="mode === 'edit'" nz-button nzType="primary" style="margin-right: 8px"
   (click)="showSelectTagsModal()">选择</button>
 
-<nz-tag *ngFor="let tag of selectedTags; let i = index">
+<nz-tag *ngFor="let tag of selectedTags; let i = index" style="margin-bottom: 4px">
   {{ tag.text }}
 </nz-tag>
 
@@ -14,7 +14,7 @@
 
     <nz-card>
       <nz-tag *ngFor="let tag of allTags; let i = index" nzMode="checkable" [nzChecked]="hasSelectedTag(tag)"
-        (nzCheckedChange)="tagSelectChange($event, tag)">{{tag.text}}</nz-tag>
+        (nzCheckedChange)="tagSelectChange($event, tag)" style="margin-bottom: 4px">{{tag.text}}</nz-tag>
 
       <nz-empty *ngIf="allTags.length === 0"></nz-empty>
     </nz-card>
@@ -34,8 +34,8 @@
     </div>
 
     <nz-card>
-      <nz-tag *ngFor="let tag of allTags; let i = index" nzMode="closeable"
-        (nzOnClose)="onDeleteTag(tag)">{{tag.text}}</nz-tag>
+      <nz-tag *ngFor="let tag of allTags; let i = index" nzMode="closeable" (nzOnClose)="onDeleteTag(tag)"
+        style="margin-bottom: 4px">{{tag.text}}</nz-tag>
 
       <nz-empty *ngIf="allTags.length === 0"></nz-empty>
     </nz-card>
