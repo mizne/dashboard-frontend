@@ -36,10 +36,17 @@ const routes: Routes = [
         (m) => m.MyNotificationModule
       ),
   },
+  {
+    path: 'followed-project',
+    loadChildren: () =>
+      import('./pages/followed-project/followed-project.module').then(
+        (m) => m.FollowedProjectModule
+      ),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

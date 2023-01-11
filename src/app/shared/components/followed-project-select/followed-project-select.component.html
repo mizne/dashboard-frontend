@@ -1,0 +1,96 @@
+<button nz-button nzType="primary" style="margin-bottom: 8px" (click)="showSelectModal()">选择</button>
+
+<nz-card *ngIf="selectedFollowedProject" style="width:250px;" [nzTitle]="selectedFollowedProject.name"
+  [nzExtra]="extraTemplate1">
+  <div style="display: flex;justify-content: space-between;align-items: center;">
+    <linkable [href]="selectedFollowedProject.website" [content]="defaultLogo">
+    </linkable>
+    <created-at [createdAt]="selectedFollowedProject.createdAt"></created-at>
+  </div>
+  <ng-template #defaultLogo>
+    <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+      <image [attr.href]="logoBasePath + selectedFollowedProject.logo" width="64" height="64" />
+    </svg>
+  </ng-template>
+</nz-card>
+
+<ng-template #extraTemplate1>
+  <button nz-button nzType="primary" (click)="confirmDeSelect()">取消</button>
+</ng-template>
+
+
+<nz-modal [(nzVisible)]="selectModalVisible" [nzWidth]="1200" nzTitle="选择标签" [nzFooter]="null"
+  (nzOnCancel)="selectModalVisible = false">
+  <ng-container *nzModalContent>
+    <nz-card>
+      <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+        <div nz-row [nzGutter]="24">
+          <div nz-col [nzSpan]="8">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="name">项目名称</nz-form-label>
+              <nz-form-control [nzSpan]="14">
+                <input nz-input class="ant-input" placeholder="请输入项目名称" formControlName="name" [attr.id]="'name'" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div nz-row [nzGutter]="24">
+          <div nz-col [nzSpan]="24">
+            <nz-form-item nz-row class="register-area">
+              <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                <button nz-button [nzType]="'primary'">搜索</button>
+                <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+    </nz-card>
+
+    <nz-spin [nzSpinning]="loading">
+      <nz-card style="margin-top: 12px">
+        <div style="display: flex; justify-content: center; margin-bottom: 12px">
+          <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="total"
+            [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)">
+          </nz-pagination>
+        </div>
+        <div nz-row [nzGutter]="16">
+          <div *ngFor="let item of items" nz-col nzSpan="6" style="margin-bottom: 12px">
+            <nz-card style="width:250px;" [nzTitle]="item.name" [nzExtra]="extraTemplate">
+              <div style="display: flex;justify-content: space-between;align-items: center;">
+                <linkable [href]="item.website" [content]="defaultLogo">
+                </linkable>
+                <created-at [createdAt]="item.createdAt"></created-at>
+              </div>
+              <ng-template #defaultLogo>
+                <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+                  <image [attr.href]="logoBasePath + item.logo" width="64" height="64" />
+                </svg>
+              </ng-template>
+
+            </nz-card>
+            <ng-template #extraTemplate>
+              <button nz-button nzType="primary" (click)="confirmSelect(item)">选择</button>
+            </ng-template>
+          </div>
+
+          <ng-container *ngIf="items.length === 0">
+            <div style="width: 100%; display: flex; justify-content: center;">
+              <nz-empty></nz-empty>
+            </div>
+          </ng-container>
+        </div>
+
+        <div style="display: flex; justify-content: center;">
+          <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="total"
+            [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)">
+          </nz-pagination>
+        </div>
+        <ng-template #rangeTemplate let-range="range" let-total>
+          {{ range[0] }}-{{ range[1] }} of {{ total }} items
+        </ng-template>
+      </nz-card>
+    </nz-spin>
+  </ng-container>
+</nz-modal>

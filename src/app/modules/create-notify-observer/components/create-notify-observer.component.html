@@ -22,6 +22,15 @@
     </nz-form-item>
 
     <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="关联的关注项目">
+        <span>关注项目</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <followed-project-select formControlName="followedProjectID"></followed-project-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="notifyShowTitle" nzTooltipTitle="通知标题，支持占位符{title}、{time}">
         <span>通知标题</span>
       </nz-form-label>

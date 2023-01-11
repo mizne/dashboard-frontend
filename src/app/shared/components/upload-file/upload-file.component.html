@@ -1,0 +1,27 @@
+<nz-spin [nzTip]="'正在上传...'" [nzSpinning]="loading">
+  <div class="dev-upload-container">
+    <ng-container *ngIf="imageUrl; else noImage">
+      <div class="dev-has-upload">
+        <img [src]="imageUrl" alt="uploaded_image">
+        <div class="upload-layer">
+          <button style="margin-left: 6px" nz-button nzType="primary" nzDanger nzShape="circle" nz-popconfirm
+            nzPopconfirmTitle="确认删除?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="toDelete()"><span nz-icon
+              nzType="delete"></span></button>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #noImage>
+      <label [for]="id" class="dev-no-upload">
+        <i class="anticon anticon-plus"></i>
+        <span class="mt-sm text-grey">上传图片</span>
+        <input type="file" (change)="fileChange($event)" [id]="id" accept=".jpg, .jpeg, .png, .svg" multiple>
+      </label>
+    </ng-template>
+    <ng-template #previewModal>
+      <div class="preview-container">
+        <i class="anticon anticon-close"></i>
+        <img [src]="imageUrl" alt="preview_image" style="width: 100%;">
+      </div>
+    </ng-template>
+  </div>
+</nz-spin>

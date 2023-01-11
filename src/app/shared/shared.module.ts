@@ -19,6 +19,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzMessageModule } from 'ng-zorro-antd/message'
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
@@ -33,6 +34,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -61,6 +63,7 @@ const nzModules = [
   NzLayoutModule,
   NzListModule,
   NzMenuModule,
+  NzMessageModule,
   NzModalModule,
   NzNotificationModule,
   NzPaginationModule,
@@ -75,6 +78,7 @@ const nzModules = [
   NzTagModule,
   NzToolTipModule,
   NzTypographyModule,
+  NzUploadModule,
 ];
 const ngModules = [CommonModule, ReactiveFormsModule, FormsModule];
 

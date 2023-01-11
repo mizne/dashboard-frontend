@@ -6,3 +6,6 @@ export * from './client-notify.service';
 export * from './system-notification.service';
 export * from './notify-observer.service';
 export * from './notify-history.service';
+export * from './tag.service';
+export * from './followed-project.service';
+export * from './followed-project-tracking-record.service';

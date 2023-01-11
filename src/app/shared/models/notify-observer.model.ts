@@ -28,6 +28,7 @@ export interface NotifyObserver {
   enableTracking: boolean; // 开启追踪数据
   notifyShowTitle?: string;
   logo?: string;
+  followedProjectID?: string;
 
   mediumHomeLink?: string;
   mediumTitleKey?: string;

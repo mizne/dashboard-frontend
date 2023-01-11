@@ -44,6 +44,7 @@ export class CreateNotifyObserverService {
         obj.enableTracking === false ? false : true,
         [Validators.required],
       ],
+      followedProjectID: [obj.followedProjectID],
       notifyShowTitle: [obj.notifyShowTitle],
 
       mediumHomeLink: [obj.mediumHomeLink],

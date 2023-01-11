@@ -24,6 +24,7 @@ interface Connection {
 interface ExecuteTaskResp {
   code: number;
   message: string;
+  result?: any
 }
 
 @Injectable({ providedIn: 'root' })
@@ -32,7 +33,24 @@ export class SharedService {
   constructor(
     private httpClient: HttpClient,
     @Inject(DOCUMENT) private documentRef: Document
-  ) {}
+  ) { }
+
+  uploadFile(file: File): Observable<string> {
+    const formData = new FormData();
+    formData.append("file", file);
+    return this.httpClient.post<ExecuteTaskResp>(
+      `${this.baseURL}/app/upload-file`,
+      formData
+    ).pipe(
+      map(resp => {
+        if (resp.code === 0) {
+          return resp.result as string
+        } else {
+          throw new Error(resp.message)
+        }
+      })
+    );
+  }
 
   checkConnections(): Observable<Array<Connection>> {
     return this.httpClient.post<Array<Connection>>(

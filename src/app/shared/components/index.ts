@@ -12,6 +12,9 @@ import { TokenLogoComponent } from './token-logo/token-logo.component';
 import { CreatedAtComponent } from './created-at/created-at.component';
 import { NotifyHistoryComponent } from './notify-history/notify-history.component';
 import { MultiInputComponent } from './multi-input/multi-input.component';
+import { UploadFileComponent } from './upload-file/upload-file.component';
+import { TagSelectComponent } from './tag-select/tag-select.component';
+import { FollowedProjectSelectComponent } from './followed-project-select/followed-project-select.component';
 
 export const components = [
   LinkableComponent,
@@ -28,6 +31,9 @@ export const components = [
   CreatedAtComponent,
   NotifyHistoryComponent,
   MultiInputComponent,
+  UploadFileComponent,
+  TagSelectComponent,
+  FollowedProjectSelectComponent,
 ];
 
 export {
@@ -44,5 +50,8 @@ export {
   TokenLogoComponent,
   CreatedAtComponent,
   NotifyHistoryComponent,
-  MultiInputComponent
+  MultiInputComponent,
+  UploadFileComponent,
+  TagSelectComponent,
+  FollowedProjectSelectComponent,
 };
