@@ -1,4 +1,4 @@
-<button *ngIf="mode === 'edit'" nz-button nzType="primary" style="margin-right: 8px"
+<button *ngIf="mode === 'edit'" nz-button type="button" nzType="primary" style="margin-right: 8px"
   (click)="showSelectTagsModal()">选择</button>
 
 <nz-tag *ngFor="let tag of selectedTags; let i = index" style="margin-bottom: 4px">
@@ -9,7 +9,7 @@
   (nzOnCancel)="selectTagsModalVisible = false">
   <ng-container *nzModalContent>
     <div class="manage-tags" style="margin-bottom: 8px">
-      <button nz-button nzType="primary" (click)="showManageTagsModal()">管理标签</button>
+      <button nz-button type="button" nzType="primary" (click)="showManageTagsModal()">添加/删除 标签</button>
     </div>
 
     <nz-card>
@@ -29,7 +29,7 @@
         <input type="text" nz-input placeholder="输入标签" [formControl]="tagInputCtrl" (keydown.enter)="toAddTag()" />
       </nz-input-group>
       <ng-template #suffixButton>
-        <button nz-button nzType="primary" nzSize="large" (click)="toAddTag()">添加</button>
+        <button nz-button type="button" nzType="primary" nzSize="large" (click)="toAddTag()">添加</button>
       </ng-template>
     </div>
 
