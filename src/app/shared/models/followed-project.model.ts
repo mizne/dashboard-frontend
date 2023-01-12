@@ -14,6 +14,8 @@ export interface FollowedProject {
   youtubeHomeLink: string;
   mirrorHomeLink: string;
 
+  hasNews?: boolean;
+
   readonly createdAt: number;
   readonly createdAtStr: string;
 }

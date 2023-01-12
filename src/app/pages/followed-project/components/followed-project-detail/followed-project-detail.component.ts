@@ -42,6 +42,8 @@ export class FollowedProjectDetailComponent implements OnInit {
   ngOnInit() {
     this.fetchFollowedProjectDetail();
     this.fetchNotifyObservers();
+
+    this.updateFollowedProject();
   }
 
   showCreateNotifyObserverModal() {
@@ -120,6 +122,16 @@ export class FollowedProjectDetailComponent implements OnInit {
           this.notificationService.error(`获取 关注项目详情 失败`, `${err.message}`)
         }
       })
+  }
+
+  private updateFollowedProject() {
+    if (!this.followedProjectID) {
+      return
+    }
+
+    this.followedProjectService.update(this.followedProjectID, {
+      hasNews: false
+    }).subscribe()
   }
 
   private fetchNotifyObservers() {
