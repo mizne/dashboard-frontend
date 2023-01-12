@@ -44,6 +44,7 @@ export class FollowedProjectComponent implements OnInit {
   form = this.fb.group({
     name: [null],
     hasNews: [null],
+    hasLaunchToken: [null],
     tagIDs: [null],
   });
 

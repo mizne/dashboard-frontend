@@ -41,6 +41,7 @@ export class CreateFollowedProjectService {
       logo: [obj.logo],
       description: [obj.description],
       tagIDs: [obj.tagIDs],
+      hasLaunchToken: [!!obj.hasLaunchToken],
       twitterHomeLink: [obj.twitterHomeLink],
       telegramHomeLink: [obj.telegramHomeLink],
       discordHomeLink: [obj.discordHomeLink],

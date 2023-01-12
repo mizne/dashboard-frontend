@@ -15,6 +15,7 @@ export interface FollowedProject {
   mirrorHomeLink: string;
 
   hasNews?: boolean;
+  hasLaunchToken?: boolean;
 
   readonly createdAt: number;
   readonly createdAtStr: string;

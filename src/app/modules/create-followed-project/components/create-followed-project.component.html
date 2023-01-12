@@ -55,6 +55,15 @@
       </nz-form-item>
 
       <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="是否发币">
+          <span>是否发币</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-switch formControlName="hasLaunchToken"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="twitterHomeLink" nzTooltipTitle="project twitter">
           <span>twitter</span>
         </nz-form-label>

@@ -2,7 +2,7 @@
   <nz-card>
     <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
       <div nz-row [nzGutter]="24">
-        <div nz-col [nzSpan]="8">
+        <div nz-col [nzSpan]="6">
           <nz-form-item>
             <nz-form-label [nzSpan]="10" nzFor="name">项目名称</nz-form-label>
             <nz-form-control [nzSpan]="14">
@@ -11,18 +11,37 @@
           </nz-form-item>
         </div>
 
-        <div nz-col [nzSpan]="8">
+        <div nz-col [nzSpan]="6">
           <nz-form-item>
-            <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="是否有最新动态">
+            <nz-form-label [nzSpan]="10" nzTooltipTitle="是否有最新动态">
               <span>最新动态</span>
             </nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24">
-              <nz-switch formControlName="hasNews"></nz-switch>
+            <nz-form-control [nzSpan]="14">
+              <nz-radio-group formControlName="hasNews" nzSize="small" [nzButtonStyle]="'solid'">
+                <label nz-radio-button [nzValue]="null">所有</label>
+                <label nz-radio-button [nzValue]="true">有动态</label>
+                <label nz-radio-button [nzValue]="false">无动态</label>
+              </nz-radio-group>
             </nz-form-control>
           </nz-form-item>
         </div>
 
-        <div nz-col [nzSpan]="8">
+        <div nz-col [nzSpan]="6">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzTooltipTitle="是否发币">
+              <span>是否发币</span>
+            </nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <nz-radio-group formControlName="hasLaunchToken" nzSize="small" [nzButtonStyle]="'solid'">
+                <label nz-radio-button [nzValue]="null">所有</label>
+                <label nz-radio-button [nzValue]="true">已发币</label>
+                <label nz-radio-button [nzValue]="false">未发币</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="6">
           <nz-form-item>
             <nz-form-label [nzSpan]="10" nzFor="tagIDs">标签</nz-form-label>
             <nz-form-control [nzSpan]="14">
@@ -72,6 +91,10 @@
 
               <div class="followed-project-tags" style="margin-top: 8px">
                 <tag-select mode="view" [formControl]="item.tagIDsCtrl"></tag-select>
+              </div>
+              <div class="followed-project-tags" style="margin-top: 8px">
+                <nz-tag [nzColor]="item.hasLaunchToken ? 'default' : 'success'">{{item.hasLaunchToken ? '已发币' :
+                  '未发币'}}</nz-tag>
               </div>
               <ng-template #defaultLogo>
                 <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
