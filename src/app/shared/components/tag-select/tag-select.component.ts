@@ -4,6 +4,8 @@ import {
   forwardRef,
   OnDestroy,
   Input,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -40,6 +42,8 @@ export class TagSelectComponent implements ControlValueAccessor, OnDestroy {
 
   @Input() mode: 'view' | 'edit' = 'edit'
 
+  @ViewChild('inputAdd') inputAdd: ElementRef | null = null
+
   constructor(
     private readonly tagService: TagService,
     private readonly messageService: NzMessageService,
@@ -71,6 +75,12 @@ export class TagSelectComponent implements ControlValueAccessor, OnDestroy {
 
   showManageTagsModal(): void {
     this.manageTagsModalVisible = true;
+
+    setTimeout(() => {
+      if (this.inputAdd) {
+        this.inputAdd.nativeElement.focus();
+      }
+    }, 500)
   }
 
   toAddTag() {
