@@ -1,6 +1,4 @@
-<div class="notify-history-list-container" style="max-height: 860px;height: 860px;
-overflow-y: auto;
-overflow-x: hidden;">
+<div class="notify-history-list-container" style="max-height: 860px;height: 860px;overflow-y: auto;overflow-x: hidden;">
   <nz-collapse>
     <nz-collapse-panel [nzHeader]="'搜索'" [nzActive]="false">
       <nz-card>
@@ -76,8 +74,6 @@ overflow-x: hidden;">
   <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount" [nzShowTotal]="rangeTemplate"
     (nzPageIndexChange)="pageIndexChange($event)" style="margin: 12px 0;">
   </nz-pagination>
-
-
 
   <ng-container *ngFor="let item of items">
 
