@@ -12,6 +12,7 @@ export const removeNullOrUndefined = (obj: { [key: string]: any }) => {
   return result;
 };
 
+// 移除 null undefined ''
 export const removeEmpty = (obj: { [key: string]: any }) => {
   const result: { [key: string]: any } = {};
   for (const key of Object.keys(obj)) {
@@ -145,6 +146,6 @@ export function resolvePriceStatus(
   return ema21DeltaEma55 >= 0 && ema55DeltaEma144 >= 0
     ? 'long'
     : ema21DeltaEma55 < 0 && ema55DeltaEma144 < 0
-    ? 'short'
-    : 'shock';
+      ? 'short'
+      : 'shock';
 }

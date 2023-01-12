@@ -14,7 +14,10 @@ export class FollowedProjectService {
   ): Observable<{ code: number; message: string; result: any }> {
     return this.httpClient.post<{ code: number; message: string; result: any }>(
       `${this.baseURL}/followed-project/create`,
-      params
+      {
+        ...params,
+        hasNews: false
+      }
     );
   }
 

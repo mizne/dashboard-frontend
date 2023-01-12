@@ -13,6 +13,17 @@
 
         <div nz-col [nzSpan]="8">
           <nz-form-item>
+            <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="是否有最新动态">
+              <span>最新动态</span>
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <nz-switch formControlName="hasNews"></nz-switch>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
             <nz-form-label [nzSpan]="10" nzFor="tagIDs">标签</nz-form-label>
             <nz-form-control [nzSpan]="14">
               <tag-select formControlName="tagIDs"></tag-select>
