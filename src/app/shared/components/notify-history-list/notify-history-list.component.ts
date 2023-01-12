@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NotifyHistory, NotifyObserverTypes } from '../../models';
 import { removeEmpty } from 'src/app/utils';
@@ -9,11 +9,11 @@ import { takeUntil } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'notify-history',
-  templateUrl: 'notify-history.component.html',
+  selector: 'notify-history-list',
+  templateUrl: 'notify-history-list.component.html',
   providers: [DestroyService],
 })
-export class NotifyHistoryComponent implements OnInit {
+export class NotifyHistoryListComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly destroy$: DestroyService,
@@ -22,10 +22,9 @@ export class NotifyHistoryComponent implements OnInit {
     private readonly clientNotifyService: ClientNotifyService,
   ) { }
 
-  logoBasePath = environment.baseURL
+  @Input() condition: any = null
 
-  visible = false;
-  unReadCount = 0;
+  logoBasePath = environment.baseURL
 
   loading = false;
   items: NotifyHistory[] = [];
@@ -62,13 +61,7 @@ export class NotifyHistoryComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.clientNotifyService
-      .listenNotifyObserver()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.unReadCount += 1;
-      });
-
+    this.loadDataFromServer();
     this.notifyHistoryService.queryTypes()
       .subscribe((types) => {
         this.types = [
@@ -128,16 +121,6 @@ export class NotifyHistoryComponent implements OnInit {
 
   cancelDelete(item: NotifyHistory) { }
 
-  open(): void {
-    this.visible = true;
-    this.unReadCount = 0;
-    this.loadDataFromServer();
-  }
-
-  close(): void {
-    this.visible = false;
-  }
-
   pageIndexChange(index: number) {
     this.pageIndex = index;
     this.loadDataFromServer();
@@ -162,10 +145,11 @@ export class NotifyHistoryComponent implements OnInit {
         this.totalCount = count;
       });
   }
-
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
     // title desc 支持正则查询
-    const o: { [key: string]: any } = {};
+    const o: { [key: string]: any } = {
+      ...this.condition
+    };
     Object.keys(query).forEach((key) => {
       if (key === 'title') {
         Object.assign(o, {

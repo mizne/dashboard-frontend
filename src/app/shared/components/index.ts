@@ -10,11 +10,13 @@ import { ExecuteTaskCustomComponent } from './execute-task-custom/execute-task-c
 import { LeverageCalcComponent } from './leverage-calc/leverage-calc.component';
 import { TokenLogoComponent } from './token-logo/token-logo.component';
 import { CreatedAtComponent } from './created-at/created-at.component';
-import { NotifyHistoryComponent } from './notify-history/notify-history.component';
+import { NotifyHistoryDrawerComponent } from './notify-history-drawer/notify-history-drawer.component';
 import { MultiInputComponent } from './multi-input/multi-input.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 import { TagSelectComponent } from './tag-select/tag-select.component';
 import { FollowedProjectSelectComponent } from './followed-project-select/followed-project-select.component';
+import { NotifyHistoryListComponent } from './notify-history-list/notify-history-list.component';
+import { NotifyObserverItemComponent } from './notify-observer-item/notify-observer-item.component';
 
 export const components = [
   LinkableComponent,
@@ -29,11 +31,13 @@ export const components = [
   LeverageCalcComponent,
   TokenLogoComponent,
   CreatedAtComponent,
-  NotifyHistoryComponent,
+  NotifyHistoryDrawerComponent,
   MultiInputComponent,
   UploadFileComponent,
   TagSelectComponent,
   FollowedProjectSelectComponent,
+  NotifyHistoryListComponent,
+  NotifyObserverItemComponent,
 ];
 
 export {
@@ -49,9 +53,11 @@ export {
   LeverageCalcComponent,
   TokenLogoComponent,
   CreatedAtComponent,
-  NotifyHistoryComponent,
+  NotifyHistoryDrawerComponent,
   MultiInputComponent,
   UploadFileComponent,
   TagSelectComponent,
   FollowedProjectSelectComponent,
+  NotifyHistoryListComponent,
+  NotifyObserverItemComponent,
 };

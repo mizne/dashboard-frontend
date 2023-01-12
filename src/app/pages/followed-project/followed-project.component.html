@@ -54,6 +54,8 @@
               <linkable [href]="item.website" [content]="defaultLogo">
               </linkable>
               <created-at [createdAt]="item.createdAt"></created-at>
+              <linkable [href]="projectDetailHref(item._id)" icon="export" shape="round" size="small" [title]="'详情'">
+              </linkable>
             </div>
 
             <div class="followed-project-tags" style="margin-top: 8px">

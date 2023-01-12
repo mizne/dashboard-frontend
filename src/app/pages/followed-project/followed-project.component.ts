@@ -100,6 +100,10 @@ export class FollowedProjectComponent implements OnInit {
     });
   }
 
+  projectDetailHref(id: string): string {
+    return `${location.protocol}//${location.host}/followed-project/detail/${id}`;
+  }
+
   pageIndexChange(index: number) {
     this.pageIndex = index;
     this.loadDataFromServer();

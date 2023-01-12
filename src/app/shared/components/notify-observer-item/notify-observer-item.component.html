@@ -1,0 +1,39 @@
+<nz-card *ngIf="item" class="notify-observer-item-container" [ngStyle]="{width: width+'px'}"
+  [nzTitle]="item.notifyShowTitle || '【默认通知标题】'" [nzExtra]="extraTemplate">
+  <p>
+    <nz-tag *ngIf="item.enableTracking; else disableTrackingTpl" nzColor="success">
+      <i nz-icon nzType="check-circle"></i>
+      <span>已开启</span>
+    </nz-tag>
+    <ng-template #disableTrackingTpl>
+      <nz-tag nzColor="warning">
+        <i nz-icon nzType="exclamation-circle"></i>
+        <span>未开启</span>
+      </nz-tag>
+    </ng-template>
+    <nz-switch [formControl]="item.enableTrackingCtrl"></nz-switch>
+  </p>
+
+  <p nz-typography nzEllipsis [nzEllipsisRows]="2" nzCopyable [nzContent]="resolveDesc(item)">
+  </p>
+
+  <div style="display: flex;justify-content: space-between;align-items: center;">
+    <linkable [href]="resolveHref(item)" [content]="defaultLogo">
+    </linkable>
+    <created-at [createdAt]="item.createdAt"></created-at>
+  </div>
+  <ng-template #defaultLogo>
+    <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+      <image [attr.href]="logoBasePath + item.logo" width="32" height="32" />
+    </svg>
+  </ng-template>
+
+</nz-card>
+<ng-template #extraTemplate>
+  <button nz-button nzType="primary" nzShape="circle" (click)="confirmUpdate()"><span nz-icon
+      nzType="edit"></span></button>
+
+  <button style="margin-left: 6px" nz-button nzType="primary" nzDanger nzShape="circle" nz-popconfirm
+    nzPopconfirmTitle="确认删除该订阅源?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete()"><span nz-icon
+      nzType="delete"></span></button>
+</ng-template>

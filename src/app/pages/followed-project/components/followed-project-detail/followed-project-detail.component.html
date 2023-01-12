@@ -1,0 +1,53 @@
+<div class="followed-project-detail-container">
+  <div nz-row [nzGutter]="16">
+    <div nz-col class="gutter-row" [nzSpan]="18">
+
+      <nz-spin [nzSpinning]="loadingFollowedProject">
+        <nz-card style="width:100%" nzTitle="基本信息">
+          <div class="base-info-container">
+            <div class="project-logo-container">
+              <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+                <image [attr.href]="logoBasePath + followedProjectDetail?.logo" width="64" height="64" />
+              </svg>
+            </div>
+            <div class="project-desc-container">
+              <h2>{{followedProjectDetail?.name}}</h2>
+            </div>
+          </div>
+        </nz-card>
+      </nz-spin>
+
+      <nz-spin [nzSpinning]="loadingNotifyObservers">
+        <nz-card style="width: 100%; margin-top: 12px" nzTitle="订阅源">
+          <div class="notify-observer-container">
+            <div class="create-notify-observer-container">
+              <button nz-button [nzType]="'primary'" (click)="showCreateNotifyObserverModal()"
+                style="margin-top: 12px;">
+                添加订阅源
+              </button>
+            </div>
+            <div class="notify-observer-list-container" style="margin-top: 12px">
+
+              <div nz-row [nzGutter]="16">
+                <div *ngFor="let item of notifyObservers" nz-col nzSpan="6" style="margin-bottom: 12px">
+                  <notify-observer-item [width]="270" [item]="item" (update)="confirmUpdate(item)"
+                    (delete)="confirmDelete(item)"></notify-observer-item>
+                </div>
+
+                <ng-container *ngIf="notifyObservers.length === 0">
+                  <div style="width: 100%; display: flex; justify-content: center;">
+                    <nz-empty></nz-empty>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </nz-card>
+      </nz-spin>
+
+    </div>
+    <div nz-col class="gutter-row" [nzSpan]="6">
+      <notify-history-list [condition]="{followedProjectID: followedProjectID}"></notify-history-list>
+    </div>
+  </div>
+</div>
