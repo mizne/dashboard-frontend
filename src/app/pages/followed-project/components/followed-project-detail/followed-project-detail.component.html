@@ -46,6 +46,10 @@
         </nz-card>
       </nz-spin>
 
+      <nz-card style="width: 100%; margin-top: 12px" nzTitle="跟踪记录">
+        <app-tracking-record-list [followedProjectID]="followedProjectID"></app-tracking-record-list>
+      </nz-card>
+
     </div>
     <div nz-col class="gutter-row" [nzSpan]="6">
       <notify-history-list [condition]="{followedProjectID: followedProjectID}"></notify-history-list>
