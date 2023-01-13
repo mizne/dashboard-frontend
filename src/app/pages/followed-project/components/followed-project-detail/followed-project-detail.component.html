@@ -14,6 +14,7 @@
             <div class="project-desc-container">
               <h2>{{followedProjectDetail?.name}}</h2>
 
+              <p>{{followedProjectDetail?.description}}</p>
 
               <div *ngIf="followedProjectDetail" class="followed-project-tags">
                 <tag-select mode="view" [formControl]="followedProjectDetail.tagIDsCtrl"></tag-select>
