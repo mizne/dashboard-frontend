@@ -13,6 +13,74 @@
             </div>
             <div class="project-desc-container">
               <h2>{{followedProjectDetail?.name}}</h2>
+
+
+              <div *ngIf="followedProjectDetail" class="followed-project-tags">
+                <tag-select mode="view" [formControl]="followedProjectDetail.tagIDsCtrl"></tag-select>
+
+                <div class="followed-project-links">
+                  <linkable *ngIf="followedProjectDetail.website" [href]="followedProjectDetail.website"
+                    [content]="websiteLogo" style="margin-right: 12px">
+                  </linkable>
+                  <linkable *ngIf="followedProjectDetail.twitterHomeLink" [href]="followedProjectDetail.twitterHomeLink"
+                    [content]="twitterLogo" style="margin-right: 12px">
+                  </linkable>
+                  <linkable *ngIf="followedProjectDetail.mediumHomeLink" [href]="followedProjectDetail.mediumHomeLink"
+                    [content]="mediumLogo" style="margin-right: 12px">
+                  </linkable>
+                  <linkable *ngIf="followedProjectDetail.mirrorHomeLink" [href]="followedProjectDetail.mirrorHomeLink"
+                    [content]="mirrorLogo" style="margin-right: 12px">
+                  </linkable>
+                  <linkable *ngIf="followedProjectDetail.youtubeHomeLink" [href]="followedProjectDetail.youtubeHomeLink"
+                    [content]="youtubeLogo" style="margin-right: 12px">
+                  </linkable>
+                  <linkable *ngIf="followedProjectDetail.discordHomeLink" [href]="followedProjectDetail.discordHomeLink"
+                    [content]="discordLogo" style="margin-right: 12px">
+                  </linkable>
+                  <linkable *ngIf="followedProjectDetail.telegramHomeLink"
+                    [href]="followedProjectDetail.telegramHomeLink" [content]="telegramLogo" style="margin-right: 12px">
+                  </linkable>
+                </div>
+
+                <created-at [createdAt]="followedProjectDetail.createdAt"></created-at>
+
+                <ng-template #websiteLogo>
+                  <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <image [attr.href]="'/assets/website-logo.svg'" width="24" height="24" />
+                  </svg>
+                </ng-template>
+                <ng-template #twitterLogo>
+                  <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <image [attr.href]="'/assets/twitter-logo.svg'" width="24" height="24" />
+                  </svg>
+                </ng-template>
+                <ng-template #mediumLogo>
+                  <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <image [attr.href]="'/assets/medium-logo.svg'" width="24" height="24" />
+                  </svg>
+                </ng-template>
+
+                <ng-template #mirrorLogo>
+                  <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <image [attr.href]="'/assets/mirror-logo.svg'" width="24" height="24" />
+                  </svg>
+                </ng-template>
+                <ng-template #youtubeLogo>
+                  <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <image [attr.href]="'/assets/youtube-logo.svg'" width="24" height="24" />
+                  </svg>
+                </ng-template>
+                <ng-template #discordLogo>
+                  <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <image [attr.href]="'/assets/discord-logo.svg'" width="24" height="24" />
+                  </svg>
+                </ng-template>
+                <ng-template #telegramLogo>
+                  <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <image [attr.href]="'/assets/telegram-logo.svg'" width="24" height="24" />
+                  </svg>
+                </ng-template>
+              </div>
             </div>
           </div>
         </nz-card>

@@ -12,6 +12,10 @@ interface TableItem extends NotifyObserver {
   enableTrackingCtrl: FormControl;
 }
 
+interface Detail extends FollowedProject {
+  tagIDsCtrl: FormControl
+}
+
 @Component({
   selector: 'followed-project-detail',
   templateUrl: 'followed-project-detail.component.html',
@@ -31,7 +35,7 @@ export class FollowedProjectDetailComponent implements OnInit {
   logoBasePath = environment.imageBaseURL
 
   followedProjectID = this.route.snapshot.params['id'];
-  followedProjectDetail: FollowedProject | null = null;
+  followedProjectDetail: Detail | null = null;
   loadingFollowedProject = false;
 
 
@@ -112,7 +116,10 @@ export class FollowedProjectDetailComponent implements OnInit {
         next: (items: FollowedProject[]) => {
           this.loadingFollowedProject = false;
           if (items.length > 0) {
-            this.followedProjectDetail = items[0]
+            this.followedProjectDetail = {
+              ...items[0],
+              tagIDsCtrl: new FormControl(items[0].tagIDs)
+            }
           } else {
             this.notificationService.warning(`没有找到 关注项目详情`, `也许已经被删除`)
           }
