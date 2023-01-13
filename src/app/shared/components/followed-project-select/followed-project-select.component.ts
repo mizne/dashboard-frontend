@@ -9,7 +9,7 @@ import { ControlValueAccessor, FormBuilder, FormControl, NG_VALUE_ACCESSOR } fro
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { FollowedProject, Tag } from '../../models';
-import { FollowedProjectService, TagService } from '../../services';
+import { FollowedProjectService } from '../../services';
 import { environment } from 'src/environments/environment';
 import { removeEmpty } from 'src/app/utils';
 

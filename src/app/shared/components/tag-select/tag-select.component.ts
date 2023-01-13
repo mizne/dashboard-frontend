@@ -155,7 +155,15 @@ export class TagSelectComponent implements ControlValueAccessor, OnDestroy {
       this.tagService.queryList()
         .subscribe({
           next(tags: Tag[]) {
-            self.allTags = tags;
+            self.allTags = tags.sort((a, b) => {
+              if (a.text < b.text) {
+                return -1;
+              } else if (a.text > b.text) {
+                return 1;
+              } else {
+                return 0
+              }
+            });
             resolve(tags)
           },
           error(err: Error) {
