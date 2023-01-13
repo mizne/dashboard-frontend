@@ -7,8 +7,8 @@
           <div class="base-info-container">
             <div class="project-logo-container">
               <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-                <image *ngIf="followedProjectDetail" [attr.href]="logoBasePath + followedProjectDetail.logo" width="64"
-                  height="64" />
+                <image *ngIf="followedProjectDetail && followedProjectDetail.logo"
+                  [attr.href]="logoBasePath + followedProjectDetail.logo" width="64" height="64" />
               </svg>
             </div>
             <div class="project-desc-container">

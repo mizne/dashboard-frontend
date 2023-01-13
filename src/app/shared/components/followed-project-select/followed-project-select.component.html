@@ -9,7 +9,8 @@
   </div>
   <ng-template #defaultLogo>
     <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-      <image [attr.href]="logoBasePath + selectedFollowedProject.logo" width="64" height="64" />
+      <image *ngIf="selectedFollowedProject.logo" [attr.href]="logoBasePath + selectedFollowedProject.logo" width="64"
+        height="64" />
     </svg>
   </ng-template>
 </nz-card>
@@ -65,7 +66,7 @@
               </div>
               <ng-template #defaultLogo>
                 <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-                  <image [attr.href]="logoBasePath + item.logo" width="64" height="64" />
+                  <image *ngIf="item.logo" [attr.href]="logoBasePath + item.logo" width="64" height="64" />
                 </svg>
               </ng-template>
 

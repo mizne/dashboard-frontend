@@ -24,7 +24,7 @@
   </div>
   <ng-template #defaultLogo>
     <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
-      <image [attr.href]="logoBasePath + item.logo" width="32" height="32" />
+      <image *ngIf="item.logo" [attr.href]="logoBasePath + item.logo" width="32" height="32" />
     </svg>
   </ng-template>
 
