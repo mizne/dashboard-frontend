@@ -2,7 +2,7 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer';
 import { FollowedProject, FollowedProjectService, NotifyObserver, NotifyObserverService } from 'src/app/shared';
 import { environment } from 'src/environments/environment';
@@ -43,6 +43,9 @@ export class FollowedProjectDetailComponent implements OnInit {
   loadingNotifyObservers = false;
   subscriptions: Subscription[] = [];
 
+  refreshNotifyHistorySub = new Subject<void>()
+  refreshNotifyHistoryObs = this.refreshNotifyHistorySub.asObservable();
+
   ngOnInit() {
     this.fetchFollowedProjectDetail();
     this.fetchNotifyObservers();
@@ -67,6 +70,7 @@ export class FollowedProjectDetailComponent implements OnInit {
     success.subscribe((v) => {
       this.notificationService.success(`添加订阅源成功`, `添加订阅源成功`);
       this.fetchNotifyObservers();
+      this.refreshNotifyHistorySub.next();
     });
     error.subscribe((e) => {
       this.notificationService.error(`添加订阅源失败`, `${e.message}`);

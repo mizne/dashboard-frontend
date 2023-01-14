@@ -126,7 +126,8 @@
 
     </div>
     <div nz-col class="gutter-row" [nzSpan]="6">
-      <notify-history-list [condition]="{followedProjectID: followedProjectID}"></notify-history-list>
+      <notify-history-list [refreshObs]="refreshNotifyHistoryObs"
+        [condition]="{followedProjectID: followedProjectID}"></notify-history-list>
     </div>
   </div>
 </div>

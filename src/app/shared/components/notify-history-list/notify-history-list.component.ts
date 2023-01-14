@@ -5,7 +5,7 @@ import { removeEmpty } from 'src/app/utils';
 import { ClientNotifyService, NotifyHistoryService } from '../../services';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { DestroyService } from '../../services/destroy.service';
-import { takeUntil } from 'rxjs';
+import { takeUntil, EMPTY, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -23,6 +23,7 @@ export class NotifyHistoryListComponent implements OnInit {
   ) { }
 
   @Input() condition: any = null
+  @Input() refreshObs: Observable<void> = EMPTY
 
   logoBasePath = environment.baseURL
 
@@ -62,6 +63,11 @@ export class NotifyHistoryListComponent implements OnInit {
 
   ngOnInit() {
     this.loadDataFromServer();
+
+    this.refreshObs.subscribe(() => {
+      this.loadDataFromServer();
+    })
+
     this.notifyHistoryService.queryTypes()
       .subscribe((types) => {
         this.types = [
