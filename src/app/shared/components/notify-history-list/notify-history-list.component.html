@@ -30,7 +30,7 @@
           <div nz-row>
             <div nz-col [nzSpan]="24">
               <nz-form-item>
-                <nz-form-label [nzSpan]="5" nzFor="sourceType">来源类型</nz-form-label>
+                <nz-form-label [nzSpan]="5" nzFor="sourceType">类型</nz-form-label>
                 <nz-form-control [nzSpan]="19">
                   <nz-select [attr.id]="'sourceType'" formControlName="type">
                     <nz-option *ngFor="let item of types" [nzValue]="item.value" [nzLabel]="item.label">
@@ -44,7 +44,7 @@
           <div nz-row>
             <div nz-col [nzSpan]="24">
               <nz-form-item>
-                <nz-form-label [nzSpan]="5" nzFor="hasRead">阅读状态</nz-form-label>
+                <nz-form-label [nzSpan]="5" nzFor="hasRead">状态</nz-form-label>
                 <nz-form-control [nzSpan]="19">
                   <nz-radio-group formControlName="hasRead" nzButtonStyle="solid">
                     <label nz-radio-button *ngFor="let item of readStatuses"
