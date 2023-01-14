@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer';
-import { ClientNotifyService, FollowedProject, FollowedProjectService, NotifyObserver, NotifyObserverService } from 'src/app/shared';
+import { ClientNotifyService, FollowedProject, FollowedProjectService, NotifyObserver, NotifyObserverService, } from 'src/app/shared';
 import { DestroyService } from 'src/app/shared/services/destroy.service';
 import { environment } from 'src/environments/environment';
 
@@ -21,6 +21,7 @@ interface Detail extends FollowedProject {
   selector: 'followed-project-detail',
   templateUrl: 'followed-project-detail.component.html',
   styleUrls: ['./followed-project-detail.component.less'],
+  providers: [DestroyService]
 })
 
 export class FollowedProjectDetailComponent implements OnInit {
