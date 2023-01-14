@@ -14,7 +14,7 @@
       <label [for]="id" class="dev-no-upload">
         <i class="anticon anticon-plus"></i>
         <span class="mt-sm text-grey">上传图片</span>
-        <input type="file" (change)="fileChange($event)" [id]="id" accept=".jpg, .jpeg, .png, .svg" multiple>
+        <input type="file" (change)="fileChange($event)" [id]="id" accept="image/*" multiple>
       </label>
     </ng-template>
     <ng-template #previewModal>
