@@ -37,7 +37,7 @@ export class CreateFollowedProjectService {
   } {
     const form = this.fb.group({
       name: [obj.name, [Validators.required]],
-      website: [obj.website, [Validators.required]],
+      website: [obj.website],
       logo: [obj.logo],
       description: [obj.description],
       tagIDs: [obj.tagIDs],
