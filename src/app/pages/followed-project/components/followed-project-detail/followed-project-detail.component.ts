@@ -2,9 +2,10 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer';
-import { FollowedProject, FollowedProjectService, NotifyObserver, NotifyObserverService } from 'src/app/shared';
+import { ClientNotifyService, FollowedProject, FollowedProjectService, NotifyObserver, NotifyObserverService } from 'src/app/shared';
+import { DestroyService } from 'src/app/shared/services/destroy.service';
 import { environment } from 'src/environments/environment';
 
 
@@ -30,6 +31,8 @@ export class FollowedProjectDetailComponent implements OnInit {
     private readonly notifyObserverService: NotifyObserverService,
     private readonly notificationService: NzNotificationService,
     private readonly createNotifyObserverService: CreateNotifyObserverService,
+    private readonly destroy$: DestroyService,
+    private readonly clientNotifyService: ClientNotifyService,
   ) { }
 
   logoBasePath = environment.imageBaseURL
@@ -51,6 +54,8 @@ export class FollowedProjectDetailComponent implements OnInit {
     this.fetchNotifyObservers();
 
     this.updateFollowedProject();
+
+    this.subscribeNotifyHistoryChange();
   }
 
   showCreateNotifyObserverModal() {
@@ -70,7 +75,6 @@ export class FollowedProjectDetailComponent implements OnInit {
     success.subscribe((v) => {
       this.notificationService.success(`添加订阅源成功`, `添加订阅源成功`);
       this.fetchNotifyObservers();
-      this.refreshNotifyHistorySub.next();
     });
     error.subscribe((e) => {
       this.notificationService.error(`添加订阅源失败`, `${e.message}`);
@@ -192,5 +196,15 @@ export class FollowedProjectDetailComponent implements OnInit {
 
       this.subscriptions.push(sub);
     });
+  }
+
+
+  private subscribeNotifyHistoryChange() {
+    this.clientNotifyService
+      .listenNotifyObserver()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.refreshNotifyHistorySub.next();
+      });
   }
 }
