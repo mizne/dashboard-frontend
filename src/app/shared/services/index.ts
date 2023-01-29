@@ -9,3 +9,4 @@ export * from './notify-history.service';
 export * from './tag.service';
 export * from './followed-project.service';
 export * from './followed-project-tracking-record.service';
+export * from './notify-observer-not-allow.service'

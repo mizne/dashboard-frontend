@@ -1,0 +1,81 @@
+<div class="notify-observer-not-allow-list-container">
+  <nz-card>
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="type">类型</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <nz-select name="type" [attr.id]="'type'" formControlName="type">
+                <nz-option *ngFor="let item of types" [nzValue]="item.value" [nzLabel]="item.label">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="url">链接</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <input nz-input class="ant-input" placeholder="请输入链接" formControlName="url" [attr.id]="'url'" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="24">
+          <nz-form-item nz-row class="register-area">
+            <nz-form-control [nzSpan]="14" [nzOffset]="6">
+              <button nz-button [nzType]="'primary'">搜索</button>
+              <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+      </div>
+
+    </form>
+  </nz-card>
+
+  <button nz-button [nzType]="'primary'" (click)="showCreateModal()" style="margin-top: 12px;">
+    新增
+  </button>
+
+  <nz-card style="margin-top: 12px">
+    <nz-table nzShowSizeChanger [nzData]="items" [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total"
+      [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
+      (nzQueryParams)="onQueryParamsChange($event)">
+      <thead>
+        <tr>
+          <th nzColumnKey="type">类型</th>
+          <th nzColumnKey="url">链接</th>
+
+          <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
+          <th nzColumnKey="Action">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of items">
+          <td>{{ data.type }}</td>
+          <td>{{ data.url }}</td>
+
+          <td>{{ data.createdAtStr }}</td>
+          <td>
+            <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
+              (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)">
+              <button nz-button nzType="primary" nzDanger>删除</button>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+    <ng-template #rangeTemplate let-range="range" let-total>
+      {{ range[0] }}-{{ range[1] }} of {{ total }} items
+    </ng-template>
+  </nz-card>
+
+</div>

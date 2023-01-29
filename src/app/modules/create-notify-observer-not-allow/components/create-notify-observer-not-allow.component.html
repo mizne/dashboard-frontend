@@ -1,0 +1,28 @@
+<div class="create-notify-observer-not-allow-container">
+  <form nz-form [formGroup]="form">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="sourceType" nzRequired nzTooltipTitle="来源类型">
+        <span>来源类型</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your 来源类型!">
+        <nz-select [attr.id]="'sourceType'" formControlName="type">
+          <nz-option *ngFor="let item of types" [nzValue]="item.value" [nzLabel]="item.label">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="url" nzTooltipTitle="链接">
+        <span>链接</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input class="ant-input" id="url" formControlName="url" />
+      </nz-form-control>
+    </nz-form-item>
+
+
+
+  </form>
+
+</div>
