@@ -82,6 +82,19 @@ export class FollowedProjectComponent implements OnInit {
     });
   }
 
+  confirmRead(item: TableItem) {
+    this.followedProjectService.update(item._id, { hasNews: false }).subscribe({
+      next: () => {
+        this.notification.success(`标记已读成功`, `标记已读成功`);
+        this.loadDataFromServer();
+      },
+      complete: () => { },
+      error: (e) => {
+        this.notification.error(`标记已读失败`, `请稍后重试，${e.message}`);
+      },
+    });
+  }
+
   confirmUpdate(item: TableItem) {
     const obj: Partial<FollowedProject> = {
       ...item,
