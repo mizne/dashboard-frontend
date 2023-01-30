@@ -175,9 +175,11 @@ export class FollowedProjectComponent implements OnInit {
           },
         });
       } else if (key === 'tagIDs') {
-        Object.assign(o, {
-          $or: query['tagIDs'].map((f: string) => ({ tagIDs: f }))
-        })
+        if (Array.isArray(query['tagIDs']) && query['tagIDs'].length > 0) {
+          Object.assign(o, {
+            $or: query['tagIDs'].map((f: string) => ({ tagIDs: f }))
+          })
+        }
       } else {
         Object.assign(o, { [key]: query[key] });
       }
