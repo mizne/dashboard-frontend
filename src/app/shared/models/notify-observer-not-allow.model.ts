@@ -5,6 +5,7 @@ export interface NotifyObserverNotAllow {
   type: NotifyObserverTypes;
 
   url: string;
+  blockCount: number;
 
   readonly createdAt: number;
   readonly createdAtStr: string;
