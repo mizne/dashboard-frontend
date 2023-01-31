@@ -55,6 +55,7 @@ export class CreateNotifyObserverService {
 
       twitterHomeLink: [obj.twitterHomeLink],
       twitterTitleKey: [obj.twitterTitleKey],
+      twitterTitleKeyWithDefault: [!!obj.twitterTitleKeyWithDefault],
       twitterWithReply: [action === NotifyObserverModalActions.CREATE ? true : !!obj.twitterWithReply],
       twitterWithLike: [!!obj.twitterWithLike],
       twitterWithFollowingsChange: [!!obj.twitterWithFollowingsChange],

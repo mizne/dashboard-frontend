@@ -100,6 +100,15 @@
       </nz-form-item>
 
       <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，使用全局默认关键字">
+          <span>全局默认关键字</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-switch formControlName="twitterTitleKeyWithDefault"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，追踪twitter reply">
           <span>追踪 回复推文</span>
         </nz-form-label>

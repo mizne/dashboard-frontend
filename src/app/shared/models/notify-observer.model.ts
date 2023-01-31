@@ -38,6 +38,7 @@ export interface NotifyObserver {
 
   twitterHomeLink?: string;
   twitterTitleKey?: string;
+  twitterTitleKeyWithDefault?: boolean;
   twitterWithReply?: boolean;
   twitterWithLike?: boolean;
 

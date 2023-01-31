@@ -17,6 +17,7 @@ import { TagSelectComponent } from './tag-select/tag-select.component';
 import { FollowedProjectSelectComponent } from './followed-project-select/followed-project-select.component';
 import { NotifyHistoryListComponent } from './notify-history-list/notify-history-list.component';
 import { NotifyObserverItemComponent } from './notify-observer-item/notify-observer-item.component';
+import { GlobalSettingsComponent } from './global-settings/global-settings.component';
 
 export const components = [
   LinkableComponent,
@@ -38,6 +39,7 @@ export const components = [
   FollowedProjectSelectComponent,
   NotifyHistoryListComponent,
   NotifyObserverItemComponent,
+  GlobalSettingsComponent,
 ];
 
 export {
@@ -60,4 +62,5 @@ export {
   FollowedProjectSelectComponent,
   NotifyHistoryListComponent,
   NotifyObserverItemComponent,
+  GlobalSettingsComponent,
 };
