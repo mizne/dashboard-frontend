@@ -67,6 +67,7 @@ export class GlobalSettingsComponent implements OnInit {
               this.notification.success(`获取全局设置成功`, `获取全局设置成功`);
               this.fetchingGlobalSettings = false;
               this.globalSettingsID = v[0]._id;
+              this.form.get('defaultKeyOfTwitterNotifyObserver')?.patchValue(v[0].defaultKeyOfTwitterNotifyObserver)
             }
 
             if (v.length >= 2) {
