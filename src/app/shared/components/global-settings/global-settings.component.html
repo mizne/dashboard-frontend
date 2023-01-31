@@ -4,7 +4,7 @@
   </button>
 </div>
 
-<nz-modal [(nzVisible)]="visible" [nzWidth]="500" [nzTitle]="'全局设置'" [nzFooter]="null" (nzOnCancel)="visible=false">
+<nz-modal [(nzVisible)]="visible" [nzWidth]="800" [nzTitle]="'全局设置'" [nzFooter]="null" (nzOnCancel)="visible=false">
   <ng-container *nzModalContent>
     <nz-spin nzTip="获取全局设置中..." [nzSpinning]="fetchingGlobalSettings">
       <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'horizontal'">
