@@ -1,6 +1,6 @@
 <button nz-button nzType="primary" style="margin-bottom: 8px" (click)="showSelectModal()">选择</button>
 
-<nz-card *ngIf="selectedFollowedProject" style="width:250px;" [nzTitle]="selectedFollowedProject.name"
+<nz-card *ngIf="selectedFollowedProject" style="width:320px;" [nzTitle]="selectedFollowedProject.name"
   [nzExtra]="extraTemplate1">
   <div style="display: flex;justify-content: space-between;align-items: center;">
     <linkable [href]="selectedFollowedProject.website" [content]="defaultLogo">
