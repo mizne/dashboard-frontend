@@ -6,6 +6,19 @@
     <linkable [href]="selectedFollowedProject.website" [content]="defaultLogo">
     </linkable>
     <created-at [createdAt]="selectedFollowedProject.createdAt"></created-at>
+    <linkable [href]="projectDetailHref(selectedFollowedProject._id)" icon="export" shape="round" size="small"
+      [title]="'详情'">
+    </linkable>
+  </div>
+
+  <div class="followed-project-tags" style="margin-top: 8px">
+    <tag-select mode="view" [formControl]="selectedFollowedProject.tagIDsCtrl"></tag-select>
+  </div>
+  <div class="followed-project-tags" style="margin-top: 8px">
+    <nz-tag
+      [nzColor]="selectedFollowedProject.hasLaunchToken ? 'default' : 'success'">{{selectedFollowedProject.hasLaunchToken
+      ? '已发币' :
+      '未发币'}}</nz-tag>
   </div>
   <ng-template #defaultLogo>
     <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">

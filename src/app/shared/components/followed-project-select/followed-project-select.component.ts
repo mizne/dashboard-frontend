@@ -20,6 +20,10 @@ export const FOLLOWED_PROJECT_SELECT_VALUE_ACCESSOR: StaticProvider = {
   multi: true
 };
 
+interface TableItem extends FollowedProject {
+  tagIDsCtrl: FormControl;
+}
+
 @Component({
   selector: 'followed-project-select',
   templateUrl: './followed-project-select.component.html',
@@ -29,15 +33,12 @@ export const FOLLOWED_PROJECT_SELECT_VALUE_ACCESSOR: StaticProvider = {
 export class FollowedProjectSelectComponent implements ControlValueAccessor, OnDestroy {
   private onChange: Function | null = null;
 
-  selectedFollowedProject: FollowedProject | null = null;
-  allFollowedProjects: FollowedProject[] = [];
-
+  selectedFollowedProject: TableItem | null = null;
   selectModalVisible = false;
-
   logoBasePath = environment.imageBaseURL;
 
   total = 1;
-  items: FollowedProject[] = [];
+  items: TableItem[] = [];
   loading = true;
   pageSize = 12;
   pageIndex = 1;
@@ -63,6 +64,10 @@ export class FollowedProjectSelectComponent implements ControlValueAccessor, OnD
     this.loadDataFromServer();
   }
 
+  projectDetailHref(id: string): string {
+    return `${location.protocol}//${location.host}/followed-project/detail/${id}`;
+  }
+
   submitForm(): void {
     this.pageIndex = 1;
     this.loadDataFromServer();
@@ -86,7 +91,7 @@ export class FollowedProjectSelectComponent implements ControlValueAccessor, OnD
     this.emitValue();
   }
 
-  confirmSelect(item: FollowedProject) {
+  confirmSelect(item: TableItem) {
     this.selectedFollowedProject = item;
     this.selectModalVisible = false;
     this.emitValue();
@@ -150,7 +155,10 @@ export class FollowedProjectSelectComponent implements ControlValueAccessor, OnD
         .subscribe({
           next: (items: FollowedProject[]) => {
             if (items.length > 0) {
-              this.selectedFollowedProject = items[0]
+              this.selectedFollowedProject = {
+                ...items[0],
+                tagIDsCtrl: new FormControl(items[0].tagIDs),
+              }
             } else {
               this.notificationService.warning(`获取 关注项目失败`, `没有找到 关注项目, id: ${id}`)
             }
