@@ -8,6 +8,7 @@ import { FormBuilder } from '@angular/forms';
 
 enum TaskTypes {
   TODAY = 'today',
+  NOT_TODAY = 'not today',
   ALL = 'all'
 }
 
@@ -41,6 +42,10 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     {
       label: '今天',
       value: TaskTypes.TODAY
+    },
+    {
+      label: '非今天',
+      value: TaskTypes.NOT_TODAY
     },
     {
       label: '所有',
@@ -152,6 +157,8 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     switch (type) {
       case TaskTypes.TODAY:
         return this.checkDate(item.timerDate) && this.checkMonth(item.timerMonth);
+      case TaskTypes.NOT_TODAY:
+        return !(this.checkDate(item.timerDate) && this.checkMonth(item.timerMonth));
       case TaskTypes.ALL:
         return true;
       default:
