@@ -12,6 +12,9 @@
       </nz-tag>
     </ng-template>
     <nz-switch [formControl]="item.enableTrackingCtrl"></nz-switch>
+
+    <span nz-icon nzType="bulb" nzTheme="outline" *ngIf="item.followedProjectID" title="有关联项目"
+      style="margin-left: 24px;"></span>
   </p>
 
   <p nz-typography nzEllipsis [nzEllipsisRows]="2" nzCopyable [nzContent]="resolveDesc(item)">
