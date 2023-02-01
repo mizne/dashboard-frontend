@@ -1,0 +1,12 @@
+<div class="notify-observer-not-allow-list-modal-container">
+  <button nz-button [nzType]="'primary'" (click)="notifyObserverNotAllowModalVisible = true">
+    黑名单订阅源
+  </button>
+
+  <nz-modal [(nzVisible)]="notifyObserverNotAllowModalVisible" [nzWidth]="800" [nzTitle]="'黑名单订阅源'" [nzFooter]="null"
+    (nzOnCancel)="notifyObserverNotAllowModalVisible=false">
+    <ng-container *nzModalContent>
+      <app-notify-observer-not-allow-list></app-notify-observer-not-allow-list>
+    </ng-container>
+  </nz-modal>
+</div>

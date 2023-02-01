@@ -49,24 +49,13 @@
     </form>
   </nz-card>
 
-  <div style="margin-top: 12px;">
+  <div style="margin-top: 12px; display: flex;">
     <button nz-button [nzType]="'primary'" (click)="showCreateModal()">
       添加订阅源
     </button>
 
-    <button nz-button [nzType]="'primary'" (click)="notifyObserverNotAllowModalVisible = true"
-      style="margin-left: 24px;">
-      黑名单订阅源
-    </button>
+    <app-notify-observer-not-allow-list-modal style="margin-left: 24px;"></app-notify-observer-not-allow-list-modal>
   </div>
-
-  <nz-modal [(nzVisible)]="notifyObserverNotAllowModalVisible" [nzWidth]="800" [nzTitle]="'黑名单订阅源'" [nzFooter]="null"
-    (nzOnCancel)="notifyObserverNotAllowModalVisible=false">
-    <ng-container *nzModalContent>
-      <app-notify-observer-not-allow-list></app-notify-observer-not-allow-list>
-    </ng-container>
-  </nz-modal>
-
 
   <nz-spin [nzSpinning]="loading">
     <nz-card style="margin-top: 12px">

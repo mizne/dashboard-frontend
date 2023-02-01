@@ -57,8 +57,6 @@ export class MyNotificationComponent implements OnInit {
 
   subscriptions: Subscription[] = [];
 
-  notifyObserverNotAllowModalVisible = false;
-
   submitForm(): void {
     this.pageIndex = 1;
     this.loadDataFromServer();
