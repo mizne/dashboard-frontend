@@ -13,6 +13,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     private readonly service: NotifyObserverService,
     private readonly notification: NzNotificationService,
     private readonly createNotifyObserverService: CreateNotifyObserverService,
+    private readonly notifyObserverService: NotifyObserverService,
     private viewContainerRef: ViewContainerRef,
   ) { }
 
@@ -25,12 +26,12 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   }>> = []
 
   ngOnInit() {
-    this.fetchTimerNotifyObservers();
   }
 
   open() {
     this.visible = true;
     this.nowHour = new Date().getHours();
+    this.fetchTimerNotifyObservers();
   }
 
   confirmUpdate(item: NotifyObserver) {
@@ -50,6 +51,19 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     });
     error.subscribe((e) => {
       this.notification.error(`修改订阅源失败`, `${e.message}`);
+    });
+  }
+
+  confirmDelete(item: NotifyObserver) {
+    this.notifyObserverService.deleteByID(item._id).subscribe({
+      next: () => {
+        this.notification.success(`删除成功`, `删除数据成功`);
+        this.fetchTimerNotifyObservers();
+      },
+      complete: () => { },
+      error: (e) => {
+        this.notification.error(`删除失败`, `请稍后重试，${e.message}`);
+      },
     });
   }
 
