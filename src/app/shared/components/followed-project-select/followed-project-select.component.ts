@@ -33,6 +33,8 @@ interface TableItem extends FollowedProject {
 export class FollowedProjectSelectComponent implements ControlValueAccessor, OnDestroy {
   private onChange: Function | null = null;
 
+  @Input() mode: 'edit' | 'view' = 'edit'
+
   selectedFollowedProject: TableItem | null = null;
   selectModalVisible = false;
   logoBasePath = environment.imageBaseURL;

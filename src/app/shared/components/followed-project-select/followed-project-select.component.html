@@ -1,4 +1,5 @@
-<button nz-button nzType="primary" style="margin-bottom: 8px" (click)="showSelectModal()">选择</button>
+<button *ngIf="mode === 'edit'" nz-button nzType="primary" style="margin-bottom: 8px"
+  (click)="showSelectModal()">选择</button>
 
 <nz-card *ngIf="selectedFollowedProject" style="width:320px;" [nzTitle]="selectedFollowedProject.name"
   [nzExtra]="extraTemplate1">
@@ -29,7 +30,7 @@
 </nz-card>
 
 <ng-template #extraTemplate1>
-  <button nz-button nzType="primary" (click)="confirmDeSelect()">取消</button>
+  <button *ngIf="mode === 'edit'" nz-button nzType="primary" (click)="confirmDeSelect()">取消</button>
 </ng-template>
 
 

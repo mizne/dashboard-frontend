@@ -39,6 +39,7 @@
           <th nzColumnKey="title">标题</th>
           <th nzColumnKey="description">描述</th>
           <th nzColumnKey="link">链接</th>
+          <th nzColumnKey="project">项目</th>
           <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
           <th nzColumnKey="Action" style="width: 130px;">操作</th>
         </tr>
@@ -53,6 +54,15 @@
           <td>
             <linkable [href]="data.link">
             </linkable>
+          </td>
+
+          <td>
+            <button nz-button nzType="primary" nzShape="circle" nz-popover [nzPopoverContent]="contentTemplate"><span
+                nz-icon nzType="eye"></span></button>
+            <ng-template #contentTemplate>
+              <followed-project-select [mode]="'view'"
+                [formControl]="data.followedProjectIDCtrl"></followed-project-select>
+            </ng-template>
           </td>
 
           <td>{{ data.createdAtStr }}</td>

@@ -37,6 +37,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'tracking-record',
+    loadChildren: () =>
+      import('./pages/tracking-record/tracking-record.module').then(
+        (m) => m.TrackingRecordModule
+      ),
+  },
+  {
     path: 'followed-project',
     loadChildren: () =>
       import('./pages/followed-project/followed-project.module').then(
