@@ -17,6 +17,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   ) { }
 
   visible = false;
+  nowHour = -1;
 
   times: Array<Array<{
     hour: number;
@@ -25,6 +26,11 @@ export class TimerNotifyObserverModalComponent implements OnInit {
 
   ngOnInit() {
     this.fetchTimerNotifyObservers();
+  }
+
+  open() {
+    this.visible = true;
+    this.nowHour = new Date().getHours();
   }
 
   confirmUpdate(item: NotifyObserver) {

@@ -1,5 +1,5 @@
 <div class="timer-notify-observer-modal-container">
-  <button nz-button nzType="primary" (click)="visible=true">
+  <button nz-button nzType="primary" (click)="open()">
     定时任务时刻表
   </button>
 </div>
@@ -11,7 +11,10 @@
     <div nz-row [nzGutter]="16" *ngFor="let outerItem of times" style="margin-bottom: 12px">
       <div nz-col class="gutter-row" [nzSpan]="4" *ngFor="let innerItem of outerItem">
         <div class="inner-box">
-          <nz-list nzBordered nzSize="small">
+          <nz-list nzBordered nzSize="small" [ngStyle]="{
+            'border-color': nowHour === innerItem.hour ? '#28d328' : '',
+            'color': nowHour === innerItem.hour ? '#28d328' : ''
+          }">
             <nz-list-header>{{innerItem.hour}}</nz-list-header>
             <nz-list-item *ngFor="let item of innerItem.items">
               <span style="margin-right: 8px">{{item.notifyShowTitle}}</span>
