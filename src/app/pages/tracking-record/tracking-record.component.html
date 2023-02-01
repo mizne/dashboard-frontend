@@ -46,8 +46,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of items">
-          <td>
-            <span>{{ data.title }}</span>
+          <td style="display: flex; align-items: center;">
+            <svg *ngIf="data.logo" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+              <image [attr.href]="logoBasePath + data.logo" width="48" height="48" />
+            </svg>
+            <span style="margin-left: 8px">{{ data.title }}</span>
           </td>
           <td>{{ data.description }}</td>
 
