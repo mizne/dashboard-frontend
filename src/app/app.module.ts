@@ -11,6 +11,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
 import { SharedModule } from './shared/shared.module';
+import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
+
+const ngZorroConfig: NzConfig = {
+  notification: { nzPlacement: 'bottom' }
+};
 
 registerLocaleData(zh);
 
@@ -24,7 +29,10 @@ registerLocaleData(zh);
     IconsProviderModule,
     SharedModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: zh_CN }],
+  providers: [
+    { provide: NZ_I18N, useValue: zh_CN },
+    { provide: NZ_CONFIG, useValue: ngZorroConfig }
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
