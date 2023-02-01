@@ -12,7 +12,7 @@
       *ngIf="item.volumePercents && item.volumePercents.length > 0">
       <span>交易量占比: </span>
       <div *ngFor="let p of item.volumePercents.slice(0, 3)" class="token-item"
-        style="margin-bottom: 4px; font-size: 12px;">
+        style="margin-bottom: 4px; font-size: 12px; display: flex; align-items: center;">
         <symbol-item [symbol]="p.token" style="margin-right: 12px">
         </symbol-item>
         <nz-tag [nzColor]="p.percent >= 0.5 ? 'error' : 'default'">{{p.percent |
@@ -52,10 +52,11 @@
       </span>
     </div>
 
-    <div *ngIf="item.volumePercents && item.volumePercents.length > 0" style="margin-bottom: 6px;">
+    <div *ngIf="item.volumePercents && item.volumePercents.length > 0"
+      style="margin-bottom: 6px; display: flex; align-items: center; flex-wrap: wrap;">
       <span [title]="'共 ' + item.volumePercents.length + ' tokens'">交易量占比: </span>
       <span *ngFor="let p of item.volumePercents.slice(0, 10)" class="token-item"
-        style="margin-bottom: 12px; font-size: 12px;">
+        style="font-size: 12px; display: flex; align-items: center;">
         <symbol-item [symbol]="p.token" style="margin-right: 4px">
         </symbol-item>
         <nz-tag [nzColor]="p.percent >= 0.5 ? 'error' : 'default'">{{p.percent |
@@ -89,10 +90,12 @@
         <div class="stats-container">
           <nz-descriptions nzTitle="趋势转折统计" nzBordered [nzSize]="'small'" [nzColumn]="3">
             <nz-descriptions-item *ngFor="let item of descriptions" [nzTitle]="descItemTitle">
-              <symbol-item *ngFor="let item of item.rankingItems.slice(0, 2)" [symbol]="item.symbol"
-                style="margin-right: 6px">
-              </symbol-item>
-              <span>{{'共 ' + item.rankingItems.length}}</span>
+              <div style="display: flex; align-items: center; flex-wrap: wrap;">
+                <symbol-item *ngFor="let item of item.rankingItems.slice(0, 2)" [symbol]="item.symbol"
+                  style="margin-right: 6px">
+                </symbol-item>
+                <span>{{'共 ' + item.rankingItems.length}}</span>
+              </div>
 
               <ng-template #descItemTitle>
                 <td class="ant-descriptions-item-label" style="position: relative">
