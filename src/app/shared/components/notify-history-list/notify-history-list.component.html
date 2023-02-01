@@ -90,6 +90,11 @@
             <linkable [href]="item.link" [content]="defaultLogo">
             </linkable>
           </p>
+          <p *ngIf="item.tags && item.tags.length > 0">
+            <nz-tag *ngFor="let tag of item.tags; let i = index" style="margin-bottom: 4px">
+              {{ tag }}
+            </nz-tag>
+          </p>
 
           <ng-template #defaultLogo>
             <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
