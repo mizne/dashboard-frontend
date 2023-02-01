@@ -1,14 +1,15 @@
-<span class="symbol-item-container" nz-popover [nzPopoverTitle]="titleTemplate" [nzPopoverContent]="contentTemplate">
+<span class="symbol-item-container" nz-popover [nzPopoverTitle]="titleTemplate" [nzPopoverContent]="contentTemplate"
+  style="display: flex; align-items: center;">
   <ng-container *ngIf="content" [ngTemplateOutlet]="content" [ngTemplateOutletContext]="templateContext"></ng-container>
   <ng-container *ngIf="!content">
-    <token-logo [name]="logoName" style="margin-right: 4px;"></token-logo>
+    <image-view [name]="logoName" style="margin-right: 4px;"></image-view>
     <span class="symbol-item-default-content">{{symbol}}</span>
   </ng-container>
 </span>
 
 <ng-template #titleTemplate>
   <div style="display: flex; align-items: center">
-    <token-logo [name]="logoName"></token-logo>
+    <image-view [name]="logoName"></image-view>
     <span style="margin-left: 6px">{{name + ' - ' + fullname}}</span>
   </div>
 </ng-template>

@@ -104,9 +104,7 @@
                   '未发币'}}</nz-tag>
               </div>
               <ng-template #defaultLogo>
-                <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-                  <image *ngIf="item.logo" [attr.href]="logoBasePath + item.logo" width="64" height="64" />
-                </svg>
+                <image-view [width]="64" [name]="item.logo"></image-view>
               </ng-template>
 
             </nz-card>

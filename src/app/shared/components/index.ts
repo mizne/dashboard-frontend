@@ -8,7 +8,7 @@ import { TokenActionsComponent } from './token-actions/token-actions.component';
 import { ToolkitComponent } from './toolkit/toolkit.component';
 import { ExecuteTaskCustomComponent } from './execute-task-custom/execute-task-custom.component';
 import { LeverageCalcComponent } from './leverage-calc/leverage-calc.component';
-import { TokenLogoComponent } from './token-logo/token-logo.component';
+import { ImageViewComponent } from './image-view/image-view.component';
 import { CreatedAtComponent } from './created-at/created-at.component';
 import { NotifyHistoryDrawerComponent } from './notify-history-drawer/notify-history-drawer.component';
 import { MultiInputComponent } from './multi-input/multi-input.component';
@@ -30,7 +30,7 @@ export const components = [
   ExecuteTaskCustomComponent,
   ToolkitComponent,
   LeverageCalcComponent,
-  TokenLogoComponent,
+  ImageViewComponent,
   CreatedAtComponent,
   NotifyHistoryDrawerComponent,
   MultiInputComponent,
@@ -53,7 +53,7 @@ export {
   ExecuteTaskCustomComponent,
   ToolkitComponent,
   LeverageCalcComponent,
-  TokenLogoComponent,
+  ImageViewComponent,
   CreatedAtComponent,
   NotifyHistoryDrawerComponent,
   MultiInputComponent,

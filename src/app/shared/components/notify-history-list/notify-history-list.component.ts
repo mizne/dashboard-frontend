@@ -6,7 +6,6 @@ import { ClientNotifyService, NotifyHistoryService } from '../../services';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { DestroyService } from '../../services/destroy.service';
 import { takeUntil, EMPTY, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'notify-history-list',
@@ -24,8 +23,6 @@ export class NotifyHistoryListComponent implements OnInit {
 
   @Input() condition: any = null
   @Input() refreshObs: Observable<void> = EMPTY
-
-  logoBasePath = environment.baseURL
 
   loading = false;
   items: NotifyHistory[] = [];

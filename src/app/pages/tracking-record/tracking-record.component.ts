@@ -27,8 +27,6 @@ export class TrackingRecordComponent implements OnInit {
 
   @Input() followedProjectID = '';
 
-  logoBasePath = environment.imageBaseURL
-
   total = 1;
   items: TableItem[] = [];
   loading = true;

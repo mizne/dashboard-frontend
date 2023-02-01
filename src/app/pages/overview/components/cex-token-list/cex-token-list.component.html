@@ -62,8 +62,9 @@
         </thead>
         <tbody>
           <tr *ngFor="let data of cexTokens">
-            <td [title]="data.symbol + ' - ' + data.fullname + ' - ' + data.tags.join(', ')">
-              <token-logo [name]="data.logoName" style="margin-right: 4px;"></token-logo>
+            <td [title]="data.symbol + ' - ' + data.fullname + ' - ' + data.tags.join(', ')"
+              style="display: flex; align-items: center;">
+              <image-view [name]="data.logoName" style="margin-right: 4px;"></image-view>
               <span class="token-name" style="font-weight: bold">{{data.name}}</span>
             </td>
 

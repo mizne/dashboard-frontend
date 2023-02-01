@@ -36,8 +36,6 @@ export class FollowedProjectDetailComponent implements OnInit {
     private readonly clientNotifyService: ClientNotifyService,
   ) { }
 
-  logoBasePath = environment.imageBaseURL
-
   followedProjectID = this.route.snapshot.params['id'];
   followedProjectDetail: Detail | null = null;
   loadingFollowedProject = false;

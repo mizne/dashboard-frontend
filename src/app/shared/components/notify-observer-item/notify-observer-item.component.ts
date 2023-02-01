@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NotifyObserver, NotifyObserverTypes } from '../../models';
-import { environment } from 'src/environments/environment';
 
 interface TableItem extends NotifyObserver {
   enableTrackingCtrl: FormControl;
@@ -14,8 +13,6 @@ interface TableItem extends NotifyObserver {
 
 export class NotifyObserverItemComponent implements OnInit {
   constructor() { }
-
-  logoBasePath = environment.baseURL
 
   @Input() width = 320;
   @Input() item: TableItem | null = null;

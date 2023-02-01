@@ -37,7 +37,6 @@ export class FollowedProjectSelectComponent implements ControlValueAccessor, OnD
 
   selectedFollowedProject: TableItem | null = null;
   selectModalVisible = false;
-  logoBasePath = environment.imageBaseURL;
 
   total = 1;
   items: TableItem[] = [];

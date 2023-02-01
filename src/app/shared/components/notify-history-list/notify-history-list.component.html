@@ -97,9 +97,7 @@
           </p>
 
           <ng-template #defaultLogo>
-            <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
-              <image *ngIf="item.logo" [attr.href]="logoBasePath + item.logo" width="32" height="32" />
-            </svg>
+            <image-view [width]="32" [name]="item.logo"></image-view>
           </ng-template>
         </div>
 

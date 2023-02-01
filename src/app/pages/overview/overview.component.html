@@ -90,10 +90,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of cexTokenDailies">
-          <td [title]="data.symbol + ' - ' + data.fullname">
+          <td [title]="data.symbol + ' - ' + data.fullname" style="display: flex; align-items: center;">
             <symbol-item [symbol]="data.symbol" [content]="symbolContent"></symbol-item>
             <ng-template #symbolContent let-name="name" let-logoName="logoName">
-              <token-logo [name]="logoName" style="margin-right: 4px;"></token-logo>
+              <image-view [name]="logoName" style="margin-right: 4px;"></image-view>
               <span class="symbol-item-custom-content" style="font-weight: bold">{{name}}</span>
             </ng-template>
           </td>

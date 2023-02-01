@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Subscription } from 'rxjs';
 import { CreateFollowedProjectService, FollowedProjectModalActions } from 'src/app/modules/create-followed-project';
 
 import {
@@ -9,7 +8,6 @@ import {
   FollowedProjectService
 } from 'src/app/shared';
 import { removeEmpty } from 'src/app/utils';
-import { environment } from 'src/environments/environment';
 
 interface TableItem extends FollowedProject {
   tagIDsCtrl: FormControl;
@@ -28,8 +26,6 @@ export class FollowedProjectComponent implements OnInit {
     private viewContainerRef: ViewContainerRef,
     private createFollowedProjectService: CreateFollowedProjectService
   ) { }
-
-  logoBasePath = environment.imageBaseURL
 
   total = 1;
   items: TableItem[] = [];

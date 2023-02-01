@@ -2,7 +2,7 @@
   <symbol-item [symbol]="symbol" [content]="symbolContent" style="width: 20%">
   </symbol-item>
   <ng-template #symbolContent let-logoName="logoName">
-    <token-logo [name]="logoName" style="margin-right: 4px;"></token-logo>
+    <image-view [name]="logoName" style="margin-right: 4px;"></image-view>
     <span class="symbol-item-custom-content">{{(index+1) + '. ' + symbol}}</span>
   </ng-template>
 

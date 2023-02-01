@@ -6,10 +6,7 @@
         <nz-card style="width:100%" nzTitle="基本信息">
           <div class="base-info-container">
             <div class="project-logo-container">
-              <svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-                <image *ngIf="followedProjectDetail && followedProjectDetail.logo"
-                  [attr.href]="logoBasePath + followedProjectDetail.logo" width="64" height="64" />
-              </svg>
+              <image-view [width]="64" [name]="followedProjectDetail?.logo"></image-view>
             </div>
             <div class="project-desc-container">
               <h2>{{followedProjectDetail?.name}}</h2>
