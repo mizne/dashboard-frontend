@@ -1,11 +1,20 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { NotifyObserver, NotifyObserverService, NotifyObserverTypes } from 'src/app/shared';
+import { NotifyObserver, NotifyObserverService, NotifyObserverTypes, TimerService } from 'src/app/shared';
 import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer'
+import { DestroyService } from 'src/app/shared/services/destroy.service';
+import { startWith, takeUntil } from 'rxjs';
+import { FormBuilder } from '@angular/forms';
+
+enum TaskTypes {
+  TODAY = 'today',
+  ALL = 'all'
+}
 
 @Component({
   selector: 'timer-notify-observer-modal',
-  templateUrl: 'timer-notify-observer-modal.component.html'
+  templateUrl: 'timer-notify-observer-modal.component.html',
+  providers: [DestroyService]
 })
 
 export class TimerNotifyObserverModalComponent implements OnInit {
@@ -14,6 +23,9 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     private readonly notification: NzNotificationService,
     private readonly createNotifyObserverService: CreateNotifyObserverService,
     private readonly notifyObserverService: NotifyObserverService,
+    private readonly destroyService: DestroyService,
+    private readonly timerService: TimerService,
+    private readonly fb: FormBuilder,
     private viewContainerRef: ViewContainerRef,
   ) { }
 
@@ -25,12 +37,28 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     items: Array<NotifyObserver>
   }>> = []
 
+  taskTypes = [
+    {
+      label: '今天',
+      value: TaskTypes.TODAY
+    },
+    {
+      label: '所有',
+      value: TaskTypes.ALL
+    }
+  ]
+  form = this.fb.group({
+    taskType: [this.taskTypes[0].value]
+  })
+
   ngOnInit() {
+    this.subscribeNowHourChange();
+    this.subscribeFormChange();
   }
 
   open() {
     this.visible = true;
-    this.nowHour = new Date().getHours();
+
     this.fetchTimerNotifyObservers();
   }
 
@@ -67,6 +95,25 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     });
   }
 
+  private subscribeNowHourChange() {
+    this.timerService.interval(2)
+      .pipe(
+        takeUntil(this.destroyService),
+        startWith(null)
+      )
+      .subscribe(() => {
+        this.nowHour = new Date().getHours();
+      })
+  }
+
+  private subscribeFormChange() {
+    this.form.valueChanges.pipe(
+      takeUntil(this.destroyService),
+    ).subscribe(() => {
+      this.fetchTimerNotifyObservers();
+    })
+  }
+
   private fetchTimerNotifyObservers() {
     this.service.queryList({ type: NotifyObserverTypes.TIMER })
       .subscribe({
@@ -82,9 +129,10 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   private resolveResults(results: NotifyObserver[]) {
     const hours = []
     for (let hour = 0; hour < 24; hour += 1) {
-      const theItems = results.filter(e => Array.isArray(e.timerHour) && e.timerHour.indexOf(hour) >= 0)
+      const theItems = results.filter(e => Array.isArray(e.timerHour) && e.timerHour.indexOf(hour) >= 0);
+      const filteredItems = theItems.filter(e => this.filterByTaskType(this.form.value.taskType as TaskTypes, e))
       hours.push({
-        hour: hour, items: theItems.sort((a, b) => {
+        hour: hour, items: filteredItems.sort((a, b) => {
           const aMin = (Array.isArray(a.timerMinute) && a.timerMinute.length > 0) ? a.timerMinute[0] : 0;
           const bMin = (Array.isArray(b.timerMinute) && b.timerMinute.length > 0) ? b.timerMinute[0] : 0;
           return aMin - bMin
@@ -98,5 +146,33 @@ export class TimerNotifyObserverModalComponent implements OnInit {
       hours.slice(12, 18),
       hours.slice(18, 24),
     ]
+  }
+
+  private filterByTaskType(type: TaskTypes, item: NotifyObserver): boolean {
+    switch (type) {
+      case TaskTypes.TODAY:
+        return this.checkDate(item.timerDate) && this.checkMonth(item.timerMonth);
+      case TaskTypes.ALL:
+        return true;
+      default:
+        this.notification.warning(`未知任务类型`, `${type}`)
+        return true
+    }
+  }
+
+  private checkDate(date?: number[]): boolean {
+    if (date && date.length > 0) {
+      return date.indexOf(new Date().getDate()) >= 0
+    }
+
+    return true
+  }
+
+  private checkMonth(month?: number[]): boolean {
+    if (month && month.length > 0) {
+      return month.indexOf(new Date().getMonth() + 1) >= 0
+    }
+
+    return true
   }
 }

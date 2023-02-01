@@ -7,6 +7,22 @@
 <nz-modal [(nzVisible)]="visible" [nzWidth]="1200" [nzTitle]="'定时任务时刻表'" [nzFooter]="null" (nzOnCancel)="visible=false">
   <ng-container *nzModalContent>
 
+    <form nz-form [formGroup]="form">
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzTooltipTitle="任务">
+              <span>任务</span>
+            </nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <nz-radio-group formControlName="taskType" nzSize="small" [nzButtonStyle]="'solid'">
+                <label *ngFor="let item of taskTypes" nz-radio-button [nzValue]="item.value">{{item.label}}</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
 
     <div nz-row [nzGutter]="16" *ngFor="let outerItem of times" style="margin-bottom: 12px">
       <div nz-col class="gutter-row" [nzSpan]="4" *ngFor="let innerItem of outerItem">
