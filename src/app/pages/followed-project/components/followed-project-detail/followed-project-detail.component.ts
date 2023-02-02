@@ -3,11 +3,10 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject, Subscription, takeUntil } from 'rxjs';
+import { CreateFollowedProjectService, FollowedProjectModalActions } from 'src/app/modules/create-followed-project';
 import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer';
 import { ClientNotifyService, FollowedProject, FollowedProjectService, NotifyObserver, NotifyObserverService, } from 'src/app/shared';
 import { DestroyService } from 'src/app/shared/services/destroy.service';
-import { environment } from 'src/environments/environment';
-
 
 interface TableItem extends NotifyObserver {
   enableTrackingCtrl: FormControl;
@@ -35,6 +34,7 @@ export class FollowedProjectDetailComponent implements OnInit {
     private readonly createNotifyObserverService: CreateNotifyObserverService,
     private readonly destroy$: DestroyService,
     private readonly clientNotifyService: ClientNotifyService,
+    private createFollowedProjectService: CreateFollowedProjectService
   ) { }
 
   followedProjectID = this.route.snapshot.params['id'];
@@ -53,9 +53,33 @@ export class FollowedProjectDetailComponent implements OnInit {
     this.fetchFollowedProjectDetail();
     this.fetchNotifyObservers();
 
-    this.updateFollowedProject();
+    this.markReadFollowedProject();
 
     this.subscribeNotifyHistoryChange();
+  }
+
+  confirmUpdateFollowedProject() {
+    if (!this.followedProjectID || !this.followedProjectDetail) {
+      return;
+    }
+
+    const obj: Partial<FollowedProject> = {
+      ...this.followedProjectDetail,
+    };
+    const { success, error } = this.createFollowedProjectService.createModal(
+      '修改关注项目',
+      obj,
+      this.viewContainerRef,
+      FollowedProjectModalActions.UPDATE
+    );
+
+    success.subscribe((v) => {
+      this.notificationService.success(`修改关注项目成功`, `修改关注项目成功`);
+      this.fetchFollowedProjectDetail();
+    });
+    error.subscribe((e) => {
+      this.notificationService.error(`修改关注项目失败`, `${e.message}`);
+    });
   }
 
   showCreateNotifyObserverModal() {
@@ -139,7 +163,7 @@ export class FollowedProjectDetailComponent implements OnInit {
       })
   }
 
-  private updateFollowedProject() {
+  private markReadFollowedProject() {
     if (!this.followedProjectID) {
       return
     }
