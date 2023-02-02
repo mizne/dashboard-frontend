@@ -21,7 +21,7 @@
                   ? '已发币' :
                   '未发币'}}</nz-tag>
 
-                <div class="followed-project-links">
+                <div class="followed-project-links" style="display: flex;">
                   <linkable *ngIf="followedProjectDetail.website" [href]="followedProjectDetail.website"
                     [content]="websiteLogo" style="margin-right: 12px">
                   </linkable>
