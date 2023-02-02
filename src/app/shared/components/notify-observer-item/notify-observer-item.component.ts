@@ -4,6 +4,7 @@ import { NotifyObserver, NotifyObserverTypes } from '../../models';
 
 interface TableItem extends NotifyObserver {
   enableTrackingCtrl: FormControl;
+  followedProjectIDCtrl?: FormControl;
 }
 
 @Component({

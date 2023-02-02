@@ -17,6 +17,7 @@ import { environment } from 'src/environments/environment';
 
 interface TableItem extends NotifyObserver {
   enableTrackingCtrl: FormControl;
+  followedProjectIDCtrl?: FormControl;
 }
 
 @Component({
@@ -158,6 +159,9 @@ export class MyNotificationComponent implements OnInit {
         this.items = results.map((e) => ({
           ...e,
           enableTrackingCtrl: new FormControl(!!e.enableTracking),
+          ...(e.followedProjectID ? {
+            followedProjectIDCtrl: new FormControl(e.followedProjectID)
+          } : {})
         }));
 
         this.subscribeUpdateEnableTrackingCtrls();

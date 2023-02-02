@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 
 interface TableItem extends NotifyObserver {
   enableTrackingCtrl: FormControl;
+  followedProjectIDCtrl?: FormControl;
 }
 
 interface Detail extends FollowedProject {
@@ -163,6 +164,9 @@ export class FollowedProjectDetailComponent implements OnInit {
             this.notifyObservers = items.map((e) => ({
               ...e,
               enableTrackingCtrl: new FormControl(!!e.enableTracking),
+              ...(e.followedProjectID ? {
+                followedProjectIDCtrl: new FormControl(e.followedProjectID)
+              } : {})
             }))
             this.subscribeUpdateEnableTrackingCtrls();
           } else {
