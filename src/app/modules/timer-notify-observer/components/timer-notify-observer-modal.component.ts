@@ -5,6 +5,7 @@ import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app
 import { DestroyService } from 'src/app/shared/services/destroy.service';
 import { startWith, takeUntil } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
+import { paddingZero } from 'src/app/utils';
 
 enum TaskTypes {
   TODAY = 'today',
@@ -65,6 +66,10 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     this.visible = true;
 
     this.fetchTimerNotifyObservers();
+  }
+
+  tooltipGetter(hour: number, item: NotifyObserver) {
+    return `${hour}:${(item.timerMinute || []).map(e => paddingZero(String(e))).join(',')} / 点击编辑`
   }
 
   confirmCreate() {

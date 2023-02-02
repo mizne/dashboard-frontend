@@ -36,7 +36,7 @@
           }">
             <nz-list-header>{{innerItem.hour}}</nz-list-header>
             <nz-list-item *ngFor="let item of innerItem.items">
-              <span (click)="confirmUpdate(item)" title="编辑"
+              <span (click)="confirmUpdate(item)" [title]="tooltipGetter(innerItem.hour, item)"
                 style="cursor: pointer; width: 80%;">{{item.notifyShowTitle}}</span>
 
               <button style="margin-left: 6px" nz-button nzType="primary" [nzSize]="'small'" nzDanger nzShape="circle"
