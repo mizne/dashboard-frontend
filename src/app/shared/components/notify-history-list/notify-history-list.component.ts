@@ -1,11 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { NotifyHistory, NotifyObserverTypes } from '../../models';
 import { removeEmpty } from 'src/app/utils';
 import { ClientNotifyService, NotifyHistoryService } from '../../services';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { DestroyService } from '../../services/destroy.service';
 import { takeUntil, EMPTY, Observable } from 'rxjs';
+
+interface TableItem extends NotifyHistory {
+  followedProjectIDCtrl?: FormControl;
+}
 
 @Component({
   selector: 'notify-history-list',
@@ -25,7 +29,7 @@ export class NotifyHistoryListComponent implements OnInit {
   @Input() refreshObs: Observable<void> = EMPTY
 
   loading = false;
-  items: NotifyHistory[] = [];
+  items: TableItem[] = [];
   totalCount = 0;
   pageIndex = 1;
   pageSize = 10;
@@ -139,7 +143,12 @@ export class NotifyHistoryListComponent implements OnInit {
       })
       .subscribe((results) => {
         this.loading = false;
-        this.items = results;
+        this.items = results.map(e => ({
+          ...e,
+          ...(e.followedProjectID ? {
+            followedProjectIDCtrl: new FormControl(e.followedProjectID)
+          } : {})
+        }));
       });
 
     this.notifyHistoryService

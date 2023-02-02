@@ -86,14 +86,17 @@
             <span>添加时间：</span>
             <created-at [createdAt]="item.createdAt"></created-at>
           </p>
-          <p>
+          <p style="display: flex; align-items: center;">
             <linkable [href]="item.link" [content]="defaultLogo">
             </linkable>
-          </p>
-          <p *ngIf="item.tags && item.tags.length > 0">
-            <nz-tag *ngFor="let tag of item.tags; let i = index" style="margin-bottom: 4px">
-              {{ tag }}
-            </nz-tag>
+
+            <button *ngIf="item.followedProjectIDCtrl" nz-button nzType="primary" nzSize="small" nzShape="circle"
+              nz-popover [nzPopoverContent]="contentTemplate" style="margin-left: 36px"><span nz-icon nzType="project"
+                nzTheme="outline"></span></button>
+            <ng-template #contentTemplate>
+              <followed-project-select *ngIf="item.followedProjectIDCtrl" [mode]="'view'"
+                [formControl]="item.followedProjectIDCtrl"></followed-project-select>
+            </ng-template>
           </p>
 
           <ng-template #defaultLogo>

@@ -58,8 +58,9 @@
           </td>
 
           <td>
-            <button nz-button nzType="primary" nzShape="circle" nz-popover [nzPopoverContent]="contentTemplate"><span
-                nz-icon nzType="eye"></span></button>
+            <button nz-button nzType="primary" nzShape="circle" nz-popover [nzPopoverContent]="contentTemplate">
+              <span nz-icon nzType="project" nzTheme="outline"></span>
+            </button>
             <ng-template #contentTemplate>
               <followed-project-select [mode]="'view'"
                 [formControl]="data.followedProjectIDCtrl"></followed-project-select>

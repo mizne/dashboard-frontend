@@ -3,6 +3,7 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 @Component({
   selector: 'linkable',
   templateUrl: './linkable.component.html',
+  styleUrls: ['./linkable.component.less']
 })
 export class LinkableComponent implements OnInit {
   private _href?: string;

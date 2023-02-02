@@ -120,7 +120,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   }
 
   private fetchTimerNotifyObservers() {
-    this.service.queryList({ type: NotifyObserverTypes.TIMER })
+    this.service.queryList({ type: NotifyObserverTypes.TIMER, enableTracking: true })
       .subscribe({
         next: (results) => {
           this.resolveResults(results)

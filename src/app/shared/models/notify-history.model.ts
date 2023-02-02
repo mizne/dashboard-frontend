@@ -9,8 +9,6 @@ export interface NotifyHistory {
   link?: string;
   logo?: string;
   followedProjectID?: string;
-  tags?: string[];
-
   hasRead: boolean;
 
   readonly createdAt: number;

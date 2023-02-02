@@ -1,6 +1,13 @@
 <nz-card *ngIf="item" class="notify-observer-item-container" [ngStyle]="{width: width+'px'}"
   [nzTitle]="item.notifyShowTitle || '【默认通知标题】'" [nzExtra]="extraTemplate">
   <p style="display: flex; align-items: center; justify-content: space-between;">
+    <button *ngIf="item.followedProjectIDCtrl" nz-button nzType="primary" nzShape="circle" nz-popover
+      [nzPopoverContent]="contentTemplate"><span nz-icon nzType="project" nzTheme="outline"></span></button>
+    <ng-template #contentTemplate>
+      <followed-project-select *ngIf="item.followedProjectIDCtrl" [mode]="'view'"
+        [formControl]="item.followedProjectIDCtrl"></followed-project-select>
+    </ng-template>
+
     <nz-tag *ngIf="item.enableTracking; else disableTrackingTpl" nzColor="success">
       <i nz-icon nzType="check-circle"></i>
       <span>已开启</span>
@@ -11,13 +18,8 @@
         <span>未开启</span>
       </nz-tag>
     </ng-template>
+
     <nz-switch [formControl]="item.enableTrackingCtrl"></nz-switch>
-    <button *ngIf="item.followedProjectIDCtrl" nz-button nzType="primary" nzShape="circle" nz-popover
-      [nzPopoverContent]="contentTemplate"><span nz-icon nzType="eye"></span></button>
-    <ng-template #contentTemplate>
-      <followed-project-select *ngIf="item.followedProjectIDCtrl" [mode]="'view'"
-        [formControl]="item.followedProjectIDCtrl"></followed-project-select>
-    </ng-template>
   </p>
 
   <p nz-typography nzEllipsis [nzEllipsisRows]="2" nzCopyable [nzContent]="resolveDesc(item)">
