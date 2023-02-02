@@ -77,20 +77,20 @@ export class NotifyObserverNotAllowListComponent implements OnInit {
 
     };
     const { success, error } = this.createNotifyObserverNotAllowService.createModal(
-      '添加黑名单订阅源',
+      '添加黑名单通知源',
       obj,
       this.viewContainerRef
     );
 
     success.subscribe((v) => {
       this.notification.success(
-        `添加黑名单订阅源 成功`,
-        `添加黑名单订阅源 成功`
+        `添加黑名单通知源 成功`,
+        `添加黑名单通知源 成功`
       );
       this.loadDataFromServer();
     });
     error.subscribe((e) => {
-      this.notification.error(`添加黑名单订阅源 失败`, `${e.message}`);
+      this.notification.error(`添加黑名单通知源 失败`, `${e.message}`);
     });
   }
 

@@ -67,17 +67,17 @@ export class FollowedProjectDetailComponent implements OnInit {
       followedProjectID: this.followedProjectID
     };
     const { success, error } = this.createNotifyObserverService.createModal(
-      '添加订阅源',
+      '添加通知源',
       obj,
       this.viewContainerRef
     );
 
     success.subscribe((v) => {
-      this.notificationService.success(`添加订阅源成功`, `添加订阅源成功`);
+      this.notificationService.success(`添加通知源成功`, `添加通知源成功`);
       this.fetchNotifyObservers();
     });
     error.subscribe((e) => {
-      this.notificationService.error(`添加订阅源失败`, `${e.message}`);
+      this.notificationService.error(`添加通知源失败`, `${e.message}`);
     });
   }
 
@@ -86,18 +86,18 @@ export class FollowedProjectDetailComponent implements OnInit {
       ...item,
     };
     const { success, error } = this.createNotifyObserverService.createModal(
-      '修改订阅源',
+      '修改通知源',
       obj,
       this.viewContainerRef,
       NotifyObserverModalActions.UPDATE
     );
 
     success.subscribe((v) => {
-      this.notificationService.success(`修改订阅源成功`, `修改订阅源成功`);
+      this.notificationService.success(`修改通知源成功`, `修改通知源成功`);
       this.fetchNotifyObservers();
     });
     error.subscribe((e) => {
-      this.notificationService.error(`修改订阅源失败`, `${e.message}`);
+      this.notificationService.error(`修改通知源失败`, `${e.message}`);
     });
   }
 
@@ -170,12 +170,12 @@ export class FollowedProjectDetailComponent implements OnInit {
             }))
             this.subscribeUpdateEnableTrackingCtrls();
           } else {
-            this.notificationService.warning(`没有找到 订阅源`, `也许该项目还没有添加订阅源`)
+            this.notificationService.warning(`没有找到 通知源`, `也许该项目还没有添加通知源`)
           }
         },
         error: (err: Error) => {
           this.loadingNotifyObservers = false;
-          this.notificationService.error(`获取 订阅源 失败`, `${err.message}`)
+          this.notificationService.error(`获取 通知源 失败`, `${err.message}`)
         }
       })
   }

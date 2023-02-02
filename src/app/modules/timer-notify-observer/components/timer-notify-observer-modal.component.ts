@@ -78,17 +78,17 @@ export class TimerNotifyObserverModalComponent implements OnInit {
       type: NotifyObserverTypes.TIMER
     };
     const { success, error } = this.createNotifyObserverService.createModal(
-      '新增订阅源',
+      '新增通知源',
       obj,
       this.viewContainerRef
     );
 
     success.subscribe((v) => {
-      this.notification.success(`新增订阅源成功`, `新增订阅源成功`);
+      this.notification.success(`新增通知源成功`, `新增通知源成功`);
       this.fetchTimerNotifyObservers();
     });
     error.subscribe((e) => {
-      this.notification.error(`新增订阅源失败`, `${e.message}`);
+      this.notification.error(`新增通知源失败`, `${e.message}`);
     });
   }
 
@@ -97,18 +97,18 @@ export class TimerNotifyObserverModalComponent implements OnInit {
       ...item,
     };
     const { success, error } = this.createNotifyObserverService.createModal(
-      '修改订阅源',
+      '修改通知源',
       obj,
       this.viewContainerRef,
       NotifyObserverModalActions.UPDATE
     );
 
     success.subscribe((v) => {
-      this.notification.success(`修改订阅源成功`, `修改订阅源成功`);
+      this.notification.success(`修改通知源成功`, `修改通知源成功`);
       this.fetchTimerNotifyObservers();
     });
     error.subscribe((e) => {
-      this.notification.error(`修改订阅源失败`, `${e.message}`);
+      this.notification.error(`修改通知源失败`, `${e.message}`);
     });
   }
 

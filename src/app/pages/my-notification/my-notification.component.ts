@@ -92,17 +92,17 @@ export class MyNotificationComponent implements OnInit {
       enableTracking: true,
     };
     const { success, error } = this.createNotifyObserverService.createModal(
-      '添加订阅源',
+      '添加通知源',
       obj,
       this.viewContainerRef
     );
 
     success.subscribe((v) => {
-      this.notification.success(`添加订阅源成功`, `添加订阅源成功`);
+      this.notification.success(`添加通知源成功`, `添加通知源成功`);
       this.loadDataFromServer();
     });
     error.subscribe((e) => {
-      this.notification.error(`添加订阅源失败`, `${e.message}`);
+      this.notification.error(`添加通知源失败`, `${e.message}`);
     });
   }
 
@@ -111,18 +111,18 @@ export class MyNotificationComponent implements OnInit {
       ...item,
     };
     const { success, error } = this.createNotifyObserverService.createModal(
-      '修改订阅源',
+      '修改通知源',
       obj,
       this.viewContainerRef,
       NotifyObserverModalActions.UPDATE
     );
 
     success.subscribe((v) => {
-      this.notification.success(`修改订阅源成功`, `修改订阅源成功`);
+      this.notification.success(`修改通知源成功`, `修改通知源成功`);
       this.loadDataFromServer();
     });
     error.subscribe((e) => {
-      this.notification.error(`修改订阅源失败`, `${e.message}`);
+      this.notification.error(`修改通知源失败`, `${e.message}`);
     });
   }
 

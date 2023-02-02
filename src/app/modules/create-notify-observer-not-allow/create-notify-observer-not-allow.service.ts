@@ -175,14 +175,14 @@ export class CreateNotifyObserverNotAllowService {
           if (id) {
             const theOther = results.find(e => e._id !== id);
             if (theOther) {
-              errorSub.next(new Error('相同订阅源已存在'));
+              errorSub.next(new Error('相同通知源已存在'));
               resolve(true)
             } else {
               resolve(false)
             }
           } else {
             if (results.length > 0) {
-              errorSub.next(new Error('相同订阅源已存在'));
+              errorSub.next(new Error('相同通知源已存在'));
               resolve(true)
             } else {
               resolve(false)
@@ -190,7 +190,7 @@ export class CreateNotifyObserverNotAllowService {
           }
         },
         error: (e) => {
-          errorSub.next(new Error('查询是否有相同订阅源失败'));
+          errorSub.next(new Error('查询是否有相同通知源失败'));
           resolve(true);
         },
       });
