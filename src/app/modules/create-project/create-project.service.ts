@@ -20,7 +20,7 @@ export class CreateProjectService {
     private projectService: ProjectService,
     private fb: FormBuilder,
     private http: HttpClient
-  ) {}
+  ) { }
 
   // 1. 成功 -> 结束
   // 2. 失败 -> 失败 -> 结束
@@ -105,7 +105,7 @@ export class CreateProjectService {
     }
 
     return new Promise((resolve, reject) => {
-      // 这里写 新增project接口
+      // 这里写 添加project接口
       this.projectService.create(form.value).subscribe({
         next: (v) => {
           if (v.code === 0) {
@@ -134,7 +134,7 @@ export class CreateProjectService {
     }
 
     return new Promise((resolve, reject) => {
-      // 这里写 新增project接口
+      // 这里写 添加project接口
       this.projectService.update(id, form.value).subscribe({
         next: (v) => {
           if (v.code === 0) {

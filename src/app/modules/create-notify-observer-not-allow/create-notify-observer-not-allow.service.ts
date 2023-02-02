@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -24,7 +23,6 @@ export class CreateNotifyObserverNotAllowService {
     private notifyObserverNotAllowService: NotifyObserverNotAllowService,
     private message: NzMessageService,
     private fb: FormBuilder,
-    private http: HttpClient
   ) { }
 
   // 1. 成功 -> 结束

@@ -78,17 +78,17 @@ export class TimerNotifyObserverModalComponent implements OnInit {
       type: NotifyObserverTypes.TIMER
     };
     const { success, error } = this.createNotifyObserverService.createModal(
-      '新增通知源',
+      '添加通知源',
       obj,
       this.viewContainerRef
     );
 
     success.subscribe((v) => {
-      this.notification.success(`新增通知源成功`, `新增通知源成功`);
+      this.notification.success(`添加通知源成功`, `添加通知源成功`);
       this.fetchTimerNotifyObservers();
     });
     error.subscribe((e) => {
-      this.notification.error(`新增通知源失败`, `${e.message}`);
+      this.notification.error(`添加通知源失败`, `${e.message}`);
     });
   }
 

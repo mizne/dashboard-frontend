@@ -105,7 +105,7 @@ export class CreateFollowedProjectService {
     }
 
     return new Promise((resolve, reject) => {
-      // 这里写 新增project接口
+      // 这里写 添加project接口
       this.followedProjectService.create(form.value).subscribe({
         next: (v) => {
           if (v.code === 0) {
@@ -134,7 +134,7 @@ export class CreateFollowedProjectService {
     }
 
     return new Promise((resolve, reject) => {
-      // 这里写 新增project接口
+      // 这里写 添加project接口
       this.followedProjectService.update(id, form.value).subscribe({
         next: (v) => {
           if (v.code === 0) {

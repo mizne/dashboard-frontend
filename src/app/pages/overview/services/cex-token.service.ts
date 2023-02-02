@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CexTokenDaily } from '../models/cex-token-daily.model';
-import { map, Observable, of, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CexToken } from '../models/cex-token.model';
 import { FilterQuery } from 'src/app/shared';
@@ -10,7 +9,7 @@ import { FilterQuery } from 'src/app/shared';
 export class CexTokenService {
   private readonly baseURL = environment.baseURL;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   queryList(
     query?: FilterQuery<CexToken>,

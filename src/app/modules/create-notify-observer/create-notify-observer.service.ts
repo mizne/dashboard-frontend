@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
@@ -21,8 +20,7 @@ export class CreateNotifyObserverService {
   constructor(
     private modal: NzModalService,
     private notifyObserverService: NotifyObserverService,
-    private fb: FormBuilder,
-    private http: HttpClient
+    private fb: FormBuilder
   ) { }
 
   // 1. 成功 -> 结束
