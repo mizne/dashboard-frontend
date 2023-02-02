@@ -67,6 +67,26 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     this.fetchTimerNotifyObservers();
   }
 
+  confirmCreate() {
+    const obj: Partial<NotifyObserver> = {
+      enableTracking: true,
+      type: NotifyObserverTypes.TIMER
+    };
+    const { success, error } = this.createNotifyObserverService.createModal(
+      '新增订阅源',
+      obj,
+      this.viewContainerRef
+    );
+
+    success.subscribe((v) => {
+      this.notification.success(`新增订阅源成功`, `新增订阅源成功`);
+      this.fetchTimerNotifyObservers();
+    });
+    error.subscribe((e) => {
+      this.notification.error(`新增订阅源失败`, `${e.message}`);
+    });
+  }
+
   confirmUpdate(item: NotifyObserver) {
     const obj: Partial<NotifyObserver> = {
       ...item,

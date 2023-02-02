@@ -12,7 +12,10 @@
         <div nz-col [nzSpan]="8">
           <nz-form-item>
             <nz-form-label [nzSpan]="10" nzTooltipTitle="任务">
-              <span>任务</span>
+              <button nz-button nzType="primary" nzSize="small" nzShape="circle" (click)="confirmCreate()">
+                <span nz-icon nzType="plus" nzTheme="outline"></span>
+              </button>
+              <span style="margin-left: 12px;">任务</span>
             </nz-form-label>
             <nz-form-control [nzSpan]="14">
               <nz-radio-group formControlName="taskType" nzSize="small" [nzButtonStyle]="'solid'">
