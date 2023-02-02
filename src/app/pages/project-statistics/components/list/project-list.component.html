@@ -84,7 +84,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of items">
-          <td>
+          <td style="display: flex; align-items: center;">
             <linkable [href]="'https://' + data.website">
             </linkable>
             <span style="margin-left: 12px">{{ data.name }}</span>
