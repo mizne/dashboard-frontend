@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NotifyObserverNotAllow, NotifyObserverTypes } from '../models';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -63,6 +63,19 @@ export class NotifyObserverNotAllowService {
     return this.httpClient.post<{ label: string; value: NotifyObserverTypes }[]>(
       `${this.baseURL}/notify-observer-not-allow/queryTypes`,
       {}
+    ).pipe(
+      map(results => {
+        return results.sort((a, b) => {
+          if (a.label < b.label) {
+            return -1
+          } else if (a.label > b.label) {
+            return 1;
+          } else {
+            return 0;
+          }
+
+        })
+      })
     );
   }
 }
