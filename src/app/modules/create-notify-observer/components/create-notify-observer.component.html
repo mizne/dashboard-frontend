@@ -256,6 +256,15 @@
           <textarea nz-input class="ant-input" id="timerNotifyShowUrl" formControlName="timerNotifyShowUrl"></textarea>
         </nz-form-control>
       </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，通知完毕则删除通知源">
+          <span>一次性任务</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <nz-switch formControlName="timerOnce"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
     </ng-container>
 
     <ng-container *ngIf="isSnapshot">

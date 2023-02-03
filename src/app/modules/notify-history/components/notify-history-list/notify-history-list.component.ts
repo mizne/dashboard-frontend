@@ -208,6 +208,7 @@ export class NotifyHistoryListComponent implements OnInit {
     const obj: Partial<NotifyObserver> = {
       enableTracking: true,
       type: NotifyObserverTypes.TIMER,
+      timerOnce: true,
 
       ...(activity ? {
         notifyShowTitle: `${activity.organizerHandle} - Link3 | ${activity.title}`,

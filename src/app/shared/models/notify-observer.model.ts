@@ -70,6 +70,7 @@ export interface NotifyObserver {
 
   timerNotifyShowDesc?: string;
   timerNotifyShowUrl?: string;
+  timerOnce?: boolean;
 
   readonly createdAt: number;
   readonly createdAtStr: string;

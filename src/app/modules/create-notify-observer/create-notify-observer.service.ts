@@ -82,6 +82,7 @@ export class CreateNotifyObserverService {
       timerMonth: [obj.timerMonth],
       timerNotifyShowDesc: [obj.timerNotifyShowDesc],
       timerNotifyShowUrl: [obj.timerNotifyShowUrl],
+      timerOnce: [!!obj.timerOnce],
     });
     // 创建成功时 会next值 弹框会关闭 且会结束
     const successSubject = new Subject<any>();
