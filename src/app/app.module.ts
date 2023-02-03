@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
 import { SharedModule } from './shared/shared.module';
 import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
+import { NotifyHistoryModule } from 'src/app/modules/notify-history';
 
 const ngZorroConfig: NzConfig = {
   notification: { nzPlacement: 'bottom' }
@@ -28,6 +29,7 @@ registerLocaleData(zh);
     BrowserAnimationsModule,
     IconsProviderModule,
     SharedModule,
+    NotifyHistoryModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },

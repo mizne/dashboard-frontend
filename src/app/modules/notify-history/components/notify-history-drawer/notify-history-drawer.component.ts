@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ClientNotifyService } from '../../services';
-import { DestroyService } from '../../services/destroy.service';
 import { takeUntil } from 'rxjs';
+import { ClientNotifyService } from 'src/app/shared';
+import { DestroyService } from 'src/app/shared/services/destroy.service';
 
 @Component({
   selector: 'notify-history-drawer',

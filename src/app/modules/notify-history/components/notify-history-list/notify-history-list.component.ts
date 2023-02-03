@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { NotifyHistory, NotifyObserverTypes } from '../../models';
 import { removeEmpty } from 'src/app/utils';
-import { ClientNotifyService, NotifyHistoryService } from '../../services';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { DestroyService } from '../../services/destroy.service';
 import { takeUntil, EMPTY, Observable } from 'rxjs';
+import { DestroyService } from 'src/app/shared/services/destroy.service';
+import { ClientNotifyService, NotifyHistory, NotifyHistoryService, NotifyObserverNotAllow, NotifyObserverTypes } from 'src/app/shared';
+import { CreateNotifyObserverNotAllowService } from 'src/app/modules/create-notify-observer-not-allow';
 
 interface TableItem extends NotifyHistory {
   followedProjectIDCtrl?: FormControl;
@@ -23,6 +23,8 @@ export class NotifyHistoryListComponent implements OnInit {
     private readonly notifyHistoryService: NotifyHistoryService,
     private readonly nzNotificationService: NzNotificationService,
     private readonly clientNotifyService: ClientNotifyService,
+    private viewContainerRef: ViewContainerRef,
+    private readonly createNotifyObserverNotAllowService: CreateNotifyObserverNotAllowService,
   ) { }
 
   @Input() condition: any = null
@@ -79,6 +81,35 @@ export class NotifyHistoryListComponent implements OnInit {
           ...types
         ]
       })
+  }
+
+  createNotAllow(item: TableItem) {
+    if (!this.showCreateNotAllowGetter(item)) {
+      this.nzNotificationService.warning(`添加黑名单通知源 失败`, `不支持该类型 ${item.type}`);
+      return
+    }
+    const obj: Partial<NotifyObserverNotAllow> = {
+      type: item.type === NotifyObserverTypes.GALXE_RECOMMEND ? NotifyObserverTypes.GALXE : NotifyObserverTypes.QUEST3
+    };
+    const { success, error } = this.createNotifyObserverNotAllowService.createModal(
+      '添加黑名单通知源',
+      obj,
+      this.viewContainerRef
+    );
+
+    success.subscribe((v) => {
+      this.nzNotificationService.success(
+        `添加黑名单通知源 成功`,
+        `添加黑名单通知源 成功`
+      );
+    });
+    error.subscribe((e) => {
+      this.nzNotificationService.error(`添加黑名单通知源 失败`, `${e.message}`);
+    });
+  }
+
+  showCreateNotAllowGetter(item: TableItem): boolean {
+    return item.type === NotifyObserverTypes.GALXE_RECOMMEND || item.type === NotifyObserverTypes.QUEST3_RECOMMEND
   }
 
   submitForm(): void {

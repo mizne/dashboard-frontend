@@ -10,12 +10,10 @@ import { ExecuteTaskCustomComponent } from './execute-task-custom/execute-task-c
 import { LeverageCalcComponent } from './leverage-calc/leverage-calc.component';
 import { ImageViewComponent } from './image-view/image-view.component';
 import { CreatedAtComponent } from './created-at/created-at.component';
-import { NotifyHistoryDrawerComponent } from './notify-history-drawer/notify-history-drawer.component';
 import { MultiInputComponent } from './multi-input/multi-input.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 import { TagSelectComponent } from './tag-select/tag-select.component';
 import { FollowedProjectSelectComponent } from './followed-project-select/followed-project-select.component';
-import { NotifyHistoryListComponent } from './notify-history-list/notify-history-list.component';
 import { NotifyObserverItemComponent } from './notify-observer-item/notify-observer-item.component';
 import { GlobalSettingsComponent } from './global-settings/global-settings.component';
 
@@ -32,12 +30,10 @@ export const components = [
   LeverageCalcComponent,
   ImageViewComponent,
   CreatedAtComponent,
-  NotifyHistoryDrawerComponent,
   MultiInputComponent,
   UploadFileComponent,
   TagSelectComponent,
   FollowedProjectSelectComponent,
-  NotifyHistoryListComponent,
   NotifyObserverItemComponent,
   GlobalSettingsComponent,
 ];
@@ -55,12 +51,10 @@ export {
   LeverageCalcComponent,
   ImageViewComponent,
   CreatedAtComponent,
-  NotifyHistoryDrawerComponent,
   MultiInputComponent,
   UploadFileComponent,
   TagSelectComponent,
   FollowedProjectSelectComponent,
-  NotifyHistoryListComponent,
   NotifyObserverItemComponent,
   GlobalSettingsComponent,
 };

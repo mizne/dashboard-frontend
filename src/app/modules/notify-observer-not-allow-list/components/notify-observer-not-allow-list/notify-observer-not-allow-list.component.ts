@@ -14,7 +14,7 @@ import { CreateNotifyObserverNotAllowService } from 'src/app/modules/create-noti
 export class NotifyObserverNotAllowListComponent implements OnInit {
   constructor(
     private readonly notifyObserverNotAllowService: NotifyObserverNotAllowService,
-    private readonly notification: NzNotificationService,
+    private readonly nzNotificationService: NzNotificationService,
     private readonly fb: FormBuilder,
     private viewContainerRef: ViewContainerRef,
     private createNotifyObserverNotAllowService: CreateNotifyObserverNotAllowService
@@ -83,14 +83,14 @@ export class NotifyObserverNotAllowListComponent implements OnInit {
     );
 
     success.subscribe((v) => {
-      this.notification.success(
+      this.nzNotificationService.success(
         `添加黑名单通知源 成功`,
         `添加黑名单通知源 成功`
       );
       this.loadDataFromServer();
     });
     error.subscribe((e) => {
-      this.notification.error(`添加黑名单通知源 失败`, `${e.message}`);
+      this.nzNotificationService.error(`添加黑名单通知源 失败`, `${e.message}`);
     });
   }
 
@@ -108,12 +108,12 @@ export class NotifyObserverNotAllowListComponent implements OnInit {
   confirmDelete(item: NotifyObserverNotAllow) {
     this.notifyObserverNotAllowService.deleteByID(item._id).subscribe({
       next: () => {
-        this.notification.success(`删除成功`, `删除数据成功`);
+        this.nzNotificationService.success(`删除成功`, `删除数据成功`);
         this.loadDataFromServer();
       },
       complete: () => { },
       error: (e) => {
-        this.notification.error(`删除失败`, `请稍后重试，${e.message}`);
+        this.nzNotificationService.error(`删除失败`, `请稍后重试，${e.message}`);
       },
     });
   }

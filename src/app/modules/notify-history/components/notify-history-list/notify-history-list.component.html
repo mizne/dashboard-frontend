@@ -99,6 +99,13 @@
             </ng-template>
           </p>
 
+          <p style="display: flex; align-items: center;" *ngIf="showCreateNotAllowGetter(item)">
+            <button nz-button nzType="primary" nzSize="small" nzShape="circle" title="添加到黑名单通知源"
+              (click)="createNotAllow(item)">
+              <span nz-icon nzType="stop" nzTheme="outline"></span>
+            </button>
+          </p>
+
           <ng-template #defaultLogo>
             <image-view [width]="32" [name]="item.logo"></image-view>
           </ng-template>

@@ -222,7 +222,7 @@ export class CreateNotifyObserverNotAllowService {
 
   private resolveDefaultType(): NotifyObserverTypes {
     const lastType = localStorage.getItem('CREATE_NOTIFY_OBSERVER_NOT_ALLOW_DEFAULT_TYPE') as NotifyObserverTypes
-    return lastType || NotifyObserverTypes.MEDIUM
+    return lastType || NotifyObserverTypes.GALXE
   }
 
   private updateDefaultType(type: NotifyObserverTypes) {
