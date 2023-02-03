@@ -210,7 +210,7 @@ export class NotifyHistoryListComponent implements OnInit {
       type: NotifyObserverTypes.TIMER,
 
       ...(activity ? {
-        notifyShowTitle: `Link3: ${activity.title}`,
+        notifyShowTitle: `${activity.organizerHandle} - Link3 | ${activity.title}`,
         timerHour: [new Date(activity.startTime).getHours()],
         timerMinute: [new Date(activity.startTime).getMinutes()],
         timerDate: [new Date(activity.startTime).getDate()],
