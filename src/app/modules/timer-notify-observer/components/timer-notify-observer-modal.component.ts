@@ -32,10 +32,10 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   ) { }
 
   visible = false;
-  nowHour = -1;
+  nowHour = '';
 
   times: Array<Array<{
-    hour: number;
+    hour: string;
     items: Array<NotifyObserver>
   }>> = []
 
@@ -68,7 +68,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     this.fetchTimerNotifyObservers();
   }
 
-  tooltipGetter(hour: number, item: NotifyObserver) {
+  tooltipGetter(hour: string, item: NotifyObserver) {
     return `${hour}:${(item.timerMinute || []).map(e => paddingZero(String(e))).join(',')} / 点击编辑`
   }
 
@@ -132,7 +132,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
         startWith(null)
       )
       .subscribe(() => {
-        this.nowHour = new Date().getHours();
+        this.nowHour = paddingZero(String(new Date().getHours()));
       })
   }
 
@@ -162,7 +162,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
       const theItems = results.filter(e => Array.isArray(e.timerHour) && e.timerHour.indexOf(hour) >= 0);
       const filteredItems = theItems.filter(e => this.filterByTaskType(this.form.value.taskType as TaskTypes, e))
       hours.push({
-        hour: hour, items: filteredItems.sort((a, b) => {
+        hour: paddingZero(String(hour)), items: filteredItems.sort((a, b) => {
           const aMin = (Array.isArray(a.timerMinute) && a.timerMinute.length > 0) ? a.timerMinute[0] : 0;
           const bMin = (Array.isArray(b.timerMinute) && b.timerMinute.length > 0) ? b.timerMinute[0] : 0;
           return aMin - bMin
