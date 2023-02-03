@@ -106,6 +106,13 @@
             </button>
           </p>
 
+          <p style="display: flex; align-items: center;" *ngIf="showCreateTimerNotifyObserverGetter(item)">
+            <button nz-button nzType="primary" nzSize="small" nzShape="circle" title="添加到定时任务"
+              (click)="createTimerNotifyObserver(item)">
+              <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
+            </button>
+          </p>
+
           <ng-template #defaultLogo>
             <image-view [width]="32" [name]="item.logo"></image-view>
           </ng-template>

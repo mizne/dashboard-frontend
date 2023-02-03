@@ -4,11 +4,24 @@ import { removeEmpty } from 'src/app/utils';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { takeUntil, EMPTY, Observable } from 'rxjs';
 import { DestroyService } from 'src/app/shared/services/destroy.service';
-import { ClientNotifyService, NotifyHistory, NotifyHistoryService, NotifyObserverNotAllow, NotifyObserverTypes } from 'src/app/shared';
+import { ClientNotifyService, NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverNotAllow, NotifyObserverTypes } from 'src/app/shared';
 import { CreateNotifyObserverNotAllowService } from 'src/app/modules/create-notify-observer-not-allow';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { CreateNotifyObserverService } from 'src/app/modules/create-notify-observer';
 
 interface TableItem extends NotifyHistory {
   followedProjectIDCtrl?: FormControl;
+}
+
+interface Link3Activity {
+  title: string;
+  url: string;
+  startTime: number;
+  endTime: number;
+
+  rewardInfo: string;
+  organizerHandle: string;
 }
 
 @Component({
@@ -25,6 +38,8 @@ export class NotifyHistoryListComponent implements OnInit {
     private readonly clientNotifyService: ClientNotifyService,
     private viewContainerRef: ViewContainerRef,
     private readonly createNotifyObserverNotAllowService: CreateNotifyObserverNotAllowService,
+    private http: HttpClient,
+    private createNotifyObserverService: CreateNotifyObserverService,
   ) { }
 
   @Input() condition: any = null
@@ -112,6 +127,31 @@ export class NotifyHistoryListComponent implements OnInit {
     return item.type === NotifyObserverTypes.GALXE_RECOMMEND || item.type === NotifyObserverTypes.QUEST3_RECOMMEND
   }
 
+  createTimerNotifyObserver(item: TableItem) {
+    this.http.post(`${environment.baseURL}/app/link3-activity-detail`, {
+      url: item.link,
+    })
+      .subscribe({
+        next: (v) => {
+          const resp = v as { code: number; message: string; result: Link3Activity }
+          if (resp.code === 0) {
+            this.showCreateTimerNotifyObserver(resp.result);
+          } else {
+            this.nzNotificationService.error(`获取Link3活动详情 失败`, `${resp.message}`);
+            this.showCreateTimerNotifyObserver();
+          }
+        },
+        error: (err) => {
+          this.nzNotificationService.error(`获取Link3活动详情 失败`, `${err.message}`);
+          this.showCreateTimerNotifyObserver();
+        }
+      })
+  }
+
+  showCreateTimerNotifyObserverGetter(item: TableItem): boolean {
+    return item.type === NotifyObserverTypes.LINK3_RECOMMEND
+  }
+
   submitForm(): void {
     this.pageIndex = 1;
     this.pageSize = 10;
@@ -162,6 +202,35 @@ export class NotifyHistoryListComponent implements OnInit {
   pageIndexChange(index: number) {
     this.pageIndex = index;
     this.loadDataFromServer();
+  }
+
+  private showCreateTimerNotifyObserver(activity?: Link3Activity) {
+    const obj: Partial<NotifyObserver> = {
+      enableTracking: true,
+      type: NotifyObserverTypes.TIMER,
+
+      ...(activity ? {
+        notifyShowTitle: `Link3: ${activity.title}`,
+        timerHour: [new Date(activity.startTime).getHours()],
+        timerMinute: [new Date(activity.startTime).getMinutes()],
+        timerDate: [new Date(activity.startTime).getDate()],
+        timerMonth: [new Date(activity.startTime).getMonth() + 1],
+        timerNotifyShowDesc: activity.rewardInfo,
+        timerNotifyShowUrl: activity.url
+      } : {})
+    };
+    const { success, error } = this.createNotifyObserverService.createModal(
+      '添加通知源',
+      obj,
+      this.viewContainerRef
+    );
+
+    success.subscribe((v) => {
+      this.nzNotificationService.success(`添加定时任务通知源成功`, `添加定时任务通知源成功`);
+    });
+    error.subscribe((e) => {
+      this.nzNotificationService.error(`添加定时任务通知源失败`, `${e.message}`);
+    });
   }
 
   private loadDataFromServer() {

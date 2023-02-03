@@ -22,7 +22,7 @@ enum TaskTypes {
 export class TimerNotifyObserverModalComponent implements OnInit {
   constructor(
     private readonly service: NotifyObserverService,
-    private readonly notification: NzNotificationService,
+    private readonly nzNotificationService: NzNotificationService,
     private readonly createNotifyObserverService: CreateNotifyObserverService,
     private readonly notifyObserverService: NotifyObserverService,
     private readonly destroyService: DestroyService,
@@ -84,11 +84,11 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     );
 
     success.subscribe((v) => {
-      this.notification.success(`添加通知源成功`, `添加通知源成功`);
+      this.nzNotificationService.success(`添加通知源成功`, `添加通知源成功`);
       this.fetchTimerNotifyObservers();
     });
     error.subscribe((e) => {
-      this.notification.error(`添加通知源失败`, `${e.message}`);
+      this.nzNotificationService.error(`添加通知源失败`, `${e.message}`);
     });
   }
 
@@ -104,23 +104,23 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     );
 
     success.subscribe((v) => {
-      this.notification.success(`修改通知源成功`, `修改通知源成功`);
+      this.nzNotificationService.success(`修改通知源成功`, `修改通知源成功`);
       this.fetchTimerNotifyObservers();
     });
     error.subscribe((e) => {
-      this.notification.error(`修改通知源失败`, `${e.message}`);
+      this.nzNotificationService.error(`修改通知源失败`, `${e.message}`);
     });
   }
 
   confirmDelete(item: NotifyObserver) {
     this.notifyObserverService.deleteByID(item._id).subscribe({
       next: () => {
-        this.notification.success(`删除成功`, `删除数据成功`);
+        this.nzNotificationService.success(`删除成功`, `删除数据成功`);
         this.fetchTimerNotifyObservers();
       },
       complete: () => { },
       error: (e) => {
-        this.notification.error(`删除失败`, `请稍后重试，${e.message}`);
+        this.nzNotificationService.error(`删除失败`, `请稍后重试，${e.message}`);
       },
     });
   }
@@ -151,7 +151,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
           this.resolveResults(results)
         },
         error: (err) => {
-          this.notification.error(`获取定时任务失败`, `${err.message}`)
+          this.nzNotificationService.error(`获取定时任务失败`, `${err.message}`)
         }
       })
   }
@@ -187,7 +187,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
       case TaskTypes.ALL:
         return true;
       default:
-        this.notification.warning(`未知任务类型`, `${type}`)
+        this.nzNotificationService.warning(`未知任务类型`, `${type}`)
         return true
     }
   }
