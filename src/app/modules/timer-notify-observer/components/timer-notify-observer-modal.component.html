@@ -36,12 +36,16 @@
           }">
             <nz-list-header>{{innerItem.hour}}</nz-list-header>
             <nz-list-item *ngFor="let item of innerItem.items">
-              <span (click)="confirmUpdate(item)" [title]="tooltipGetter(innerItem.hour, item)"
-                style="cursor: pointer; width: 80%;">{{item.notifyShowTitle}}</span>
+              <div style="display: flex; width: 100%; position: relative;">
+                <span (click)="confirmUpdate(item)" [title]="tooltipGetter(innerItem.hour, item)"
+                  style="cursor: pointer; width: 80%;">{{item.notifyShowTitle}}</span>
+                <span *ngIf="item.timerOnce" title="一次性通知" nz-icon nzType="minus-circle" [nzTheme]="'twotone'"
+                  [nzTwotoneColor]="'#eb2f96'" style="position: absolute; right: 30%; transform: rotate(90deg);"></span>
 
-              <button style="margin-left: 6px" nz-button nzType="primary" [nzSize]="'small'" nzDanger nzShape="circle"
-                nz-popconfirm nzPopconfirmTitle="确认删除该通知源?" nzPopconfirmPlacement="bottom"
-                (nzOnConfirm)="confirmDelete(item)"><span nz-icon nzType="delete"></span></button>
+                <button style="margin-left: 6px" nz-button nzType="primary" [nzSize]="'small'" nzDanger nzShape="circle"
+                  nz-popconfirm nzPopconfirmTitle="确认删除该通知源?" nzPopconfirmPlacement="bottom"
+                  (nzOnConfirm)="confirmDelete(item)"><span nz-icon nzType="delete"></span></button>
+              </div>
             </nz-list-item>
             <!-- <nz-list-footer>Footer</nz-list-footer> -->
           </nz-list>
