@@ -227,9 +227,8 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   private checkThisMonthMatched(timerDate?: number[], timerMonth?: number[]): boolean {
     const oneDay = 1 * 24 * 60 * 60 * 1e3;
     const afterTomorrow = new Date(new Date().getTime() + 2 * oneDay);
-    const month = new Date().getMonth();
 
-    for (let day = afterTomorrow.getTime(); new Date(day).getMonth() === month; day += oneDay) {
+    for (let day = afterTomorrow.getTime(); new Date(day).getMonth() === new Date().getMonth(); day += oneDay) {
       const theDate = new Date(day).getDate();
       const theMonth = new Date(day).getMonth() + 1;
       const matched = this.checkTheDayMatched(theDate, theMonth, timerDate, timerMonth);
