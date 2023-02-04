@@ -19,7 +19,8 @@
             </nz-form-label>
             <nz-form-control [nzSpan]="14">
               <nz-radio-group formControlName="taskType" nzSize="small" [nzButtonStyle]="'solid'">
-                <label *ngFor="let item of taskTypes" nz-radio-button [nzValue]="item.value">{{item.label}}</label>
+                <label *ngFor="let item of taskTypes" nz-radio-button [nzValue]="item.value"
+                  [title]="item.title">{{item.label}}</label>
               </nz-radio-group>
             </nz-form-control>
           </nz-form-item>

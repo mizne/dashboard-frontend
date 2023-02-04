@@ -9,6 +9,8 @@ import { paddingZero } from 'src/app/utils';
 
 enum TaskTypes {
   TODAY = 'today',
+  TOMORROW = 'TOMORROW',
+  THIS_MONTH = 'THIS_MONTH',
   NOT_TODAY = 'not today',
   ALL = 'all'
 }
@@ -42,15 +44,27 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   taskTypes = [
     {
       label: '今天',
-      value: TaskTypes.TODAY
+      value: TaskTypes.TODAY,
+      title: '包括今天的任务'
     },
     {
-      label: '非今天',
-      value: TaskTypes.NOT_TODAY
+      label: '明天',
+      value: TaskTypes.TOMORROW,
+      title: '包括明天的任务'
     },
+    {
+      label: '本月',
+      value: TaskTypes.THIS_MONTH,
+      title: '本月的任务，排除今天、明天'
+    },
+    // {
+    //   label: '非今天',
+    //   value: TaskTypes.NOT_TODAY
+    // },
     {
       label: '所有',
-      value: TaskTypes.ALL
+      value: TaskTypes.ALL,
+      title: '所有的任务'
     }
   ]
   form = this.fb.group({
@@ -181,9 +195,13 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   private filterByTaskType(type: TaskTypes, item: NotifyObserver): boolean {
     switch (type) {
       case TaskTypes.TODAY:
-        return this.checkDate(item.timerDate) && this.checkMonth(item.timerMonth);
+        return this.checkTodayMatched(item.timerDate, item.timerMonth);
+      case TaskTypes.TOMORROW:
+        return this.checkTomorrowMatched(item.timerDate, item.timerMonth);
+      case TaskTypes.THIS_MONTH:
+        return this.checkThisMonthMatched(item.timerDate, item.timerMonth);
       case TaskTypes.NOT_TODAY:
-        return !(this.checkDate(item.timerDate) && this.checkMonth(item.timerMonth));
+        return !(this.checkTodayMatched(item.timerDate, item.timerMonth));
       case TaskTypes.ALL:
         return true;
       default:
@@ -192,17 +210,54 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     }
   }
 
-  private checkDate(date?: number[]): boolean {
+  private checkTodayMatched(timerDate?: number[], timerMonth?: number[]): boolean {
+    const date = new Date();
+    const theDate = date.getDate();
+    const theMonth = date.getMonth() + 1;
+    return this.checkTheDayMatched(theDate, theMonth, timerDate, timerMonth);
+  }
+
+  private checkTomorrowMatched(timerDate?: number[], timerMonth?: number[]): boolean {
+    const tomorrow = new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1e3);
+    const theDate = tomorrow.getDate();
+    const theMonth = tomorrow.getMonth() + 1;
+    return this.checkTheDayMatched(theDate, theMonth, timerDate, timerMonth);
+  }
+
+  private checkThisMonthMatched(timerDate?: number[], timerMonth?: number[]): boolean {
+    const oneDay = 1 * 24 * 60 * 60 * 1e3;
+    const afterTomorrow = new Date(new Date().getTime() + 2 * oneDay);
+    const month = new Date().getMonth();
+
+    for (let day = afterTomorrow.getTime(); new Date(day).getMonth() === month; day += oneDay) {
+      const theDate = new Date(day).getDate();
+      const theMonth = new Date(day).getMonth() + 1;
+      const matched = this.checkTheDayMatched(theDate, theMonth, timerDate, timerMonth);
+      if (matched) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  // theDate 一号/1  二号/2 ...
+  // theMonth 一月/1  二月/2 ...
+  private checkTheDayMatched(theDate: number, theMonth: number, timerDate?: number[], timerMonth?: number[]): boolean {
+    return this.checkDate(theDate, timerDate) && this.checkMonth(theMonth, timerMonth)
+  }
+
+  private checkDate(theDate: number, date?: number[]): boolean {
     if (date && date.length > 0) {
-      return date.indexOf(new Date().getDate()) >= 0
+      return date.indexOf(theDate) >= 0
     }
 
     return true
   }
 
-  private checkMonth(month?: number[]): boolean {
+  private checkMonth(theMonth: number, month?: number[]): boolean {
     if (month && month.length > 0) {
-      return month.indexOf(new Date().getMonth() + 1) >= 0
+      return month.indexOf(theMonth) >= 0
     }
 
     return true
