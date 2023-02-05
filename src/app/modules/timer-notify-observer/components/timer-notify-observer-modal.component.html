@@ -43,9 +43,33 @@
                 <span *ngIf="item.timerOnce" title="一次性通知" nz-icon nzType="minus-circle" [nzTheme]="'twotone'"
                   [nzTwotoneColor]="'#eb2f96'" style="position: absolute; right: 30%; transform: rotate(90deg);"></span>
 
-                <button style="margin-left: 6px" nz-button nzType="primary" [nzSize]="'small'" nzDanger nzShape="circle"
-                  nz-popconfirm nzPopconfirmTitle="确认删除该通知源?" nzPopconfirmPlacement="bottom"
-                  (nzOnConfirm)="confirmDelete(item)"><span nz-icon nzType="delete"></span></button>
+
+                <button style="margin-left: 6px" nz-button nzType="primary" [nzSize]="'small'" nzShape="circle"
+                  nz-popover [nzPopoverContent]="contentTemplate" [nzPopoverTrigger]="'click'">
+                  <span nz-icon nzType="more" nzTheme="outline"></span>
+                </button>
+                <ng-template #contentTemplate>
+                  <div style="display: flex;">
+                    <linkable [href]="item.timerNotifyShowUrl" [content]="LinkIcon">
+                    </linkable>
+                    <ng-template #LinkIcon>
+                      <button nz-button nzType="primary" [nzSize]="'small'" nzShape="circle">
+                        <span nz-icon nzType="export" nzTheme="outline"></span>
+                      </button>
+                    </ng-template>
+
+                    <button style="margin-left: 12px" nz-button nzType="primary" [nzSize]="'small'" nzShape="circle"
+                      (click)="confirmUpdate(item)">
+                      <span nz-icon nzType="edit"></span>
+                    </button>
+                    <button style="margin-left: 12px" nz-button nzType="primary" [nzSize]="'small'" nzDanger
+                      nzShape="circle" nz-popconfirm nzPopconfirmTitle="确认删除该通知源?" nzPopconfirmPlacement="bottom"
+                      (nzOnConfirm)="confirmDelete(item)">
+                      <span nz-icon nzType="delete"></span>
+                    </button>
+                  </div>
+                </ng-template>
+
               </div>
             </nz-list-item>
             <!-- <nz-list-footer>Footer</nz-list-footer> -->
