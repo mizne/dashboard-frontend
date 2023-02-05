@@ -16,7 +16,7 @@ import { removeNullOrUndefined } from 'src/app/utils';
 export class TrackingRecordListComponent implements OnInit {
   constructor(
     private readonly followedProjectTrackingRecordService: FollowedProjectTrackingRecordService,
-    private readonly notification: NzNotificationService,
+    private readonly notificationService: NzNotificationService,
     private readonly fb: FormBuilder,
     private viewContainerRef: ViewContainerRef,
     private createFollowedProjectTrackingRecordService: CreateFollowedProjectTrackingRecordService
@@ -70,11 +70,11 @@ export class TrackingRecordListComponent implements OnInit {
     );
 
     success.subscribe((v) => {
-      this.notification.success(`添加跟踪记录成功`, `添加跟踪记录成功`);
+      this.notificationService.success(`添加跟踪记录成功`, `添加跟踪记录成功`);
       this.loadDataFromServer();
     });
     error.subscribe((e) => {
-      this.notification.error(`添加跟踪记录失败`, `${e.message}`);
+      this.notificationService.error(`添加跟踪记录失败`, `${e.message}`);
     });
   }
 
@@ -90,11 +90,11 @@ export class TrackingRecordListComponent implements OnInit {
     );
 
     success.subscribe((v) => {
-      this.notification.success(`修改跟踪记录成功`, `修改跟踪记录成功`);
+      this.notificationService.success(`修改跟踪记录成功`, `修改跟踪记录成功`);
       this.loadDataFromServer();
     });
     error.subscribe((e) => {
-      this.notification.error(`修改跟踪记录失败`, `${e.message}`);
+      this.notificationService.error(`修改跟踪记录失败`, `${e.message}`);
     });
   }
 
@@ -112,12 +112,12 @@ export class TrackingRecordListComponent implements OnInit {
   confirmDelete(item: FollowedProjectTrackingRecord) {
     this.followedProjectTrackingRecordService.deleteByID(item._id).subscribe({
       next: () => {
-        this.notification.success(`删除成功`, `删除数据成功`);
+        this.notificationService.success(`删除成功`, `删除数据成功`);
         this.loadDataFromServer();
       },
       complete: () => { },
       error: (e) => {
-        this.notification.error(`删除失败`, `请稍后重试，${e.message}`);
+        this.notificationService.error(`删除失败`, `请稍后重试，${e.message}`);
       },
     });
   }

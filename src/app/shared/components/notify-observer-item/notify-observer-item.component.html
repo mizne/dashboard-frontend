@@ -1,4 +1,4 @@
-<nz-card *ngIf="item" class="notify-observer-item-container" [ngStyle]="{width: width+'px'}"
+<nz-card *ngIf="item && mode==='default'" class="notify-observer-item-container" [ngStyle]="{width: width+'px'}"
   [nzTitle]="item.notifyShowTitle || '【默认通知标题】'" [nzExtra]="extraTemplate">
   <p style="display: flex; align-items: center; justify-content: space-between;">
     <button *ngIf="item.followedProjectIDCtrl" nz-button nzType="primary" nzShape="circle" nz-popover
@@ -32,9 +32,6 @@
       [nzTwotoneColor]="'#eb2f96'" style="transform: rotate(90deg);"></span>
     <created-at [createdAt]="item.createdAt"></created-at>
   </div>
-  <ng-template #defaultLogo>
-    <image-view [width]="32" [name]="item.logo"></image-view>
-  </ng-template>
 
 </nz-card>
 <ng-template #extraTemplate>
@@ -45,3 +42,9 @@
     nzPopconfirmTitle="确认删除该通知源?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete()"><span nz-icon
       nzType="delete"></span></button>
 </ng-template>
+<ng-template #defaultLogo>
+  <image-view [width]="32" [name]="item?.logo"></image-view>
+</ng-template>
+
+<linkable *ngIf="item && mode==='small'" [href]="resolveHref(item)" [content]="defaultLogo">
+</linkable>

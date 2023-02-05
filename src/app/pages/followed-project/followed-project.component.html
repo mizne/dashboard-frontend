@@ -99,9 +99,18 @@
               <div class="followed-project-tags" style="margin-top: 8px">
                 <tag-select mode="view" [formControl]="item.tagIDsCtrl"></tag-select>
               </div>
-              <div class="followed-project-tags" style="margin-top: 8px">
+              <div class="followed-project-more"
+                style="display: flex;align-items: center;justify-content: space-between;margin-top: 8px">
                 <nz-tag [nzColor]="item.hasLaunchToken ? 'default' : 'success'">{{item.hasLaunchToken ? '已发币' :
                   '未发币'}}</nz-tag>
+
+                <button nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popover
+                  [nzPopoverContent]="contentTemplate">
+                  <span nz-icon nzType="more" nzTheme="outline"></span>
+                </button>
+                <ng-template #contentTemplate>
+                  <followed-project-more [id]="item._id" [viewContainerRef]="viewContainerRef"></followed-project-more>
+                </ng-template>
               </div>
               <ng-template #defaultLogo>
                 <image-view [width]="64" [name]="item.logo"></image-view>

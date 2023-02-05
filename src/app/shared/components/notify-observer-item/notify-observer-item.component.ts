@@ -15,6 +15,8 @@ interface TableItem extends NotifyObserver {
 export class NotifyObserverItemComponent implements OnInit {
   constructor() { }
 
+  @Input() mode: 'small' | 'default' = 'default'
+
   @Input() width = 320;
   @Input() item: TableItem | null = null;
 

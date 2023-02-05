@@ -63,7 +63,7 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
   }
 
   handleInputConfirm(): void {
-    console.log(`handleInputConfirm() ${this.inputValue}`)
+    // console.log(`handleInputConfirm() ${this.inputValue}`)
     if (typeof this.inputValue === 'number' && this.tags.indexOf(this.inputValue) === -1) {
       this.tags = [...this.tags, this.inputValue];
       this.emitValue();
@@ -73,7 +73,7 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
   }
 
   emitValue() {
-    console.log(`emitValue() tags: `, this.tags)
+    // console.log(`emitValue() tags: `, this.tags)
     if (this.onChange) {
       this.onChange(this.tags)
     }

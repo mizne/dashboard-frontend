@@ -23,7 +23,7 @@ export class FollowedProjectComponent implements OnInit {
     private readonly followedProjectService: FollowedProjectService,
     private readonly notification: NzNotificationService,
     private readonly fb: FormBuilder,
-    private viewContainerRef: ViewContainerRef,
+    public viewContainerRef: ViewContainerRef,
     private createFollowedProjectService: CreateFollowedProjectService
   ) { }
 
