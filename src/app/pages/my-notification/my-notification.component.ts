@@ -145,6 +145,7 @@ export class MyNotificationComponent implements OnInit {
           const resp = v as { code: number; message: string; result: Link3Activity }
           if (resp.code === 0) {
             this.link3ActivityInputModalVisible = false;
+            this.link3ActivityInputCtrl.patchValue(null);
             this.showCreateTimerNotifyObserver(resp.result);
           } else {
             this.nzNotificationService.error(`获取Link3活动详情 失败`, `${resp.message}`);
