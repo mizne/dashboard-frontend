@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subscription } from 'rxjs';
 import {
@@ -20,6 +22,16 @@ interface TableItem extends NotifyObserver {
   followedProjectIDCtrl?: FormControl;
 }
 
+interface Link3Activity {
+  title: string;
+  url: string;
+  startTime: number;
+  endTime: number;
+
+  rewardInfo: string;
+  organizerHandle: string;
+}
+
 @Component({
   selector: 'app-my-notification',
   templateUrl: './my-notification.component.html',
@@ -28,9 +40,11 @@ interface TableItem extends NotifyObserver {
 export class MyNotificationComponent implements OnInit {
   constructor(
     private readonly notifyObserverService: NotifyObserverService,
-    private readonly notification: NzNotificationService,
+    private readonly nzNotificationService: NzNotificationService,
+    private message: NzMessageService,
     private readonly fb: FormBuilder,
     private viewContainerRef: ViewContainerRef,
+    private http: HttpClient,
     private createNotifyObserverService: CreateNotifyObserverService
   ) { }
 
@@ -57,6 +71,10 @@ export class MyNotificationComponent implements OnInit {
   });
 
   subscriptions: Subscription[] = [];
+
+  link3ActivityInputModalVisible = false;
+  link3ActivityInputCtrl = new FormControl(null);
+
 
   submitForm(): void {
     this.pageIndex = 1;
@@ -98,11 +116,79 @@ export class MyNotificationComponent implements OnInit {
     );
 
     success.subscribe((v) => {
-      this.notification.success(`添加通知源成功`, `添加通知源成功`);
+      this.nzNotificationService.success(`添加通知源成功`, `添加通知源成功`);
       this.loadDataFromServer();
     });
     error.subscribe((e) => {
-      this.notification.error(`添加通知源失败`, `${e.message}`);
+      this.nzNotificationService.error(`添加通知源失败`, `${e.message}`);
+    });
+  }
+
+  showCreateLink3ActivityModal() {
+    this.link3ActivityInputModalVisible = true;
+  }
+
+  ensureLink3ActivityInput() {
+    if (!this.link3ActivityInputCtrl.value) {
+      this.nzNotificationService.warning(`还没有填写Link3活动链接`, `还没有填写Link3活动链接`);
+      return
+    }
+
+    const id = this.message.loading('获取Link3活动详情...', { nzDuration: 0 }).messageId;
+
+    this.http.post(`${environment.baseURL}/app/link3-activity-detail`, {
+      url: this.link3ActivityInputCtrl.value
+    })
+      .subscribe({
+        next: (v) => {
+          this.message.remove(id);
+          const resp = v as { code: number; message: string; result: Link3Activity }
+          if (resp.code === 0) {
+            this.link3ActivityInputModalVisible = false;
+            this.showCreateTimerNotifyObserver(resp.result);
+          } else {
+            this.nzNotificationService.error(`获取Link3活动详情 失败`, `${resp.message}`);
+          }
+        },
+        error: (err) => {
+          this.message.remove(id);
+          this.nzNotificationService.error(`获取Link3活动详情 失败`, `${err.message}`);
+        }
+      })
+  }
+
+  cancelLink3ActivityInput() {
+    this.link3ActivityInputModalVisible = false;
+    this.link3ActivityInputCtrl.patchValue(null);
+  }
+
+  private showCreateTimerNotifyObserver(activity?: Link3Activity) {
+    const obj: Partial<NotifyObserver> = {
+      enableTracking: true,
+      type: NotifyObserverTypes.TIMER,
+      timerOnce: true,
+
+      ...(activity ? {
+        notifyShowTitle: `${activity.organizerHandle} - Link3 | ${activity.title}`,
+        timerHour: [new Date(activity.startTime).getHours()],
+        timerMinute: [new Date(activity.startTime).getMinutes()],
+        timerDate: [new Date(activity.startTime).getDate()],
+        timerMonth: [new Date(activity.startTime).getMonth() + 1],
+        timerNotifyShowDesc: activity.rewardInfo,
+        timerNotifyShowUrl: activity.url
+      } : {})
+    };
+    const { success, error } = this.createNotifyObserverService.createModal(
+      '添加通知源',
+      obj,
+      this.viewContainerRef
+    );
+
+    success.subscribe((v) => {
+      this.nzNotificationService.success(`添加定时任务通知源成功`, `添加定时任务通知源成功`);
+    });
+    error.subscribe((e) => {
+      this.nzNotificationService.error(`添加定时任务通知源失败`, `${e.message}`);
     });
   }
 
@@ -118,11 +204,11 @@ export class MyNotificationComponent implements OnInit {
     );
 
     success.subscribe((v) => {
-      this.notification.success(`修改通知源成功`, `修改通知源成功`);
+      this.nzNotificationService.success(`修改通知源成功`, `修改通知源成功`);
       this.loadDataFromServer();
     });
     error.subscribe((e) => {
-      this.notification.error(`修改通知源失败`, `${e.message}`);
+      this.nzNotificationService.error(`修改通知源失败`, `${e.message}`);
     });
   }
 
@@ -134,12 +220,12 @@ export class MyNotificationComponent implements OnInit {
   confirmDelete(item: TableItem) {
     this.notifyObserverService.deleteByID(item._id).subscribe({
       next: () => {
-        this.notification.success(`删除成功`, `删除数据成功`);
+        this.nzNotificationService.success(`删除成功`, `删除数据成功`);
         this.loadDataFromServer();
       },
       complete: () => { },
       error: (e) => {
-        this.notification.error(`删除失败`, `请稍后重试，${e.message}`);
+        this.nzNotificationService.error(`删除失败`, `请稍后重试，${e.message}`);
       },
     });
   }

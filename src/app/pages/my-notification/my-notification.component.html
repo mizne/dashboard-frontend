@@ -50,9 +50,20 @@
   </nz-card>
 
   <div style="margin-top: 12px; display: flex;">
-    <button nz-button [nzType]="'primary'" (click)="showCreateModal()">
+    <button nz-button [nzType]="'primary'" (click)="showCreateModal()" nz-dropdown [nzDropdownMenu]="menu">
       添加通知源
     </button>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu>
+        <li nz-menu-item (click)="showCreateLink3ActivityModal()">快速添加Link3活动通知</li>
+      </ul>
+    </nz-dropdown-menu>
+    <nz-modal [(nzVisible)]="link3ActivityInputModalVisible" nzTitle="快速添加Link3活动通知"
+      (nzOnOk)="ensureLink3ActivityInput()" (nzOnCancel)="cancelLink3ActivityInput()">
+      <ng-container *nzModalContent>
+        <input nz-input placeholder="Link3活动主页链接" [formControl]="link3ActivityInputCtrl" />
+      </ng-container>
+    </nz-modal>
 
     <app-notify-observer-not-allow-list-modal style="margin-left: 24px;"></app-notify-observer-not-allow-list-modal>
     <timer-notify-observer-modal style="margin-left: 48px;"></timer-notify-observer-modal>
