@@ -2,26 +2,14 @@ import { Component, Input, OnInit, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { removeEmpty } from 'src/app/utils';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { takeUntil, EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { DestroyService } from 'src/app/shared/services/destroy.service';
-import { ClientNotifyService, NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverNotAllow, NotifyObserverTypes } from 'src/app/shared';
+import { ClientNotifyService, NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverNotAllow, NotifyObserverTypes, SharedService } from 'src/app/shared';
 import { CreateNotifyObserverNotAllowService } from 'src/app/modules/create-notify-observer-not-allow';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { CreateNotifyObserverService } from 'src/app/modules/create-notify-observer';
 
 interface TableItem extends NotifyHistory {
   followedProjectIDCtrl?: FormControl;
-}
-
-interface Link3Activity {
-  title: string;
-  url: string;
-  startTime: number;
-  endTime: number;
-
-  rewardInfo: string;
-  organizerHandle: string;
 }
 
 @Component({
@@ -38,7 +26,7 @@ export class NotifyHistoryListComponent implements OnInit {
     private readonly clientNotifyService: ClientNotifyService,
     private viewContainerRef: ViewContainerRef,
     private readonly createNotifyObserverNotAllowService: CreateNotifyObserverNotAllowService,
-    private http: HttpClient,
+    private sharedService: SharedService,
     private createNotifyObserverService: CreateNotifyObserverService,
   ) { }
 
@@ -128,16 +116,13 @@ export class NotifyHistoryListComponent implements OnInit {
   }
 
   createTimerNotifyObserver(item: TableItem) {
-    this.http.post(`${environment.baseURL}/app/link3-activity-detail`, {
-      url: item.link,
-    })
+    this.sharedService.fetchLink3ActivityDetail(item.link)
       .subscribe({
         next: (v) => {
-          const resp = v as { code: number; message: string; result: Link3Activity }
-          if (resp.code === 0) {
-            this.showCreateTimerNotifyObserver(resp.result);
+          if (v.code === 0) {
+            this.showCreateTimerNotifyObserver(v.result);
           } else {
-            this.nzNotificationService.error(`获取Link3活动详情 失败`, `${resp.message}`);
+            this.nzNotificationService.error(`获取Link3活动详情 失败`, `${v.message}`);
             this.showCreateTimerNotifyObserver();
           }
         },
@@ -204,7 +189,7 @@ export class NotifyHistoryListComponent implements OnInit {
     this.loadDataFromServer();
   }
 
-  private showCreateTimerNotifyObserver(activity?: Link3Activity) {
+  private showCreateTimerNotifyObserver(activity?: any) {
     const obj: Partial<NotifyObserver> = {
       enableTracking: true,
       type: NotifyObserverTypes.TIMER,

@@ -1,12 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { Observable, Subject } from 'rxjs';
-import { FollowedProjectService, FollowedProject } from 'src/app/shared';
+import { FollowedProjectService, FollowedProject, SharedService } from 'src/app/shared';
 import { isNil } from 'src/app/utils';
 import { CreateFollowedProjectComponent } from './components/create-followed-project.component';
-import { environment } from 'src/environments/environment';
 
 export enum FollowedProjectModalActions {
   CREATE = 'create',
@@ -19,7 +17,7 @@ export class CreateFollowedProjectService {
     private modal: NzModalService,
     private followedProjectService: FollowedProjectService,
     private fb: FormBuilder,
-    private http: HttpClient
+    private sharedService: SharedService
   ) { }
 
   // 1. 成功 -> 结束
@@ -90,9 +88,7 @@ export class CreateFollowedProjectService {
 
   fetchSocialLinkByWebsite(website: string): Observable<any> {
     website = website.startsWith('http') ? website : `https://${website}`;
-    return this.http.post(`${environment.baseURL}/app/social-links`, {
-      url: website,
-    });
+    return this.sharedService.fetchSocialLinks(website)
   }
 
   private createproject(

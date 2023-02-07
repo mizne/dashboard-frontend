@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -13,23 +12,13 @@ import {
   NotifyObserver,
   NotifyObserverService,
   NotifyObserverTypes,
+  SharedService,
 } from 'src/app/shared';
 import { removeEmpty } from 'src/app/utils';
-import { environment } from 'src/environments/environment';
 
 interface TableItem extends NotifyObserver {
   enableTrackingCtrl: FormControl;
   followedProjectIDCtrl?: FormControl;
-}
-
-interface Link3Activity {
-  title: string;
-  url: string;
-  startTime: number;
-  endTime: number;
-
-  rewardInfo: string;
-  organizerHandle: string;
 }
 
 @Component({
@@ -44,7 +33,7 @@ export class MyNotificationComponent implements OnInit {
     private message: NzMessageService,
     private readonly fb: FormBuilder,
     private viewContainerRef: ViewContainerRef,
-    private http: HttpClient,
+    private sharedService: SharedService,
     private createNotifyObserverService: CreateNotifyObserverService
   ) { }
 
@@ -136,19 +125,16 @@ export class MyNotificationComponent implements OnInit {
 
     const id = this.message.loading('获取Link3活动详情...', { nzDuration: 0 }).messageId;
 
-    this.http.post(`${environment.baseURL}/app/link3-activity-detail`, {
-      url: this.link3ActivityInputCtrl.value
-    })
+    this.sharedService.fetchLink3ActivityDetail(this.link3ActivityInputCtrl.value)
       .subscribe({
         next: (v) => {
           this.message.remove(id);
-          const resp = v as { code: number; message: string; result: Link3Activity }
-          if (resp.code === 0) {
+          if (v.code === 0) {
             this.link3ActivityInputModalVisible = false;
             this.link3ActivityInputCtrl.patchValue(null);
-            this.showCreateTimerNotifyObserver(resp.result);
+            this.showCreateTimerNotifyObserver(v.result);
           } else {
-            this.nzNotificationService.error(`获取Link3活动详情 失败`, `${resp.message}`);
+            this.nzNotificationService.error(`获取Link3活动详情 失败`, `${v.message}`);
           }
         },
         error: (err) => {
@@ -163,7 +149,7 @@ export class MyNotificationComponent implements OnInit {
     this.link3ActivityInputCtrl.patchValue(null);
   }
 
-  private showCreateTimerNotifyObserver(activity?: Link3Activity) {
+  private showCreateTimerNotifyObserver(activity?: any) {
     const obj: Partial<NotifyObserver> = {
       enableTracking: true,
       type: NotifyObserverTypes.TIMER,

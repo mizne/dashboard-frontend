@@ -27,6 +27,15 @@ interface ExecuteTaskResp {
   result?: any
 }
 
+interface SocialLink {
+  twitter?: string;
+  telegram?: string;
+  discord?: string;
+  medium?: string;
+  youtube?: string;
+}
+
+
 @Injectable({ providedIn: 'root' })
 export class SharedService {
   private readonly baseURL = environment.baseURL;
@@ -82,6 +91,44 @@ export class SharedService {
         endTime,
       }
     );
+  }
+
+  fetchSocialLinks(website: string): Observable<SocialLink> {
+    return this.httpClient.post(`${environment.baseURL}/app/social-links`, {
+      url: website,
+    });
+  }
+
+  fetchLink3ActivityDetail(url?: string): Observable<{
+    code: number;
+    message: string;
+    result?: {
+      title: string;
+      url: string;
+      startTime: number;
+      endTime: number;
+
+      rewardInfo?: string;
+      organizerHandle: string;
+      source?: string;
+    }
+  }> {
+    return this.httpClient.post(`${environment.baseURL}/app/link3-activity-detail`, {
+      url: url,
+    }) as Observable<{
+      code: number;
+      message: string;
+      result?: {
+        title: string;
+        url: string;
+        startTime: number;
+        endTime: number;
+
+        rewardInfo?: string;
+        organizerHandle: string;
+        source?: string;
+      }
+    }>
   }
 
   // 返回document是否可见 如果browser tab被inactive则false
