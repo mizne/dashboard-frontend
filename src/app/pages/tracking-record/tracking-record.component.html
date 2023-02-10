@@ -46,7 +46,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of items">
-          <td style="display: flex; align-items: center;">
+          <td style="display: flex; align-items: center; min-height: 65px;">
             <image-view [name]="data.logo"></image-view>
             <span style="margin-left: 8px">{{ data.title }}</span>
           </td>

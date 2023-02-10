@@ -281,7 +281,7 @@ export class CreateNotifyObserverService {
       case NotifyObserverTypes.GALXE:
         return form.value.galxeHomeLink ? { type: NotifyObserverTypes.GALXE, galxeHomeLink: form.value.galxeHomeLink } : null
       case NotifyObserverTypes.TIMER:
-        return form.value.timerNotifyShowUrl ? { type: NotifyObserverTypes.TIMER, timerNotifyShowUrl: form.value.timerNotifyShowUrl } : null
+        return form.value.timerNotifyShowUrl ? { type: NotifyObserverTypes.TIMER, notifyShowTitle: form.value.notifyShowTitle, timerNotifyShowUrl: form.value.timerNotifyShowUrl } : null
       case NotifyObserverTypes.SNAPSHOT:
         return form.value.snapshotHomeLink ? { type: NotifyObserverTypes.SNAPSHOT, snapshotHomeLink: form.value.snapshotHomeLink } : null
       case NotifyObserverTypes.GUILD:
