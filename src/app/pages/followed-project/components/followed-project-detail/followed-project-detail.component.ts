@@ -194,6 +194,7 @@ export class FollowedProjectDetailComponent implements OnInit {
             }))
             this.subscribeUpdateEnableTrackingCtrls();
           } else {
+            this.notifyObservers = [];
             this.notificationService.warning(`没有找到 通知源`, `也许该项目还没有添加通知源`)
           }
         },
