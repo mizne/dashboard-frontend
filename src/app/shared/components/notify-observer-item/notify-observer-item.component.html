@@ -46,5 +46,6 @@
   <image-view [width]="32" [name]="item?.logo"></image-view>
 </ng-template>
 
-<linkable *ngIf="item && mode==='small'" [href]="resolveHref(item)" [content]="defaultLogo">
+<linkable *ngIf="item && mode==='small'" [title]="item.notifyShowTitle" [href]=" resolveHref(item)"
+  [content]="defaultLogo">
 </linkable>

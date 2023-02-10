@@ -8,7 +8,7 @@
   </ng-container>
 </a>
 <ng-template #invalidHref>
-  <span class="linkable-container invalid-href" [title]="'无'">
+  <span class="linkable-container invalid-href" [title]="title || '无'">
     <ng-container *ngIf="content" [ngTemplateOutlet]="content" [ngTemplateOutletContext]="templateContext">
     </ng-container>
     <ng-container *ngIf="!content">

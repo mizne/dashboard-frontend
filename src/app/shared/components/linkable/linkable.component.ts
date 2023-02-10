@@ -25,7 +25,7 @@ export class LinkableComponent implements OnInit {
   @Input() shape: 'circle' | 'round' = 'circle';
   @Input() size: 'small' | 'default' | 'large' = 'default';
 
-  @Input() title = '';
+  @Input() title: string | undefined = '';
 
   @Input() content: TemplateRef<any> | null = null;
   templateContext: { [key: string]: any } = {};
