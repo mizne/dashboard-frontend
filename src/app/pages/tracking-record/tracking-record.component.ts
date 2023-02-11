@@ -160,11 +160,11 @@ export class TrackingRecordComponent implements OnInit {
     Object.keys(query).forEach((key) => {
       if (key === 'title') {
         Object.assign(o, {
-          ['title']: { $regex: query['title'], $options: 'i' },
+          ['title']: { $regex: query['title'].trim(), $options: 'i' },
         });
       } else if (key === 'description') {
         Object.assign(o, {
-          ['description']: { $regex: query['description'], $options: 'i' },
+          ['description']: { $regex: query['description'].trim(), $options: 'i' },
         });
       } else {
         Object.assign(o, { [key]: query[key] });

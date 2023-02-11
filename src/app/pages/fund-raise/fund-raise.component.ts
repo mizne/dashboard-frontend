@@ -20,7 +20,7 @@ export class FundRaiseComponent implements OnInit {
     private readonly fb: FormBuilder,
     private viewContainerRef: ViewContainerRef,
     private createProjectService: CreateProjectService
-  ) {}
+  ) { }
 
   total = 1;
   fundRaises: FundRaise[] = [];
@@ -152,14 +152,14 @@ export class FundRaiseComponent implements OnInit {
         this.notification.success(`删除成功`, `删除数据成功`);
         this.loadDataFromServer();
       },
-      complete: () => {},
+      complete: () => { },
       error: (e) => {
         this.notification.error(`删除失败`, `请稍后重试，${e.message}`);
       },
     });
   }
 
-  cancelDelete(item: FundRaise) {}
+  cancelDelete(item: FundRaise) { }
 
   showModal() {
     this.isVisible = true;
@@ -197,7 +197,7 @@ export class FundRaiseComponent implements OnInit {
     Object.keys(query).forEach((key) => {
       if (key === 'projectName') {
         Object.assign(o, {
-          ['projectName']: { $regex: query['projectName'], $options: 'i' },
+          ['projectName']: { $regex: query['projectName'].trim(), $options: 'i' },
         });
       } else {
         Object.assign(o, { [key]: query[key] });
@@ -229,8 +229,8 @@ export class FundRaiseComponent implements OnInit {
     return sortOrder === 'ascend'
       ? { [sortField]: 1 }
       : sortOrder === 'descend'
-      ? { [sortField]: -1 }
-      : {
+        ? { [sortField]: -1 }
+        : {
           createdAt: -1,
         };
   }
@@ -265,7 +265,7 @@ export class FundRaiseComponent implements OnInit {
           (a, b) => b.investors.length - a.investors.length
         );
       },
-      complete: () => {},
+      complete: () => { },
       error: () => {
         this.modalLoading = false;
         this.notification.error(`获取失败`, `获取全部融资信息失败`);

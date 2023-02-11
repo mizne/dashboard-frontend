@@ -251,11 +251,11 @@ export class NotifyHistoryListComponent implements OnInit {
     Object.keys(query).forEach((key) => {
       if (key === 'title') {
         Object.assign(o, {
-          ['title']: { $regex: query['title'], $options: 'i' },
+          ['title']: { $regex: query['title'].trim(), $options: 'i' },
         });
       } else if (key === 'desc') {
         Object.assign(o, {
-          ['desc']: { $regex: query['desc'], $options: 'i' },
+          ['desc']: { $regex: query['desc'].trim(), $options: 'i' },
         });
       } else if (key === 'hasRead' && query['hasRead'] === false) {
         Object.assign(o, {

@@ -18,7 +18,7 @@ export class CexTokenListComponent implements OnInit {
     private readonly cexTokenTagService: CexTokenTagService,
     private readonly notification: NzNotificationService,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   visible = false;
 
@@ -107,14 +107,14 @@ export class CexTokenListComponent implements OnInit {
         this.notification.success(`删除成功`, `删除数据成功`);
         this.loadDataFromServer();
       },
-      complete: () => {},
+      complete: () => { },
       error: (e) => {
         this.notification.error(`删除失败`, `请稍后重试，${e.message}`);
       },
     });
   }
 
-  cancelDelete(item: CexToken) {}
+  cancelDelete(item: CexToken) { }
 
   private loadTags() {
     this.cexTokenTagService.queryList().subscribe((items) => {
@@ -166,8 +166,8 @@ export class CexTokenListComponent implements OnInit {
       if (key === 'name') {
         Object.assign(o, {
           ['$or']: [
-            { name: { $regex: query['name'], $options: 'i' } },
-            { symbol: { $regex: query['name'], $options: 'i' } },
+            { name: { $regex: query['name'].trim(), $options: 'i' } },
+            { symbol: { $regex: query['name'].trim(), $options: 'i' } },
           ],
         });
       } else if (key === 'createdAt') {
@@ -175,8 +175,8 @@ export class CexTokenListComponent implements OnInit {
           o,
           query['createdAt']
             ? {
-                createdAt: { $gte: new Date().getTime() - query['createdAt'] },
-              }
+              createdAt: { $gte: new Date().getTime() - query['createdAt'] },
+            }
             : {}
         );
       } else {
@@ -196,8 +196,8 @@ export class CexTokenListComponent implements OnInit {
     return sortOrder === 'ascend'
       ? { [sortField]: 1 }
       : sortOrder === 'descend'
-      ? { [sortField]: -1 }
-      : {
+        ? { [sortField]: -1 }
+        : {
           createdAt: -1,
         };
   }

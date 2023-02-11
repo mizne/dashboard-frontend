@@ -146,7 +146,7 @@ export class NotifyObserverNotAllowListComponent implements OnInit {
     Object.keys(query).forEach((key) => {
       if (key === 'url') {
         Object.assign(o, {
-          ['url']: { $regex: query['url'], $options: 'i' },
+          ['url']: { $regex: query['url'].trim(), $options: 'i' },
         });
       } else {
         Object.assign(o, { [key]: query[key] });

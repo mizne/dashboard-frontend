@@ -27,7 +27,7 @@ export class ProjectListComponent implements OnInit {
     private readonly fb: FormBuilder,
     private viewContainerRef: ViewContainerRef,
     private createProjectService: CreateProjectService
-  ) {}
+  ) { }
 
   total = 1;
   items: TableItem[] = [];
@@ -154,14 +154,14 @@ export class ProjectListComponent implements OnInit {
         this.notification.success(`删除成功`, `删除数据成功`);
         this.loadDataFromServer();
       },
-      complete: () => {},
+      complete: () => { },
       error: (e) => {
         this.notification.error(`删除失败`, `请稍后重试，${e.message}`);
       },
     });
   }
 
-  cancelDelete(item: TableItem) {}
+  cancelDelete(item: TableItem) { }
 
   projectDetailHref(id: string): string {
     return `${location.protocol}//${location.host}/project-statistics/detail/${id}`;
@@ -222,14 +222,14 @@ export class ProjectListComponent implements OnInit {
         Object.assign(o, {
           website: query['website'].startsWith('http')
             ? { $regex: new URL(query['website']).hostname, $options: 'i' }
-            : { $regex: query['website'], $options: 'i' },
+            : { $regex: query['website'].trim(), $options: 'i' },
         });
       } else if (key === 'name') {
         Object.assign(o, {
-          ['name']: { $regex: query['name'], $options: 'i' },
+          ['name']: { $regex: query['name'].trim(), $options: 'i' },
         });
       } else {
-        Object.assign(o, { [key]: query[key] });
+        Object.assign(o, { [key]: query[key].trim() });
       }
     });
     return o;
@@ -258,8 +258,8 @@ export class ProjectListComponent implements OnInit {
     return sortOrder === 'ascend'
       ? { [sortField]: 1 }
       : sortOrder === 'descend'
-      ? { [sortField]: -1 }
-      : {
+        ? { [sortField]: -1 }
+        : {
           createdAt: -1,
         };
   }

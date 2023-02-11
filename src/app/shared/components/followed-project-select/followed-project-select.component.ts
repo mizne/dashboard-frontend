@@ -129,7 +129,7 @@ export class FollowedProjectSelectComponent implements ControlValueAccessor, OnD
       if (key === 'name') {
         Object.assign(o, {
           ['name']: {
-            $regex: query['name'],
+            $regex: query['name'].trim(),
             $options: 'i',
           },
         });

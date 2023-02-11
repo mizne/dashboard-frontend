@@ -166,7 +166,7 @@ export class FollowedProjectComponent implements OnInit {
       if (key === 'name') {
         Object.assign(o, {
           ['name']: {
-            $regex: query['name'],
+            $regex: query['name'].trim(),
             $options: 'i',
           },
         });

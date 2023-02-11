@@ -23,7 +23,7 @@ export class OverviewComponent implements OnInit {
     private readonly notification: NzNotificationService,
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute
-  ) {}
+  ) { }
 
   total = 1;
   cexTokenDailies: CexTokenDaily[] = [];
@@ -100,9 +100,8 @@ export class OverviewComponent implements OnInit {
   }
 
   resolveMoreHref(symbol: string): string {
-    return `${location.protocol}//${
-      location.host
-    }/overview?symbol=${encodeURIComponent(symbol)}&latestIntervals=0`;
+    return `${location.protocol}//${location.host
+      }/overview?symbol=${encodeURIComponent(symbol)}&latestIntervals=0`;
   }
 
   genTdStyle() {
@@ -115,13 +114,12 @@ export class OverviewComponent implements OnInit {
     const color = n > 0 ? 'green' : n < 0 ? 'red' : 'white';
     const alpha = this.resolveAlpha(Math.abs(n));
     return {
-      backgroundColor: `rgba(${
-        color === 'green'
+      backgroundColor: `rgba(${color === 'green'
           ? '0, 255, 0'
           : color === 'red'
-          ? '255, 0, 0'
-          : '255, 255, 255'
-      }, ${alpha})`,
+            ? '255, 0, 0'
+            : '255, 255, 255'
+        }, ${alpha})`,
 
       width: '100%',
       height: '44px',
@@ -169,14 +167,14 @@ export class OverviewComponent implements OnInit {
         this.notification.success(`删除成功`, `删除数据成功`);
         this.loadDataFromServer();
       },
-      complete: () => {},
+      complete: () => { },
       error: (e) => {
         this.notification.error(`删除失败`, `请稍后重试，${e.message}`);
       },
     });
   }
 
-  cancelDelete(item: CexTokenDaily) {}
+  cancelDelete(item: CexTokenDaily) { }
 
   private loadTags() {
     this.cexTokenTagService.queryList().subscribe((items) => {
@@ -228,8 +226,8 @@ export class OverviewComponent implements OnInit {
       if (key === 'name') {
         Object.assign(o, {
           ['$or']: [
-            { name: { $regex: query['name'], $options: 'i' } },
-            { symbol: { $regex: query['name'], $options: 'i' } },
+            { name: { $regex: query['name'].trim(), $options: 'i' } },
+            { symbol: { $regex: query['name'].trim(), $options: 'i' } },
           ],
         });
       } else if (key === 'latestIntervals') {
@@ -242,10 +240,10 @@ export class OverviewComponent implements OnInit {
           o,
           query['lucky']
             ? {
-                volumeMultiple: { $gte: 3 },
-                emaCompressionRelative: { $lte: 0.1 },
-                volume: { $gte: this.resolveVolumeLimit(query['interval']) },
-              }
+              volumeMultiple: { $gte: 3 },
+              emaCompressionRelative: { $lte: 0.1 },
+              volume: { $gte: this.resolveVolumeLimit(query['interval']) },
+            }
             : {}
         );
       } else {
@@ -340,8 +338,8 @@ export class OverviewComponent implements OnInit {
     return sortOrder === 'ascend'
       ? { [sortField]: 1 }
       : sortOrder === 'descend'
-      ? { [sortField]: -1 }
-      : {
+        ? { [sortField]: -1 }
+        : {
           createdAt: -1,
         };
   }

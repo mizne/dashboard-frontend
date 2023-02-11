@@ -275,7 +275,7 @@ export class MyNotificationComponent implements OnInit {
       if (key === 'notifyShowTitle') {
         Object.assign(o, {
           ['notifyShowTitle']: {
-            $regex: query['notifyShowTitle'],
+            $regex: query['notifyShowTitle'].trim(),
             $options: 'i',
           },
         });
