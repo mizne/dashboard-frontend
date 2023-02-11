@@ -45,6 +45,9 @@ export class CreateNotifyObserverComponent implements OnInit {
   get isXiaoYuZhou(): boolean {
     return this.form?.get('type')?.value === NotifyObserverTypes.XIAOYUZHOU;
   }
+  get isSoQuest(): boolean {
+    return this.form?.get('type')?.value === NotifyObserverTypes.SOQUEST;
+  }
   timerMessage = '00:00 到 01:00 为服务维护时间，不建议在此时间段内设置定时任务'
 
   constructor(private fb: FormBuilder, private service: NotifyObserverService) { }

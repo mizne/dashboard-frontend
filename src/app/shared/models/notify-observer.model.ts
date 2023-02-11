@@ -19,7 +19,8 @@ export enum NotifyObserverTypes {
   CMC_LEARN_AND_EARN = 'CMC_LEARN_AND_EARN',
   SNAPSHOT = 'SNAPSHOT',
   GUILD = 'GUILD',
-  XIAOYUZHOU = 'XIAOYUZHOU'
+  XIAOYUZHOU = 'XIAOYUZHOU',
+  SOQUEST = 'SOQUEST',
 }
 
 export interface NotifyObserver {
@@ -71,6 +72,9 @@ export interface NotifyObserver {
   timerNotifyShowDesc?: string;
   timerNotifyShowUrl?: string;
   timerOnce?: boolean;
+
+  soQuestHomeLink?: string;
+  soQuestTitleKey?: string;
 
   readonly createdAt: number;
   readonly createdAtStr: string;
