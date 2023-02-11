@@ -86,6 +86,9 @@ export class CreateNotifyObserverService {
 
       soQuestHomeLink: [obj.soQuestHomeLink],
       soQuestTitleKey: [obj.soQuestTitleKey],
+
+      substackHomeLink: [obj.substackHomeLink],
+      substackTitleKey: [obj.substackTitleKey],
     });
     // 创建成功时 会next值 弹框会关闭 且会结束
     const successSubject = new Subject<any>();
@@ -266,6 +269,8 @@ export class CreateNotifyObserverService {
         return form.value.xiaoyuzhouHomeLink ? { code: 0 } : { code: -1, message: `没有填写xiaoyuzhou主页链接` }
       case NotifyObserverTypes.SOQUEST:
         return form.value.soQuestHomeLink ? { code: 0 } : { code: -1, message: `没有填写soquest主页链接` }
+      case NotifyObserverTypes.SUBSTACK:
+        return form.value.substackHomeLink ? { code: 0 } : { code: -1, message: `没有填写substack主页链接` }
       default:
         return { code: 0 }
     }
@@ -296,6 +301,8 @@ export class CreateNotifyObserverService {
         return form.value.xiaoyuzhouHomeLink ? { type: NotifyObserverTypes.XIAOYUZHOU, xiaoyuzhouHomeLink: form.value.xiaoyuzhouHomeLink } : null
       case NotifyObserverTypes.SOQUEST:
         return form.value.soQuestHomeLink ? { type: NotifyObserverTypes.SOQUEST, soQuestHomeLink: form.value.soQuestHomeLink } : null
+      case NotifyObserverTypes.SUBSTACK:
+        return form.value.substackHomeLink ? { type: NotifyObserverTypes.SUBSTACK, substackHomeLink: form.value.substackHomeLink } : null
       default:
         return null
     }

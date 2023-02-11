@@ -21,6 +21,7 @@ export enum NotifyObserverTypes {
   GUILD = 'GUILD',
   XIAOYUZHOU = 'XIAOYUZHOU',
   SOQUEST = 'SOQUEST',
+  SUBSTACK = 'SUBSTACK',
 }
 
 export interface NotifyObserver {
@@ -75,6 +76,9 @@ export interface NotifyObserver {
 
   soQuestHomeLink?: string;
   soQuestTitleKey?: string;
+
+  substackHomeLink?: string;
+  substackTitleKey?: string;
 
   readonly createdAt: number;
   readonly createdAtStr: string;
