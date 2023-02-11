@@ -47,6 +47,10 @@ export class NotifyObserverItemComponent implements OnInit {
         return item.guildHomeLink
       case NotifyObserverTypes.XIAOYUZHOU:
         return item.xiaoyuzhouHomeLink
+      case NotifyObserverTypes.SOQUEST:
+        return item.soQuestHomeLink
+      case NotifyObserverTypes.SUBSTACK:
+        return item.substackHomeLink
       default:
         console.warn(`resolveHref() unknown type: ${item.type}`)
         return ''
@@ -75,6 +79,10 @@ export class NotifyObserverItemComponent implements OnInit {
         return item.guildTitleKey
       case NotifyObserverTypes.XIAOYUZHOU:
         return item.xiaoyuzhouTitleKey
+      case NotifyObserverTypes.SOQUEST:
+        return item.soQuestTitleKey
+      case NotifyObserverTypes.SUBSTACK:
+        return item.substackTitleKey
       default:
         console.warn(`resolveDesc() unknown type: ${item.type}`)
         return ''
