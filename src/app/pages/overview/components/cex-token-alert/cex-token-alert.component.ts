@@ -4,7 +4,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { KlineIntervals, KlineIntervalService } from 'src/app/shared';
 import { removeEmpty } from 'src/app/utils';
-import { CexTokenAlert } from '../../models/cex-token-alert.model';
+import { CexTokenAlert, CexTokenAlertTypes } from '../../models/cex-token-alert.model';
 import { tokenTagNameOfTotalMarket } from '../../models/cex-token-tag.model';
 import { CexToken } from '../../models/cex-token.model';
 import { CexTokenAlertService } from '../../services/cex-token-alert.service';
@@ -35,6 +35,21 @@ export class CexTokenAlertComponent implements OnInit {
     createdAt: -1,
   };
 
+  types = [
+    {
+      label: '所有',
+      value: ''
+    },
+    {
+      label: '大量',
+      value: CexTokenAlertTypes.BIG_VOLUME
+    },
+    {
+      label: '趋势转折',
+      value: CexTokenAlertTypes.TRENDING_CHANGE
+    }
+  ]
+
   intervals = [
     {
       label: '4h',
@@ -47,6 +62,7 @@ export class CexTokenAlertComponent implements OnInit {
   ];
 
   form = this.fb.group({
+    type: [this.types[0].value],
     interval: [this.intervals[0].name],
     name: [''],
     latestIntervals: [1],
@@ -197,6 +213,19 @@ export class CexTokenAlertComponent implements OnInit {
       return {
         createdAt: -1,
       };
+    }
+
+    if (sortField === 'timeStr' || sortField === 'createdAtStr') {
+      if (sortOrder === 'ascend') {
+        return {
+          [sortField.slice(0, -3)]: 1,
+        };
+      }
+      if (sortOrder === 'descend') {
+        return {
+          [sortField.slice(0, -3)]: -1,
+        };
+      }
     }
 
     return sortOrder === 'ascend'

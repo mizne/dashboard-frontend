@@ -4,7 +4,7 @@
   </button>
 </div>
 
-<nz-modal [(nzVisible)]="visible" [nzWidth]="800" [nzTitle]="'全部机会'" [nzFooter]="null" (nzOnCancel)="visible=false">
+<nz-modal [(nzVisible)]="visible" [nzWidth]="1200" [nzTitle]="'全部机会'" [nzFooter]="null" (nzOnCancel)="visible=false">
   <ng-container *nzModalContent>
 
     <form nz-form [formGroup]="form" [nzLayout]="'inline'">
@@ -13,8 +13,16 @@
         <nz-form-label nzFor="interval">周期</nz-form-label>
         <nz-form-control>
           <nz-radio-group formControlName="interval" nzButtonStyle="solid">
-            <label nz-radio-button *ngFor="let investor of intervals"
-              [nzValue]="investor.name">{{investor.name}}</label>
+            <label nz-radio-button *ngFor="let item of intervals" [nzValue]="item.name">{{item.name}}</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="type">类型</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group formControlName="type" nzButtonStyle="solid">
+            <label nz-radio-button *ngFor="let item of types" [nzValue]="item.value">{{item.label}}</label>
           </nz-radio-group>
         </nz-form-control>
       </nz-form-item>
@@ -57,6 +65,7 @@
               名称
             </th>
             <th nzColumnKey="desc">描述</th>
+            <th nzColumnKey="timeStr" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">周期时间</th>
             <th nzColumnKey="createdAtStr" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">添加时间</th>
           </tr>
         </thead>
@@ -71,6 +80,8 @@
             </td>
 
             <td [title]="data.desc">{{ data.desc }}</td>
+
+            <td>{{data.time | date:'MM/dd HH:mm'}}</td>
 
             <td>
               <created-at [createdAt]="data.createdAt"></created-at>
