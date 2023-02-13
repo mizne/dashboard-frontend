@@ -87,7 +87,7 @@ export class CexTokenAlertComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadDataFromServer();
+
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
@@ -239,6 +239,7 @@ export class CexTokenAlertComponent implements OnInit {
 
   open(): void {
     this.visible = true;
+    this.loadDataFromServer();
   }
 
   close(): void {

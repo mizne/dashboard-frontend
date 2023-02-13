@@ -80,9 +80,6 @@ export class CexTokenListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadTags();
-    this.loadDataFromServer();
-
     this.tagCtrl.valueChanges.subscribe(() => {
       this.pageIndex = 1;
       this.pageSize = 10;
@@ -204,6 +201,8 @@ export class CexTokenListComponent implements OnInit {
 
   open(): void {
     this.visible = true;
+    this.loadTags();
+    this.loadDataFromServer();
   }
 
   close(): void {
