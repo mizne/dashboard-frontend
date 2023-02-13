@@ -78,6 +78,7 @@ export class CexTokenAlertComponent implements OnInit {
 
   resetForm() {
     this.form.reset({
+      type: this.types[0].value,
       interval: this.intervals[0].name,
       latestIntervals: 1,
     });
