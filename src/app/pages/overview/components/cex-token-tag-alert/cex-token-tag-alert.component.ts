@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
+import { format } from 'date-fns';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { concatMap, forkJoin, map, Observable } from 'rxjs';
@@ -12,7 +13,28 @@ import { CexToken } from '../../models/cex-token.model';
 import { CexTokenAlertService } from '../../services/cex-token-alert.service';
 import { CexTokenTagAlertService } from '../../services/cex-token-tag-alert.service';
 import { CexTokenTagService } from '../../services/cex-token-tag.service';
-import { CexTokenService } from '../../services/cex-token.service';
+
+enum ChartTypes {
+  ABOVE_EMA21_RATIO = 'ABOVE_EMA21_RATIO',
+  ABOVE_EMA55_RATIO = 'ABOVE_EMA55_RATIO',
+  ABOVE_EMA144_RATIO = 'ABOVE_EMA144_RATIO',
+  LONG_RATIO = 'LONG_RATIO',
+  SHOCK_RATIO = 'SHOCK_RATIO',
+  SHORT_RATIO = 'SHORT_RATIO',
+}
+
+interface ChartOptions {
+  isTotal: boolean;
+  tagLabel: string;
+  series: Array<{
+    type: string;
+    color: string;
+    data: Array<{
+      time: string;
+      value: number
+    }>
+  }>
+}
 
 @Component({
   selector: 'cex-token-tag-alert',
@@ -37,6 +59,35 @@ export class CexTokenTagAlertComponent implements OnInit {
   loading = true;
   query: { [key: string]: any } = {};
 
+  chartTypes = [
+    {
+      label: '大于EMA21占比',
+      value: ChartTypes.ABOVE_EMA21_RATIO,
+      color: '#f6bf26'
+    },
+    {
+      label: '大于EMA144占比',
+      value: ChartTypes.ABOVE_EMA144_RATIO,
+      color: '#8e24aa'
+    },
+    {
+      label: '多头占比',
+      value: ChartTypes.LONG_RATIO,
+      color: '#0b8043'
+    },
+    {
+      label: '震荡占比',
+      value: ChartTypes.SHOCK_RATIO,
+      color: '#039be5'
+    },
+    {
+      label: '空头占比',
+      value: ChartTypes.SHORT_RATIO,
+      color: '#d50000'
+    },
+
+  ]
+
   intervals = [
     {
       label: '4h',
@@ -50,129 +101,12 @@ export class CexTokenTagAlertComponent implements OnInit {
 
   form = this.fb.group({
     interval: [this.intervals[0].name],
+    chartType: [[this.chartTypes[0].value]]
   });
 
   status: 'loading' | 'error' | 'success' | '' = '';
 
-  charts = [
-    {
-      tagLabel: 'tag label 1',
-      series: [
-        {
-          type: 'line',
-          color: '#2962FF',
-          data: this.generateRandom()
-        },
-        {
-          type: 'line',
-          color: '#FF0000',
-          data: this.generateRandom()
-        },
-        {
-          type: 'line',
-          color: '#00FF00',
-          data: this.generateRandom()
-        }
-      ]
-    },
-    {
-      tagLabel: 'tag label 2',
-      series: [
-        {
-          type: 'line',
-          color: '#2962FF',
-          data: this.generateRandom()
-        },
-        {
-          type: 'line',
-          color: '#FF0000',
-          data: this.generateRandom()
-        },
-        {
-          type: 'line',
-          color: '#00FF00',
-          data: this.generateRandom()
-        }
-      ]
-    },
-    {
-      tagLabel: 'tag label 3',
-      series: [
-        {
-          type: 'line',
-          color: '#2962FF',
-          data: this.generateRandom()
-        },
-        {
-          type: 'line',
-          color: '#FF0000',
-          data: this.generateRandom()
-        },
-        {
-          type: 'line',
-          color: '#00FF00',
-          data: this.generateRandom()
-        }
-      ]
-    },
-    {
-      tagLabel: 'tag label 4',
-      series: [
-        {
-          type: 'line',
-          color: '#2962FF',
-          data: this.generateRandom()
-        },
-        {
-          type: 'line',
-          color: '#FF0000',
-          data: this.generateRandom()
-        },
-        {
-          type: 'line',
-          color: '#00FF00',
-          data: this.generateRandom()
-        }
-      ]
-    },
-    {
-      tagLabel: 'tag label 5',
-      series: [
-        {
-          type: 'line',
-          color: '#2962FF',
-          data: this.generateRandom()
-        },
-        {
-          type: 'line',
-          color: '#FF0000',
-          data: this.generateRandom()
-        },
-        {
-          type: 'line',
-          color: '#00FF00',
-          data: this.generateRandom()
-        }
-      ]
-    }
-  ]
-
-
-
-  generateRandom(): Array<{ time: string; value: number }> {
-    return [
-      { time: '2019-04-11', value: Math.random() },
-      { time: '2019-04-12', value: Math.random() },
-      { time: '2019-04-13', value: Math.random() },
-      { time: '2019-04-14', value: Math.random() },
-      { time: '2019-04-15', value: Math.random() },
-      { time: '2019-04-16', value: Math.random() },
-      { time: '2019-04-17', value: Math.random() },
-      { time: '2019-04-18', value: Math.random() },
-      { time: '2019-04-19', value: Math.random() },
-      { time: '2019-04-20', value: Math.random() },
-    ]
-  }
+  charts: Array<ChartOptions> = []
 
   submitForm(): void {
     this.loadDataFromServer();
@@ -181,12 +115,16 @@ export class CexTokenTagAlertComponent implements OnInit {
   resetForm() {
     this.form.reset({
       interval: this.intervals[0].name,
+      chartType: [this.chartTypes[0].value]
     });
     this.loadDataFromServer();
   }
 
   ngOnInit(): void {
+  }
 
+  getColor(type: ChartTypes) {
+    return this.chartTypes.find(e => e.value === type)?.color || '#000000'
   }
 
 
@@ -206,7 +144,7 @@ export class CexTokenTagAlertComponent implements OnInit {
         this.loading = false;
         this.status = 'success';
         this.chartItems = results;
-        console.log(this.chartItems)
+        this.buildCharts();
       },
       (e: Error) => {
         this.loading = false;
@@ -214,6 +152,74 @@ export class CexTokenTagAlertComponent implements OnInit {
         this.notification.error(`获取失败`, `${e.message}`);
       }
     );
+  }
+
+  private buildCharts() {
+    const selectedChartTypes = (this.form.value.chartType || []) as Array<ChartTypes>
+
+    const totalMarketChartItem = this.chartItems.find(e => e.tagName === tokenTagNameOfTotalMarket);
+    const totalMarketChart = totalMarketChartItem ? [
+      {
+        isTotal: true,
+        tagLabel: totalMarketChartItem.tagLabel,
+        series: selectedChartTypes.map(e => {
+          return {
+            type: 'line',
+            color: this.chartTypes.find(f => f.value === e)?.color || '#000000',
+            data: this.resolveSeriesData(e, totalMarketChartItem.tagAlerts)
+          }
+        })
+      }
+    ] : []
+
+    const otherCharts = this.chartItems.filter(e => e.tagName !== tokenTagNameOfTotalMarket)
+      .map(charItem => {
+        return {
+          isTotal: false,
+          tagLabel: charItem.tagLabel,
+          series: selectedChartTypes.map(charType => {
+            return {
+              type: 'line',
+              color: this.chartTypes.find(f => f.value === charType)?.color || '#000000',
+              data: this.resolveSeriesData(charType, charItem.tagAlerts)
+            }
+          })
+        }
+      })
+
+    this.charts = [
+      ...totalMarketChart,
+      ...otherCharts
+    ]
+    // console.log(`this.charts: `, this.charts)
+  }
+
+  private resolveSeriesData(charType: ChartTypes, tagAlerts: CexTokenTagAlert[]): Array<{ time: string; value: number }> {
+    return tagAlerts.map(e => {
+
+      switch (charType) {
+        case ChartTypes.ABOVE_EMA21_RATIO:
+          return { time: format(e.time, 'yyyy-MM-dd'), value: this.fixedNumber(e.closeAboveEma21Ratio) }
+        case ChartTypes.ABOVE_EMA55_RATIO:
+          return { time: format(e.time, 'yyyy-MM-dd'), value: this.fixedNumber(e.closeAboveEma55Ratio) }
+        case ChartTypes.ABOVE_EMA144_RATIO:
+          return { time: format(e.time, 'yyyy-MM-dd'), value: this.fixedNumber(e.closeAboveEma144Ratio) }
+        case ChartTypes.LONG_RATIO:
+          return { time: format(e.time, 'yyyy-MM-dd'), value: this.fixedNumber(e.longRatio) }
+        case ChartTypes.SHOCK_RATIO:
+          return { time: format(e.time, 'yyyy-MM-dd'), value: this.fixedNumber(e.shockRatio) }
+        case ChartTypes.SHORT_RATIO:
+          return { time: format(e.time, 'yyyy-MM-dd'), value: this.fixedNumber(e.shortRatio) }
+
+        default:
+          console.warn(`resolveSeriesData() unknown chart type: ${charType}`)
+          return { time: format(e.time, 'yyyy-MM-dd'), value: e.closeAboveEma21Ratio }
+      }
+    })
+  }
+
+  private fixedNumber(n: number): number {
+    return Number(n.toFixed(3))
   }
 
   private tagsObs(): Observable<CexTokenTag[]> {
