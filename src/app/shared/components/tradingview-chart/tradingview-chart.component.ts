@@ -1,22 +1,17 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
-  Inject,
   Input,
   OnDestroy,
   OnInit,
   SimpleChanges,
 } from '@angular/core';
 import * as uuid from 'uuid';
-import { Chart } from '@antv/g2';
-import { KlineIntervals } from '../../models';
-import { format } from 'date-fns';
-import { filter, interval, Subscription, take, takeUntil } from 'rxjs';
 import { DestroyService } from '../../services/destroy.service';
-import { DOCUMENT } from '@angular/common';
 import { createChart, IChartApi, ISeriesApi, SeriesType } from 'lightweight-charts';
 
+// https://tradingview.github.io/lightweight-charts/docs
+// https://github.com/tradingview/lightweight-charts
 @Component({
   selector: 'tradingview-chart',
   templateUrl: './tradingview-chart.component.html',
