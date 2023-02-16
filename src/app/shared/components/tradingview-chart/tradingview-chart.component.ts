@@ -73,6 +73,7 @@ export class TradingviewChartComponent implements OnInit, AfterViewInit, OnDestr
       for (const e of this.seriesList) {
         chart.removeSeries(e)
       }
+      this.seriesList = [];
 
       for (const e of this.series) {
         if (e.type === 'line') {
