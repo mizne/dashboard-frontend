@@ -1,0 +1,90 @@
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
+import * as uuid from 'uuid';
+import { Chart } from '@antv/g2';
+import { KlineIntervals } from '../../models';
+import { format } from 'date-fns';
+import { filter, interval, Subscription, take, takeUntil } from 'rxjs';
+import { DestroyService } from '../../services/destroy.service';
+import { DOCUMENT } from '@angular/common';
+import { createChart, IChartApi, ISeriesApi, SeriesType } from 'lightweight-charts';
+
+@Component({
+  selector: 'tradingview-chart',
+  templateUrl: './tradingview-chart.component.html',
+  providers: [DestroyService],
+})
+export class TradingviewChartComponent implements OnInit, AfterViewInit, OnDestroy {
+  chartID = 'tradingview-chart-wrapper-' + uuid.v4();
+
+  @Input() series: Array<{
+    type: string;
+    color: string;
+    data: { time: string; value: number }[];
+  }> = [];
+
+  @Input() width = 250;
+  @Input() height = 200;
+
+  private _chart: IChartApi | null = null;
+
+  seriesList: Array<ISeriesApi<SeriesType>> = []
+
+  constructor(
+    private readonly destroy$: DestroyService,
+  ) { }
+  ngOnInit() { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.renderChart(this._chart);
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.initChart();
+      this.renderChart(this._chart);
+    }, 1e2)
+  }
+
+  ngOnDestroy(): void {
+    if (this._chart) {
+      this._chart.remove();
+      this._chart = null;
+    }
+  }
+
+  private initChart() {
+    if (this._chart) {
+      return;
+    }
+    this._chart = createChart(this.chartID, { width: this.width, height: this.height });
+  }
+
+  private renderChart(chart: IChartApi | null) {
+    if (chart) {
+      for (const e of this.seriesList) {
+        chart.removeSeries(e)
+      }
+
+      for (const e of this.series) {
+        if (e.type === 'line') {
+          const lineSeries = chart.addLineSeries({
+            color: e.color,
+          });
+          this.seriesList.push(lineSeries);
+          lineSeries.setData(e.data);
+        }
+      }
+
+      chart.timeScale().fitContent();
+    }
+  }
+}

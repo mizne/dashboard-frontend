@@ -1,0 +1,47 @@
+<div class="cex-token-alert-container">
+  <button nz-button nzType="primary" (click)="open()" [title]="'查看板块趋势'">
+    板块趋势
+  </button>
+</div>
+
+<nz-modal [(nzVisible)]="visible" [nzWidth]="1200" [nzTitle]="'板块趋势'" [nzFooter]="null" (nzOnCancel)="visible=false">
+  <ng-container *nzModalContent>
+
+    <form nz-form [formGroup]="form" [nzLayout]="'inline'">
+
+      <nz-form-item>
+        <nz-form-label nzFor="interval">周期</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group formControlName="interval" nzButtonStyle="solid">
+            <label nz-radio-button *ngFor="let item of intervals" [nzValue]="item.name">{{item.name}}</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="register-area">
+        <nz-form-control>
+          <button nz-button [nzType]="'primary'" type="button" (click)="submitForm()">搜索</button>
+          <button nz-button type="button" (click)="resetForm()" style="margin-left: 6px">重置</button>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="register-area" style="display: flex;align-items: center;justify-content: center;">
+        <update-time [status]="status"></update-time>
+      </nz-form-item>
+    </form>
+
+
+    <nz-card style="margin-top: 12px">
+
+
+      <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" [nzSpan]="6" *ngFor="let item of charts">
+          <div class="inner-box">
+            <div>{{item.tagLabel}}</div>
+            <tradingview-chart [series]="item.series"></tradingview-chart>
+          </div>
+        </div>
+      </div>
+    </nz-card>
+  </ng-container>
+</nz-modal>

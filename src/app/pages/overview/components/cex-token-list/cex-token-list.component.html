@@ -56,8 +56,6 @@
             </th>
             <th nzColumnKey="marketCap" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">市值</th>
             <th nzColumnKey="createdAtStr" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">添加时间</th>
-
-            <th nzColumnKey="Action">操作</th>
           </tr>
         </thead>
         <tbody>
@@ -74,11 +72,6 @@
 
             <td>
               <created-at [createdAt]="data.createdAt"></created-at>
-            </td>
-
-            <td>
-              <token-actions [symbol]="data.symbol" [slug]="data.slug" [website]="data.website"
-                [twitter]="data.twitter"></token-actions>
             </td>
           </tr>
         </tbody>

@@ -4,6 +4,7 @@ import { RankingItemComponent } from './ranking-item/ranking-item.component';
 import { SymbolItemComponent } from './symbol-item/symbol-item.component';
 import { CexTokenListComponent } from './cex-token-list/cex-token-list.component';
 import { CexTokenAlertComponent } from './cex-token-alert/cex-token-alert.component';
+import { CexTokenTagAlertComponent } from './cex-token-tag-alert/cex-token-tag-alert.component';
 
 export const components = [
   TagOverviewComponent,
@@ -12,4 +13,5 @@ export const components = [
   TagItemComponent,
   CexTokenListComponent,
   CexTokenAlertComponent,
+  CexTokenTagAlertComponent,
 ];

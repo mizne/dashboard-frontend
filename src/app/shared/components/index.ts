@@ -16,6 +16,7 @@ import { TagSelectComponent } from './tag-select/tag-select.component';
 import { FollowedProjectSelectComponent } from './followed-project-select/followed-project-select.component';
 import { NotifyObserverItemComponent } from './notify-observer-item/notify-observer-item.component';
 import { GlobalSettingsComponent } from './global-settings/global-settings.component';
+import { TradingviewChartComponent } from './tradingview-chart/tradingview-chart.component';
 
 export const components = [
   LinkableComponent,
@@ -36,6 +37,7 @@ export const components = [
   FollowedProjectSelectComponent,
   NotifyObserverItemComponent,
   GlobalSettingsComponent,
+  TradingviewChartComponent,
 ];
 
 export {
@@ -57,4 +59,5 @@ export {
   FollowedProjectSelectComponent,
   NotifyObserverItemComponent,
   GlobalSettingsComponent,
+  TradingviewChartComponent,
 };
