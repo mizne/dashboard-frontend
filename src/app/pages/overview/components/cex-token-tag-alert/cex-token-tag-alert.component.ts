@@ -192,7 +192,7 @@ export class CexTokenTagAlertComponent implements OnInit {
       ...totalMarketChart,
       ...otherCharts
     ]
-    // console.log(`this.charts: `, this.charts)
+    console.log(`this.charts: `, this.charts)
   }
 
   private resolveSeriesData(charType: ChartTypes, tagAlerts: CexTokenTagAlert[]): Array<{ time: Time; value: number }> {
