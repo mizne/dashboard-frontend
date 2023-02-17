@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { format } from 'date-fns';
+import { Time, UTCTimestamp } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { concatMap, forkJoin, map, Observable } from 'rxjs';
@@ -30,7 +31,7 @@ interface ChartOptions {
     type: string;
     color: string;
     data: Array<{
-      time: string;
+      time: Time;
       value: number
     }>
   }>
@@ -194,26 +195,26 @@ export class CexTokenTagAlertComponent implements OnInit {
     // console.log(`this.charts: `, this.charts)
   }
 
-  private resolveSeriesData(charType: ChartTypes, tagAlerts: CexTokenTagAlert[]): Array<{ time: string; value: number }> {
+  private resolveSeriesData(charType: ChartTypes, tagAlerts: CexTokenTagAlert[]): Array<{ time: Time; value: number }> {
     return tagAlerts.map(e => {
 
       switch (charType) {
         case ChartTypes.ABOVE_EMA21_RATIO:
-          return { time: format(e.time, 'yyyy-MM-dd'), value: this.fixedNumber(e.closeAboveEma21Ratio) }
+          return { time: e.time / 1e3 as UTCTimestamp, value: this.fixedNumber(e.closeAboveEma21Ratio) }
         case ChartTypes.ABOVE_EMA55_RATIO:
-          return { time: format(e.time, 'yyyy-MM-dd'), value: this.fixedNumber(e.closeAboveEma55Ratio) }
+          return { time: e.time / 1e3 as UTCTimestamp, value: this.fixedNumber(e.closeAboveEma55Ratio) }
         case ChartTypes.ABOVE_EMA144_RATIO:
-          return { time: format(e.time, 'yyyy-MM-dd'), value: this.fixedNumber(e.closeAboveEma144Ratio) }
+          return { time: e.time / 1e3 as UTCTimestamp, value: this.fixedNumber(e.closeAboveEma144Ratio) }
         case ChartTypes.LONG_RATIO:
-          return { time: format(e.time, 'yyyy-MM-dd'), value: this.fixedNumber(e.longRatio) }
+          return { time: e.time / 1e3 as UTCTimestamp, value: this.fixedNumber(e.longRatio) }
         case ChartTypes.SHOCK_RATIO:
-          return { time: format(e.time, 'yyyy-MM-dd'), value: this.fixedNumber(e.shockRatio) }
+          return { time: e.time / 1e3 as UTCTimestamp, value: this.fixedNumber(e.shockRatio) }
         case ChartTypes.SHORT_RATIO:
-          return { time: format(e.time, 'yyyy-MM-dd'), value: this.fixedNumber(e.shortRatio) }
+          return { time: e.time / 1e3 as UTCTimestamp, value: this.fixedNumber(e.shortRatio) }
 
         default:
           console.warn(`resolveSeriesData() unknown chart type: ${charType}`)
-          return { time: format(e.time, 'yyyy-MM-dd'), value: e.closeAboveEma21Ratio }
+          return { time: e.time / 1e3 as UTCTimestamp, value: e.closeAboveEma21Ratio }
       }
     })
   }

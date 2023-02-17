@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import * as uuid from 'uuid';
 import { DestroyService } from '../../services/destroy.service';
-import { createChart, IChartApi, ISeriesApi, SeriesType } from 'lightweight-charts';
+import { createChart, IChartApi, ISeriesApi, SeriesType, Time } from 'lightweight-charts';
 
 // https://tradingview.github.io/lightweight-charts/docs
 // https://github.com/tradingview/lightweight-charts
@@ -23,7 +23,7 @@ export class TradingviewChartComponent implements OnInit, AfterViewInit, OnDestr
   @Input() series: Array<{
     type: string;
     color: string;
-    data: { time: string; value: number }[];
+    data: { time: Time; value: number }[];
   }> = [];
 
   @Input() width = 250;
@@ -60,7 +60,14 @@ export class TradingviewChartComponent implements OnInit, AfterViewInit, OnDestr
     if (this._chart) {
       return;
     }
-    this._chart = createChart(this.chartID, { width: this.width, height: this.height });
+    this._chart = createChart(this.chartID, {
+      width: this.width,
+      height: this.height,
+      timeScale: {
+        timeVisible: true,
+        secondsVisible: false,
+      }
+    });
   }
 
   private renderChart(chart: IChartApi | null) {
