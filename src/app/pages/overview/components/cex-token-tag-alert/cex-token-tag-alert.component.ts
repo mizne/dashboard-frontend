@@ -196,25 +196,27 @@ export class CexTokenTagAlertComponent implements OnInit {
   }
 
   private resolveSeriesData(charType: ChartTypes, tagAlerts: CexTokenTagAlert[]): Array<{ time: Time; value: number }> {
+
     return tagAlerts.map(e => {
+      const fixedTime = (e.time / 1e3 + 8 * 60 * 60) as UTCTimestamp
 
       switch (charType) {
         case ChartTypes.ABOVE_EMA21_RATIO:
-          return { time: e.time / 1e3 as UTCTimestamp, value: this.fixedNumber(e.closeAboveEma21Ratio) }
+          return { time: fixedTime, value: this.fixedNumber(e.closeAboveEma21Ratio) }
         case ChartTypes.ABOVE_EMA55_RATIO:
-          return { time: e.time / 1e3 as UTCTimestamp, value: this.fixedNumber(e.closeAboveEma55Ratio) }
+          return { time: fixedTime, value: this.fixedNumber(e.closeAboveEma55Ratio) }
         case ChartTypes.ABOVE_EMA144_RATIO:
-          return { time: e.time / 1e3 as UTCTimestamp, value: this.fixedNumber(e.closeAboveEma144Ratio) }
+          return { time: fixedTime, value: this.fixedNumber(e.closeAboveEma144Ratio) }
         case ChartTypes.LONG_RATIO:
-          return { time: e.time / 1e3 as UTCTimestamp, value: this.fixedNumber(e.longRatio) }
+          return { time: fixedTime, value: this.fixedNumber(e.longRatio) }
         case ChartTypes.SHOCK_RATIO:
-          return { time: e.time / 1e3 as UTCTimestamp, value: this.fixedNumber(e.shockRatio) }
+          return { time: fixedTime, value: this.fixedNumber(e.shockRatio) }
         case ChartTypes.SHORT_RATIO:
-          return { time: e.time / 1e3 as UTCTimestamp, value: this.fixedNumber(e.shortRatio) }
+          return { time: fixedTime, value: this.fixedNumber(e.shortRatio) }
 
         default:
           console.warn(`resolveSeriesData() unknown chart type: ${charType}`)
-          return { time: e.time / 1e3 as UTCTimestamp, value: e.closeAboveEma21Ratio }
+          return { time: fixedTime, value: e.closeAboveEma21Ratio }
       }
     })
   }
