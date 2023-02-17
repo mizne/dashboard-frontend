@@ -167,7 +167,7 @@ export class CexTokenTagAlertComponent implements OnInit {
           return {
             type: 'line',
             color: this.chartTypes.find(f => f.value === e)?.color || '#000000',
-            data: this.resolveSeriesData(e, totalMarketChartItem.tagAlerts)
+            data: this.resolveSeriesData(e, totalMarketChartItem.tagAlerts.sort((a, b) => a.time - b.time))
           }
         })
       }
@@ -182,7 +182,7 @@ export class CexTokenTagAlertComponent implements OnInit {
             return {
               type: 'line',
               color: this.chartTypes.find(f => f.value === charType)?.color || '#000000',
-              data: this.resolveSeriesData(charType, charItem.tagAlerts)
+              data: this.resolveSeriesData(charType, charItem.tagAlerts.sort((a, b) => a.time - b.time))
             }
           })
         }
