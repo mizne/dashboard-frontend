@@ -16,7 +16,11 @@
           <nz-form-item>
             <nz-form-label [nzSpan]="10" nzFor="enableTracking">是否追踪</nz-form-label>
             <nz-form-control [nzSpan]="14">
-              <nz-switch formControlName="enableTracking"></nz-switch>
+              <nz-radio-group formControlName="enableTracking" nzSize="small" [nzButtonStyle]="'solid'">
+                <label nz-radio-button [nzValue]="null">所有</label>
+                <label nz-radio-button [nzValue]="true">已追踪</label>
+                <label nz-radio-button [nzValue]="false">未追踪</label>
+              </nz-radio-group>
             </nz-form-control>
           </nz-form-item>
         </div>
