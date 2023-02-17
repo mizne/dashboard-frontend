@@ -22,7 +22,7 @@
         <nz-form-label nzFor="chartType">曲线</nz-form-label>
         <nz-form-control>
           <nz-select nzMode="multiple" nzPlaceHolder="Please select" formControlName="chartType"
-            [nzCustomTemplate]="multipleTemplate" style="width: 640px;">
+            [nzCustomTemplate]="multipleTemplate" style="width: 560px;">
             <nz-option nzCustomContent *ngFor="let item of chartTypes" [nzLabel]="item.label" [nzValue]="item.value">
               <div style="display: flex; align-items: center;">
                 <div [ngStyle]="{backgroundColor: item.color, width: '16px', height: '16px', marginRight: '8px'}"></div>
