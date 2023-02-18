@@ -5,11 +5,8 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { KlineIntervals, KlineIntervalService } from 'src/app/shared';
 import { removeEmpty } from 'src/app/utils';
 import { CexTokenAlert, CexTokenAlertTypes } from '../../models/cex-token-alert.model';
-import { tokenTagNameOfTotalMarket } from '../../models/cex-token-tag.model';
 import { CexToken } from '../../models/cex-token.model';
 import { CexTokenAlertService } from '../../services/cex-token-alert.service';
-import { CexTokenTagService } from '../../services/cex-token-tag.service';
-import { CexTokenService } from '../../services/cex-token.service';
 
 @Component({
   selector: 'cex-token-alert',
@@ -156,7 +153,6 @@ export class CexTokenAlertComponent implements OnInit {
       if (key === 'name') {
         Object.assign(o, {
           ['$or']: [
-            { name: { $regex: query['name'].trim(), $options: 'i' } },
             { symbol: { $regex: query['name'].trim(), $options: 'i' } },
           ],
         });
