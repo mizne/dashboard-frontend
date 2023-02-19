@@ -4,22 +4,18 @@
       <div nz-row [nzGutter]="24">
         <div nz-col [nzSpan]="8">
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="investorName">投资机构</nz-form-label>
+            <nz-form-label [nzSpan]="10" nzFor="title">标题</nz-form-label>
             <nz-form-control [nzSpan]="14">
-              <nz-select name="investorName" [attr.id]="'investorName'" formControlName="investorName">
-                <nz-option *ngFor="let investor of investors" [nzValue]="investor.name" [nzLabel]="investor.name">
-                </nz-option>
-              </nz-select>
+              <input nz-input class="ant-input" placeholder="请输入标题" formControlName="title" [attr.id]="'title'" />
             </nz-form-control>
           </nz-form-item>
         </div>
 
         <div nz-col [nzSpan]="8">
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="projectName">项目名称</nz-form-label>
+            <nz-form-label [nzSpan]="10" nzFor="desc">描述</nz-form-label>
             <nz-form-control [nzSpan]="14">
-              <input nz-input class="ant-input" placeholder="请输入项目名称全称" formControlName="projectName"
-                [attr.id]="'projectName'" />
+              <input nz-input class="ant-input" placeholder="请输入描述" formControlName="desc" [attr.id]="'desc'" />
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -35,47 +31,9 @@
             </nz-form-control>
           </nz-form-item>
         </div>
-
       </div>
-
     </form>
   </nz-card>
-
-
-  <button nz-button [nzType]="'primary'" (click)="showModal()" style="margin-top: 12px;">
-    分析交叉投资
-  </button>
-
-
-  <nz-modal [(nzVisible)]="isVisible" [nzWidth]="1200" (nzOnCancel)="handleModalClose()" nzTitle="交叉投资"
-    [nzFooter]="null">
-    <ng-container *nzModalContent>
-      <nz-table [nzLoading]="modalLoading" #basicTable [nzData]="projects">
-        <thead>
-          <tr>
-            <th>项目名称</th>
-            <th>项目官网</th>
-            <th>投资机构</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of basicTable.data">
-            <td>{{ data.name }}</td>
-            <td>
-              <linkable [href]="'https://' + data.website">
-              </linkable>
-            </td>
-            <td>{{ data.investors.join(', ') }}</td>
-            <td>
-              <button nz-button nzType="primary" nzShape="circle" nz-tooltip nzTooltipTitle="添加到项目"
-                (click)="showCreateModalFor(data)" style="margin-right: 8px;">+</button>
-            </td>
-          </tr>
-        </tbody>
-      </nz-table>
-    </ng-container>
-  </nz-modal>
 
   <nz-card style="margin-top: 12px">
     <nz-table nzShowSizeChanger [nzData]="fundRaises" [nzFrontPagination]="false" [nzLoading]="loading"
@@ -83,40 +41,26 @@
       (nzQueryParams)="onQueryParamsChange($event)">
       <thead>
         <tr>
-          <th nzColumnKey="investorName">投资机构</th>
-          <th nzColumnKey="projectName">项目名称</th>
-          <th nzColumnKey="investDateStr" [nzSortFn]="true">融资日期</th>
-          <th nzColumnKey="projectWebsite">项目官网</th>
-          <th nzColumnKey="projectHomeLink">信息来源</th>
-          <!-- <th nzColumnKey="leadInvestor">是否领投</th>
-          <th nzColumnKey="fundRound">融资轮次</th> -->
-          <th nzColumnKey="moneyRaised">融资金额</th>
+          <th nzColumnKey="title">标题</th>
+          <th nzColumnKey="desc">描述</th>
+          <th nzColumnKey="link">来源</th>
+
           <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
           <th nzColumnKey="Action">操作</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of fundRaises">
-          <td>{{ data.investorName }}</td>
-          <td>{{ data.projectName }}</td>
-          <td>{{ data.investDateStr }}</td>
+          <td>{{ data.title }}</td>
+          <td>{{ data.desc }}</td>
+
           <td>
-            <linkable [href]="'https://' + data.projectWebsite">
+            <linkable [href]="data.link">
             </linkable>
           </td>
-          <td>
-            <linkable [href]="data.projectHomeLink" [icon]="'global'">
-            </linkable>
-          </td>
-          <!-- <td>{{ data.leadInvestor }}</td>
-          <td>{{ data.fundRound }}</td> -->
-          <td>{{ data.moneyRaised }}</td>
+
           <td>{{ data.createdAtStr }}</td>
           <td>
-
-            <button nz-button nzType="primary" nzShape="circle" nz-tooltip nzTooltipTitle="添加到项目"
-              (click)="showCreateModal(data)" style="margin-right: 8px;">+</button>
-
             <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
               (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)">
               <button nz-button nzType="primary" nzDanger>删除</button>

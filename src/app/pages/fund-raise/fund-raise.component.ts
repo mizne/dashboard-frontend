@@ -6,7 +6,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { FormBuilder } from '@angular/forms';
 import { removeNullOrUndefined } from 'src/app/utils';
 import { CreateProjectService } from 'src/app/modules/create-project';
-import { Project } from 'src/app/shared';
+import { NotifyHistory, NotifyHistoryService, NotifyObserverTypes, Project } from 'src/app/shared';
 
 @Component({
   selector: 'app-fund-raise',
@@ -15,7 +15,7 @@ import { Project } from 'src/app/shared';
 })
 export class FundRaiseComponent implements OnInit {
   constructor(
-    private readonly fundRaiseService: FundRaiseService,
+    private readonly notifyHistoryService: NotifyHistoryService,
     private readonly notification: NzNotificationService,
     private readonly fb: FormBuilder,
     private viewContainerRef: ViewContainerRef,
@@ -23,7 +23,7 @@ export class FundRaiseComponent implements OnInit {
   ) { }
 
   total = 1;
-  fundRaises: FundRaise[] = [];
+  fundRaises: NotifyHistory[] = [];
   loading = true;
   pageSize = 10;
   pageIndex = 1;
@@ -32,47 +32,10 @@ export class FundRaiseComponent implements OnInit {
     createdAt: -1,
   };
 
-  investors = [
-    {
-      name: 'a16z',
-    },
-    {
-      name: 'binance_labs',
-    },
-    {
-      name: 'multicoin_capital',
-    },
-    {
-      name: 'coinbase_ventures',
-    },
-    {
-      name: 'animoca_brands',
-    },
-    {
-      name: 'sequioa_capital_india',
-    },
-    {
-      name: 'delphi_digital',
-    },
-    {
-      name: 'alameda_research',
-    },
-    {
-      name: 'paradigm',
-    },
-    {
-      name: 'ftx_ventures',
-    },
-  ];
-
   form = this.fb.group({
-    investorName: [null],
-    projectName: [null],
+    title: [null],
+    desc: [null],
   });
-
-  isVisible = false;
-  projects: { name: string; website: string; investors: string[] }[] = [];
-  modalLoading = false;
 
   submitForm(): void {
     this.query = removeNullOrUndefined(this.form.value);
@@ -93,48 +56,6 @@ export class FundRaiseComponent implements OnInit {
     this.loadDataFromServer();
   }
 
-  showCreateModal(item: FundRaise) {
-    this.fundRaiseService
-      .queryList({ projectWebsite: item.projectWebsite })
-      .subscribe((items) => {
-        const investors = items.map((e) => e.investorName);
-
-        this.showCreateModalFor({
-          name: item.projectName,
-          website: item.projectWebsite,
-          investors,
-        });
-      });
-  }
-
-  showCreateModalFor(item: {
-    name: string;
-    website: string;
-    investors: string[];
-  }) {
-    const obj: Partial<Project> = {
-      name: item.name,
-      website: item.website,
-      investors: item.investors,
-      enableTracking: false,
-    };
-    const { success, error } = this.createProjectService.createModal(
-      '添加项目',
-      obj,
-      this.viewContainerRef
-    );
-
-    success.subscribe((v) => {
-      this.notification.success(
-        `添加项目 ${item.name}成功`,
-        `添加项目 ${item.name}成功`
-      );
-    });
-    error.subscribe((e) => {
-      this.notification.error(`添加项目 ${item.name}失败`, `${e.message}`);
-    });
-  }
-
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex, sort, filter } = params;
     const currentSort = sort.find((item) => item.value !== null);
@@ -146,8 +67,8 @@ export class FundRaiseComponent implements OnInit {
     this.loadDataFromServer();
   }
 
-  confirmDelete(item: FundRaise) {
-    this.fundRaiseService.deleteByID(item._id).subscribe({
+  confirmDelete(item: NotifyHistory) {
+    this.notifyHistoryService.deleteByID(item._id).subscribe({
       next: () => {
         this.notification.success(`删除成功`, `删除数据成功`);
         this.loadDataFromServer();
@@ -159,21 +80,13 @@ export class FundRaiseComponent implements OnInit {
     });
   }
 
-  cancelDelete(item: FundRaise) { }
+  cancelDelete(item: NotifyHistory) { }
 
-  showModal() {
-    this.isVisible = true;
 
-    this.fetchAllFundRaiseAndAnalysis();
-  }
-
-  handleModalClose() {
-    this.isVisible = false;
-  }
 
   private loadDataFromServer(): void {
     this.loading = true;
-    this.fundRaiseService
+    this.notifyHistoryService
       .queryList(
         this.adjustQuery(this.query),
         { number: this.pageIndex, size: this.pageSize },
@@ -184,7 +97,7 @@ export class FundRaiseComponent implements OnInit {
         this.fundRaises = results;
       });
 
-    this.fundRaiseService
+    this.notifyHistoryService
       .queryCount(this.adjustQuery(this.query))
       .subscribe((count) => {
         this.total = count;
@@ -192,12 +105,14 @@ export class FundRaiseComponent implements OnInit {
   }
 
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
-    // projectName 支持正则查询
-    const o: { [key: string]: any } = {};
+    // title desc 支持正则查询
+    const o: { [key: string]: any } = {
+      type: NotifyObserverTypes.FUNDING_RAISE
+    };
     Object.keys(query).forEach((key) => {
-      if (key === 'projectName') {
+      if (key === 'title' || key === 'desc') {
         Object.assign(o, {
-          ['projectName']: { $regex: query['projectName'].trim(), $options: 'i' },
+          [key]: { $regex: query[key].trim(), $options: 'i' },
         });
       } else {
         Object.assign(o, { [key]: query[key] });
@@ -213,7 +128,7 @@ export class FundRaiseComponent implements OnInit {
       };
     }
 
-    if (sortField === 'investDateStr' || sortField === 'createdAtStr') {
+    if (sortField === 'createdAtStr') {
       if (sortOrder === 'ascend') {
         return {
           [sortField.slice(0, -3)]: 1,
@@ -233,43 +148,5 @@ export class FundRaiseComponent implements OnInit {
         : {
           createdAt: -1,
         };
-  }
-
-  private fetchAllFundRaiseAndAnalysis() {
-    this.modalLoading = true;
-
-    this.fundRaiseService.queryList({}).subscribe({
-      next: (items) => {
-        this.modalLoading = false;
-        const projects: Array<{
-          name: string;
-          website: string;
-          investors: string[];
-        }> = [];
-        for (const item of items) {
-          const theProject = projects.find(
-            (e) => e.website === item.projectWebsite
-          );
-          if (theProject) {
-            theProject.investors.push(item.investorName);
-          } else {
-            projects.push({
-              name: item.projectName,
-              website: item.projectWebsite,
-              investors: [item.investorName],
-            });
-          }
-        }
-
-        this.projects = projects.sort(
-          (a, b) => b.investors.length - a.investors.length
-        );
-      },
-      complete: () => { },
-      error: () => {
-        this.modalLoading = false;
-        this.notification.error(`获取失败`, `获取全部融资信息失败`);
-      },
-    });
   }
 }
