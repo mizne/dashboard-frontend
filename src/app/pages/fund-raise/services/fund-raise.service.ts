@@ -15,7 +15,7 @@ export class FundRaiseService {
     sort?: any
   ): Observable<FundRaise[]> {
     return this.httpClient.post<FundRaise[]>(
-      `${this.baseURL}/fund-raises/queryList`,
+      `${this.baseURL}/fund-raise/queryList`,
       {
         query,
         page,
@@ -26,7 +26,7 @@ export class FundRaiseService {
 
   queryCount(query?: Partial<FundRaise>): Observable<number> {
     return this.httpClient.post<number>(
-      `${this.baseURL}/fund-raises/queryCount`,
+      `${this.baseURL}/fund-raise/queryCount`,
       {
         query,
       }
@@ -34,6 +34,6 @@ export class FundRaiseService {
   }
 
   deleteByID(id: string): Observable<any> {
-    return this.httpClient.delete<any>(`${this.baseURL}/fund-raises/${id}`);
+    return this.httpClient.delete<any>(`${this.baseURL}/fund-raise/${id}`);
   }
 }
