@@ -11,3 +11,4 @@ export * from './followed-project.service';
 export * from './followed-project-tracking-record.service';
 export * from './notify-observer-not-allow.service'
 export * from './global-settings.service'
+export * from './investor.service'

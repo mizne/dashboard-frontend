@@ -35,6 +35,10 @@
     </form>
   </nz-card>
 
+  <div style="margin-top: 12px">
+    <button nz-button [nzType]="'primary'" (click)="investorManage()">投资机构管理</button>
+  </div>
+
   <nz-card style="margin-top: 12px">
     <nz-table nzShowSizeChanger [nzData]="fundRaises" [nzFrontPagination]="false" [nzLoading]="loading"
       [nzTotal]="total" [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
