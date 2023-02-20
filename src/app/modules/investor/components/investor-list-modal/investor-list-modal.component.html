@@ -1,0 +1,12 @@
+<div class="investor-list-modal-container">
+  <button nz-button [nzType]="'primary'" (click)="investorModalVisible = true">
+    投资机构
+  </button>
+
+  <nz-modal [(nzVisible)]="investorModalVisible" [nzWidth]="1000" [nzTitle]="'投资机构'" [nzFooter]="null"
+    (nzOnCancel)="investorModalVisible=false">
+    <ng-container *nzModalContent>
+      <app-investor-list></app-investor-list>
+    </ng-container>
+  </nz-modal>
+</div>

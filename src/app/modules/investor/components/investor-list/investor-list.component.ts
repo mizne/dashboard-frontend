@@ -1,30 +1,27 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { FundRaise } from './models/fund-raise.model';
-import { FundRaiseService } from './services/fund-raise.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { FormBuilder } from '@angular/forms';
-import { removeNullOrUndefined } from 'src/app/utils';
-import { CreateProjectService } from 'src/app/modules/create-project';
-import { InvestorService, NotifyHistory, NotifyHistoryService, NotifyObserverTypes, Project } from 'src/app/shared';
+import { removeEmpty } from 'src/app/utils';
+import { Investor, InvestorService } from 'src/app/shared';
+import { CreateInvestorService, InvestorModalActions } from '../../create-investor.service';
 
 @Component({
-  selector: 'app-fund-raise',
-  templateUrl: './fund-raise.component.html',
-  styleUrls: ['./fund-raise.component.less'],
+  selector: 'app-investor-list',
+  templateUrl: './investor-list.component.html',
+  styleUrls: ['./investor-list.component.less'],
 })
-export class FundRaiseComponent implements OnInit {
+export class InvestorListComponent implements OnInit {
   constructor(
-    private readonly notifyHistoryService: NotifyHistoryService,
-    private readonly notification: NzNotificationService,
+    private readonly investorService: InvestorService,
+    private readonly nzNotificationService: NzNotificationService,
     private readonly fb: FormBuilder,
     private viewContainerRef: ViewContainerRef,
-    private createProjectService: CreateProjectService,
-    private investorService: InvestorService,
+    private createInvestorService: CreateInvestorService
   ) { }
 
   total = 1;
-  fundRaises: NotifyHistory[] = [];
+  items: Investor[] = [];
   loading = true;
   pageSize = 10;
   pageIndex = 1;
@@ -34,20 +31,21 @@ export class FundRaiseComponent implements OnInit {
   };
 
   form = this.fb.group({
-    title: [null],
-    desc: [null],
+    name: [null],
   });
 
+
   submitForm(): void {
-    this.query = removeNullOrUndefined(this.form.value);
+    this.query = removeEmpty(this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
     this.loadDataFromServer();
   }
 
   resetForm() {
-    this.form.reset();
-    this.query = removeNullOrUndefined(this.form.value);
+    this.form.reset({
+    });
+    this.query = removeEmpty(this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
     this.loadDataFromServer();
@@ -55,6 +53,27 @@ export class FundRaiseComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDataFromServer();
+  }
+
+  showCreateModal() {
+    const obj: Partial<Investor> = {
+    };
+    const { success, error } = this.createInvestorService.createModal(
+      '添加Investor',
+      obj,
+      this.viewContainerRef
+    );
+
+    success.subscribe((v) => {
+      this.nzNotificationService.success(
+        `添加Investor 成功`,
+        `添加Investor 成功`
+      );
+      this.loadDataFromServer();
+    });
+    error.subscribe((e) => {
+      this.nzNotificationService.error(`添加Investor 失败`, `${e.message}`);
+    });
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
@@ -68,26 +87,47 @@ export class FundRaiseComponent implements OnInit {
     this.loadDataFromServer();
   }
 
-  confirmDelete(item: NotifyHistory) {
-    this.notifyHistoryService.deleteByID(item._id).subscribe({
+  confirmEdit(item: Investor) {
+    const obj: Partial<Investor> = {
+      ...item
+    };
+    const { success, error } = this.createInvestorService.createModal(
+      '编辑Investor',
+      obj,
+      this.viewContainerRef,
+      InvestorModalActions.UPDATE
+    );
+
+    success.subscribe((v) => {
+      this.nzNotificationService.success(
+        `编辑Investor 成功`,
+        `编辑Investor 成功`
+      );
+      this.loadDataFromServer();
+    });
+    error.subscribe((e) => {
+      this.nzNotificationService.error(`编辑Investor 失败`, `${e.message}`);
+    });
+  }
+
+  confirmDelete(item: Investor) {
+    this.investorService.deleteByID(item._id).subscribe({
       next: () => {
-        this.notification.success(`删除成功`, `删除数据成功`);
+        this.nzNotificationService.success(`删除成功`, `删除数据成功`);
         this.loadDataFromServer();
       },
       complete: () => { },
       error: (e) => {
-        this.notification.error(`删除失败`, `请稍后重试，${e.message}`);
+        this.nzNotificationService.error(`删除失败`, `请稍后重试，${e.message}`);
       },
     });
   }
 
-  cancelDelete(item: NotifyHistory) { }
-
-
+  cancelDelete(item: Investor) { }
 
   private loadDataFromServer(): void {
     this.loading = true;
-    this.notifyHistoryService
+    this.investorService
       .queryList(
         this.adjustQuery(this.query),
         { number: this.pageIndex, size: this.pageSize },
@@ -95,10 +135,10 @@ export class FundRaiseComponent implements OnInit {
       )
       .subscribe((results) => {
         this.loading = false;
-        this.fundRaises = results;
+        this.items = results;
       });
 
-    this.notifyHistoryService
+    this.investorService
       .queryCount(this.adjustQuery(this.query))
       .subscribe((count) => {
         this.total = count;
@@ -106,14 +146,12 @@ export class FundRaiseComponent implements OnInit {
   }
 
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
-    // title desc 支持正则查询
-    const o: { [key: string]: any } = {
-      type: NotifyObserverTypes.FUNDING_RAISE
-    };
+    // name 支持正则查询
+    const o: { [key: string]: any } = {};
     Object.keys(query).forEach((key) => {
-      if (key === 'title' || key === 'desc') {
+      if (key === 'name') {
         Object.assign(o, {
-          [key]: { $regex: query[key].trim(), $options: 'i' },
+          ['name']: { $regex: query['name'].trim(), $options: 'i' },
         });
       } else {
         Object.assign(o, { [key]: query[key] });

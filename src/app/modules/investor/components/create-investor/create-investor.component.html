@@ -1,0 +1,30 @@
+<div class="create-investor-container">
+  <form nz-form [formGroup]="form">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzTooltipTitle="名称">
+        <span>名称</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input class="ant-input" id="name" formControlName="name" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="cryptoFundraisingURL" nzTooltipTitle="cryptoFundraisingURL">
+        <span>cryptoFundraisingURL</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input class="ant-input" id="cryptoFundraisingURL" formControlName="cryptoFundraisingURL" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="rootDataPayload">
+        <span>rootDataPayload</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-object-input formControlName="rootDataPayload"></app-object-input>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

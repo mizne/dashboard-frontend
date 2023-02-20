@@ -1,0 +1,11 @@
+<div class="object-input-container">
+  <button nz-button nzType="primary" nzShape="circle" (click)="addField()" style="margin-bottom: 4px">
+    <span nz-icon nzType="plus"></span>
+  </button>
+  <div class="object-input-field-item" *ngFor="let item of fields" style="display: flex; margin-bottom: 4px;">
+    <input nz-input placeholder="input key" [formControl]="item.keyCtrl" style="margin-right: 8px" />
+    <input nz-input placeholder="input value" [formControl]="item.valueCtrl" style="margin-right: 8px" />
+    <button nz-button nzType="primary" nzShape="circle" (click)="removeField(item)" style="margin-right: 8px"><span
+        nz-icon nzType="delete"></span></button>
+  </div>
+</div>

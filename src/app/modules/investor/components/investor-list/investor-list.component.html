@@ -1,21 +1,14 @@
-<div class="fund-raise-container">
+<div class="notify-observer-not-allow-list-container">
   <nz-card>
     <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
       <div nz-row [nzGutter]="24">
-        <div nz-col [nzSpan]="8">
-          <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="title">标题</nz-form-label>
-            <nz-form-control [nzSpan]="14">
-              <input nz-input class="ant-input" placeholder="请输入标题" formControlName="title" [attr.id]="'title'" />
-            </nz-form-control>
-          </nz-form-item>
-        </div>
+
 
         <div nz-col [nzSpan]="8">
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="desc">描述</nz-form-label>
+            <nz-form-label [nzSpan]="10" nzFor="name">名称</nz-form-label>
             <nz-form-control [nzSpan]="14">
-              <input nz-input class="ant-input" placeholder="请输入描述" formControlName="desc" [attr.id]="'desc'" />
+              <input nz-input class="ant-input" placeholder="请输入名称" formControlName="name" [attr.id]="'name'" />
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -31,40 +24,39 @@
             </nz-form-control>
           </nz-form-item>
         </div>
+
       </div>
+
     </form>
   </nz-card>
 
-  <div style="margin-top: 12px">
-    <app-investor-list-modal></app-investor-list-modal>
-  </div>
+  <button nz-button [nzType]="'primary'" (click)="showCreateModal()" style="margin-top: 12px;">
+    添加
+  </button>
 
   <nz-card style="margin-top: 12px">
-    <nz-table nzShowSizeChanger [nzData]="fundRaises" [nzFrontPagination]="false" [nzLoading]="loading"
-      [nzTotal]="total" [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
+    <nz-table nzShowSizeChanger [nzData]="items" [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total"
+      [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
       (nzQueryParams)="onQueryParamsChange($event)">
       <thead>
         <tr>
-          <th nzColumnKey="title">标题</th>
-          <th nzColumnKey="desc">描述</th>
-          <th nzColumnKey="link">来源</th>
+          <th nzColumnKey="name">名称</th>
+          <th nzColumnKey="cryptoFundraisingURL">cryptoFundraisingURL</th>
+          <th nzColumnKey="rootDataPayload" [nzSortFn]="true">rootDataPayload</th>
 
           <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
           <th nzColumnKey="Action">操作</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of fundRaises">
-          <td>{{ data.title }}</td>
-          <td>{{ data.desc }}</td>
-
-          <td>
-            <linkable [href]="data.link">
-            </linkable>
-          </td>
+        <tr *ngFor="let data of items">
+          <td>{{ data.name }}</td>
+          <td>{{ data.cryptoFundraisingURL }}</td>
+          <td>{{ data.rootDataPayload | json }}</td>
 
           <td>{{ data.createdAtStr }}</td>
           <td>
+            <button nz-button nzType="primary" (click)="confirmEdit(data)" style="margin-right: 8px">编辑</button>
             <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
               (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)">
               <button nz-button nzType="primary" nzDanger>删除</button>
@@ -78,4 +70,5 @@
       {{ range[0] }}-{{ range[1] }} of {{ total }} items
     </ng-template>
   </nz-card>
+
 </div>
