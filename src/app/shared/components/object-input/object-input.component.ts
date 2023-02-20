@@ -77,7 +77,7 @@ export class ObjectInputComponent implements ControlValueAccessor, OnDestroy, On
       for (const item of this.fields) {
         if (!isEmpty(item.keyCtrl.value) && !isEmpty(item.valueCtrl.value)) {
           Object.assign(o, {
-            [item.keyCtrl.value]: this.adjustValue(item.valueCtrl.value)
+            [item.keyCtrl.value.trim()]: this.adjustValue(item.valueCtrl.value.trim())
           })
         }
       }
