@@ -8,3 +8,4 @@ export * from './followed-project-tracking-record.model';
 export * from './notify-observer-not-allow.model';
 export * from './global-settings.model';
 export * from './investor.model';
+export * from './wom-peg.model';

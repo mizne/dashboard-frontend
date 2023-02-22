@@ -18,6 +18,7 @@ import { NotifyObserverItemComponent } from './notify-observer-item/notify-obser
 import { GlobalSettingsComponent } from './global-settings/global-settings.component';
 import { TradingviewChartComponent } from './tradingview-chart/tradingview-chart.component';
 import { ObjectInputComponent } from './object-input/object-input.component';
+import { WomPegChartComponent } from './wom-peg-chart/wom-peg-chart.component';
 
 export const components = [
   LinkableComponent,
@@ -40,6 +41,7 @@ export const components = [
   GlobalSettingsComponent,
   TradingviewChartComponent,
   ObjectInputComponent,
+  WomPegChartComponent,
 ];
 
 export {
@@ -63,4 +65,5 @@ export {
   GlobalSettingsComponent,
   TradingviewChartComponent,
   ObjectInputComponent,
+  WomPegChartComponent,
 };

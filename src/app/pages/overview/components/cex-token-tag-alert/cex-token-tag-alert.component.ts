@@ -6,7 +6,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { concatMap, forkJoin, map, Observable } from 'rxjs';
 import { KlineIntervals, KlineIntervalService } from 'src/app/shared';
-import { removeEmpty } from 'src/app/utils';
+import { fixTradingViewTime, removeEmpty } from 'src/app/utils';
 import { CexTokenAlert, CexTokenAlertTypes } from '../../models/cex-token-alert.model';
 import { CexTokenTagAlert } from '../../models/cex-token-tag-alert.model';
 import { CexTokenTag, tokenTagNameOfTotalMarket } from '../../models/cex-token-tag.model';
@@ -198,7 +198,7 @@ export class CexTokenTagAlertComponent implements OnInit {
   private resolveSeriesData(charType: ChartTypes, tagAlerts: CexTokenTagAlert[]): Array<{ time: Time; value: number }> {
 
     return tagAlerts.map(e => {
-      const fixedTime = (e.time / 1e3 + 8 * 60 * 60) as UTCTimestamp
+      const fixedTime = fixTradingViewTime(e.time)
 
       switch (charType) {
         case ChartTypes.ABOVE_EMA21_RATIO:

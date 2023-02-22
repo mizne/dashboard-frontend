@@ -1,4 +1,5 @@
 import { format, parse } from 'date-fns';
+import { UTCTimestamp } from 'lightweight-charts';
 
 export const removeNullOrUndefined = (obj: { [key: string]: any }) => {
   const result: { [key: string]: any } = {};
@@ -152,4 +153,9 @@ export function resolvePriceStatus(
     : ema21DeltaEma55 < 0 && ema55DeltaEma144 < 0
       ? 'short'
       : 'shock';
+}
+
+
+export function fixTradingViewTime(time: number): UTCTimestamp {
+  return (time / 1e3 + 8 * 60 * 60) as UTCTimestamp
 }

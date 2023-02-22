@@ -1,0 +1,17 @@
+<div class="wom-peg-chart-container">
+  <button nz-button nzType="primary" (click)="open()" [title]="'WomPeg'">
+    WomPeg
+  </button>
+</div>
+
+<nz-modal [(nzVisible)]="visible" [nzWidth]="800" [nzTitle]="'WomPeg'" [nzFooter]="null" (nzOnCancel)="visible=false">
+  <ng-container *nzModalContent>
+    <nz-spin nzTip="获取WomPeg中..." [nzSpinning]="fetching">
+      <div style="margin-bottom: 12px;">
+        <nz-tag *ngFor="let item of chartTypes" [nzColor]="item.color">{{item.label}}</nz-tag>
+      </div>
+      <tradingview-chart [series]="series" [width]="750" [height]="400"></tradingview-chart>
+    </nz-spin>
+
+  </ng-container>
+</nz-modal>
