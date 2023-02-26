@@ -51,6 +51,8 @@ export class NotifyObserverItemComponent implements OnInit {
         return item.soQuestHomeLink
       case NotifyObserverTypes.SUBSTACK:
         return item.substackHomeLink
+      case NotifyObserverTypes.LINK3:
+        return item.link3HomeLink
       default:
         console.warn(`resolveHref() unknown type: ${item.type}`)
         return ''
@@ -83,6 +85,8 @@ export class NotifyObserverItemComponent implements OnInit {
         return item.soQuestTitleKey
       case NotifyObserverTypes.SUBSTACK:
         return item.substackTitleKey
+      case NotifyObserverTypes.LINK3:
+        return item.link3TitleKey
       default:
         console.warn(`resolveDesc() unknown type: ${item.type}`)
         return ''

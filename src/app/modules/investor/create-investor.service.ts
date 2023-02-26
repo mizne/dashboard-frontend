@@ -5,7 +5,6 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { Observable, Subject } from 'rxjs';
 import {
   Investor,
-  NotifyObserverTypes,
   InvestorService,
 } from 'src/app/shared';
 import { isNil } from 'src/app/utils';

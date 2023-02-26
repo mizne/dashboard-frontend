@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NotifyObserverService, NotifyObserverTypes } from 'src/app/shared';
-import { CreateNotifyObserverService } from '../create-notify-observer.service';
 
 @Component({
   selector: 'app-create-notify-observer',
@@ -50,6 +48,9 @@ export class CreateNotifyObserverComponent implements OnInit {
   }
   get isSubstack(): boolean {
     return this.form?.get('type')?.value === NotifyObserverTypes.SUBSTACK;
+  }
+  get isLink3(): boolean {
+    return this.form?.get('type')?.value === NotifyObserverTypes.LINK3;
   }
   timerMessage = '00:00 到 01:00 为服务维护时间，不建议在此时间段内设置定时任务'
 

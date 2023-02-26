@@ -9,6 +9,7 @@ export enum NotifyObserverTypes {
   QUEST3_RECOMMEND = 'QUEST3_RECOMMEND',
   BNBCHAIN_BLOG = 'BNBCHAIN_BLOG',
   BINANCE_BLOG = 'BINANCE_BLOG',
+  LINK3 = 'LINK3',
   LINK3_RECOMMEND = 'LINK3_RECOMMEND',
   LINK3_CLAIMABLE = 'LINK3_CLAIMABLE',
   GALXE = 'GALXE',
@@ -88,6 +89,9 @@ export interface NotifyObserver {
 
   substackHomeLink?: string;
   substackTitleKey?: string;
+
+  link3HomeLink?: string;
+  link3TitleKey?: string;
 
   readonly createdAt: number;
   readonly createdAtStr: string;
