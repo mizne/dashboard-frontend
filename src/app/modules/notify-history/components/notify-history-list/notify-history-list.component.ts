@@ -134,7 +134,7 @@ export class NotifyHistoryListComponent implements OnInit {
   }
 
   showCreateTimerNotifyObserverGetter(item: TableItem): boolean {
-    return item.type === NotifyObserverTypes.LINK3_RECOMMEND
+    return item.type === NotifyObserverTypes.LINK3_RECOMMEND || item.type === NotifyObserverTypes.LINK3
   }
 
   submitForm(): void {
