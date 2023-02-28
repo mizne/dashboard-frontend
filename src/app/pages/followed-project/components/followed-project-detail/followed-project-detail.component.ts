@@ -27,7 +27,6 @@ interface Detail extends FollowedProject {
 export class FollowedProjectDetailComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
-    private viewContainerRef: ViewContainerRef,
     private readonly followedProjectService: FollowedProjectService,
     private readonly notifyObserverService: NotifyObserverService,
     private readonly notificationService: NzNotificationService,
@@ -69,7 +68,6 @@ export class FollowedProjectDetailComponent implements OnInit {
     const { success, error } = this.createFollowedProjectService.createModal(
       '修改关注项目',
       obj,
-      this.viewContainerRef,
       FollowedProjectModalActions.UPDATE
     );
 
@@ -93,7 +91,6 @@ export class FollowedProjectDetailComponent implements OnInit {
     const { success, error } = this.createNotifyObserverService.createModal(
       '添加通知源',
       obj,
-      this.viewContainerRef
     );
 
     success.subscribe((v) => {
@@ -112,7 +109,6 @@ export class FollowedProjectDetailComponent implements OnInit {
     const { success, error } = this.createNotifyObserverService.createModal(
       '修改通知源',
       obj,
-      this.viewContainerRef,
       NotifyObserverModalActions.UPDATE
     );
 

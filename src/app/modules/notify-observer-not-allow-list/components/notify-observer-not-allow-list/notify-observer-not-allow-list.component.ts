@@ -16,7 +16,6 @@ export class NotifyObserverNotAllowListComponent implements OnInit {
     private readonly notifyObserverNotAllowService: NotifyObserverNotAllowService,
     private readonly nzNotificationService: NzNotificationService,
     private readonly fb: FormBuilder,
-    private viewContainerRef: ViewContainerRef,
     private createNotifyObserverNotAllowService: CreateNotifyObserverNotAllowService
   ) { }
 
@@ -79,7 +78,6 @@ export class NotifyObserverNotAllowListComponent implements OnInit {
     const { success, error } = this.createNotifyObserverNotAllowService.createModal(
       '添加黑名单通知源',
       obj,
-      this.viewContainerRef
     );
 
     success.subscribe((v) => {

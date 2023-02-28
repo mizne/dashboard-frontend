@@ -32,7 +32,6 @@ export class FollowedProjectMoreComponent implements OnInit {
   ) { }
 
   @Input() id = '';
-  @Input() viewContainerRef: ViewContainerRef | null = null;
 
 
   notifyObservers: TableItem[] = [];
@@ -80,7 +79,7 @@ export class FollowedProjectMoreComponent implements OnInit {
 
 
   showCreateNotifyObserverModal() {
-    if (!this.id || !this.viewContainerRef) {
+    if (!this.id) {
       return;
     }
     const obj: Partial<NotifyObserver> = {
@@ -89,8 +88,7 @@ export class FollowedProjectMoreComponent implements OnInit {
     };
     const { success, error } = this.createNotifyObserverService.createModal(
       '添加通知源',
-      obj,
-      this.viewContainerRef
+      obj
     );
 
     success.subscribe((v) => {
@@ -102,7 +100,7 @@ export class FollowedProjectMoreComponent implements OnInit {
     });
   }
   showCreateTrackingRecordModal() {
-    if (!this.id || !this.viewContainerRef) {
+    if (!this.id) {
       return;
     }
     const obj: Partial<FollowedProjectTrackingRecord> = {
@@ -111,7 +109,6 @@ export class FollowedProjectMoreComponent implements OnInit {
     const { success, error } = this.createFollowedProjectTrackingRecordService.createModal(
       '添加跟踪记录',
       obj,
-      this.viewContainerRef
     );
 
     success.subscribe((v) => {

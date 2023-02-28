@@ -16,7 +16,6 @@ export class InvestorListComponent implements OnInit {
     private readonly investorService: InvestorService,
     private readonly nzNotificationService: NzNotificationService,
     private readonly fb: FormBuilder,
-    private viewContainerRef: ViewContainerRef,
     private createInvestorService: CreateInvestorService
   ) { }
 
@@ -61,7 +60,6 @@ export class InvestorListComponent implements OnInit {
     const { success, error } = this.createInvestorService.createModal(
       '添加Investor',
       obj,
-      this.viewContainerRef
     );
 
     success.subscribe((v) => {
@@ -94,7 +92,6 @@ export class InvestorListComponent implements OnInit {
     const { success, error } = this.createInvestorService.createModal(
       '编辑Investor',
       obj,
-      this.viewContainerRef,
       InvestorModalActions.UPDATE
     );
 

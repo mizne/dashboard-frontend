@@ -6,6 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import {
   Investor,
   InvestorService,
+  SharedService,
 } from 'src/app/shared';
 import { isNil } from 'src/app/utils';
 import { CreateInvestorComponent } from './components/create-investor/create-investor.component';
@@ -22,6 +23,7 @@ export class CreateInvestorService {
     private investorService: InvestorService,
     private message: NzMessageService,
     private fb: FormBuilder,
+    private sharedService: SharedService,
   ) { }
 
   // 1. 成功 -> 结束
@@ -30,7 +32,6 @@ export class CreateInvestorService {
   createModal(
     title: string,
     obj: Partial<Investor>,
-    viewContainerRef: ViewContainerRef,
     action: InvestorModalActions = InvestorModalActions.CREATE
   ): {
     modal: NzModalRef<any>;
@@ -51,7 +52,7 @@ export class CreateInvestorService {
       nzTitle: title,
       nzWidth: 800,
       nzContent: CreateInvestorComponent,
-      nzViewContainerRef: viewContainerRef,
+      nzViewContainerRef: this.sharedService.getAppViewContainerRef(),
       nzComponentParams: {
         form: form,
       },

@@ -7,6 +7,7 @@ import {
   NotifyObserverNotAllowService,
   NotifyObserverNotAllow,
   NotifyObserverTypes,
+  SharedService,
 } from 'src/app/shared';
 import { isNil } from 'src/app/utils';
 import { CreateNotifyObserverNotAllowComponent } from './components/create-notify-observer-not-allow.component';
@@ -23,6 +24,7 @@ export class CreateNotifyObserverNotAllowService {
     private notifyObserverNotAllowService: NotifyObserverNotAllowService,
     private message: NzMessageService,
     private fb: FormBuilder,
+    private sharedService: SharedService,
   ) { }
 
   // 1. 成功 -> 结束
@@ -31,7 +33,6 @@ export class CreateNotifyObserverNotAllowService {
   createModal(
     title: string,
     obj: Partial<NotifyObserverNotAllow>,
-    viewContainerRef: ViewContainerRef,
     action: NotifyObserverNotAllowModalActions = NotifyObserverNotAllowModalActions.CREATE
   ): {
     modal: NzModalRef<any>;
@@ -52,7 +53,7 @@ export class CreateNotifyObserverNotAllowService {
       nzTitle: title,
       nzWidth: 666,
       nzContent: CreateNotifyObserverNotAllowComponent,
-      nzViewContainerRef: viewContainerRef,
+      nzViewContainerRef: this.sharedService.getAppViewContainerRef(),
       nzComponentParams: {
         form: form,
       },

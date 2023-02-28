@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, ViewContainerRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, startWith, fromEvent, map } from 'rxjs';
@@ -39,6 +39,8 @@ interface SocialLink {
 @Injectable({ providedIn: 'root' })
 export class SharedService {
   private readonly baseURL = environment.baseURL;
+
+  private viewContainerRef: ViewContainerRef | null = null;
   constructor(
     private httpClient: HttpClient,
     @Inject(DOCUMENT) private documentRef: Document
@@ -137,5 +139,13 @@ export class SharedService {
       map(() => !this.documentRef.hidden),
       startWith(!this.documentRef.hidden)
     );
+  }
+
+  setAppViewContainerRef(v: ViewContainerRef) {
+    this.viewContainerRef = v;
+  }
+
+  getAppViewContainerRef(): ViewContainerRef {
+    return this.viewContainerRef as ViewContainerRef
   }
 }

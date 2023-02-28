@@ -32,7 +32,6 @@ export class MyNotificationComponent implements OnInit {
     private readonly nzNotificationService: NzNotificationService,
     private message: NzMessageService,
     private readonly fb: FormBuilder,
-    private viewContainerRef: ViewContainerRef,
     private sharedService: SharedService,
     private createNotifyObserverService: CreateNotifyObserverService
   ) { }
@@ -101,7 +100,6 @@ export class MyNotificationComponent implements OnInit {
     const { success, error } = this.createNotifyObserverService.createModal(
       '添加通知源',
       obj,
-      this.viewContainerRef
     );
 
     success.subscribe((v) => {
@@ -168,7 +166,6 @@ export class MyNotificationComponent implements OnInit {
     const { success, error } = this.createNotifyObserverService.createModal(
       '添加通知源',
       obj,
-      this.viewContainerRef
     );
 
     success.subscribe((v) => {
@@ -186,7 +183,6 @@ export class MyNotificationComponent implements OnInit {
     const { success, error } = this.createNotifyObserverService.createModal(
       '修改通知源',
       obj,
-      this.viewContainerRef,
       NotifyObserverModalActions.UPDATE
     );
 

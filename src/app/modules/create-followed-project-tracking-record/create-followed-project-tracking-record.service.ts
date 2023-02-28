@@ -2,7 +2,7 @@ import { Injectable, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { Observable, Subject } from 'rxjs';
-import { FollowedProjectTrackingRecordService, FollowedProjectTrackingRecord, FollowedProjectService } from 'src/app/shared';
+import { FollowedProjectTrackingRecordService, FollowedProjectTrackingRecord, FollowedProjectService, SharedService } from 'src/app/shared';
 import { isNil } from 'src/app/utils';
 import { CreateFollowedProjectTrackingRecordComponent } from './components/create-followed-project-tracking-record.component';
 
@@ -17,6 +17,7 @@ export class CreateFollowedProjectTrackingRecordService {
     private modal: NzModalService,
     private followedProjectTrackingRecordService: FollowedProjectTrackingRecordService,
     private followedProjectService: FollowedProjectService,
+    private sharedService: SharedService,
     private fb: FormBuilder
   ) { }
 
@@ -26,7 +27,6 @@ export class CreateFollowedProjectTrackingRecordService {
   createModal(
     title: string,
     obj: Partial<FollowedProjectTrackingRecord>,
-    viewContainerRef: ViewContainerRef,
     action: FollowedProjectTrackingRecordModalActions = FollowedProjectTrackingRecordModalActions.CREATE
   ): {
     modal: NzModalRef<any>;
@@ -47,7 +47,7 @@ export class CreateFollowedProjectTrackingRecordService {
     const modal = this.modal.create({
       nzTitle: title,
       nzContent: CreateFollowedProjectTrackingRecordComponent,
-      nzViewContainerRef: viewContainerRef,
+      nzViewContainerRef: this.sharedService.getAppViewContainerRef(),
       nzComponentParams: {
         form: form,
       },

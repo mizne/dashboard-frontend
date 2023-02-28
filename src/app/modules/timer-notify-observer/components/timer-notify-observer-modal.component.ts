@@ -30,7 +30,6 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     private readonly destroyService: DestroyService,
     private readonly timerService: TimerService,
     private readonly fb: FormBuilder,
-    private viewContainerRef: ViewContainerRef,
   ) { }
 
   visible = false;
@@ -94,7 +93,6 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     const { success, error } = this.createNotifyObserverService.createModal(
       '添加通知源',
       obj,
-      this.viewContainerRef
     );
 
     success.subscribe((v) => {
@@ -113,7 +111,6 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     const { success, error } = this.createNotifyObserverService.createModal(
       '修改通知源',
       obj,
-      this.viewContainerRef,
       NotifyObserverModalActions.UPDATE
     );
 

@@ -18,7 +18,6 @@ export class TrackingRecordListComponent implements OnInit {
     private readonly followedProjectTrackingRecordService: FollowedProjectTrackingRecordService,
     private readonly notificationService: NzNotificationService,
     private readonly fb: FormBuilder,
-    private viewContainerRef: ViewContainerRef,
     private createFollowedProjectTrackingRecordService: CreateFollowedProjectTrackingRecordService
   ) { }
 
@@ -66,7 +65,6 @@ export class TrackingRecordListComponent implements OnInit {
     const { success, error } = this.createFollowedProjectTrackingRecordService.createModal(
       '添加跟踪记录',
       obj,
-      this.viewContainerRef
     );
 
     success.subscribe((v) => {
@@ -85,7 +83,6 @@ export class TrackingRecordListComponent implements OnInit {
     const { success, error } = this.createFollowedProjectTrackingRecordService.createModal(
       '修改跟踪记录',
       obj,
-      this.viewContainerRef,
       FollowedProjectTrackingRecordModalActions.UPDATE
     );
 

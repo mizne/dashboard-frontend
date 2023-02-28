@@ -23,7 +23,6 @@ export class FollowedProjectComponent implements OnInit {
     private readonly followedProjectService: FollowedProjectService,
     private readonly notification: NzNotificationService,
     private readonly fb: FormBuilder,
-    public viewContainerRef: ViewContainerRef,
     private createFollowedProjectService: CreateFollowedProjectService
   ) { }
 
@@ -66,7 +65,6 @@ export class FollowedProjectComponent implements OnInit {
     const { success, error } = this.createFollowedProjectService.createModal(
       '添加关注项目',
       obj,
-      this.viewContainerRef
     );
 
     success.subscribe((v) => {
@@ -98,7 +96,6 @@ export class FollowedProjectComponent implements OnInit {
     const { success, error } = this.createFollowedProjectService.createModal(
       '修改关注项目',
       obj,
-      this.viewContainerRef,
       FollowedProjectModalActions.UPDATE
     );
 

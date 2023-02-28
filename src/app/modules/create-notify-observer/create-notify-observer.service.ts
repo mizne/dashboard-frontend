@@ -6,6 +6,7 @@ import {
   NotifyObserverService,
   NotifyObserver,
   NotifyObserverTypes,
+  SharedService,
 } from 'src/app/shared';
 import { isNil } from 'src/app/utils';
 import { CreateNotifyObserverComponent } from './components/create-notify-observer.component';
@@ -20,6 +21,7 @@ export class CreateNotifyObserverService {
   constructor(
     private modal: NzModalService,
     private notifyObserverService: NotifyObserverService,
+    private sharedService: SharedService,
     private fb: FormBuilder
   ) { }
 
@@ -29,7 +31,6 @@ export class CreateNotifyObserverService {
   createModal(
     title: string,
     obj: Partial<NotifyObserver>,
-    viewContainerRef: ViewContainerRef,
     action: NotifyObserverModalActions = NotifyObserverModalActions.CREATE
   ): {
     modal: NzModalRef<any>;
@@ -102,7 +103,7 @@ export class CreateNotifyObserverService {
       nzTitle: title,
       nzWidth: 666,
       nzContent: CreateNotifyObserverComponent,
-      nzViewContainerRef: viewContainerRef,
+      nzViewContainerRef: this.sharedService.getAppViewContainerRef(),
       nzComponentParams: {
         form: form,
         disabledType: action === NotifyObserverModalActions.UPDATE

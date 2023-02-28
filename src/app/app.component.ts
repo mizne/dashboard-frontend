@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewContainerRef } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { SystemNotificationService, ClientNotifyService } from './shared';
+import { SystemNotificationService, ClientNotifyService, SharedService } from './shared';
 import { sleep } from './utils';
 
 @Component({
@@ -14,7 +14,9 @@ export class AppComponent implements OnInit {
 
   constructor(
     private readonly clientNotifyService: ClientNotifyService,
+    private readonly sharedService: SharedService,
     private readonly systemNotificationService: SystemNotificationService,
+    private viewContainerRef: ViewContainerRef,
     @Inject(DOCUMENT) private documentRef: Document
   ) { }
 
@@ -27,6 +29,8 @@ export class AppComponent implements OnInit {
     this.listenTaskCompleteNotify();
     this.listenTaskErrorNotify();
     this.listenNotifyObserver();
+
+    this.sharedService.setAppViewContainerRef(this.viewContainerRef)
   }
 
   private listenNewlyCoinNotify() {

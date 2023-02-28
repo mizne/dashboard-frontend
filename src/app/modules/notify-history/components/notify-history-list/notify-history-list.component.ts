@@ -24,7 +24,6 @@ export class NotifyHistoryListComponent implements OnInit {
     private readonly notifyHistoryService: NotifyHistoryService,
     private readonly nzNotificationService: NzNotificationService,
     private readonly clientNotifyService: ClientNotifyService,
-    private viewContainerRef: ViewContainerRef,
     private readonly createNotifyObserverNotAllowService: CreateNotifyObserverNotAllowService,
     private sharedService: SharedService,
     private createNotifyObserverService: CreateNotifyObserverService,
@@ -97,7 +96,6 @@ export class NotifyHistoryListComponent implements OnInit {
     const { success, error } = this.createNotifyObserverNotAllowService.createModal(
       '添加黑名单通知源',
       obj,
-      this.viewContainerRef
     );
 
     success.subscribe((v) => {
@@ -208,7 +206,6 @@ export class NotifyHistoryListComponent implements OnInit {
     const { success, error } = this.createNotifyObserverService.createModal(
       '添加通知源',
       obj,
-      this.viewContainerRef
     );
 
     success.subscribe((v) => {

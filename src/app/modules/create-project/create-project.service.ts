@@ -26,7 +26,6 @@ export class CreateProjectService {
   createModal(
     title: string,
     obj: Partial<Project>,
-    viewContainerRef: ViewContainerRef,
     action: ProjectModalActions = ProjectModalActions.CREATE
   ): {
     modal: NzModalRef<any>;
@@ -55,7 +54,7 @@ export class CreateProjectService {
     const modal = this.modal.create({
       nzTitle: title,
       nzContent: CreateProjectComponent,
-      nzViewContainerRef: viewContainerRef,
+      nzViewContainerRef: this.sharedService.getAppViewContainerRef(),
       nzComponentParams: {
         needFetchSocialLinks: !obj._id,
         form: form,

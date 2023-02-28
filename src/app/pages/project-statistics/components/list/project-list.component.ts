@@ -25,7 +25,6 @@ export class ProjectListComponent implements OnInit {
     private readonly projectService: ProjectService,
     private readonly notification: NzNotificationService,
     private readonly fb: FormBuilder,
-    private viewContainerRef: ViewContainerRef,
     private createProjectService: CreateProjectService
   ) { }
 
@@ -106,7 +105,6 @@ export class ProjectListComponent implements OnInit {
     const { success, error } = this.createProjectService.createModal(
       '添加项目',
       obj,
-      this.viewContainerRef
     );
 
     success.subscribe((v) => {
@@ -124,7 +122,6 @@ export class ProjectListComponent implements OnInit {
     const { success, error } = this.createProjectService.createModal(
       '修改项目',
       obj,
-      this.viewContainerRef,
       ProjectModalActions.UPDATE
     );
 
