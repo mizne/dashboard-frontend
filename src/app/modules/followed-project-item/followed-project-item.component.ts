@@ -17,7 +17,10 @@ interface TableItem extends FollowedProject {
 export class FollowedProjectItemComponent implements OnInit {
   constructor() { }
 
-  @Input() item: TableItem | null = null
+  @Input() item: TableItem | null = null;
+  @Input() showUpdate = true;
+  @Input() showDelete = true;
+  @Input() showRead = true;
 
   @Output() read = new EventEmitter<void>()
   @Output() delete = new EventEmitter<void>()

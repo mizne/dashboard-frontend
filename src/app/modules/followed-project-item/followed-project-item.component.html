@@ -7,9 +7,9 @@
         <created-at [createdAt]="item.createdAt"></created-at>
 
         <ng-container *ngIf="item.hasNews">
-          <button style="margin-left: 6px" nz-button nzType="primary" nzDanger nzShape="circle" nz-popconfirm
-            nzPopconfirmTitle="确认已读?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmRead(item)"><span nz-icon
-              nzType="eye"></span></button>
+          <button *ngIf="showRead" style="margin-left: 6px" nz-button nzType="primary" nzDanger nzShape="circle"
+            nz-popconfirm nzPopconfirmTitle="确认已读?" nzPopconfirmPlacement="bottom"
+            (nzOnConfirm)="confirmRead(item)"><span nz-icon nzType="eye"></span></button>
         </ng-container>
 
         <linkable [href]="projectDetailHref(item._id)" icon="export" shape="round" size="small" [title]="'详情'">
@@ -38,11 +38,11 @@
 
     </nz-card>
     <ng-template #extraTemplate>
-      <button nz-button nzType="primary" nzShape="circle" (click)="confirmUpdate(item)"><span nz-icon
+      <button *ngIf="showUpdate" nz-button nzType="primary" nzShape="circle" (click)="confirmUpdate(item)"><span nz-icon
           nzType="edit"></span></button>
 
-      <button style="margin-left: 6px" nz-button nzType="primary" nzDanger nzShape="circle" nz-popconfirm
-        nzPopconfirmTitle="确认删除?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete(item)">
+      <button *ngIf="showDelete" style="margin-left: 6px" nz-button nzType="primary" nzDanger nzShape="circle"
+        nz-popconfirm nzPopconfirmTitle="确认删除?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete(item)">
         <span nz-icon nzType="delete"></span>
       </button>
     </ng-template>

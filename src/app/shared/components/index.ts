@@ -13,8 +13,6 @@ import { CreatedAtComponent } from './created-at/created-at.component';
 import { MultiInputComponent } from './multi-input/multi-input.component';
 import { UploadFileComponent } from './upload-file/upload-file.component';
 import { TagSelectComponent } from './tag-select/tag-select.component';
-import { FollowedProjectSelectComponent } from './followed-project-select/followed-project-select.component';
-import { NotifyObserverItemComponent } from './notify-observer-item/notify-observer-item.component';
 import { GlobalSettingsComponent } from './global-settings/global-settings.component';
 import { TradingviewChartComponent } from './tradingview-chart/tradingview-chart.component';
 import { ObjectInputComponent } from './object-input/object-input.component';
@@ -36,8 +34,6 @@ export const components = [
   MultiInputComponent,
   UploadFileComponent,
   TagSelectComponent,
-  FollowedProjectSelectComponent,
-  NotifyObserverItemComponent,
   GlobalSettingsComponent,
   TradingviewChartComponent,
   ObjectInputComponent,
@@ -60,8 +56,6 @@ export {
   MultiInputComponent,
   UploadFileComponent,
   TagSelectComponent,
-  FollowedProjectSelectComponent,
-  NotifyObserverItemComponent,
   GlobalSettingsComponent,
   TradingviewChartComponent,
   ObjectInputComponent,

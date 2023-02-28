@@ -2,10 +2,11 @@
   [nzTitle]="item.notifyShowTitle || '【默认通知标题】'" [nzExtra]="extraTemplate">
   <p style="display: flex; align-items: center; justify-content: space-between;">
     <button *ngIf="item.followedProjectIDCtrl" nz-button nzType="primary" nzShape="circle" nz-popover
-      [nzPopoverContent]="contentTemplate"><span nz-icon nzType="project" nzTheme="outline"></span></button>
+      nzPopoverTrigger="click" [nzPopoverContent]="contentTemplate"><span nz-icon nzType="project"
+        nzTheme="outline"></span></button>
     <ng-template #contentTemplate>
-      <followed-project-select *ngIf="item.followedProjectIDCtrl" [mode]="'view'"
-        [formControl]="item.followedProjectIDCtrl"></followed-project-select>
+      <followed-project-select-view *ngIf="item.followedProjectIDCtrl"
+        [formControl]="item.followedProjectIDCtrl"></followed-project-select-view>
     </ng-template>
 
     <nz-tag *ngIf="item.enableTracking; else disableTrackingTpl" nzColor="success">

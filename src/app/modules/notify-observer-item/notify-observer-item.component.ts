@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { NotifyObserver, NotifyObserverTypes } from '../../models';
+import { NotifyObserver, NotifyObserverTypes } from 'src/app/shared';
 
 interface TableItem extends NotifyObserver {
   enableTrackingCtrl: FormControl;
