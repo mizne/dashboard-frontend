@@ -1,0 +1,50 @@
+<div class="followed-project-item-container">
+  <nz-badge *ngIf="item" [nzDot]="true" [nzShowDot]="!!item.hasNews">
+    <nz-card style="width:320px;" [nzTitle]="item.name" [nzExtra]="extraTemplate">
+      <div style="display: flex;justify-content: space-between;align-items: center;">
+        <linkable [href]="item.website" [content]="defaultLogo">
+        </linkable>
+        <created-at [createdAt]="item.createdAt"></created-at>
+
+        <ng-container *ngIf="item.hasNews">
+          <button style="margin-left: 6px" nz-button nzType="primary" nzDanger nzShape="circle" nz-popconfirm
+            nzPopconfirmTitle="确认已读?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmRead(item)"><span nz-icon
+              nzType="eye"></span></button>
+        </ng-container>
+
+        <linkable [href]="projectDetailHref(item._id)" icon="export" shape="round" size="small" [title]="'详情'">
+        </linkable>
+      </div>
+
+      <div class="followed-project-tags" style="margin-top: 8px">
+        <tag-select mode="view" [formControl]="item.tagIDsCtrl"></tag-select>
+      </div>
+      <div class="followed-project-more"
+        style="display: flex;align-items: center;justify-content: space-between;margin-top: 8px">
+        <nz-tag [nzColor]="item.hasLaunchToken ? 'default' : 'success'">{{item.hasLaunchToken ? '已发币' :
+          '未发币'}}</nz-tag>
+
+        <button nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popover
+          [nzPopoverContent]="contentTemplate">
+          <span nz-icon nzType="more" nzTheme="outline"></span>
+        </button>
+        <ng-template #contentTemplate>
+          <followed-project-more [id]="item._id"></followed-project-more>
+        </ng-template>
+      </div>
+      <ng-template #defaultLogo>
+        <image-view [width]="64" [name]="item.logo"></image-view>
+      </ng-template>
+
+    </nz-card>
+    <ng-template #extraTemplate>
+      <button nz-button nzType="primary" nzShape="circle" (click)="confirmUpdate(item)"><span nz-icon
+          nzType="edit"></span></button>
+
+      <button style="margin-left: 6px" nz-button nzType="primary" nzDanger nzShape="circle" nz-popconfirm
+        nzPopconfirmTitle="确认删除?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete(item)">
+        <span nz-icon nzType="delete"></span>
+      </button>
+    </ng-template>
+  </nz-badge>
+</div>
