@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
@@ -9,7 +9,6 @@ import {
 } from 'src/app/modules/create-project';
 import { Project, ProjectService } from 'src/app/shared';
 import { removeNullOrUndefined } from 'src/app/utils';
-import validator from 'validator';
 
 interface TableItem extends Project {
   enableTrackingCtrl: FormControl;

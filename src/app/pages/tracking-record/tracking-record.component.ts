@@ -1,11 +1,10 @@
-import { Component, Input, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { CreateFollowedProjectTrackingRecordService, FollowedProjectTrackingRecordModalActions } from 'src/app/modules/create-followed-project-tracking-record';
 import { FollowedProjectTrackingRecordService, FollowedProjectTrackingRecord } from 'src/app/shared';
 import { removeNullOrUndefined } from 'src/app/utils';
-import { environment } from 'src/environments/environment';
 
 interface TableItem extends FollowedProjectTrackingRecord {
   followedProjectIDCtrl: FormControl

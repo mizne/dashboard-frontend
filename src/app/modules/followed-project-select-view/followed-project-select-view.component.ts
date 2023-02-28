@@ -3,7 +3,6 @@ import {
   StaticProvider,
   forwardRef,
   OnDestroy,
-  Input,
 } from '@angular/core';
 import { ControlValueAccessor, FormBuilder, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';

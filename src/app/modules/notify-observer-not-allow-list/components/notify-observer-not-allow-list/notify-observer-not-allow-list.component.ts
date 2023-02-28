@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { FormBuilder } from '@angular/forms';
-import { removeEmpty, removeNullOrUndefined } from 'src/app/utils';
-import { NotifyObserverNotAllow, NotifyObserverNotAllowService, NotifyObserverTypes, Project } from 'src/app/shared';
+import { removeEmpty } from 'src/app/utils';
+import { NotifyObserverNotAllow, NotifyObserverNotAllowService, NotifyObserverTypes } from 'src/app/shared';
 import { CreateNotifyObserverNotAllowService } from 'src/app/modules/create-notify-observer-not-allow';
 
 @Component({

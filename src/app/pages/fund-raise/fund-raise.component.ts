@@ -1,12 +1,9 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { FundRaise } from './models/fund-raise.model';
-import { FundRaiseService } from './services/fund-raise.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { FormBuilder } from '@angular/forms';
 import { removeNullOrUndefined } from 'src/app/utils';
-import { CreateProjectService } from 'src/app/modules/create-project';
-import { InvestorService, NotifyHistory, NotifyHistoryService, NotifyObserverTypes, Project } from 'src/app/shared';
+import { NotifyHistory, NotifyHistoryService, NotifyObserverTypes } from 'src/app/shared';
 
 @Component({
   selector: 'app-fund-raise',
@@ -18,9 +15,6 @@ export class FundRaiseComponent implements OnInit {
     private readonly notifyHistoryService: NotifyHistoryService,
     private readonly notification: NzNotificationService,
     private readonly fb: FormBuilder,
-    private viewContainerRef: ViewContainerRef,
-    private createProjectService: CreateProjectService,
-    private investorService: InvestorService,
   ) { }
 
   total = 1;
