@@ -2,11 +2,9 @@ import { Component, Input, OnInit, ViewContainerRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Subject, Subscription, takeUntil } from 'rxjs';
-import { CreateFollowedProjectService, FollowedProjectModalActions } from 'src/app/modules/create-followed-project';
 import { CreateFollowedProjectTrackingRecordService } from 'src/app/modules/create-followed-project-tracking-record';
-import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer';
-import { ClientNotifyService, FollowedProject, FollowedProjectService, FollowedProjectTrackingRecord, NotifyObserver, NotifyObserverService, } from 'src/app/shared';
+import { CreateNotifyObserverService } from 'src/app/modules/create-notify-observer';
+import { ClientNotifyService, FollowedProjectService, FollowedProjectTrackingRecord, NotifyObserver, NotifyObserverService, NotifyObserverTypes, } from 'src/app/shared';
 import { DestroyService } from 'src/app/shared/services/destroy.service';
 
 interface TableItem extends NotifyObserver {
@@ -43,6 +41,40 @@ export class FollowedProjectMoreComponent implements OnInit {
 
   ngOnInit() {
     this.fetchNotifyObservers();
+  }
+
+  resolveHref(item: NotifyObserver) {
+    switch (item.type) {
+      case NotifyObserverTypes.MEDIUM:
+        return item.mediumHomeLink
+      case NotifyObserverTypes.MIRROR:
+        return item.mirrorHomeLink
+      case NotifyObserverTypes.TWITTER:
+        return item.twitterHomeLink
+      case NotifyObserverTypes.TWITTER_SPACE:
+        return item.twitterSpaceHomeLink
+      case NotifyObserverTypes.GALXE:
+        return item.galxeHomeLink
+      case NotifyObserverTypes.QUEST3:
+        return item.quest3HomeLink
+      case NotifyObserverTypes.TIMER:
+        return item.timerNotifyShowUrl
+      case NotifyObserverTypes.SNAPSHOT:
+        return item.snapshotHomeLink
+      case NotifyObserverTypes.GUILD:
+        return item.guildHomeLink
+      case NotifyObserverTypes.XIAOYUZHOU:
+        return item.xiaoyuzhouHomeLink
+      case NotifyObserverTypes.SOQUEST:
+        return item.soQuestHomeLink
+      case NotifyObserverTypes.SUBSTACK:
+        return item.substackHomeLink
+      case NotifyObserverTypes.LINK3:
+        return item.link3HomeLink
+      default:
+        console.warn(`resolveHref() unknown type: ${item.type}`)
+        return ''
+    }
   }
 
 

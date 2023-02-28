@@ -1,7 +1,11 @@
 <div class="followed-project-more-container">
   <div class="notify-observer-wrappers" style="display: flex">
     <div *ngFor="let item of notifyObservers" style="margin-right: 12px;">
-      <notify-observer-item [mode]="'small'" [item]="item"></notify-observer-item>
+      <linkable [title]="item.notifyShowTitle" [href]=" resolveHref(item)" [content]="defaultLogo">
+      </linkable>
+      <ng-template #defaultLogo>
+        <image-view [width]="32" [name]="item?.logo"></image-view>
+      </ng-template>
     </div>
   </div>
 

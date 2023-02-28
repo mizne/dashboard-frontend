@@ -7,6 +7,7 @@ import { CreateFollowedProjectModule } from 'src/app/modules/create-followed-pro
 import { CreateFollowedProjectTrackingRecordModule } from 'src/app/modules/create-followed-project-tracking-record';
 import { CreateNotifyObserverModule } from 'src/app/modules/create-notify-observer';
 import { NotifyHistoryModule } from 'src/app/modules/notify-history';
+import { FollowedProjectMoreModule } from 'src/app/modules/followed-project-more'
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { NotifyHistoryModule } from 'src/app/modules/notify-history';
     CreateNotifyObserverModule,
     CreateFollowedProjectTrackingRecordModule,
     NotifyHistoryModule,
+    FollowedProjectMoreModule,
   ],
   declarations: [FollowedProjectComponent, ...components],
   exports: [FollowedProjectComponent],
