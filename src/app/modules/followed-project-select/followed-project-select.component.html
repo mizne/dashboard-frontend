@@ -33,7 +33,8 @@
 <ng-container *ngIf="mode === 'simple'">
   <div class="followed-project-select-simple-container">
     <div style="display: flex; align-items: center;">
-      <image-view *ngIf="selectedFollowedProject" [width]="32" [name]="selectedFollowedProject.logo"></image-view>
+      <image-view *ngIf="selectedFollowedProject" [width]="32" [name]="selectedFollowedProject.logo"
+        [title]="selectedFollowedProject.name"></image-view>
 
       <button style="margin-left: 12px;" nz-button nzType="primary" nzShape="circle" (click)="showSelectModal()"><span
           nz-icon nzType="edit"></span></button>
