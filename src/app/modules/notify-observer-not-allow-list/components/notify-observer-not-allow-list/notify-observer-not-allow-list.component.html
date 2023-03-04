@@ -64,7 +64,7 @@
           <td>{{ data.url }}</td>
           <td>{{ data.blockCount }}</td>
 
-          <td>{{ data.createdAtStr }}</td>
+          <td><created-at [createdAt]="data.createdAt"></created-at></td>
           <td>
             <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
               (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)">

@@ -54,7 +54,7 @@
           <td>{{ data.cryptoFundraisingURL }}</td>
           <td>{{ data.rootDataPayload | json }}</td>
 
-          <td>{{ data.createdAtStr }}</td>
+          <td><created-at [createdAt]="data.createdAt"></created-at></td>
           <td>
             <button nz-button nzType="primary" (click)="confirmEdit(data)" style="margin-right: 8px">编辑</button>
             <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"

@@ -56,7 +56,7 @@
             </linkable>
           </td>
 
-          <td>{{ data.createdAtStr }}</td>
+          <td><created-at [createdAt]="data.createdAt"></created-at></td>
           <td>
             <button nz-button (click)="confirmUpdate(data)" nzType="primary" nzShape="round" nzSize="small" nz-tooltip
               [nzTooltipTitle]="'修改'" style="margin-right: 8px">
