@@ -1,5 +1,5 @@
 <ng-container *ngIf="mode === 'default'">
-  <button nz-button nzType="primary" style="margin-bottom: 8px" (click)="showSelectModal()">选择</button>
+  <button nz-button type="button" nzType="primary" style="margin-bottom: 8px" (click)="showSelectModal()">选择</button>
   <nz-card *ngIf="selectedFollowedProject" style="width:320px;" [nzTitle]="selectedFollowedProject.name"
     [nzExtra]="extraTemplate1">
     <div style="display: flex;justify-content: space-between;align-items: center;">
@@ -26,7 +26,7 @@
   </nz-card>
 
   <ng-template #extraTemplate1>
-    <button nz-button nzType="primary" (click)="confirmDeSelect()">取消</button>
+    <button nz-button type="button" nzType="primary" (click)="confirmDeSelect()">取消</button>
   </ng-template>
 </ng-container>
 
@@ -36,9 +36,9 @@
       <image-view *ngIf="selectedFollowedProject" [width]="32" [name]="selectedFollowedProject.logo"
         [title]="selectedFollowedProject.name"></image-view>
 
-      <button style="margin-left: 12px;" nz-button nzType="primary" nzShape="circle" (click)="showSelectModal()"><span
+      <button style="margin-left: 12px;" nz-button type="button" nzType="primary" nzShape="circle" (click)="showSelectModal()"><span
           nz-icon nzType="edit"></span></button>
-      <button style="margin-left: 12px;" *ngIf="selectedFollowedProject" nz-button nzType="primary" nzShape="circle"
+      <button style="margin-left: 12px;" *ngIf="selectedFollowedProject" nz-button type="button" nzType="primary" nzShape="circle"
         nzDanger (click)="confirmDeSelect()"><span nz-icon nzType="delete"></span></button>
     </div>
   </div>
