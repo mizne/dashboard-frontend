@@ -1,33 +1,47 @@
-<button nz-button nzType="primary" style="margin-bottom: 8px" (click)="showSelectModal()">选择</button>
+<ng-container *ngIf="mode === 'default'">
+  <button nz-button nzType="primary" style="margin-bottom: 8px" (click)="showSelectModal()">选择</button>
+  <nz-card *ngIf="selectedFollowedProject" style="width:320px;" [nzTitle]="selectedFollowedProject.name"
+    [nzExtra]="extraTemplate1">
+    <div style="display: flex;justify-content: space-between;align-items: center;">
+      <linkable [href]="selectedFollowedProject.website" [content]="defaultLogo">
+      </linkable>
+      <created-at [createdAt]="selectedFollowedProject.createdAt"></created-at>
+      <linkable [href]="projectDetailHref(selectedFollowedProject._id)" icon="export" shape="round" size="small"
+        [title]="'详情'">
+      </linkable>
+    </div>
 
-<nz-card *ngIf="selectedFollowedProject" style="width:320px;" [nzTitle]="selectedFollowedProject.name"
-  [nzExtra]="extraTemplate1">
-  <div style="display: flex;justify-content: space-between;align-items: center;">
-    <linkable [href]="selectedFollowedProject.website" [content]="defaultLogo">
-    </linkable>
-    <created-at [createdAt]="selectedFollowedProject.createdAt"></created-at>
-    <linkable [href]="projectDetailHref(selectedFollowedProject._id)" icon="export" shape="round" size="small"
-      [title]="'详情'">
-    </linkable>
-  </div>
+    <div class="followed-project-tags" style="margin-top: 8px">
+      <tag-select mode="view" [formControl]="selectedFollowedProject.tagIDsCtrl"></tag-select>
+    </div>
+    <div class="followed-project-tags" style="margin-top: 8px">
+      <nz-tag
+        [nzColor]="selectedFollowedProject.hasLaunchToken ? 'default' : 'success'">{{selectedFollowedProject.hasLaunchToken
+        ? '已发币' :
+        '未发币'}}</nz-tag>
+    </div>
+    <ng-template #defaultLogo>
+      <image-view [width]="64" [name]="selectedFollowedProject.logo"></image-view>
+    </ng-template>
+  </nz-card>
 
-  <div class="followed-project-tags" style="margin-top: 8px">
-    <tag-select mode="view" [formControl]="selectedFollowedProject.tagIDsCtrl"></tag-select>
-  </div>
-  <div class="followed-project-tags" style="margin-top: 8px">
-    <nz-tag
-      [nzColor]="selectedFollowedProject.hasLaunchToken ? 'default' : 'success'">{{selectedFollowedProject.hasLaunchToken
-      ? '已发币' :
-      '未发币'}}</nz-tag>
-  </div>
-  <ng-template #defaultLogo>
-    <image-view [width]="64" [name]="selectedFollowedProject.logo"></image-view>
+  <ng-template #extraTemplate1>
+    <button nz-button nzType="primary" (click)="confirmDeSelect()">取消</button>
   </ng-template>
-</nz-card>
+</ng-container>
 
-<ng-template #extraTemplate1>
-  <button nz-button nzType="primary" (click)="confirmDeSelect()">取消</button>
-</ng-template>
+<ng-container *ngIf="mode === 'simple'">
+  <div class="followed-project-select-simple-container">
+    <div style="display: flex; align-items: center;">
+      <image-view *ngIf="selectedFollowedProject" [width]="32" [name]="selectedFollowedProject.logo"></image-view>
+
+      <button style="margin-left: 12px;" nz-button nzType="primary" nzShape="circle" (click)="showSelectModal()"><span
+          nz-icon nzType="edit"></span></button>
+      <button style="margin-left: 12px;" *ngIf="selectedFollowedProject" nz-button nzType="primary" nzShape="circle"
+        nzDanger (click)="confirmDeSelect()"><span nz-icon nzType="delete"></span></button>
+    </div>
+  </div>
+</ng-container>
 
 
 <nz-modal [(nzVisible)]="selectModalVisible" [nzWidth]="1200" nzTitle="选择" [nzFooter]="null"

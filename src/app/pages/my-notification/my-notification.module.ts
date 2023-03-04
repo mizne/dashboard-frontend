@@ -6,6 +6,7 @@ import { CreateNotifyObserverModule } from 'src/app/modules/create-notify-observ
 import { NotifyObserverNotAllowListModule } from 'src/app/modules/notify-observer-not-allow-list';
 import { TimerNotifyObserverModalModule } from 'src/app/modules/timer-notify-observer';
 import { NotifyObserverItemModule } from 'src/app/modules/notify-observer-item';
+import { FollowedProjectSelectModule } from 'src/app/modules/followed-project-select';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { NotifyObserverItemModule } from 'src/app/modules/notify-observer-item';
     NotifyObserverNotAllowListModule,
     TimerNotifyObserverModalModule,
     NotifyObserverItemModule,
+    FollowedProjectSelectModule,
   ],
   declarations: [MyNotificationComponent],
   exports: [MyNotificationComponent],

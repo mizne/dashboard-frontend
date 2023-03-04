@@ -4,6 +4,7 @@ import { SharedModule } from 'src/app/shared';
 import { TrackingRecordComponent } from './tracking-record.component';
 import { CreateFollowedProjectTrackingRecordModule } from 'src/app/modules/create-followed-project-tracking-record';
 import { FollowedProjectSelectViewModule } from 'src/app/modules/followed-project-select-view'
+import { FollowedProjectSelectModule } from 'src/app/modules/followed-project-select';
 
 @NgModule({
   imports: [
@@ -11,6 +12,7 @@ import { FollowedProjectSelectViewModule } from 'src/app/modules/followed-projec
     CreateFollowedProjectTrackingRecordModule,
     TrackingRecordRoutingModule,
     FollowedProjectSelectViewModule,
+    FollowedProjectSelectModule,
   ],
   declarations: [TrackingRecordComponent],
   exports: [TrackingRecordComponent],

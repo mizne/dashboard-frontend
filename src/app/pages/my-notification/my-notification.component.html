@@ -2,7 +2,7 @@
   <nz-card>
     <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
       <div nz-row [nzGutter]="24">
-        <div nz-col [nzSpan]="8">
+        <div nz-col [nzSpan]="6">
           <nz-form-item>
             <nz-form-label [nzSpan]="10" nzFor="notifyShowTitle">通知标题</nz-form-label>
             <nz-form-control [nzSpan]="14">
@@ -12,7 +12,7 @@
           </nz-form-item>
         </div>
 
-        <div nz-col [nzSpan]="8">
+        <div nz-col [nzSpan]="6">
           <nz-form-item>
             <nz-form-label [nzSpan]="10" nzFor="enableTracking">是否追踪</nz-form-label>
             <nz-form-control [nzSpan]="14">
@@ -25,7 +25,7 @@
           </nz-form-item>
         </div>
 
-        <div nz-col [nzSpan]="8">
+        <div nz-col [nzSpan]="6">
           <nz-form-item>
             <nz-form-label [nzSpan]="10" nzFor="sourceType">来源类型</nz-form-label>
             <nz-form-control [nzSpan]="14">
@@ -33,6 +33,15 @@
                 <nz-option *ngFor="let item of types" [nzValue]="item.value" [nzLabel]="item.label">
                 </nz-option>
               </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="6">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">关注项目</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <followed-project-select mode="simple" formControlName="followedProjectID"></followed-project-select>
             </nz-form-control>
           </nz-form-item>
         </div>

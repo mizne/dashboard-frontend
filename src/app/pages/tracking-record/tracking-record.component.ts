@@ -23,8 +23,6 @@ export class TrackingRecordComponent implements OnInit {
     private createFollowedProjectTrackingRecordService: CreateFollowedProjectTrackingRecordService
   ) { }
 
-  @Input() followedProjectID = '';
-
   total = 1;
   items: TableItem[] = [];
   loading = true;
@@ -38,6 +36,7 @@ export class TrackingRecordComponent implements OnInit {
   form = this.fb.group({
     title: [null],
     description: [null],
+    followedProjectID: [null],
   });
 
 
@@ -62,7 +61,6 @@ export class TrackingRecordComponent implements OnInit {
 
   showCreateModal() {
     const obj: Partial<FollowedProjectTrackingRecord> = {
-      ...(this.followedProjectID ? { followedProjectID: this.followedProjectID } : {})
     };
     const { success, error } = this.createFollowedProjectTrackingRecordService.createModal(
       '添加跟踪记录',
@@ -151,7 +149,6 @@ export class TrackingRecordComponent implements OnInit {
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
     // title website 支持正则查询
     const o: { [key: string]: any } = {
-      ...(this.followedProjectID ? { followedProjectID: this.followedProjectID } : {})
     };
     Object.keys(query).forEach((key) => {
       if (key === 'title') {

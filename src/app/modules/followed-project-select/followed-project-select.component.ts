@@ -32,7 +32,7 @@ interface TableItem extends FollowedProject {
 export class FollowedProjectSelectComponent implements ControlValueAccessor, OnDestroy {
   private onChange: Function | null = null;
 
-  @Input() mode: 'edit' | 'view' = 'edit'
+  @Input() mode: 'simple' | 'default' = 'default'
 
   selectedFollowedProject: TableItem | null = null;
   selectModalVisible = false;
@@ -143,7 +143,7 @@ export class FollowedProjectSelectComponent implements ControlValueAccessor, OnD
   emitValue() {
     // console.log(`emitValue() selectedFollowedProject: `, this.selectedFollowedProject)
     if (this.onChange) {
-      this.onChange(this.selectedFollowedProject ? this.selectedFollowedProject._id : '')
+      this.onChange(this.selectedFollowedProject ? this.selectedFollowedProject._id : null)
     }
   }
 

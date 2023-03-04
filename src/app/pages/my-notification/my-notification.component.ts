@@ -56,6 +56,7 @@ export class MyNotificationComponent implements OnInit {
     notifyShowTitle: [null],
     type: [this.types[0].value],
     enableTracking: [null],
+    followedProjectID: [null]
   });
 
   subscriptions: Subscription[] = [];

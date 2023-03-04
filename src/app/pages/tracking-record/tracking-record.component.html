@@ -16,6 +16,13 @@
         </nz-form-control>
       </nz-form-item>
 
+      <nz-form-item>
+        <nz-form-label nzFor="followedProjectID">关注项目</nz-form-label>
+        <nz-form-control>
+          <followed-project-select mode="simple" formControlName="followedProjectID"></followed-project-select>
+        </nz-form-control>
+      </nz-form-item>
+
       <nz-form-item class="register-area">
         <nz-form-control>
           <button nz-button [nzType]="'primary'">搜索</button>
