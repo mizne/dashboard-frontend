@@ -162,7 +162,7 @@ export class CreateNotifyObserverService {
         .then(logo => {
           this.notifyObserverService.create({
             ...form.value,
-            ...(logo ? { followedProjectLogo: logo } : {})
+            followedProjectLogo: logo
           }).subscribe({
             next: (v) => {
               if (v.code === 0) {
@@ -211,7 +211,7 @@ export class CreateNotifyObserverService {
         .then(logo => {
           this.notifyObserverService.update(id, {
             ...form.value,
-            ...(logo ? { followedProjectLogo: logo } : {})
+            followedProjectLogo: logo
           }).subscribe({
             next: (v) => {
               if (v.code === 0) {

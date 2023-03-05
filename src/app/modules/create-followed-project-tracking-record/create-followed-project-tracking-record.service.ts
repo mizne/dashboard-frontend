@@ -93,7 +93,7 @@ export class CreateFollowedProjectTrackingRecordService {
         .then(logo => {
           this.followedProjectTrackingRecordService.create({
             ...form.value,
-            ...(logo ? { logo } : {})
+            logo
           }).subscribe({
             next: (v) => {
               if (v.code === 0) {
@@ -128,7 +128,7 @@ export class CreateFollowedProjectTrackingRecordService {
         .then(logo => {
           this.followedProjectTrackingRecordService.update(id, {
             ...form.value,
-            ...(logo ? { logo } : {})
+            logo
           }).subscribe({
             next: (v) => {
               if (v.code === 0) {
