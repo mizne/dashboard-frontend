@@ -4,6 +4,11 @@
     <button *ngIf="item.followedProjectIDCtrl" nz-button nzType="primary" nzShape="circle" nz-popover
       nzPopoverTrigger="click" [nzPopoverContent]="contentTemplate"><span nz-icon nzType="project"
         nzTheme="outline"></span></button>
+
+    <button *ngIf="item.followedProjectID" nz-button nzSize="small" nzType="primary" nzShape="circle"
+      style="margin-left: 8px" (click)="toSearch()" title="搜索该项目通知源">
+      <span nz-icon nzType="search" nzTheme="outline"></span>
+    </button>
     <ng-template #contentTemplate>
       <followed-project-select-view *ngIf="item.followedProjectIDCtrl"
         [formControl]="item.followedProjectIDCtrl"></followed-project-select-view>

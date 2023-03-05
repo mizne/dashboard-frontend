@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subscription } from 'rxjs';
@@ -52,7 +52,7 @@ export class MyNotificationComponent implements OnInit {
       value: '',
     },
   ];
-  form = this.fb.group({
+  form: FormGroup<any> = this.fb.group({
     notifyShowTitle: [null],
     type: [this.types[0].value],
     enableTracking: [null],
@@ -212,6 +212,11 @@ export class MyNotificationComponent implements OnInit {
         this.nzNotificationService.error(`删除失败`, `请稍后重试，${e.message}`);
       },
     });
+  }
+
+  toSearchByNotifyObserver(item: TableItem) {
+    this.form.patchValue({ followedProjectID: item.followedProjectID });
+    this.submitForm();
   }
 
   private loadDataFromServer(): void {

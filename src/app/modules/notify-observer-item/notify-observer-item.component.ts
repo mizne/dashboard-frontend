@@ -22,10 +22,11 @@ export class NotifyObserverItemComponent implements OnInit {
 
   @Output() update = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
+  @Output() search = new EventEmitter<void>();
 
   ngOnInit() { }
 
-  resolveHref(item: NotifyObserver) {
+  resolveHref(item: TableItem) {
     switch (item.type) {
       case NotifyObserverTypes.MEDIUM:
         return item.mediumHomeLink
@@ -59,7 +60,7 @@ export class NotifyObserverItemComponent implements OnInit {
     }
   }
 
-  resolveDesc(item: NotifyObserver) {
+  resolveDesc(item: TableItem) {
     switch (item.type) {
       case NotifyObserverTypes.MEDIUM:
         return item.mediumTitleKey
@@ -99,6 +100,10 @@ export class NotifyObserverItemComponent implements OnInit {
 
   confirmDelete() {
     this.delete.emit();
+  }
+
+  toSearch() {
+    this.search.emit();
   }
 
   private isNumberArray(v?: number[]): boolean {
