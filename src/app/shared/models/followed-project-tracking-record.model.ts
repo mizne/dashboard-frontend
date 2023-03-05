@@ -4,7 +4,7 @@ export interface FollowedProjectTrackingRecord {
   logo?: string;
   description?: string;
   link?: string;
-  followedProjectID: string;
+  followedProjectID?: string;
 
   readonly createdAt: number;
   readonly createdAtStr: string;

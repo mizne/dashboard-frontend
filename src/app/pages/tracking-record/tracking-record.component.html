@@ -56,6 +56,12 @@
           <td style="display: flex; align-items: center; min-height: 65px;">
             <image-view [name]="data.logo" nz-popover nzPopoverTrigger="click"
               [nzPopoverContent]="contentTemplate"></image-view>
+
+            <button *ngIf="data.followedProjectID" nz-button nzSize="small" nzType="primary" nzShape="circle"
+              style="margin-left: 8px" (click)="toSearch(data)" title="搜索该项目跟踪记录">
+              <span nz-icon nzType="search" nzTheme="outline"></span>
+            </button>
+
             <span style="margin-left: 8px">{{ data.title }}</span>
           </td>
           <td>{{ data.description }}</td>

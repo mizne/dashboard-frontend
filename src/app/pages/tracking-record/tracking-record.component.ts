@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { CreateFollowedProjectTrackingRecordService, FollowedProjectTrackingRecordModalActions } from 'src/app/modules/create-followed-project-tracking-record';
@@ -33,7 +33,7 @@ export class TrackingRecordComponent implements OnInit {
     createdAt: -1,
   };
 
-  form = this.fb.group({
+  form: FormGroup<any> = this.fb.group({
     title: [null],
     description: [null],
     followedProjectID: [null],
@@ -57,6 +57,13 @@ export class TrackingRecordComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDataFromServer();
+  }
+
+  toSearch(item: TableItem) {
+    if (item.followedProjectID) {
+      this.form.patchValue({ followedProjectID: item.followedProjectID });
+      this.submitForm();
+    }
   }
 
   showCreateModal() {
