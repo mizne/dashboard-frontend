@@ -41,6 +41,7 @@ export interface NotifyObserver {
   notifyShowTitle?: string;
   logo?: string;
   followedProjectID?: string;
+  followedProjectLogo?: string;
 
   mediumHomeLink?: string;
   mediumTitleKey?: string;

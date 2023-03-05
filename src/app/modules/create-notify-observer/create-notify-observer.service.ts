@@ -7,6 +7,7 @@ import {
   NotifyObserver,
   NotifyObserverTypes,
   SharedService,
+  FollowedProjectService,
 } from 'src/app/shared';
 import { isNil } from 'src/app/utils';
 import { CreateNotifyObserverComponent } from './components/create-notify-observer.component';
@@ -21,6 +22,7 @@ export class CreateNotifyObserverService {
   constructor(
     private modal: NzModalService,
     private notifyObserverService: NotifyObserverService,
+    private followedProjectService: FollowedProjectService,
     private sharedService: SharedService,
     private fb: FormBuilder
   ) { }
@@ -155,21 +157,31 @@ export class CreateNotifyObserverService {
     }
 
     return new Promise((resolve, reject) => {
-      this.notifyObserverService.create(form.value).subscribe({
-        next: (v) => {
-          if (v.code === 0) {
-            this.updateDefaultType(form.value.type)
-            resolve(v.result || '添加成功');
-          } else {
-            errorSub.next(new Error(v.message));
-            resolve(false);
-          }
-        },
-        error: (e) => {
-          errorSub.next(new Error(e.message));
-          resolve(false);
-        },
-      });
+
+      this.fetchFollowedProjectLogo(form.value.followedProjectID)
+        .then(logo => {
+          this.notifyObserverService.create({
+            ...form.value,
+            ...(logo ? { followedProjectLogo: logo } : {})
+          }).subscribe({
+            next: (v) => {
+              if (v.code === 0) {
+                this.updateDefaultType(form.value.type)
+                resolve(v.result || '添加成功');
+              } else {
+                errorSub.next(new Error(v.message));
+                resolve(false);
+              }
+            },
+            error: (e) => {
+              errorSub.next(new Error(e.message));
+              resolve(false);
+            },
+          });
+        })
+
+
+
     });
   }
 
@@ -195,21 +207,29 @@ export class CreateNotifyObserverService {
     }
 
     return new Promise((resolve, reject) => {
-      this.notifyObserverService.update(id, form.value).subscribe({
-        next: (v) => {
-          if (v.code === 0) {
-            this.updateDefaultType(form.value.type)
-            resolve(v.result || '修改成功');
-          } else {
-            errorSub.next(new Error(v.message));
-            resolve(false);
-          }
-        },
-        error: (e) => {
-          errorSub.next(new Error(e.message));
-          resolve(false);
-        },
-      });
+      this.fetchFollowedProjectLogo(form.value.followedProjectID)
+        .then(logo => {
+          this.notifyObserverService.update(id, {
+            ...form.value,
+            ...(logo ? { followedProjectLogo: logo } : {})
+          }).subscribe({
+            next: (v) => {
+              if (v.code === 0) {
+                this.updateDefaultType(form.value.type)
+                resolve(v.result || '修改成功');
+              } else {
+                errorSub.next(new Error(v.message));
+                resolve(false);
+              }
+            },
+            error: (e) => {
+              errorSub.next(new Error(e.message));
+              resolve(false);
+            },
+          });
+        })
+
+
     });
   }
 
@@ -323,5 +343,26 @@ export class CreateNotifyObserverService {
 
   private updateDefaultType(type: NotifyObserverTypes) {
     localStorage.setItem('CREATE_NOTIFY_OBSERVER_DEFAULT_TYPE', type)
+  }
+
+  private async fetchFollowedProjectLogo(id: string): Promise<string> {
+    if (!id) {
+      return ''
+    }
+    return new Promise((resolve, reject) => {
+      // 这里写 更新接口
+      this.followedProjectService.queryList({ _id: id }).subscribe({
+        next: (v) => {
+          if (v.length > 0) {
+            resolve(v[0].logo || '');
+          } else {
+            resolve('');
+          }
+        },
+        error: (e) => {
+          resolve('');
+        },
+      });
+    });
   }
 }

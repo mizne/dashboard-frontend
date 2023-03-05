@@ -93,7 +93,7 @@ export class CreateFollowedProjectTrackingRecordService {
         .then(logo => {
           this.followedProjectTrackingRecordService.create({
             ...form.value,
-            logo
+            ...(logo ? { logo } : {})
           }).subscribe({
             next: (v) => {
               if (v.code === 0) {
@@ -128,7 +128,7 @@ export class CreateFollowedProjectTrackingRecordService {
         .then(logo => {
           this.followedProjectTrackingRecordService.update(id, {
             ...form.value,
-            logo
+            ...(logo ? { logo } : {})
           }).subscribe({
             next: (v) => {
               if (v.code === 0) {
@@ -148,6 +148,9 @@ export class CreateFollowedProjectTrackingRecordService {
   }
 
   private async fetchFollowedProjectLogo(id: string): Promise<string> {
+    if (!id) {
+      return ''
+    }
     return new Promise((resolve, reject) => {
       // 这里写 更新接口
       this.followedProjectService.queryList({ _id: id }).subscribe({

@@ -90,9 +90,18 @@
             <linkable [href]="item.link" [content]="defaultLogo">
             </linkable>
 
-            <button *ngIf="item.followedProjectIDCtrl" nz-button nzType="primary" nzSize="small" nzShape="circle"
-              nz-popover nzPopoverTrigger="click" [nzPopoverContent]="contentTemplate" style="margin-left: 36px"><span
-                nz-icon nzType="project" nzTheme="outline"></span></button>
+            <ng-container *ngIf="item.followedProjectIDCtrl">
+              <image-view *ngIf="item.followedProjectLogo; else noLogo" [width]="32" [name]="item.followedProjectLogo"
+                style="cursor: pointer; margin-left: 36px" nz-popover nzPopoverTrigger="click"
+                [nzPopoverContent]="contentTemplate"></image-view>
+
+              <ng-template #noLogo>
+                <button nz-button nzType="primary" nzShape="circle" nz-popover nzPopoverTrigger="click"
+                  [nzPopoverContent]="contentTemplate" style="margin-left: 36px">
+                  <span nz-icon nzType="project" nzTheme="outline"></span>
+                </button>
+              </ng-template>
+            </ng-container>
             <ng-template #contentTemplate>
               <followed-project-select-view *ngIf="item.followedProjectIDCtrl"
                 [formControl]="item.followedProjectIDCtrl"></followed-project-select-view>
