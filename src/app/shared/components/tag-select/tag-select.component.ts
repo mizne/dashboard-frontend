@@ -10,7 +10,7 @@ import {
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Tag } from '../../models';
+import { Tag, TagTypes } from '../../models';
 import { TagService } from '../../services';
 
 
@@ -40,7 +40,9 @@ export class TagSelectComponent implements ControlValueAccessor, OnDestroy {
   manageTagsModalVisible = false;
   tagInputCtrl = new FormControl(null);
 
-  @Input() mode: 'view' | 'edit' = 'edit'
+  @Input() type: TagTypes = TagTypes.FOLLOWED_PROJECT_CATEGORY
+
+  @Input() mode: 'view' | 'edit' = 'edit';
 
   @ViewChild('inputAdd') inputAdd: ElementRef | null = null
 
@@ -89,7 +91,7 @@ export class TagSelectComponent implements ControlValueAccessor, OnDestroy {
       return
     }
 
-    this.tagService.create({ text: this.tagInputCtrl.value })
+    this.tagService.create({ type: this.type, text: this.tagInputCtrl.value })
       .subscribe({
         next: () => {
           this.notificationService.success(`添加标签成功`, `添加标签成功`);
@@ -152,7 +154,7 @@ export class TagSelectComponent implements ControlValueAccessor, OnDestroy {
   private async fetchAllTags(): Promise<Tag[]> {
     const self = this;
     return new Promise((resolve, reject) => {
-      this.tagService.queryList()
+      this.tagService.queryList({ type: this.type })
         .subscribe({
           next(tags: Tag[]) {
             self.allTags = tags.sort((a, b) => {
