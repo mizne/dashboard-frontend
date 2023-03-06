@@ -36,6 +36,7 @@ export class CreateFollowedProjectTrackingRecordService {
     const form = this.fb.group({
       title: [obj.title, [Validators.required]],
       description: [obj.description],
+      tagIDs: [obj.tagIDs],
       link: [obj.link],
       followedProjectID: [obj.followedProjectID],
     });

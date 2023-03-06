@@ -19,6 +19,15 @@
     </nz-form-item>
 
     <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="tagIDs" nzTooltipTitle="标签">
+        <span>标签</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <tag-select [type]="tagType" formControlName="tagIDs"></tag-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="followedProjectID" nzTooltipTitle="关注项目">
         <span>关注项目</span>
       </nz-form-label>

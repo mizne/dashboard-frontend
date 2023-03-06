@@ -3,11 +3,12 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { CreateFollowedProjectTrackingRecordService, FollowedProjectTrackingRecordModalActions } from 'src/app/modules/create-followed-project-tracking-record';
-import { FollowedProjectTrackingRecordService, FollowedProjectTrackingRecord } from 'src/app/shared';
+import { FollowedProjectTrackingRecordService, FollowedProjectTrackingRecord, TagTypes } from 'src/app/shared';
 import { removeNullOrUndefined } from 'src/app/utils';
 
 interface TableItem extends FollowedProjectTrackingRecord {
-  followedProjectIDCtrl: FormControl
+  followedProjectIDCtrl: FormControl;
+  tagIDsCtrl: FormControl;
 }
 
 @Component({
@@ -33,10 +34,12 @@ export class TrackingRecordComponent implements OnInit {
     createdAt: -1,
   };
 
+  tagType = TagTypes.TRACKING_RECORD_CATEGORY
   form: FormGroup<any> = this.fb.group({
     title: [null],
     description: [null],
     followedProjectID: [null],
+    tagIDs: [null],
   });
 
 
@@ -140,7 +143,8 @@ export class TrackingRecordComponent implements OnInit {
         this.loading = false;
         this.items = results.map(e => ({
           ...e,
-          followedProjectIDCtrl: new FormControl(e.followedProjectID)
+          followedProjectIDCtrl: new FormControl(e.followedProjectID),
+          tagIDsCtrl: new FormControl(e.tagIDs),
         }));
       });
 
@@ -166,6 +170,12 @@ export class TrackingRecordComponent implements OnInit {
         Object.assign(o, {
           ['description']: { $regex: query['description'].trim(), $options: 'i' },
         });
+      } else if (key === 'tagIDs') {
+        if (Array.isArray(query['tagIDs']) && query['tagIDs'].length > 0) {
+          Object.assign(o, {
+            $or: query['tagIDs'].map((f: string) => ({ tagIDs: f }))
+          })
+        }
       } else {
         Object.assign(o, { [key]: query[key] });
       }

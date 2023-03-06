@@ -3,6 +3,7 @@ export interface FollowedProjectTrackingRecord {
   title: string;
   logo?: string;
   description?: string;
+  tagIDs?: string[];
   link?: string;
   followedProjectID?: string;
 

@@ -34,12 +34,12 @@
   <div class="followed-project-select-simple-container">
     <div style="display: flex; align-items: center;">
       <image-view *ngIf="selectedFollowedProject" [width]="32" [name]="selectedFollowedProject.logo"
-        [title]="selectedFollowedProject.name"></image-view>
+        [title]="selectedFollowedProject.name" style="margin-right: 12px;"></image-view>
 
-      <button style="margin-left: 12px;" nz-button type="button" nzType="primary" nzShape="circle" (click)="showSelectModal()"><span
-          nz-icon nzType="edit"></span></button>
-      <button style="margin-left: 12px;" *ngIf="selectedFollowedProject" nz-button type="button" nzType="primary" nzShape="circle"
-        nzDanger (click)="confirmDeSelect()"><span nz-icon nzType="delete"></span></button>
+      <button style="margin-right: 12px;" nz-button type="button" nzType="primary" nzShape="circle"
+        (click)="showSelectModal()"><span nz-icon nzType="edit"></span></button>
+      <button *ngIf="selectedFollowedProject" nz-button type="button" nzType="primary" nzShape="circle" nzDanger
+        (click)="confirmDeSelect()"><span nz-icon nzType="delete"></span></button>
     </div>
   </div>
 </ng-container>

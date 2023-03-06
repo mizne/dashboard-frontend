@@ -23,6 +23,13 @@
         </nz-form-control>
       </nz-form-item>
 
+      <nz-form-item>
+        <nz-form-label nzFor="tagIDs">标签</nz-form-label>
+        <nz-form-control>
+          <tag-select [type]="tagType" formControlName="tagIDs"></tag-select>
+        </nz-form-control>
+      </nz-form-item>
+
       <nz-form-item class="register-area">
         <nz-form-control>
           <button nz-button [nzType]="'primary'">搜索</button>
@@ -44,6 +51,7 @@
       <thead>
         <tr>
           <th nzColumnKey="title">标题</th>
+          <th nzColumnKey="tagIDsCtrl">标签</th>
           <th nzColumnKey="description">描述</th>
           <th nzColumnKey="link">链接</th>
           <th nzColumnKey="project">项目</th>
@@ -64,6 +72,7 @@
 
             <span style="margin-left: 8px">{{ data.title }}</span>
           </td>
+          <td><tag-select [type]="tagType" mode="view" [formControl]="data.tagIDsCtrl"></tag-select></td>
           <td>{{ data.description }}</td>
 
           <td>
