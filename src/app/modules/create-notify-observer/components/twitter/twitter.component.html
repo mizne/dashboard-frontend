@@ -1,0 +1,57 @@
+<div class="create-twitter-notify-observer-container">
+  <form nz-form [formGroup]="data">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="twitterHomeLink" nzTooltipTitle="twitter 主页链接">
+        <span>twitter 主页链接</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input class="ant-input" id="twitterHomeLink" formControlName="twitterHomeLink" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="twitterTitleKey" nzTooltipTitle="如填写，则匹配该关键字，多个关键字可用英文逗号(,)分开">
+        <span>文章关键字</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea nz-input class="ant-input" id="twitterTitleKey" formControlName="twitterTitleKey"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，使用全局默认关键字">
+        <span>全局默认关键字</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-switch formControlName="twitterTitleKeyWithDefault"></nz-switch>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，追踪twitter reply">
+        <span>追踪 回复推文</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-switch formControlName="twitterWithReply"></nz-switch>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，追踪twitter like">
+        <span>追踪 点赞推文</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-switch formControlName="twitterWithLike"></nz-switch>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，追踪twitter 关注列表变化">
+        <span>追踪 关注列表变化</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-switch formControlName="twitterWithFollowingsChange"></nz-switch>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

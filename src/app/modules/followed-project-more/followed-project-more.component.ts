@@ -6,6 +6,7 @@ import { CreateFollowedProjectTrackingRecordService } from 'src/app/modules/crea
 import { CreateNotifyObserverService } from 'src/app/modules/create-notify-observer';
 import { ClientNotifyService, FollowedProjectService, FollowedProjectTrackingRecord, NotifyObserver, NotifyObserverService, NotifyObserverTypes, } from 'src/app/shared';
 import { DestroyService } from 'src/app/shared/services/destroy.service';
+import { NotifyObserverTypeManagerService } from 'src/app/modules/create-notify-observer';
 
 interface TableItem extends NotifyObserver {
   enableTrackingCtrl: FormControl;
@@ -21,18 +22,16 @@ interface TableItem extends NotifyObserver {
 
 export class FollowedProjectMoreComponent implements OnInit {
   constructor(
-    private readonly route: ActivatedRoute,
-    private readonly followedProjectService: FollowedProjectService,
     private readonly notifyObserverService: NotifyObserverService,
     private readonly notificationService: NzNotificationService,
     private readonly createNotifyObserverService: CreateNotifyObserverService,
     private readonly destroy$: DestroyService,
     private readonly clientNotifyService: ClientNotifyService,
-    private createFollowedProjectTrackingRecordService: CreateFollowedProjectTrackingRecordService
+    private readonly notifyObserverTypeService: NotifyObserverTypeManagerService,
+    private readonly createFollowedProjectTrackingRecordService: CreateFollowedProjectTrackingRecordService
   ) { }
 
   @Input() id = '';
-
 
   notifyObservers: TableItem[] = [];
   loadingNotifyObservers = false;
@@ -43,40 +42,8 @@ export class FollowedProjectMoreComponent implements OnInit {
   }
 
   resolveHref(item: NotifyObserver) {
-    switch (item.type) {
-      case NotifyObserverTypes.MEDIUM:
-        return item.mediumHomeLink
-      case NotifyObserverTypes.MIRROR:
-        return item.mirrorHomeLink
-      case NotifyObserverTypes.TWITTER:
-        return item.twitterHomeLink
-      case NotifyObserverTypes.TWITTER_SPACE:
-        return item.twitterSpaceHomeLink
-      case NotifyObserverTypes.GALXE:
-        return item.galxeHomeLink
-      case NotifyObserverTypes.QUEST3:
-        return item.quest3HomeLink
-      case NotifyObserverTypes.TIMER:
-        return item.timerNotifyShowUrl
-      case NotifyObserverTypes.SNAPSHOT:
-        return item.snapshotHomeLink
-      case NotifyObserverTypes.GUILD:
-        return item.guildHomeLink
-      case NotifyObserverTypes.XIAOYUZHOU:
-        return item.xiaoyuzhouHomeLink
-      case NotifyObserverTypes.SOQUEST:
-        return item.soQuestHomeLink
-      case NotifyObserverTypes.SUBSTACK:
-        return item.substackHomeLink
-      case NotifyObserverTypes.LINK3:
-        return item.link3HomeLink
-      default:
-        console.warn(`resolveHref() unknown type: ${item.type}`)
-        return ''
-    }
+    return this.notifyObserverTypeService.resolveHref(item)
   }
-
-
 
   showCreateNotifyObserverModal() {
     if (!this.id) {

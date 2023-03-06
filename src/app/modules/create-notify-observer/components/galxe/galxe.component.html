@@ -1,0 +1,21 @@
+<div class="create-galxe-notify-observer-container">
+  <form nz-form [formGroup]="data">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="galxeHomeLink" nzTooltipTitle="galxe 主页链接">
+        <span>galxe 主页链接</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input class="ant-input" id="galxeHomeLink" formControlName="galxeHomeLink" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="galxeTitleKey" nzTooltipTitle="如填写，则匹配该关键字，多个关键字可用英文逗号(,)分开">
+        <span>标题关键字</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea nz-input class="ant-input" id="galxeTitleKey" formControlName="galxeTitleKey"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

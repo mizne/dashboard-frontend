@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { Observable, Subject } from 'rxjs';
 import {
   NotifyObserverService,
   NotifyObserver,
-  NotifyObserverTypes,
   SharedService,
   FollowedProjectService,
 } from 'src/app/shared';
 import { isNil } from 'src/app/utils';
 import { CreateNotifyObserverComponent } from './components/create-notify-observer.component';
+import { NotifyObserverModalActions } from './create-notify-observer-modal-actions';
+import { NotifyObserverTypeManagerService } from './notify-observer-type-manager.service';
 
-export enum NotifyObserverModalActions {
-  CREATE = 'create',
-  UPDATE = 'update',
-}
+
 
 @Injectable()
 export class CreateNotifyObserverService {
@@ -24,8 +22,10 @@ export class CreateNotifyObserverService {
     private notifyObserverService: NotifyObserverService,
     private followedProjectService: FollowedProjectService,
     private sharedService: SharedService,
-    private fb: FormBuilder
+    private notifyObserverTypeService: NotifyObserverTypeManagerService,
   ) { }
+
+  private modalInstance: NzModalRef<CreateNotifyObserverComponent> | null = null;
 
   // 1. 成功 -> 结束
   // 2. 失败 -> 失败 -> 结束
@@ -39,83 +39,34 @@ export class CreateNotifyObserverService {
     success: Observable<any>;
     error: Observable<Error>;
   } {
-    const form = this.fb.group({
-      type: [obj.type || this.resolveDefaultType(), [Validators.required]],
-      enableTracking: [
-        obj.enableTracking === false ? false : true,
-        [Validators.required],
-      ],
-      followedProjectID: [obj.followedProjectID],
-      notifyShowTitle: [obj.notifyShowTitle],
-
-      mediumHomeLink: [obj.mediumHomeLink],
-      mediumTitleKey: [obj.mediumTitleKey],
-
-      mirrorHomeLink: [obj.mirrorHomeLink],
-      mirrorTitleKey: [obj.mirrorTitleKey],
-
-      twitterHomeLink: [obj.twitterHomeLink],
-      twitterTitleKey: [obj.twitterTitleKey],
-      twitterTitleKeyWithDefault: [action === NotifyObserverModalActions.CREATE ? true : !!obj.twitterTitleKeyWithDefault],
-      twitterWithReply: [action === NotifyObserverModalActions.CREATE ? true : !!obj.twitterWithReply],
-      twitterWithLike: [!!obj.twitterWithLike],
-      twitterWithFollowingsChange: [!!obj.twitterWithFollowingsChange],
-
-      twitterSpaceHomeLink: [obj.twitterSpaceHomeLink],
-      twitterSpaceTitleKey: [obj.twitterSpaceTitleKey],
-
-      quest3HomeLink: [obj.quest3HomeLink],
-      quest3TitleKey: [obj.quest3TitleKey],
-
-      galxeHomeLink: [obj.galxeHomeLink],
-      galxeTitleKey: [obj.galxeTitleKey],
-
-      snapshotHomeLink: [obj.snapshotHomeLink],
-      snapshotTitleKey: [obj.snapshotTitleKey],
-
-      guildHomeLink: [obj.guildHomeLink],
-      guildTitleKey: [obj.guildTitleKey],
-
-      xiaoyuzhouHomeLink: [obj.xiaoyuzhouHomeLink],
-      xiaoyuzhouTitleKey: [obj.xiaoyuzhouTitleKey],
-
-      timerHour: [obj.timerHour],
-      timerMinute: [obj.timerMinute],
-      timerDate: [obj.timerDate],
-      timerMonth: [obj.timerMonth],
-      timerNotifyShowDesc: [obj.timerNotifyShowDesc],
-      timerNotifyShowUrl: [obj.timerNotifyShowUrl],
-      timerOnce: [!!obj.timerOnce],
-
-      soQuestHomeLink: [obj.soQuestHomeLink],
-      soQuestTitleKey: [obj.soQuestTitleKey],
-
-      substackHomeLink: [obj.substackHomeLink],
-      substackTitleKey: [obj.substackTitleKey],
-
-      link3HomeLink: [obj.link3HomeLink],
-      link3TitleKey: [obj.link3TitleKey],
-    });
+    const baseForm = this.notifyObserverTypeService.createBaseForm(obj);
+    const secondForm = this.notifyObserverTypeService.createSecondForm(baseForm.get('type')?.value, obj, action)
     // 创建成功时 会next值 弹框会关闭 且会结束
     const successSubject = new Subject<any>();
 
     // 创建失败时 会next Error 弹框不会关闭且不会结束 只有弹框被取消时才会结束
     const errorSubject = new Subject<Error>();
+
     const modal = this.modal.create({
       nzTitle: title,
       nzWidth: 666,
       nzContent: CreateNotifyObserverComponent,
       nzViewContainerRef: this.sharedService.getAppViewContainerRef(),
       nzComponentParams: {
-        form: form,
+        baseForm: baseForm,
+        secondForm,
+        notifyObserverInstance: obj,
+        action,
         disabledType: action === NotifyObserverModalActions.UPDATE
       },
       nzOnOk: () => {
         return action === NotifyObserverModalActions.CREATE
-          ? this.createNotifyObserver(form, errorSubject)
-          : this.updateNotifyObserver(obj._id, form, errorSubject);
+          ? this.createNotifyObserver(errorSubject)
+          : this.updateNotifyObserver(obj._id, errorSubject);
       },
     });
+
+    this.modalInstance = modal;
 
     modal.afterClose.subscribe((res) => {
       if (isNil(res)) {
@@ -137,36 +88,42 @@ export class CreateNotifyObserverService {
   }
 
   private async createNotifyObserver(
-    form: FormGroup,
     errorSub: Subject<Error>
   ): Promise<any> {
-    if (form.invalid) {
+    const baseForm = this.modalInstance?.getContentComponent().baseForm as FormGroup;
+    const secondForm = this.modalInstance?.getContentComponent().secondForm as FormGroup;
+    if (baseForm.invalid) {
       errorSub.next(new Error('请检查表单非法字段'));
       return Promise.resolve(false);
     }
 
-    const valid = await this.checkValidForm(form);
+    const obj = {
+      ...baseForm.value,
+      ...secondForm.value,
+    }
+
+    const valid = await this.notifyObserverTypeService.checkValidForm(obj);
     if (valid.code !== 0) {
       errorSub.next(new Error(valid.message));
       return Promise.resolve(false);
     }
 
-    const existed = await this.checkExisted(form, errorSub);
+    const existed = await this.checkExisted(obj, errorSub);
     if (existed) {
       return Promise.resolve(false);
     }
 
     return new Promise((resolve, reject) => {
 
-      this.fetchFollowedProjectLogo(form.value.followedProjectID)
+      this.fetchFollowedProjectLogo(obj.followedProjectID)
         .then(logo => {
           this.notifyObserverService.create({
-            ...form.value,
+            ...obj,
             followedProjectLogo: logo
           }).subscribe({
             next: (v) => {
               if (v.code === 0) {
-                this.updateDefaultType(form.value.type)
+                this.notifyObserverTypeService.updateDefaultType(obj.type)
                 resolve(v.result || '添加成功');
               } else {
                 errorSub.next(new Error(v.message));
@@ -187,35 +144,41 @@ export class CreateNotifyObserverService {
 
   private async updateNotifyObserver(
     id: string | undefined,
-    form: FormGroup,
     errorSub: Subject<Error>
   ): Promise<any> {
-    if (form.invalid) {
+    const baseForm = this.modalInstance?.getContentComponent().baseForm as FormGroup;
+    const secondForm = this.modalInstance?.getContentComponent().secondForm as FormGroup;
+    if (baseForm.invalid) {
       errorSub.next(new Error('请检查表单非法字段'));
       return Promise.resolve(false);
     }
 
-    const valid = await this.checkValidForm(form);
+    const obj = {
+      ...baseForm.value,
+      ...secondForm.value,
+    }
+
+    const valid = await this.notifyObserverTypeService.checkValidForm(obj);
     if (valid.code !== 0) {
       errorSub.next(new Error(valid.message));
       return Promise.resolve(false);
     }
 
-    const existed = await this.checkExisted(form, errorSub, id);
+    const existed = await this.checkExisted(obj, errorSub, id);
     if (existed) {
       return Promise.resolve(false);
     }
 
     return new Promise((resolve, reject) => {
-      this.fetchFollowedProjectLogo(form.value.followedProjectID)
+      this.fetchFollowedProjectLogo(obj.followedProjectID)
         .then(logo => {
           this.notifyObserverService.update(id, {
-            ...form.value,
+            ...obj,
             followedProjectLogo: logo
           }).subscribe({
             next: (v) => {
               if (v.code === 0) {
-                this.updateDefaultType(form.value.type)
+                this.notifyObserverTypeService.updateDefaultType(obj.type)
                 resolve(v.result || '修改成功');
               } else {
                 errorSub.next(new Error(v.message));
@@ -233,8 +196,8 @@ export class CreateNotifyObserverService {
     });
   }
 
-  private checkExisted(form: FormGroup, errorSub: Subject<Error>, id?: string): Promise<boolean> {
-    const condition = this.resolveExistedCondition(form);
+  private checkExisted(obj: Partial<NotifyObserver>, errorSub: Subject<Error>, id?: string): Promise<boolean> {
+    const condition = this.notifyObserverTypeService.resolveExistedCondition(obj);
     if (!condition) {
       return Promise.resolve(false)
     }
@@ -267,83 +230,7 @@ export class CreateNotifyObserverService {
     });
   }
 
-  private checkValidForm(form: FormGroup): { code: number; message?: string } {
-    switch (form.value.type) {
-      case NotifyObserverTypes.MEDIUM:
-        return form.value.mediumHomeLink ? { code: 0 } : { code: -1, message: `没有填写medium主页链接` }
-      case NotifyObserverTypes.MIRROR:
-        return form.value.mirrorHomeLink ? { code: 0 } : { code: -1, message: `没有填写mirror主页链接` }
-      case NotifyObserverTypes.TWITTER:
-        return form.value.twitterHomeLink ? { code: 0 } : { code: -1, message: `没有填写twitter主页链接` }
-      case NotifyObserverTypes.TWITTER_SPACE:
-        return form.value.twitterSpaceHomeLink ? { code: 0 } : { code: -1, message: `没有填写twitter主页链接` }
-      case NotifyObserverTypes.QUEST3:
-        return form.value.quest3HomeLink ? { code: 0 } : { code: -1, message: `没有填写quest3主页链接` }
-      case NotifyObserverTypes.GALXE:
-        return form.value.galxeHomeLink ? { code: 0 } : { code: -1, message: `没有填写galxe主页链接` }
-      case NotifyObserverTypes.TIMER:
-        return (form.value.notifyShowTitle && (Array.isArray(form.value.timerHour)) && form.value.timerHour.length > 0 && (Array.isArray(form.value.timerMinute)) && form.value.timerMinute.length > 0)
-          ? { code: 0 } : { code: -1, message: `通知标题必填，hour minute必填` }
-      case NotifyObserverTypes.SNAPSHOT:
-        return form.value.snapshotHomeLink ? { code: 0 } : { code: -1, message: `没有填写snapshot主页链接` }
-      case NotifyObserverTypes.GUILD:
-        return form.value.guildHomeLink ? { code: 0 } : { code: -1, message: `没有填写guild主页链接` }
 
-      case NotifyObserverTypes.XIAOYUZHOU:
-        return form.value.xiaoyuzhouHomeLink ? { code: 0 } : { code: -1, message: `没有填写xiaoyuzhou主页链接` }
-      case NotifyObserverTypes.SOQUEST:
-        return form.value.soQuestHomeLink ? { code: 0 } : { code: -1, message: `没有填写soquest主页链接` }
-      case NotifyObserverTypes.SUBSTACK:
-        return form.value.substackHomeLink ? { code: 0 } : { code: -1, message: `没有填写substack主页链接` }
-      case NotifyObserverTypes.LINK3:
-        return form.value.link3HomeLink ? { code: 0 } : { code: -1, message: `没有填写link3主页链接` }
-      default:
-        return { code: 0 }
-    }
-  }
-
-  private resolveExistedCondition(form: FormGroup): Partial<NotifyObserver> | null {
-    switch (form.value.type) {
-      case NotifyObserverTypes.MEDIUM:
-        return form.value.mediumHomeLink ? { type: NotifyObserverTypes.MEDIUM, mediumHomeLink: form.value.mediumHomeLink } : null
-      case NotifyObserverTypes.MIRROR:
-        return form.value.mirrorHomeLink ? { type: NotifyObserverTypes.MIRROR, mirrorHomeLink: form.value.mirrorHomeLink } : null
-      case NotifyObserverTypes.TWITTER:
-        return form.value.twitterHomeLink ? { type: NotifyObserverTypes.TWITTER, twitterHomeLink: form.value.twitterHomeLink } : null
-      case NotifyObserverTypes.TWITTER_SPACE:
-        return form.value.twitterSpaceHomeLink ? { type: NotifyObserverTypes.TWITTER_SPACE, twitterSpaceHomeLink: form.value.twitterSpaceHomeLink } : null
-      case NotifyObserverTypes.QUEST3:
-        return form.value.quest3HomeLink ? { type: NotifyObserverTypes.QUEST3, quest3HomeLink: form.value.quest3HomeLink } : null
-      case NotifyObserverTypes.GALXE:
-        return form.value.galxeHomeLink ? { type: NotifyObserverTypes.GALXE, galxeHomeLink: form.value.galxeHomeLink } : null
-      case NotifyObserverTypes.TIMER:
-        return form.value.timerNotifyShowUrl ? { type: NotifyObserverTypes.TIMER, notifyShowTitle: form.value.notifyShowTitle, timerNotifyShowUrl: form.value.timerNotifyShowUrl } : null
-      case NotifyObserverTypes.SNAPSHOT:
-        return form.value.snapshotHomeLink ? { type: NotifyObserverTypes.SNAPSHOT, snapshotHomeLink: form.value.snapshotHomeLink } : null
-      case NotifyObserverTypes.GUILD:
-        return form.value.guildHomeLink ? { type: NotifyObserverTypes.GUILD, guildHomeLink: form.value.guildHomeLink } : null
-
-      case NotifyObserverTypes.XIAOYUZHOU:
-        return form.value.xiaoyuzhouHomeLink ? { type: NotifyObserverTypes.XIAOYUZHOU, xiaoyuzhouHomeLink: form.value.xiaoyuzhouHomeLink } : null
-      case NotifyObserverTypes.SOQUEST:
-        return form.value.soQuestHomeLink ? { type: NotifyObserverTypes.SOQUEST, soQuestHomeLink: form.value.soQuestHomeLink } : null
-      case NotifyObserverTypes.SUBSTACK:
-        return form.value.substackHomeLink ? { type: NotifyObserverTypes.SUBSTACK, substackHomeLink: form.value.substackHomeLink } : null
-      case NotifyObserverTypes.LINK3:
-        return form.value.link3HomeLink ? { type: NotifyObserverTypes.LINK3, link3HomeLink: form.value.link3HomeLink } : null
-      default:
-        return null
-    }
-  }
-
-  private resolveDefaultType(): NotifyObserverTypes {
-    const lastType = localStorage.getItem('CREATE_NOTIFY_OBSERVER_DEFAULT_TYPE') as NotifyObserverTypes
-    return lastType || NotifyObserverTypes.MEDIUM
-  }
-
-  private updateDefaultType(type: NotifyObserverTypes) {
-    localStorage.setItem('CREATE_NOTIFY_OBSERVER_DEFAULT_TYPE', type)
-  }
 
   private async fetchFollowedProjectLogo(id: string): Promise<string> {
     if (!id) {

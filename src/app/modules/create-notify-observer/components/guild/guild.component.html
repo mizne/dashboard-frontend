@@ -1,0 +1,21 @@
+<div class="create-guild-notify-observer-container">
+  <form nz-form [formGroup]="data">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="guildHomeLink" nzTooltipTitle="guild 主页链接">
+        <span>guild 主页链接</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input class="ant-input" id="guildHomeLink" formControlName="guildHomeLink" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="guildTitleKey" nzTooltipTitle="如填写，则匹配该关键字，多个关键字可用英文逗号(,)分开">
+        <span>标题关键字</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea nz-input class="ant-input" id="guildTitleKey" formControlName="guildTitleKey"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

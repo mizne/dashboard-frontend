@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NotifyObserver, NotifyObserverTypes } from 'src/app/shared';
+import { NotifyObserverTypeManagerService } from 'src/app/modules/create-notify-observer';
 
 interface TableItem extends NotifyObserver {
   enableTrackingCtrl: FormControl;
@@ -13,7 +14,9 @@ interface TableItem extends NotifyObserver {
 })
 
 export class NotifyObserverItemComponent implements OnInit {
-  constructor() { }
+  constructor(
+    private readonly notifyObserverTypeService: NotifyObserverTypeManagerService
+  ) { }
 
   @Input() mode: 'small' | 'default' = 'default'
 
@@ -27,71 +30,11 @@ export class NotifyObserverItemComponent implements OnInit {
   ngOnInit() { }
 
   resolveHref(item: TableItem) {
-    switch (item.type) {
-      case NotifyObserverTypes.MEDIUM:
-        return item.mediumHomeLink
-      case NotifyObserverTypes.MIRROR:
-        return item.mirrorHomeLink
-      case NotifyObserverTypes.TWITTER:
-        return item.twitterHomeLink
-      case NotifyObserverTypes.TWITTER_SPACE:
-        return item.twitterSpaceHomeLink
-      case NotifyObserverTypes.GALXE:
-        return item.galxeHomeLink
-      case NotifyObserverTypes.QUEST3:
-        return item.quest3HomeLink
-      case NotifyObserverTypes.TIMER:
-        return item.timerNotifyShowUrl
-      case NotifyObserverTypes.SNAPSHOT:
-        return item.snapshotHomeLink
-      case NotifyObserverTypes.GUILD:
-        return item.guildHomeLink
-      case NotifyObserverTypes.XIAOYUZHOU:
-        return item.xiaoyuzhouHomeLink
-      case NotifyObserverTypes.SOQUEST:
-        return item.soQuestHomeLink
-      case NotifyObserverTypes.SUBSTACK:
-        return item.substackHomeLink
-      case NotifyObserverTypes.LINK3:
-        return item.link3HomeLink
-      default:
-        console.warn(`resolveHref() unknown type: ${item.type}`)
-        return ''
-    }
+    return this.notifyObserverTypeService.resolveHref(item)
   }
 
   resolveDesc(item: TableItem) {
-    switch (item.type) {
-      case NotifyObserverTypes.MEDIUM:
-        return item.mediumTitleKey
-      case NotifyObserverTypes.MIRROR:
-        return item.mirrorTitleKey
-      case NotifyObserverTypes.TWITTER:
-        return item.twitterTitleKey
-      case NotifyObserverTypes.TWITTER_SPACE:
-        return item.twitterSpaceTitleKey
-      case NotifyObserverTypes.GALXE:
-        return item.galxeTitleKey
-      case NotifyObserverTypes.QUEST3:
-        return item.quest3TitleKey
-      case NotifyObserverTypes.TIMER:
-        return `${item.timerNotifyShowDesc || ''} ${this.isNumberArray(item.timerMonth) ? `${item.timerMonth?.join(', ')}月 ` : ''}${this.isNumberArray(item.timerDate) ? ` ${item.timerDate?.join(', ')}日 ` : ''}${item.timerHour?.join(', ')}时 ${item.timerMinute?.join(', ')}分`
-      case NotifyObserverTypes.SNAPSHOT:
-        return item.snapshotTitleKey
-      case NotifyObserverTypes.GUILD:
-        return item.guildTitleKey
-      case NotifyObserverTypes.XIAOYUZHOU:
-        return item.xiaoyuzhouTitleKey
-      case NotifyObserverTypes.SOQUEST:
-        return item.soQuestTitleKey
-      case NotifyObserverTypes.SUBSTACK:
-        return item.substackTitleKey
-      case NotifyObserverTypes.LINK3:
-        return item.link3TitleKey
-      default:
-        console.warn(`resolveDesc() unknown type: ${item.type}`)
-        return ''
-    }
+    return this.notifyObserverTypeService.resolveDesc(item)
   }
 
   confirmUpdate() {
@@ -105,9 +48,4 @@ export class NotifyObserverItemComponent implements OnInit {
   toSearch() {
     this.search.emit();
   }
-
-  private isNumberArray(v?: number[]): boolean {
-    return Array.isArray(v) && v.length > 0 && v.every(f => typeof f === 'number')
-  }
-
 }

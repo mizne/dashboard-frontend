@@ -32,6 +32,12 @@ export enum NotifyObserverTypes {
   SOQUEST = 'SOQUEST',
   SUBSTACK = 'SUBSTACK',
   FUNDING_RAISE = 'FUNDING_RAISE',
+  FREE_NFT_RECOMMEND = 'FREE_NFT_RECOMMEND',
+  RABBITHOLE_RECOMMEND = 'RABBITHOLE_RECOMMEND',
+  WOM_PEG = 'WOM_PEG',
+  TOKEN_TRANSFER = 'TOKEN_TRANSFER',
+  MARKET = 'MARKET',
+  GHOST = 'GHOST',
 }
 
 export interface NotifyObserver {
@@ -93,6 +99,9 @@ export interface NotifyObserver {
 
   link3HomeLink?: string;
   link3TitleKey?: string;
+
+  ghostHomeLink?: string;
+  ghostTitleKey?: string;
 
   readonly createdAt: number;
   readonly createdAtStr: string;

@@ -1,0 +1,21 @@
+<div class="create-galxe-notify-observer-container">
+  <form nz-form [formGroup]="data">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="mirrorHomeLink" nzTooltipTitle="mirror 主页链接">
+        <span>mirror 主页链接</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input class="ant-input" id="mirrorHomeLink" formControlName="mirrorHomeLink" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="mirrorTitleKey" nzTooltipTitle="如填写，则匹配该关键字">
+        <span>文章标题关键字</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea nz-input class="ant-input" id="mirrorTitleKey" formControlName="mirrorTitleKey"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

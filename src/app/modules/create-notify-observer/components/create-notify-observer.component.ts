@@ -1,6 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NotifyObserverService, NotifyObserverTypes } from 'src/app/shared';
+import { startWith } from 'rxjs';
+import { NotifyObserver, NotifyObserverService, NotifyObserverTypes } from 'src/app/shared';
+import { NotifyObserverModalActions } from '../create-notify-observer-modal-actions';
+import { NotifyObserverTypeManagerService } from '../notify-observer-type-manager.service';
+import { FormHostDirective } from './form-host.directive';
+import { FormItemInterface } from './form-item.interface';
 
 @Component({
   selector: 'app-create-notify-observer',
@@ -8,63 +13,49 @@ import { NotifyObserverService, NotifyObserverTypes } from 'src/app/shared';
   styleUrls: ['./create-notify-observer.component.less'],
 })
 export class CreateNotifyObserverComponent implements OnInit {
-  @Input() form: FormGroup = this.fb.group({});
+  @Input() baseForm: FormGroup = this.fb.group({});
+  @Input() secondForm: FormGroup = this.fb.group({});
   @Input() disabledType = false
+  @Input() notifyObserverInstance: Partial<NotifyObserver> = {}
+  @Input() action: NotifyObserverModalActions = NotifyObserverModalActions.CREATE
 
   types: Array<{ label: string; value: NotifyObserverTypes }> = [];
 
-  get isMedium(): boolean {
-    return this.form?.get('type')?.value === NotifyObserverTypes.MEDIUM;
-  }
-  get isMirror(): boolean {
-    return this.form?.get('type')?.value === NotifyObserverTypes.MIRROR;
-  }
-  get isTwitter(): boolean {
-    return this.form?.get('type')?.value === NotifyObserverTypes.TWITTER;
-  }
-  get isTwitterSpace(): boolean {
-    return this.form?.get('type')?.value === NotifyObserverTypes.TWITTER_SPACE;
-  }
-  get isQuest3(): boolean {
-    return this.form?.get('type')?.value === NotifyObserverTypes.QUEST3;
-  }
-  get isGalxe(): boolean {
-    return this.form?.get('type')?.value === NotifyObserverTypes.GALXE;
-  }
-  get isTimer(): boolean {
-    return this.form?.get('type')?.value === NotifyObserverTypes.TIMER;
-  }
-  get isSnapshot(): boolean {
-    return this.form?.get('type')?.value === NotifyObserverTypes.SNAPSHOT;
-  }
-  get isGuild(): boolean {
-    return this.form?.get('type')?.value === NotifyObserverTypes.GUILD;
-  }
-  get isXiaoYuZhou(): boolean {
-    return this.form?.get('type')?.value === NotifyObserverTypes.XIAOYUZHOU;
-  }
-  get isSoQuest(): boolean {
-    return this.form?.get('type')?.value === NotifyObserverTypes.SOQUEST;
-  }
-  get isSubstack(): boolean {
-    return this.form?.get('type')?.value === NotifyObserverTypes.SUBSTACK;
-  }
-  get isLink3(): boolean {
-    return this.form?.get('type')?.value === NotifyObserverTypes.LINK3;
-  }
-  timerMessage = '00:00 到 01:00 为服务维护时间，不建议在此时间段内设置定时任务'
+  @ViewChild(FormHostDirective, { static: true }) formHost!: FormHostDirective;
 
-  constructor(private fb: FormBuilder, private service: NotifyObserverService) { }
+  constructor(
+    private fb: FormBuilder,
+    private service: NotifyObserverService,
+    private notifyObserverTypeService: NotifyObserverTypeManagerService
+  ) { }
 
   ngOnInit(): void {
-    this.patchForm();
-
     this.service.queryTypes()
       .subscribe(types => {
         this.types = types;
       })
+
+    this.baseForm.get('type')
+      ?.valueChanges
+      .pipe(
+        startWith(this.baseForm.get('type')?.value)
+      ).subscribe((type: NotifyObserverTypes) => {
+        this.renderSecondForm(type)
+      })
   }
 
-  toSearch() { }
-  private patchForm() { }
+  renderSecondForm(type: NotifyObserverTypes) {
+    const secondForm = this.notifyObserverTypeService.createSecondForm(type, this.notifyObserverInstance, this.action)
+    const component = this.notifyObserverTypeService.resolveComponent(type);
+
+    const viewContainerRef = this.formHost.viewContainerRef;
+    viewContainerRef.clear();
+
+    if (component) {
+      const componentRef = viewContainerRef.createComponent<FormItemInterface>(component);
+      componentRef.instance.data = secondForm;
+
+      this.secondForm = secondForm;
+    }
+  }
 }

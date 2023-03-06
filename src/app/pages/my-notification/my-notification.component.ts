@@ -228,18 +228,20 @@ export class MyNotificationComponent implements OnInit {
         { number: this.pageIndex, size: this.pageSize },
         this.sort
       )
-      .subscribe((results) => {
-        this.unsubscribeUpdateEnableTrackingCtrls();
-        this.loading = false;
-        this.items = results.map((e) => ({
-          ...e,
-          enableTrackingCtrl: new FormControl(!!e.enableTracking),
-          ...(e.followedProjectID ? {
-            followedProjectIDCtrl: new FormControl(e.followedProjectID)
-          } : {})
-        }));
+      .subscribe({
+        next: (results) => {
+          this.unsubscribeUpdateEnableTrackingCtrls();
+          this.loading = false;
+          this.items = results.map((e) => ({
+            ...e,
+            enableTrackingCtrl: new FormControl(!!e.enableTracking),
+            ...(e.followedProjectID ? {
+              followedProjectIDCtrl: new FormControl(e.followedProjectID)
+            } : {})
+          }));
 
-        this.subscribeUpdateEnableTrackingCtrls();
+          this.subscribeUpdateEnableTrackingCtrls();
+        }
       });
 
     this.notifyObserverService

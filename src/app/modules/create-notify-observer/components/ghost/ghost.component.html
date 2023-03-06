@@ -1,0 +1,21 @@
+<div class="create-ghost-notify-observer-container">
+  <form nz-form [formGroup]="data">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="ghostHomeLink" nzTooltipTitle="ghost 主页链接">
+        <span>ghost 主页链接</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input class="ant-input" id="ghostHomeLink" formControlName="ghostHomeLink" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="ghostTitleKey" nzTooltipTitle="如填写，则匹配该关键字，多个关键字可用英文逗号(,)分开">
+        <span>标题关键字</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea nz-input class="ant-input" id="ghostTitleKey" formControlName="ghostTitleKey"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

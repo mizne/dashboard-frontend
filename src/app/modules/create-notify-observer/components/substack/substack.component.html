@@ -1,0 +1,21 @@
+<div class="create-substack-notify-observer-container">
+  <form nz-form [formGroup]="data">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="substackHomeLink" nzTooltipTitle="substack 主页链接">
+        <span>substack 主页链接</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input class="ant-input" id="substackHomeLink" formControlName="substackHomeLink" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="substackTitleKey" nzTooltipTitle="如填写，则匹配该关键字，多个关键字可用英文逗号(,)分开">
+        <span>标题关键字</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea nz-input class="ant-input" id="substackTitleKey" formControlName="substackTitleKey"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

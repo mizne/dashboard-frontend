@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared';
-import { CreateNotifyObserverComponent } from './components/create-notify-observer.component';
-import { CreateNotifyObserverService } from './create-notify-observer.service';
 import { FollowedProjectSelectModule } from 'src/app/modules/followed-project-select'
+import { components, directives, services } from './components';
+import { CreateNotifyObserverService } from './create-notify-observer.service';
+import { NotifyObserverTypeManagerService } from './notify-observer-type-manager.service';
 
 @NgModule({
   imports: [SharedModule, FollowedProjectSelectModule],
-  exports: [CreateNotifyObserverComponent],
-  declarations: [CreateNotifyObserverComponent],
-  providers: [CreateNotifyObserverService],
+  exports: [],
+  declarations: [...components, ...directives],
+  providers: [CreateNotifyObserverService, NotifyObserverTypeManagerService, ...services],
 })
 export class CreateNotifyObserverModule { }
