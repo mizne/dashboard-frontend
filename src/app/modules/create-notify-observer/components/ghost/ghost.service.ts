@@ -1,13 +1,15 @@
 import { Injectable, Type } from '@angular/core';
 import { NotifyObserver, NotifyObserverTypes } from 'src/app/shared';
 import { NotifyObserverModalActions } from '../../create-notify-observer-modal-actions';
+import { NotifyObserverTypeManagerService } from '../../notify-observer-type-manager.service';
 import { NotifyObserverTypeServiceInterface } from '../../notify-observer-type-service.interface';
 import { FormItemInterface } from '../form-item.interface';
 import { CreateGhostComponent } from './ghost.component';
 
 @Injectable()
 export class GhostService implements NotifyObserverTypeServiceInterface {
-  constructor() {
+  constructor(private manageService: NotifyObserverTypeManagerService) {
+    manageService.registerTypeService(this)
   }
   type: NotifyObserverTypes = NotifyObserverTypes.GHOST;
 

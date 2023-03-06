@@ -3,20 +3,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NzNotificationService } from "ng-zorro-antd/notification";
 import { NotifyObserver, NotifyObserverTypes } from "src/app/shared";
 import { FormItemInterface } from "./components/form-item.interface";
-import { GalxeService } from "./components/galxe/galxe.service";
-import { GhostService } from "./components/ghost/ghost.service";
-import { GuildService } from "./components/guild/guild.service";
-import { Link3Service } from "./components/link3/link3.service";
-import { MediumService } from "./components/medium/medium.service";
-import { MirrorService } from "./components/mirror/mirror.service";
-import { Quest3Service } from "./components/quest3/quest3.service";
-import { SnapshotService } from "./components/snapshot/snapshot.service";
-import { SoQuestService } from "./components/soquest/soquest.service";
-import { SubstackService } from "./components/substack/substack.service";
-import { TimerService } from "./components/timer/timer.service";
-import { TwitterSpaceService } from "./components/twitter-space/twitter-space.service";
-import { TwitterService } from "./components/twitter/twitter.service";
-import { XiaoYuZhouService } from "./components/xiaoyuzhou/xiaoyuzhou.service";
 import { NotifyObserverModalActions } from "./create-notify-observer-modal-actions";
 import { NotifyObserverTypeServiceInterface } from "./notify-observer-type-service.interface";
 
@@ -28,36 +14,7 @@ export class NotifyObserverTypeManagerService {
   constructor(
     private fb: FormBuilder,
     private notification: NzNotificationService,
-    private link3Service: Link3Service,
-    private ghostService: GhostService,
-    private substackService: SubstackService,
-    private soQuestService: SoQuestService,
-    private xiaoYuZhouService: XiaoYuZhouService,
-    private guildService: GuildService,
-    private snapshotService: SnapshotService,
-    private timerService: TimerService,
-    private galxeService: GalxeService,
-    private quest3Service: Quest3Service,
-    private twitterSpaceService: TwitterSpaceService,
-    private twitterService: TwitterService,
-    private mirrorService: MirrorService,
-    private mediumService: MediumService,
-  ) {
-    this.registerTypeService(link3Service)
-    this.registerTypeService(ghostService)
-    this.registerTypeService(substackService)
-    this.registerTypeService(soQuestService)
-    this.registerTypeService(xiaoYuZhouService)
-    this.registerTypeService(guildService)
-    this.registerTypeService(snapshotService)
-    this.registerTypeService(timerService)
-    this.registerTypeService(galxeService)
-    this.registerTypeService(quest3Service)
-    this.registerTypeService(twitterSpaceService)
-    this.registerTypeService(twitterService)
-    this.registerTypeService(mirrorService)
-    this.registerTypeService(mediumService)
-  }
+  ) { }
 
   registerTypeService(item: NotifyObserverTypeServiceInterface) {
     const index = this.typeServices.findIndex(e => e.type === item.type);
