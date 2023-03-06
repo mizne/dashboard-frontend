@@ -118,7 +118,7 @@ export class NotifyHistoryListComponent implements OnInit {
       .subscribe({
         next: (v) => {
           if (v.code === 0) {
-            this.showCreateTimerNotifyObserver(v.result);
+            this.showCreateTimerNotifyObserver(v.result, item.followedProjectID);
           } else {
             this.nzNotificationService.error(`获取Link3活动详情 失败`, `${v.message}`);
             this.showCreateTimerNotifyObserver();
@@ -187,11 +187,12 @@ export class NotifyHistoryListComponent implements OnInit {
     this.loadDataFromServer();
   }
 
-  private showCreateTimerNotifyObserver(activity?: any) {
+  private showCreateTimerNotifyObserver(activity?: any, followedProjectID?: string) {
     const obj: Partial<NotifyObserver> = {
       enableTracking: true,
       type: NotifyObserverTypes.TIMER,
       timerOnce: true,
+      ...(followedProjectID ? { followedProjectID } : {}),
 
       ...(activity ? {
         notifyShowTitle: `${activity.organizerHandle} - Link3 | ${activity.title}`,
