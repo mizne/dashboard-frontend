@@ -56,7 +56,7 @@ export class FollowedProjectSelectViewComponent implements ControlValueAccessor,
                 tagIDsCtrl: new FormControl(items[0].tagIDs),
               }
             } else {
-              this.notificationService.warning(`获取 关注项目失败`, `没有找到 关注项目, id: ${id}`)
+              this.notificationService.warning(`获取 关注项目失败`, `没有找到, 也许被删除 id: ${id}`)
             }
           },
           error: (err: Error) => {
