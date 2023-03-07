@@ -113,7 +113,7 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
     if (Array.isArray(value)) {
       this.tags = value.map(e => this.type === 'number' ? Number(e) : String(e));
     } else if (typeof value === 'string') {
-      this.tags = value.split(',').map(e => this.type === 'number' ? Number(e) : String(e));
+      this.tags = !value ? [] : value.split(',').map(e => this.type === 'number' ? Number(e) : String(e));
     } else {
       this.tags = [];
     }

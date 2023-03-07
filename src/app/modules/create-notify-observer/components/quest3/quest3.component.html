@@ -10,11 +10,11 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="quest3TitleKey" nzTooltipTitle="如填写，则匹配该关键字，多个关键字可用英文逗号(,)分开">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="quest3TitleKey" nzTooltipTitle="如填写，则匹配该关键字">
         <span>标题关键字</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <textarea nz-input class="ant-input" id="quest3TitleKey" formControlName="quest3TitleKey"></textarea>
+        <app-multi-input type="text" mode="string" formControlName="quest3TitleKey"></app-multi-input>
       </nz-form-control>
     </nz-form-item>
   </form>

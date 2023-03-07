@@ -11,10 +11,10 @@
 
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="mediumTitleKey" nzTooltipTitle="如填写，则匹配该关键字">
-        <span>文章标题关键字</span>
+        <span>标题关键字</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <textarea nz-input class="ant-input" id="mediumTitleKey" formControlName="mediumTitleKey"></textarea>
+        <app-multi-input type="text" mode="string" formControlName="mediumTitleKey"></app-multi-input>
       </nz-form-control>
     </nz-form-item>
   </form>
