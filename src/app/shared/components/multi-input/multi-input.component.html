@@ -11,4 +11,4 @@
   [nzMax]="max" [nzStep]="1" (nzBlur)="handleInputConfirm()" (keydown.enter)="handleInputConfirm()"></nz-input-number>
 
 <input #inputText nz-input *ngIf="type === 'text' && inputVisible" placeholder="please input"
-  (nzBlur)="handleInputConfirm()" (keydown.enter)="handleInputConfirm()" [(ngModel)]="inputValue" />
+  (blur)="handleInputConfirm()" (keydown.enter)="handleInputConfirm()" [(ngModel)]="inputValue" />
