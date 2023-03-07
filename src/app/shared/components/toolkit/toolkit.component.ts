@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { ClientNotifyService } from '../../services';
 
 @Component({
   selector: 'toolkit',
   templateUrl: 'toolkit.component.html',
 })
 export class ToolkitComponent implements OnInit {
-  constructor() {}
+  constructor(
+    private clientNotifyService: ClientNotifyService
+  ) { }
 
   visible = false;
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   open(): void {
     this.visible = true;
@@ -17,5 +20,9 @@ export class ToolkitComponent implements OnInit {
 
   close(): void {
     this.visible = false;
+  }
+
+  markMainClient() {
+    this.clientNotifyService.markIdentity()
   }
 }

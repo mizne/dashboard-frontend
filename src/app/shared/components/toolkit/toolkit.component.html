@@ -18,6 +18,11 @@
           <div nz-col class="gutter-row" [nzSpan]="12" style="margin-bottom: 8px">
             <wom-peg-chart></wom-peg-chart>
           </div>
+          <div nz-col class="gutter-row" [nzSpan]="12" style="margin-bottom: 8px">
+            <button nz-button nzType="primary" (click)="markMainClient()" [title]="'接收websocket消息'">
+              标记主客户端
+            </button>
+          </div>
         </div>
       </nz-card>
 

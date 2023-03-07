@@ -61,6 +61,14 @@ export class ClientNotifyService {
     });
   }
 
+  markIdentity() {
+    if (!this.socket) {
+      return
+    }
+
+    this.socket.emit('identity', this.socket.id)
+  }
+
   listenNewlyCoin(): Observable<ClientNotifyNewlyCoinData> {
     return this.subject
       .asObservable()
