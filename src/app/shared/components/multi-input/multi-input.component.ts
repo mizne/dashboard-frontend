@@ -44,6 +44,7 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
   @Input() max = 999;
 
   @Input() type: 'number' | 'text' = 'number'
+  @Input() mode: 'array' | 'string' = 'array' // 表示输入输出是数组还是逗号相连的字符串 [2, 3] or '2,3' / ['testnet', 'mainnet'] or 'testnet,mainnet'
 
   @ViewChild('inputNumber') inputNumberCom: NzInputNumberComponent | null = null;
   @ViewChild('inputText') inputTextCom: ElementRef<HTMLInputElement> | null = null;
@@ -88,15 +89,31 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
   emitValue() {
     // console.log(`emitValue() tags: `, this.tags)
     if (this.onChange) {
-      this.onChange(this.tags)
+      if (this.mode === 'array') {
+        if (this.type === 'number') {
+          this.onChange(this.tags.map(e => Number(e)))
+        } else if (this.type === 'text') {
+          this.onChange(this.tags.map(e => String(e)))
+        }
+      } else if (this.mode === 'string') {
+        if (this.type === 'number') {
+          this.onChange(this.tags.map(e => Number(e)).join(','))
+        } else if (this.type === 'text') {
+          this.onChange(this.tags.map(e => String(e)).join(','))
+        }
+      } else {
+        console.warn(`[MultiInputComponent] emitValue() unknown mode: ${this.mode}`)
+      }
     }
   }
 
   ngOnDestroy(): void { }
 
-  writeValue(value: number[]): void {
-    if (value && Array.isArray(value)) {
-      this.tags = value;
+  writeValue(value: any): void {
+    if (Array.isArray(value)) {
+      this.tags = value.map(e => this.type === 'number' ? Number(e) : String(e));
+    } else if (typeof value === 'string') {
+      this.tags = value.split(',').map(e => this.type === 'number' ? Number(e) : String(e));
     } else {
       this.tags = [];
     }

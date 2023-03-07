@@ -28,7 +28,7 @@ export class GlobalSettingsComponent implements OnInit {
   globalSettingsID = '';
 
   form: FormGroup<any> = this.fb.group({
-    defaultKeys: [[]],
+    defaultKeyOfTwitterNotifyObserver: [null],
   });
 
 
@@ -67,7 +67,7 @@ export class GlobalSettingsComponent implements OnInit {
               this.notification.success(`获取全局设置成功`, `获取全局设置成功`);
               this.fetchingGlobalSettings = false;
               this.globalSettingsID = v[0]._id;
-              this.form.get('defaultKeys')?.patchValue(v[0].defaultKeyOfTwitterNotifyObserver.split(','))
+              this.form.get('defaultKeyOfTwitterNotifyObserver')?.patchValue(v[0].defaultKeyOfTwitterNotifyObserver)
             }
 
             if (v.length >= 2) {
@@ -84,8 +84,8 @@ export class GlobalSettingsComponent implements OnInit {
   }
 
   private createItem() {
-    const keys = this.form.get('defaultKeys')?.value as string[];
-    this.globalSettingsService.create({ defaultKeyOfTwitterNotifyObserver: keys.join(',') })
+    const key = this.form.get('defaultKeyOfTwitterNotifyObserver')?.value as string;
+    this.globalSettingsService.create({ defaultKeyOfTwitterNotifyObserver: key })
       .subscribe({
         next: (v) => {
           if (v.code === 0) {
@@ -102,8 +102,8 @@ export class GlobalSettingsComponent implements OnInit {
   }
 
   private updateItem() {
-    const keys = this.form.get('defaultKeys')?.value as string[];
-    this.globalSettingsService.update(this.globalSettingsID, { defaultKeyOfTwitterNotifyObserver: keys.join(',') })
+    const key = this.form.get('defaultKeyOfTwitterNotifyObserver')?.value as string;
+    this.globalSettingsService.update(this.globalSettingsID, { defaultKeyOfTwitterNotifyObserver: key })
       .subscribe({
         next: (v) => {
           if (v.code === 0) {

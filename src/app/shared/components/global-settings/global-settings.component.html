@@ -9,11 +9,12 @@
     <nz-spin nzTip="获取全局设置中..." [nzSpinning]="fetchingGlobalSettings">
       <form nz-form [formGroup]="form" [nzLayout]="'horizontal'">
         <nz-form-item>
-          <nz-form-label nzFor="defaultKeys" nzTooltipTitle="如填写，则匹配该关键字，多个关键字可用英文逗号(,)分开">
+          <nz-form-label nzFor="defaultKeyOfTwitterNotifyObserver" nzTooltipTitle="如填写，则匹配该关键字，多个关键字可用英文逗号(,)分开">
             <span>推特标题关键字</span>
           </nz-form-label>
           <nz-form-control>
-            <app-multi-input type="text" formControlName="defaultKeys"></app-multi-input>
+            <app-multi-input type="text" mode="string"
+              formControlName="defaultKeyOfTwitterNotifyObserver"></app-multi-input>
           </nz-form-control>
         </nz-form-item>
 
