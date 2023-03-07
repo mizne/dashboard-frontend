@@ -8,7 +8,7 @@ import {
 } from '../../services';
 import { merge, startWith, map } from 'rxjs';
 import { KlineIntervals } from '../../models/base.model';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'global-settings',
@@ -27,8 +27,8 @@ export class GlobalSettingsComponent implements OnInit {
   fetchingGlobalSettings = false;
   globalSettingsID = '';
 
-  form = this.fb.group({
-    defaultKeyOfTwitterNotifyObserver: [''],
+  form: FormGroup<any> = this.fb.group({
+    defaultKeys: [[]],
   });
 
 
@@ -67,7 +67,7 @@ export class GlobalSettingsComponent implements OnInit {
               this.notification.success(`获取全局设置成功`, `获取全局设置成功`);
               this.fetchingGlobalSettings = false;
               this.globalSettingsID = v[0]._id;
-              this.form.get('defaultKeyOfTwitterNotifyObserver')?.patchValue(v[0].defaultKeyOfTwitterNotifyObserver)
+              this.form.get('defaultKeys')?.patchValue(v[0].defaultKeyOfTwitterNotifyObserver.split(','))
             }
 
             if (v.length >= 2) {
@@ -84,8 +84,8 @@ export class GlobalSettingsComponent implements OnInit {
   }
 
   private createItem() {
-    const key = this.form.get('defaultKeyOfTwitterNotifyObserver')?.value as string;
-    this.globalSettingsService.create({ defaultKeyOfTwitterNotifyObserver: key })
+    const keys = this.form.get('defaultKeys')?.value as string[];
+    this.globalSettingsService.create({ defaultKeyOfTwitterNotifyObserver: keys.join(',') })
       .subscribe({
         next: (v) => {
           if (v.code === 0) {
@@ -102,8 +102,8 @@ export class GlobalSettingsComponent implements OnInit {
   }
 
   private updateItem() {
-    const key = this.form.get('defaultKeyOfTwitterNotifyObserver')?.value as string;
-    this.globalSettingsService.update(this.globalSettingsID, { defaultKeyOfTwitterNotifyObserver: key })
+    const keys = this.form.get('defaultKeys')?.value as string[];
+    this.globalSettingsService.update(this.globalSettingsID, { defaultKeyOfTwitterNotifyObserver: keys.join(',') })
       .subscribe({
         next: (v) => {
           if (v.code === 0) {

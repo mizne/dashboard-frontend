@@ -7,22 +7,19 @@
 <nz-modal [(nzVisible)]="visible" [nzWidth]="800" [nzTitle]="'全局设置'" [nzFooter]="null" (nzOnCancel)="visible=false">
   <ng-container *nzModalContent>
     <nz-spin nzTip="获取全局设置中..." [nzSpinning]="fetchingGlobalSettings">
-      <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'horizontal'">
+      <form nz-form [formGroup]="form" [nzLayout]="'horizontal'">
         <nz-form-item>
-          <nz-form-label nzFor="defaultKeyOfTwitterNotifyObserver" nzTooltipTitle="如填写，则匹配该关键字，多个关键字可用英文逗号(,)分开">
+          <nz-form-label nzFor="defaultKeys" nzTooltipTitle="如填写，则匹配该关键字，多个关键字可用英文逗号(,)分开">
             <span>推特标题关键字</span>
           </nz-form-label>
           <nz-form-control>
-            <textarea nz-input class="ant-input" id="defaultKeyOfTwitterNotifyObserver"
-              formControlName="defaultKeyOfTwitterNotifyObserver"></textarea>
+            <app-multi-input type="text" formControlName="defaultKeys"></app-multi-input>
           </nz-form-control>
         </nz-form-item>
 
-
-
         <nz-form-item class="search-area">
           <nz-form-control>
-            <button nz-button [nzType]="'primary'">保存</button>
+            <button nz-button type="button" [nzType]="'primary'" (click)="submitForm()">保存</button>
           </nz-form-control>
         </nz-form-item>
       </form>

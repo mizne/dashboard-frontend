@@ -36,19 +36,22 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
   private onChange: Function | null = null;
   public id = uuid.v4();
 
-  tags: number[] = [];
+  tags: Array<number | string> = [];
   inputVisible = false;
   inputValue = null;
 
   @Input() min = 0;
   @Input() max = 999;
 
-  @ViewChild('inputNumber') inputNumberCom: NzInputNumberComponent | null = null
+  @Input() type: 'number' | 'text' = 'number'
+
+  @ViewChild('inputNumber') inputNumberCom: NzInputNumberComponent | null = null;
+  @ViewChild('inputText') inputTextCom: ElementRef<HTMLInputElement> | null = null;
 
   constructor() { }
 
-  handleClose(removedTag: {}): void {
-    this.tags = this.tags.filter(tag => tag !== removedTag);
+  handleClose(removedTag: string | number, theIndex: number): void {
+    this.tags = this.tags.filter((tag, index) => index !== theIndex);
     this.emitValue()
   }
 
@@ -59,15 +62,25 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
       if (this.inputNumberCom) {
         this.inputNumberCom.focus();
       }
+
+      if (this.inputTextCom) {
+        this.inputTextCom.nativeElement.focus();
+      }
     }, 10)
   }
 
   handleInputConfirm(): void {
     // console.log(`handleInputConfirm() ${this.inputValue}`)
-    if (typeof this.inputValue === 'number' && this.tags.indexOf(this.inputValue) === -1) {
+    if (this.type === 'number' && typeof this.inputValue === 'number' && this.tags.indexOf(this.inputValue) === -1) {
       this.tags = [...this.tags, this.inputValue];
       this.emitValue();
     }
+
+    if (this.type === 'text' && typeof this.inputValue === 'string' && this.tags.indexOf(this.inputValue) === -1) {
+      this.tags = [...this.tags, this.inputValue];
+      this.emitValue();
+    }
+
     this.inputValue = null;
     this.inputVisible = false;
   }
@@ -84,6 +97,8 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
   writeValue(value: number[]): void {
     if (value && Array.isArray(value)) {
       this.tags = value;
+    } else {
+      this.tags = [];
     }
   }
 

@@ -1,4 +1,4 @@
-<nz-tag *ngFor="let tag of tags; let i = index" [nzMode]="'closeable'" (nzOnClose)="handleClose(tag)"
+<nz-tag *ngFor="let tag of tags; let i = index" [nzMode]="'closeable'" (nzOnClose)="handleClose(tag, i)"
   style="margin-bottom: 4px">
   {{ tag }}
 </nz-tag>
@@ -7,5 +7,8 @@
   New
 </nz-tag>
 
-<nz-input-number #inputNumber *ngIf="inputVisible" [(ngModel)]="inputValue" [nzMin]="min" [nzMax]="max" [nzStep]="1"
-  (nzBlur)="handleInputConfirm()" (keydown.enter)="handleInputConfirm()"></nz-input-number>
+<nz-input-number #inputNumber *ngIf="type === 'number' && inputVisible" [(ngModel)]="inputValue" [nzMin]="min"
+  [nzMax]="max" [nzStep]="1" (nzBlur)="handleInputConfirm()" (keydown.enter)="handleInputConfirm()"></nz-input-number>
+
+<input #inputText nz-input *ngIf="type === 'text' && inputVisible" placeholder="please input"
+  (nzBlur)="handleInputConfirm()" (keydown.enter)="handleInputConfirm()" [(ngModel)]="inputValue" />
