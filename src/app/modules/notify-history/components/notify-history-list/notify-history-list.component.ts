@@ -16,6 +16,7 @@ interface TableItem extends NotifyHistory {
   selector: 'notify-history-list',
   templateUrl: 'notify-history-list.component.html',
   providers: [DestroyService],
+
 })
 export class NotifyHistoryListComponent implements OnInit {
   constructor(
@@ -83,6 +84,10 @@ export class NotifyHistoryListComponent implements OnInit {
           ...types
         ]
       })
+  }
+
+  trackByID(index: number, item: TableItem) {
+    return item._id;
   }
 
   createNotAllow(item: TableItem) {

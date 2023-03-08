@@ -75,7 +75,7 @@
     (nzPageIndexChange)="pageIndexChange($event)" style="margin: 12px 0;">
   </nz-pagination>
 
-  <ng-container *ngFor="let item of items">
+  <ng-container *ngFor="let item of items; trackBy:trackByID">
 
     <nz-ribbon [nzText]="item.hasRead ? '已读' : 'New'" [nzColor]="item.hasRead ? '#eee' : 'pink'">
       <nz-card [ngStyle]="{width: 'auto', marginBottom: '12px', color: item.hasRead ? '#eee' : ''}"
@@ -133,9 +133,9 @@
               nzType="eye"></span></button>
 
           <!-- <button *ngIf="item.type === 'GALXE_CLAIMABLE'" style="margin-left: 6px" nz-button nzType="primary"
-            nzDanger nzShape="circle" nz-popconfirm nzPopconfirmTitle="没有claim成功，可以删除后下次再来提醒"
-            nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete(item)"
-            (nzOnCancel)="cancelDelete(item)"><span nz-icon nzType="delete"></span></button> -->
+              nzDanger nzShape="circle" nz-popconfirm nzPopconfirmTitle="没有claim成功，可以删除后下次再来提醒"
+              nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete(item)"
+              (nzOnCancel)="cancelDelete(item)"><span nz-icon nzType="delete"></span></button> -->
         </ng-template>
       </nz-card>
     </nz-ribbon>
@@ -145,6 +145,7 @@
   <ng-container *ngIf="items.length === 0">
     <nz-empty></nz-empty>
   </ng-container>
+
 
   <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount" [nzShowTotal]="rangeTemplate"
     (nzPageIndexChange)="pageIndexChange($event)">
