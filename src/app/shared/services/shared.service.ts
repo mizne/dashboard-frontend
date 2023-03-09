@@ -35,6 +35,20 @@ interface SocialLink {
   youtube?: string;
 }
 
+interface BlogResolverParams {
+  url: string;
+  method: string;
+  headers: any;
+  script: string;
+}
+
+export interface Article {
+  title: string;
+  publishedAt: number;
+  url: string;
+  source: string;
+}
+
 
 @Injectable({ providedIn: 'root' })
 export class SharedService {
@@ -99,6 +113,22 @@ export class SharedService {
     return this.httpClient.post(`${environment.baseURL}/app/social-links`, {
       url: website,
     });
+  }
+
+  fetchBlogTester(params: BlogResolverParams): Observable<{
+    results: Article[];
+    logs: {
+      debugs: string[];
+      errors: string[];
+    }
+  }> {
+    return this.httpClient.post<{
+      results: Article[];
+      logs: {
+        debugs: string[];
+        errors: string[];
+      }
+    }>(`${environment.baseURL}/app/blog-tester`, params);
   }
 
   fetchLink3ActivityDetail(url?: string): Observable<{

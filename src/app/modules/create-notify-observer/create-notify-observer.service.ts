@@ -49,7 +49,7 @@ export class CreateNotifyObserverService {
 
     const modal = this.modal.create({
       nzTitle: title,
-      nzWidth: 666,
+      nzWidth: 1000,
       nzContent: CreateNotifyObserverComponent,
       nzViewContainerRef: this.sharedService.getAppViewContainerRef(),
       nzComponentParams: {

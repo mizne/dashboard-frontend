@@ -38,6 +38,7 @@ export enum NotifyObserverTypes {
   TOKEN_TRANSFER = 'TOKEN_TRANSFER',
   MARKET = 'MARKET',
   GHOST = 'GHOST',
+  BLOG = 'BLOG'
 }
 
 export interface NotifyObserver {
@@ -102,6 +103,11 @@ export interface NotifyObserver {
 
   ghostHomeLink?: string;
   ghostTitleKey?: string;
+
+  blogRequestURL?: string;
+  blogRequestMethod?: string;
+  blogRequestHeaders?: { [key: string]: any };
+  blogScript?: string;
 
   readonly createdAt: number;
   readonly createdAtStr: string;

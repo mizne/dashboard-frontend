@@ -4461,6 +4461,11 @@
   "resolved" "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
   "version" "1.0.4"
 
+"monaco-editor@^0.33.0":
+  "integrity" "sha512-VcRWPSLIUEgQJQIE0pVT8FcGBIgFoxz7jtqctE+IiCxWugD0DwgyQBcZBhdSrdMC84eumoqMZsGl2GTreOzwqw=="
+  "resolved" "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.33.0.tgz"
+  "version" "0.33.0"
+
 "ms@^2.0.0", "ms@^2.1.1", "ms@2.1.3":
   "integrity" "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA=="
   "resolved" "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz"
@@ -4522,6 +4527,13 @@
     "@ant-design/icons-angular" "^14.1.0"
     "date-fns" "^2.16.1"
     "tslib" "^2.3.0"
+
+"ngx-monaco-editor-v2@^14.0.0":
+  "integrity" "sha512-GPmoVMV3WnacTnqxddUUsVZfy/Bs3lxSRIKwqrAs6is34qoVu8nob3o8StcnkaZnzX8sZ19m1KRic9WPdLSq/A=="
+  "resolved" "https://registry.npmjs.org/ngx-monaco-editor-v2/-/ngx-monaco-editor-v2-14.0.0.tgz"
+  "version" "14.0.0"
+  dependencies:
+    "tslib" "^2.1.0"
 
 "node-forge@^1":
   "integrity" "sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA=="

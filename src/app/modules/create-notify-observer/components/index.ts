@@ -43,6 +43,9 @@ import { MirrorService } from './mirror/mirror.service'
 import { CreateMediumComponent } from './medium/medium.component'
 import { MediumService } from './medium/medium.service'
 
+import { CreateBlogComponent } from './blog/blog.component'
+import { BlogService } from './blog/blog.service'
+
 
 export const directives = [
   FormHostDirective
@@ -64,6 +67,7 @@ export const components = [
   CreateTwitterComponent,
   CreateMirrorComponent,
   CreateMediumComponent,
+  CreateBlogComponent,
 ]
 
 
@@ -82,5 +86,6 @@ export const services = [
   TwitterService,
   MirrorService,
   MediumService,
+  BlogService,
 ]
 

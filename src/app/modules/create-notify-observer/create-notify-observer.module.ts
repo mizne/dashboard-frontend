@@ -4,9 +4,10 @@ import { FollowedProjectSelectModule } from 'src/app/modules/followed-project-se
 import { components, directives, services } from './components';
 import { CreateNotifyObserverService } from './create-notify-observer.service';
 import { NotifyObserverTypeManagerService } from './notify-observer-type-manager.service';
+import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 
 @NgModule({
-  imports: [SharedModule, FollowedProjectSelectModule],
+  imports: [SharedModule, FollowedProjectSelectModule, MonacoEditorModule.forRoot()],
   exports: [],
   declarations: [...components, ...directives],
   providers: [CreateNotifyObserverService, NotifyObserverTypeManagerService, ...services],

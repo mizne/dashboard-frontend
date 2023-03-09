@@ -1,0 +1,75 @@
+<div class="create-blog-notify-observer-container">
+  <form nz-form [formGroup]="data">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="url" nzTooltipTitle="request url">
+        <span>request url</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input class="ant-input" id="url" formControlName="blogRequestURL" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="method" nzTooltipTitle="request method">
+        <span>request method</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-radio-group formControlName="blogRequestMethod" nzSize="small" [nzButtonStyle]="'solid'">
+          <label nz-radio-button [nzValue]="'get'">Get</label>
+          <label nz-radio-button [nzValue]="'post'">Post</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="headers" nzTooltipTitle="request headers">
+        <span>request headers</span>
+      </nz-form-label>
+      <nz-form-control [nzSpan]="20">
+        <ngx-monaco-editor style="height: 150px;" [options]="editorOptions1"
+          formControlName="blogRequestHeaders"></ngx-monaco-editor>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="script" nzTooltipTitle="script">
+        <span>script</span>
+      </nz-form-label>
+      <nz-form-control [nzSpan]="20">
+        <ngx-monaco-editor style="height: 400px;" [options]="editorOptions"
+          formControlName="blogScript"></ngx-monaco-editor>
+      </nz-form-control>
+    </nz-form-item>
+
+    <div style="display: flex; justify-content: center;">
+      <button nz-button nzType="primary" [nzLoading]="blogTesting" (click)="blogTester()">
+        Test
+      </button>
+    </div>
+  </form>
+</div>
+
+<nz-modal [(nzVisible)]="showBlogsModal" [nzWidth]="800" [nzFooter]="null" (nzOnCancel)="showBlogsModal=false"
+  nzTitle="Blogs">
+  <ng-container *nzModalContent>
+    <nz-list nzBordered nzSize="small">
+      <nz-list-header>Blog</nz-list-header>
+      <nz-list-item *ngFor="let item of blogs">
+        <span style="width: 400px;">{{item.title}}</span>
+        <created-at style="width: 150px;" [createdAt]="item.publishedAt"></created-at>
+        <linkable [href]="item.url">
+        </linkable>
+        <span style="width: 150px;text-align: right;">{{item.source}}</span>
+      </nz-list-item>
+    </nz-list>
+
+    <nz-list nzBordered nzSize="small" style="margin-top: 12px; max-height: 400px;
+    overflow: auto;">
+      <nz-list-header>Log</nz-list-header>
+      <nz-list-item *ngFor="let item of logs">
+        <span>{{item.type}}</span>
+        <span>{{item.content}}</span>
+      </nz-list-item>
+    </nz-list>
+  </ng-container>
+</nz-modal>
