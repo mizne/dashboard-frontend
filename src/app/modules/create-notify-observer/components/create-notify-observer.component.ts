@@ -54,6 +54,7 @@ export class CreateNotifyObserverComponent implements OnInit {
     if (component) {
       const componentRef = viewContainerRef.createComponent<FormItemInterface>(component);
       componentRef.instance.data = secondForm;
+      componentRef.instance.action = this.action;
 
       this.secondForm = secondForm;
     }

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Article, SharedService } from 'src/app/shared';
+import { NotifyObserverModalActions } from '../../create-notify-observer-modal-actions';
 import { FormItemInterface } from '../form-item.interface';
 
 @Component({
@@ -10,6 +11,7 @@ import { FormItemInterface } from '../form-item.interface';
 })
 export class CreateBlogComponent implements OnInit, FormItemInterface {
   @Input() data: FormGroup = this.fb.group({});
+  @Input() action: NotifyObserverModalActions = NotifyObserverModalActions.CREATE
 
   constructor(
     private fb: FormBuilder,
@@ -22,32 +24,37 @@ export class CreateBlogComponent implements OnInit, FormItemInterface {
 
   ngOnInit(): void {
 
-    this.data.patchValue({
-      blogRequestHeaders: JSON.stringify({
-        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36"
-      }, null, 2),
-      blogScript: `
-      const cheerio = require('cheerio');
-      const logger = require('logger');
+    if (this.action === NotifyObserverModalActions.CREATE) {
+      this.data.patchValue({
+        blogRequestHeaders: JSON.stringify({
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36"
+        }, null, 2),
+      })
 
-      module.exports = function parseData(resp) {
-        const $ = cheerio.load(resp.data);
-        const main = $('.main');
-        const items = $('.item', main);
-        const articles = []
-        for (const e of items) {
-          const title = $('.title', e).text();
-          const dateTimeStr = $('.date', e).text();
-          const urlText = $('.url', e).attr('href');
-          const url = 'https://vitalik.ca' + urlText;
-          const source = 'Vitalik - Blog';
-          articles.push({ title, publishedAt: new Date(dateTimeStr).getTime(), source, url })
-        }
-
-        return articles
-      }`
-    })
+      this.data.patchValue({
+        blogScript: `
+        const cheerio = require('cheerio');
+        const logger = require('logger');
+  
+        module.exports = function parseData(resp) {
+          const $ = cheerio.load(resp.data);
+          const main = $('.main');
+          const items = $('.item', main);
+          const articles = []
+          for (const e of items) {
+            const title = $('.title', e).text();
+            const dateTimeStr = $('.date', e).text();
+            const urlText = $('.url', e).attr('href');
+            const url = 'https://vitalik.ca' + urlText;
+            const source = 'Vitalik - Blog';
+            articles.push({ title, publishedAt: new Date(dateTimeStr).getTime(), source, url })
+          }
+  
+          return articles
+        }`
+      })
+    }
   }
 
   blogs: Article[] = [];
