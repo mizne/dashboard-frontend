@@ -1,33 +1,11 @@
 <div class="create-blog-notify-observer-container">
   <form nz-form [formGroup]="data">
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="url" nzTooltipTitle="request url">
-        <span>request url</span>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="url" nzTooltipTitle="blog url">
+        <span>blog url</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input class="ant-input" id="url" formControlName="blogRequestURL" />
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="method" nzTooltipTitle="request method">
-        <span>request method</span>
-      </nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-radio-group formControlName="blogRequestMethod" nzSize="small" [nzButtonStyle]="'solid'">
-          <label nz-radio-button [nzValue]="'get'">Get</label>
-          <label nz-radio-button [nzValue]="'post'">Post</label>
-        </nz-radio-group>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="headers" nzTooltipTitle="request headers">
-        <span>request headers</span>
-      </nz-form-label>
-      <nz-form-control [nzSpan]="20">
-        <ngx-monaco-editor style="height: 150px;" [options]="editorOptions1"
-          formControlName="blogRequestHeaders"></ngx-monaco-editor>
+        <input nz-input class="ant-input" id="url" formControlName="blogURL" />
       </nz-form-control>
     </nz-form-item>
 

@@ -23,38 +23,6 @@ export class CreateBlogComponent implements OnInit, FormItemInterface {
   editorOptions = { theme: 'vs-dark', tabSize: 2, language: 'javascript' };
 
   ngOnInit(): void {
-
-    if (this.action === NotifyObserverModalActions.CREATE) {
-      this.data.patchValue({
-        blogRequestHeaders: JSON.stringify({
-          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36"
-        }, null, 2),
-      })
-
-      this.data.patchValue({
-        blogScript: `
-        const cheerio = require('cheerio');
-        const logger = require('logger');
-  
-        module.exports = function parseData(resp) {
-          const $ = cheerio.load(resp.data);
-          const main = $('.main');
-          const items = $('.item', main);
-          const articles = []
-          for (const e of items) {
-            const title = $('.title', e).text();
-            const dateTimeStr = $('.date', e).text();
-            const urlText = $('.url', e).attr('href');
-            const url = 'https://vitalik.ca' + urlText;
-            const source = 'Vitalik - Blog';
-            articles.push({ title, publishedAt: new Date(dateTimeStr).getTime(), source, url })
-          }
-  
-          return articles
-        }`
-      })
-    }
   }
 
   blogs: Article[] = [];
@@ -66,13 +34,8 @@ export class CreateBlogComponent implements OnInit, FormItemInterface {
   showBlogsModal = false;
 
   blogTester() {
-    if (!this.data.value.blogRequestURL) {
-      this.notification.error(`blogRequestURL required`, `blogRequestURL required`)
-      return
-    }
-
-    if (!this.data.value.blogRequestMethod) {
-      this.notification.error(`blogRequestMethod required`, `blogRequestMethod required`)
+    if (!this.data.value.blogURL) {
+      this.notification.error(`blogURL required`, `blogURL required`)
       return
     }
 
@@ -82,9 +45,6 @@ export class CreateBlogComponent implements OnInit, FormItemInterface {
     }
 
     const params = {
-      url: this.data.value.blogRequestURL,
-      method: this.data.value.blogRequestMethod,
-      headers: this.data.value.blogRequestHeaders ? JSON.parse(this.data.value.blogRequestHeaders) : {},
       script: this.data.value.blogScript
     }
     this.blogTesting = true;

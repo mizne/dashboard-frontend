@@ -36,9 +36,6 @@ interface SocialLink {
 }
 
 interface BlogResolverParams {
-  url: string;
-  method: string;
-  headers: any;
   script: string;
 }
 

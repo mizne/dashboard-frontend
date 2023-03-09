@@ -104,9 +104,7 @@ export interface NotifyObserver {
   ghostHomeLink?: string;
   ghostTitleKey?: string;
 
-  blogRequestURL?: string;
-  blogRequestMethod?: string;
-  blogRequestHeaders?: { [key: string]: any };
+  blogURL?: string;
   blogScript?: string;
 
   readonly createdAt: number;
