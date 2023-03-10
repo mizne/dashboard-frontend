@@ -83,6 +83,8 @@ export interface NotifyObserver {
   timerNotifyShowDesc?: string;
   timerNotifyShowUrl?: string;
   timerOnce?: boolean;
+  timerEnableScript?: boolean;
+  timerScript?: string;
 
   soQuestHomeLink?: string;
   soQuestTitleKey?: string;

@@ -23,7 +23,7 @@ export class TimerService implements NotifyObserverTypeServiceInterface {
   }
 
   resolveExistedCondition(obj: Partial<NotifyObserver>): Partial<NotifyObserver> | null {
-    return obj.timerNotifyShowUrl ? { type: NotifyObserverTypes.TIMER, notifyShowTitle: obj.notifyShowTitle, timerNotifyShowUrl: obj.timerNotifyShowUrl } : null
+    return !obj.timerEnableScript ? { type: NotifyObserverTypes.TIMER, notifyShowTitle: obj.notifyShowTitle, timerNotifyShowUrl: obj.timerNotifyShowUrl } : null
   }
 
   resolveHref(item: NotifyObserver): string {
@@ -47,6 +47,8 @@ export class TimerService implements NotifyObserverTypeServiceInterface {
       timerMinute: [obj.timerMinute],
       timerDate: [obj.timerDate],
       timerMonth: [obj.timerMonth],
+      timerEnableScript: [!!obj.timerEnableScript],
+      timerScript: [obj.timerScript],
       timerNotifyShowDesc: [obj.timerNotifyShowDesc],
       timerNotifyShowUrl: [obj.timerNotifyShowUrl],
       timerOnce: [!!obj.timerOnce],

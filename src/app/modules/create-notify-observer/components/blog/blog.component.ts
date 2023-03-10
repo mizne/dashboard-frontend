@@ -43,12 +43,9 @@ export class CreateBlogComponent implements OnInit, FormItemInterface {
       return
     }
 
-    const params = {
-      script: this.data.value.blogScript
-    }
     this.blogTesting = true;
 
-    this.sharedService.fetchBlogTester(params)
+    this.sharedService.fetchBlogTester(this.data.value.blogScript)
       .subscribe({
         next: (v) => {
           this.showBlogsModal = true;

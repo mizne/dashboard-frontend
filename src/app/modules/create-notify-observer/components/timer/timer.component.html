@@ -38,6 +38,38 @@
     </nz-form-item>
 
     <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，使用脚本获取通知内容">
+        <span>开启脚本</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-switch formControlName="timerEnableScript"></nz-switch>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="data.get('timerEnableScript')?.value">
+      <nz-form-label [nzSpan]="4" nzFor="timerScript" nzTooltipTitle="script">
+        <span>script</span>
+      </nz-form-label>
+      <nz-form-control [nzSpan]="20">
+        <ngx-monaco-editor style="height: 400px;" [options]="editorOptions"
+          formControlName="timerScript"></ngx-monaco-editor>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="data.get('timerEnableScript')?.value">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="testing">
+        <span>testing</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <div style="display: flex; justify-content: center;">
+          <button nz-button nzType="primary" [nzLoading]="testing" (click)="tester()">
+            Test
+          </button>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="!data.get('timerEnableScript')?.value">
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerNotifyShowDesc" nzTooltipTitle="通知显示详情">
         <span>通知显示详情</span>
       </nz-form-label>
@@ -46,7 +78,7 @@
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item>
+    <nz-form-item *ngIf="!data.get('timerEnableScript')?.value">
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerNotifyShowUrl" nzTooltipTitle="通知跳转链接">
         <span>通知跳转链接</span>
       </nz-form-label>
@@ -65,3 +97,17 @@
     </nz-form-item>
   </form>
 </div>
+
+<nz-modal [(nzVisible)]="showModal" [nzWidth]="800" [nzFooter]="null" (nzOnCancel)="showModal=false" nzTitle="脚本获取到的内容">
+  <ng-container *nzModalContent>
+    <pre>{{ obj | json }}</pre>
+
+    <nz-list nzBordered nzSize="small" style="margin-top: 12px; max-height: 400px; overflow: auto;">
+      <nz-list-header>Log</nz-list-header>
+      <nz-list-item *ngFor="let item of logs">
+        <span>{{item.type}}</span>
+        <span>{{item.content}}</span>
+      </nz-list-item>
+    </nz-list>
+  </ng-container>
+</nz-modal>

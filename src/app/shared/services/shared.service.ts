@@ -112,7 +112,7 @@ export class SharedService {
     });
   }
 
-  fetchBlogTester(params: BlogResolverParams): Observable<{
+  fetchBlogTester(script: string): Observable<{
     result: Article[];
     logs: {
       debugs: string[];
@@ -125,7 +125,31 @@ export class SharedService {
         debugs: string[];
         errors: string[];
       }
-    }>(`${environment.baseURL}/app/blog-tester`, params);
+    }>(`${environment.baseURL}/app/blog-tester`, { script });
+  }
+
+  fetchTimerTester(script: string): Observable<{
+    result: {
+      title: string;
+      infos: string[];
+      link: string;
+    };
+    logs: {
+      debugs: string[];
+      errors: string[];
+    }
+  }> {
+    return this.httpClient.post<{
+      result: {
+        title: string;
+        infos: string[];
+        link: string;
+      };
+      logs: {
+        debugs: string[];
+        errors: string[];
+      }
+    }>(`${environment.baseURL}/app/timer-tester`, { script });
   }
 
   fetchLink3ActivityDetail(url?: string): Observable<{
