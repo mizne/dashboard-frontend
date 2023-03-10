@@ -4,13 +4,18 @@ import { ActivatedRoute } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CreateFollowedProjectTrackingRecordService } from 'src/app/modules/create-followed-project-tracking-record';
 import { CreateNotifyObserverService } from 'src/app/modules/create-notify-observer';
-import { ClientNotifyService, FollowedProjectService, FollowedProjectTrackingRecord, NotifyObserver, NotifyObserverService, NotifyObserverTypes, } from 'src/app/shared';
+import { ClientNotifyService, FollowedProjectService, FollowedProjectTrackingRecord, FollowedProjectTrackingRecordService, NotifyObserver, NotifyObserverService, NotifyObserverTypes, TagTypes, } from 'src/app/shared';
 import { DestroyService } from 'src/app/shared/services/destroy.service';
 import { NotifyObserverTypeManagerService } from 'src/app/modules/create-notify-observer';
 
 interface TableItem extends NotifyObserver {
   enableTrackingCtrl: FormControl;
   followedProjectIDCtrl?: FormControl;
+}
+
+interface TrackingRecordExtend extends FollowedProjectTrackingRecord {
+  followedProjectIDCtrl: FormControl;
+  tagIDsCtrl: FormControl;
 }
 
 @Component({
@@ -23,6 +28,7 @@ interface TableItem extends NotifyObserver {
 export class FollowedProjectMoreComponent implements OnInit {
   constructor(
     private readonly notifyObserverService: NotifyObserverService,
+    private readonly followedProjectTrackingRecordService: FollowedProjectTrackingRecordService,
     private readonly notificationService: NzNotificationService,
     private readonly createNotifyObserverService: CreateNotifyObserverService,
     private readonly destroy$: DestroyService,
@@ -36,9 +42,13 @@ export class FollowedProjectMoreComponent implements OnInit {
   notifyObservers: TableItem[] = [];
   loadingNotifyObservers = false;
 
+  tagType = TagTypes.TRACKING_RECORD_CATEGORY
+  trackingRecords: TrackingRecordExtend[] = [];
+
 
   ngOnInit() {
     this.fetchNotifyObservers();
+    this.fetchTrackingRecords();
   }
 
   resolveHref(item: NotifyObserver) {
@@ -113,6 +123,34 @@ export class FollowedProjectMoreComponent implements OnInit {
         error: (err: Error) => {
           this.loadingNotifyObservers = false;
           this.notificationService.error(`获取 通知源 失败`, `${err.message}`)
+        }
+      })
+  }
+
+  private fetchTrackingRecords() {
+    if (!this.id) {
+      return
+    }
+
+    this.loadingNotifyObservers = true;
+    this.followedProjectTrackingRecordService.queryList({ followedProjectID: this.id }, { number: 1, size: 10 })
+      .subscribe({
+        next: (items: FollowedProjectTrackingRecord[]) => {
+          this.loadingNotifyObservers = false;
+          if (items.length > 0) {
+            this.trackingRecords = items.map((e) => ({
+              ...e,
+              followedProjectIDCtrl: new FormControl(e.followedProjectID),
+              tagIDsCtrl: new FormControl(e.tagIDs),
+            }))
+          } else {
+            this.trackingRecords = [];
+            this.notificationService.warning(`没有找到 跟踪记录`, `也许该项目还没有添加跟踪记录`)
+          }
+        },
+        error: (err: Error) => {
+          this.loadingNotifyObservers = false;
+          this.notificationService.error(`获取 跟踪记录 失败`, `${err.message}`)
         }
       })
   }
