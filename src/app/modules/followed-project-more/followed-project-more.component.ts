@@ -133,7 +133,7 @@ export class FollowedProjectMoreComponent implements OnInit {
     }
 
     this.loadingNotifyObservers = true;
-    this.followedProjectTrackingRecordService.queryList({ followedProjectID: this.id }, { number: 1, size: 10 })
+    this.followedProjectTrackingRecordService.queryList({ followedProjectID: this.id }, { number: 1, size: 5 })
       .subscribe({
         next: (items: FollowedProjectTrackingRecord[]) => {
           this.loadingNotifyObservers = false;
