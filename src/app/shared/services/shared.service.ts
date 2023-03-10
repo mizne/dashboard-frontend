@@ -113,14 +113,14 @@ export class SharedService {
   }
 
   fetchBlogTester(params: BlogResolverParams): Observable<{
-    results: Article[];
+    result: Article[];
     logs: {
       debugs: string[];
       errors: string[];
     }
   }> {
     return this.httpClient.post<{
-      results: Article[];
+      result: Article[];
       logs: {
         debugs: string[];
         errors: string[];

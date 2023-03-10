@@ -53,7 +53,7 @@ export class CreateBlogComponent implements OnInit, FormItemInterface {
         next: (v) => {
           this.showBlogsModal = true;
           this.blogTesting = false;
-          this.blogs = v.results;
+          this.blogs = v.result;
           this.logs = [];
           for (const e of v.logs.debugs) {
             this.logs.push({
