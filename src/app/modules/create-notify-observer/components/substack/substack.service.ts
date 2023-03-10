@@ -25,12 +25,12 @@ export class SubstackService implements NotifyObserverTypeServiceInterface {
     return obj.substackHomeLink ? { type: NotifyObserverTypes.SUBSTACK, substackHomeLink: obj.substackHomeLink } : null
   }
 
-  resolveHref(item: NotifyObserver): string | undefined {
-    return item.substackHomeLink
+  resolveHref(item: NotifyObserver): string {
+    return item.substackHomeLink || ''
   }
 
-  resolveDesc(item: NotifyObserver): string | undefined {
-    return item.substackTitleKey
+  resolveDesc(item: NotifyObserver): string {
+    return item.substackTitleKey || ''
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {

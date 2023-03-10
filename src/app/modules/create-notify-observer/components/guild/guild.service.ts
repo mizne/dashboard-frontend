@@ -25,12 +25,12 @@ export class GuildService implements NotifyObserverTypeServiceInterface {
     return obj.guildHomeLink ? { type: NotifyObserverTypes.GUILD, guildHomeLink: obj.guildHomeLink } : null
   }
 
-  resolveHref(item: NotifyObserver): string | undefined {
-    return item.guildHomeLink
+  resolveHref(item: NotifyObserver): string {
+    return item.guildHomeLink || ''
   }
 
-  resolveDesc(item: NotifyObserver): string | undefined {
-    return item.guildTitleKey
+  resolveDesc(item: NotifyObserver): string {
+    return item.guildTitleKey || ''
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {

@@ -25,12 +25,12 @@ export class MediumService implements NotifyObserverTypeServiceInterface {
     return obj.mediumHomeLink ? { type: NotifyObserverTypes.MEDIUM, mediumHomeLink: obj.mediumHomeLink } : null
   }
 
-  resolveHref(item: NotifyObserver): string | undefined {
-    return item.mediumHomeLink
+  resolveHref(item: NotifyObserver): string {
+    return item.mediumHomeLink || ''
   }
 
-  resolveDesc(item: NotifyObserver): string | undefined {
-    return item.mediumTitleKey
+  resolveDesc(item: NotifyObserver): string {
+    return item.mediumTitleKey || ''
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {

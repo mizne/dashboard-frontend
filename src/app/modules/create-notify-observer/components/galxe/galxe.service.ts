@@ -25,12 +25,12 @@ export class GalxeService implements NotifyObserverTypeServiceInterface {
     return obj.galxeHomeLink ? { type: NotifyObserverTypes.GALXE, galxeHomeLink: obj.galxeHomeLink } : null
   }
 
-  resolveHref(item: NotifyObserver): string | undefined {
-    return item.galxeHomeLink
+  resolveHref(item: NotifyObserver): string {
+    return item.galxeHomeLink || ''
   }
 
-  resolveDesc(item: NotifyObserver): string | undefined {
-    return item.galxeTitleKey
+  resolveDesc(item: NotifyObserver): string {
+    return item.galxeTitleKey || ''
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {

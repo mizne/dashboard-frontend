@@ -31,12 +31,12 @@ export class BlogService implements NotifyObserverTypeServiceInterface {
     return obj.blogURL ? { type: NotifyObserverTypes.BLOG, blogURL: obj.blogURL } : null
   }
 
-  resolveHref(item: NotifyObserver): string | undefined {
-    return item.blogURL
+  resolveHref(item: NotifyObserver): string {
+    return item.blogURL || ''
   }
 
-  resolveDesc(item: NotifyObserver): string | undefined {
-    return item.blogURL
+  resolveDesc(item: NotifyObserver): string {
+    return item.blogURL || ''
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {

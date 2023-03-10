@@ -25,12 +25,12 @@ export class TwitterSpaceService implements NotifyObserverTypeServiceInterface {
     return obj.twitterSpaceHomeLink ? { type: NotifyObserverTypes.TWITTER_SPACE, twitterSpaceHomeLink: obj.twitterSpaceHomeLink } : null
   }
 
-  resolveHref(item: NotifyObserver): string | undefined {
-    return item.twitterSpaceHomeLink
+  resolveHref(item: NotifyObserver): string {
+    return item.twitterSpaceHomeLink || ''
   }
 
-  resolveDesc(item: NotifyObserver): string | undefined {
-    return item.twitterSpaceTitleKey
+  resolveDesc(item: NotifyObserver): string {
+    return item.twitterSpaceTitleKey || ''
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {

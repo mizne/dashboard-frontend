@@ -24,11 +24,11 @@ export class Link3Service implements NotifyObserverTypeServiceInterface {
   resolveExistedCondition(obj: Partial<NotifyObserver>): Partial<NotifyObserver> | null {
     return obj.link3HomeLink ? { type: NotifyObserverTypes.LINK3, link3HomeLink: obj.link3HomeLink } : null
   }
-  resolveHref(item: NotifyObserver): string | undefined {
-    return item.link3HomeLink
+  resolveHref(item: NotifyObserver): string {
+    return item.link3HomeLink || ''
   }
-  resolveDesc(item: NotifyObserver): string | undefined {
-    return item.link3TitleKey
+  resolveDesc(item: NotifyObserver): string {
+    return item.link3TitleKey || ''
   }
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {
     return {

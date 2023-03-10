@@ -25,12 +25,12 @@ export class MirrorService implements NotifyObserverTypeServiceInterface {
     return obj.mirrorHomeLink ? { type: NotifyObserverTypes.MIRROR, mirrorHomeLink: obj.mirrorHomeLink } : null
   }
 
-  resolveHref(item: NotifyObserver): string | undefined {
-    return item.mirrorHomeLink
+  resolveHref(item: NotifyObserver): string {
+    return item.mirrorHomeLink || ''
   }
 
-  resolveDesc(item: NotifyObserver): string | undefined {
-    return item.mirrorTitleKey
+  resolveDesc(item: NotifyObserver): string {
+    return item.mirrorTitleKey || ''
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {

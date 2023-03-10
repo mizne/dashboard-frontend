@@ -25,12 +25,12 @@ export class XiaoYuZhouService implements NotifyObserverTypeServiceInterface {
     return obj.xiaoyuzhouHomeLink ? { type: NotifyObserverTypes.XIAOYUZHOU, xiaoyuzhouHomeLink: obj.xiaoyuzhouHomeLink } : null
   }
 
-  resolveHref(item: NotifyObserver): string | undefined {
-    return item.xiaoyuzhouHomeLink
+  resolveHref(item: NotifyObserver): string {
+    return item.xiaoyuzhouHomeLink || ''
   }
 
-  resolveDesc(item: NotifyObserver): string | undefined {
-    return item.xiaoyuzhouTitleKey
+  resolveDesc(item: NotifyObserver): string {
+    return item.xiaoyuzhouTitleKey || ''
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {

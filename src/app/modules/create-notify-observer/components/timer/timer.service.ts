@@ -26,12 +26,19 @@ export class TimerService implements NotifyObserverTypeServiceInterface {
     return obj.timerNotifyShowUrl ? { type: NotifyObserverTypes.TIMER, notifyShowTitle: obj.notifyShowTitle, timerNotifyShowUrl: obj.timerNotifyShowUrl } : null
   }
 
-  resolveHref(item: NotifyObserver): string | undefined {
-    return item.timerNotifyShowUrl
+  resolveHref(item: NotifyObserver): string {
+    return item.timerNotifyShowUrl || ''
   }
 
-  resolveDesc(item: NotifyObserver): string | undefined {
-    return `${item.timerNotifyShowDesc || ''} ${this.isNumberArray(item.timerMonth) ? `${item.timerMonth?.join(', ')}月 ` : ''}${this.isNumberArray(item.timerDate) ? ` ${item.timerDate?.join(', ')}日 ` : ''}${item.timerHour?.join(', ')}时 ${item.timerMinute?.join(', ')}分`
+  resolveDesc(item: NotifyObserver): string {
+    const infos = [
+      item.timerNotifyShowDesc || '',
+      this.isNumberArray(item.timerMonth) ? `${item.timerMonth?.join(',')}月` : '',
+      this.isNumberArray(item.timerDate) ? ` ${item.timerDate?.join(',')}日` : '',
+      this.isNumberArray(item.timerHour) ? `${item.timerHour?.join(',')}时` : '',
+      this.isNumberArray(item.timerMinute) ? `${item.timerMinute?.join(',')}分` : '',
+    ]
+    return infos.filter(e => !!e).join(' ')
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {

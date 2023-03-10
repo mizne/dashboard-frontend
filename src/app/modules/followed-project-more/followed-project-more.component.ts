@@ -55,6 +55,10 @@ export class FollowedProjectMoreComponent implements OnInit {
     return this.notifyObserverTypeService.resolveHref(item)
   }
 
+  resolveTitle(item: NotifyObserver) {
+    return `${item.notifyShowTitle} ${this.notifyObserverTypeService.resolveDesc(item)}`
+  }
+
   showCreateNotifyObserverModal() {
     if (!this.id) {
       return;

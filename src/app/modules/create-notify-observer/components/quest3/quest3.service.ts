@@ -25,12 +25,12 @@ export class Quest3Service implements NotifyObserverTypeServiceInterface {
     return obj.quest3HomeLink ? { type: NotifyObserverTypes.QUEST3, quest3HomeLink: obj.quest3HomeLink } : null
   }
 
-  resolveHref(item: NotifyObserver): string | undefined {
-    return item.quest3HomeLink
+  resolveHref(item: NotifyObserver): string {
+    return item.quest3HomeLink || ''
   }
 
-  resolveDesc(item: NotifyObserver): string | undefined {
-    return item.quest3TitleKey
+  resolveDesc(item: NotifyObserver): string {
+    return item.quest3TitleKey || ''
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {

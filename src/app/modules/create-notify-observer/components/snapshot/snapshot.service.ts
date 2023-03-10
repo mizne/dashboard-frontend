@@ -25,12 +25,12 @@ export class SnapshotService implements NotifyObserverTypeServiceInterface {
     return obj.snapshotHomeLink ? { type: NotifyObserverTypes.SNAPSHOT, snapshotHomeLink: obj.snapshotHomeLink } : null
   }
 
-  resolveHref(item: NotifyObserver): string | undefined {
-    return item.snapshotHomeLink
+  resolveHref(item: NotifyObserver): string {
+    return item.snapshotHomeLink || ''
   }
 
-  resolveDesc(item: NotifyObserver): string | undefined {
-    return item.snapshotTitleKey
+  resolveDesc(item: NotifyObserver): string {
+    return item.snapshotTitleKey || ''
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {

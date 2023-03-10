@@ -25,12 +25,12 @@ export class GhostService implements NotifyObserverTypeServiceInterface {
     return obj.ghostHomeLink ? { type: NotifyObserverTypes.GHOST, ghostHomeLink: obj.ghostHomeLink } : null
   }
 
-  resolveHref(item: NotifyObserver): string | undefined {
-    return item.ghostHomeLink
+  resolveHref(item: NotifyObserver): string {
+    return item.ghostHomeLink || ''
   }
 
-  resolveDesc(item: NotifyObserver): string | undefined {
-    return item.ghostTitleKey
+  resolveDesc(item: NotifyObserver): string {
+    return item.ghostTitleKey || ''
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {

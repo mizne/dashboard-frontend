@@ -25,12 +25,12 @@ export class SoQuestService implements NotifyObserverTypeServiceInterface {
     return obj.soQuestHomeLink ? { type: NotifyObserverTypes.SOQUEST, soQuestHomeLink: obj.soQuestHomeLink } : null
   }
 
-  resolveHref(item: NotifyObserver): string | undefined {
-    return item.soQuestHomeLink
+  resolveHref(item: NotifyObserver): string {
+    return item.soQuestHomeLink || ''
   }
 
-  resolveDesc(item: NotifyObserver): string | undefined {
-    return item.soQuestTitleKey
+  resolveDesc(item: NotifyObserver): string {
+    return item.soQuestTitleKey || ''
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {
