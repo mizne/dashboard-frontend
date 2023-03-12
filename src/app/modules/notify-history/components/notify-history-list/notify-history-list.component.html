@@ -77,68 +77,9 @@
 
   <ng-container *ngFor="let item of items; trackBy:trackByID">
 
-    <nz-ribbon [nzText]="item.hasRead ? '已读' : 'New'" [nzColor]="item.hasRead ? '#eee' : 'pink'">
-      <nz-card [ngStyle]="{width: 'auto', marginBottom: '12px', color: item.hasRead ? '#eee' : ''}"
-        [nzTitle]="item.title" [nzExtra]="extraTemplate">
-        <div style="position: relative;">
-          <p [innerHtml]="item.desc"></p>
-          <p style="position: absolute; right: 12px;">
-            <span>添加时间：</span>
-            <created-at [createdAt]="item.createdAt"></created-at>
-          </p>
-          <p style="display: flex; align-items: center;">
-            <linkable [href]="item.link" [content]="defaultLogo">
-            </linkable>
-
-            <ng-container *ngIf="item.followedProjectIDCtrl">
-              <image-view *ngIf="item.followedProjectLogo; else noLogo" [width]="32" [name]="item.followedProjectLogo"
-                style="cursor: pointer; margin-left: 36px" nz-popover nzPopoverTrigger="click"
-                [nzPopoverContent]="contentTemplate"></image-view>
-
-              <ng-template #noLogo>
-                <button nz-button nzType="primary" nzShape="circle" nz-popover nzPopoverTrigger="click"
-                  [nzPopoverContent]="contentTemplate" style="margin-left: 36px">
-                  <span nz-icon nzType="project" nzTheme="outline"></span>
-                </button>
-              </ng-template>
-            </ng-container>
-            <ng-template #contentTemplate>
-              <followed-project-select-view *ngIf="item.followedProjectIDCtrl"
-                [formControl]="item.followedProjectIDCtrl"></followed-project-select-view>
-            </ng-template>
-          </p>
-
-          <p style="display: flex; align-items: center;" *ngIf="showCreateNotAllowGetter(item)">
-            <button nz-button nzType="primary" nzSize="small" nzShape="circle" title="添加到黑名单通知源"
-              (click)="createNotAllow(item)">
-              <span nz-icon nzType="stop" nzTheme="outline"></span>
-            </button>
-          </p>
-
-          <p style="display: flex; align-items: center;" *ngIf="showCreateTimerNotifyObserverGetter(item)">
-            <button nz-button nzType="primary" nzSize="small" nzShape="circle" title="添加到定时任务"
-              (click)="createTimerNotifyObserver(item)">
-              <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
-            </button>
-          </p>
-
-          <ng-template #defaultLogo>
-            <image-view [width]="32" [name]="item.logo"></image-view>
-          </ng-template>
-        </div>
-
-        <ng-template #extraTemplate>
-          <button *ngIf="!item.hasRead" nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popconfirm
-            nzPopconfirmTitle="确认标记已读?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="markRead(item)"><span nz-icon
-              nzType="eye"></span></button>
-
-          <!-- <button *ngIf="item.type === 'GALXE_CLAIMABLE'" style="margin-left: 6px" nz-button nzType="primary"
-              nzDanger nzShape="circle" nz-popconfirm nzPopconfirmTitle="没有claim成功，可以删除后下次再来提醒"
-              nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete(item)"
-              (nzOnCancel)="cancelDelete(item)"><span nz-icon nzType="delete"></span></button> -->
-        </ng-template>
-      </nz-card>
-    </nz-ribbon>
+    <notify-history-item [item]="item" (ensureCreateNotAllow)="createNotAllow(item)"
+      (ensureCreateTimerNotifyObserver)="createTimerNotifyObserver(item)"
+      (ensureMarkRead)="markRead(item)"></notify-history-item>
 
   </ng-container>
 

@@ -4,7 +4,7 @@ import { removeEmpty } from 'src/app/utils';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { EMPTY, Observable } from 'rxjs';
 import { DestroyService } from 'src/app/shared/services/destroy.service';
-import { ClientNotifyService, NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverNotAllow, NotifyObserverTypes, SharedService } from 'src/app/shared';
+import { NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverNotAllow, NotifyObserverTypes, SharedService } from 'src/app/shared';
 import { CreateNotifyObserverNotAllowService } from 'src/app/modules/create-notify-observer-not-allow';
 import { CreateNotifyObserverService } from 'src/app/modules/create-notify-observer';
 
@@ -21,13 +21,11 @@ interface TableItem extends NotifyHistory {
 export class NotifyHistoryListComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
-    private readonly destroy$: DestroyService,
     private readonly notifyHistoryService: NotifyHistoryService,
     private readonly nzNotificationService: NzNotificationService,
-    private readonly clientNotifyService: ClientNotifyService,
     private readonly createNotifyObserverNotAllowService: CreateNotifyObserverNotAllowService,
-    private sharedService: SharedService,
-    private createNotifyObserverService: CreateNotifyObserverService,
+    private readonly sharedService: SharedService,
+    private readonly createNotifyObserverService: CreateNotifyObserverService,
   ) { }
 
   @Input() condition: any = null
@@ -91,10 +89,6 @@ export class NotifyHistoryListComponent implements OnInit {
   }
 
   createNotAllow(item: TableItem) {
-    if (!this.showCreateNotAllowGetter(item)) {
-      this.nzNotificationService.warning(`添加黑名单通知源 失败`, `不支持该类型 ${item.type}`);
-      return
-    }
     const obj: Partial<NotifyObserverNotAllow> = {
       type: item.type === NotifyObserverTypes.GALXE_RECOMMEND ? NotifyObserverTypes.GALXE : NotifyObserverTypes.QUEST3
     };
@@ -114,10 +108,6 @@ export class NotifyHistoryListComponent implements OnInit {
     });
   }
 
-  showCreateNotAllowGetter(item: TableItem): boolean {
-    return item.type === NotifyObserverTypes.GALXE_RECOMMEND || item.type === NotifyObserverTypes.QUEST3_RECOMMEND
-  }
-
   createTimerNotifyObserver(item: TableItem) {
     this.sharedService.fetchLink3ActivityDetail(item.link)
       .subscribe({
@@ -134,10 +124,6 @@ export class NotifyHistoryListComponent implements OnInit {
           this.showCreateTimerNotifyObserver();
         }
       })
-  }
-
-  showCreateTimerNotifyObserverGetter(item: TableItem): boolean {
-    return item.type === NotifyObserverTypes.LINK3_RECOMMEND || item.type === NotifyObserverTypes.LINK3
   }
 
   submitForm(): void {

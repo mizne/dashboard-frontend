@@ -4,10 +4,10 @@ import { NotifyHistoryListComponent } from './components/notify-history-list/not
 import { NotifyHistoryDrawerComponent } from './components/notify-history-drawer/notify-history-drawer.component'
 import { CreateNotifyObserverNotAllowModule } from 'src/app/modules/create-notify-observer-not-allow';
 import { CreateNotifyObserverModule } from 'src/app/modules/create-notify-observer';
-import { FollowedProjectSelectViewModule } from 'src/app/modules/followed-project-select-view'
+import { NotifyHistoryItemModule } from 'src/app/modules/notify-history-item';
 
 @NgModule({
-  imports: [SharedModule, CreateNotifyObserverNotAllowModule, CreateNotifyObserverModule, FollowedProjectSelectViewModule],
+  imports: [SharedModule, CreateNotifyObserverNotAllowModule, CreateNotifyObserverModule, NotifyHistoryItemModule],
   exports: [NotifyHistoryListComponent, NotifyHistoryDrawerComponent],
   declarations: [NotifyHistoryListComponent, NotifyHistoryDrawerComponent],
   providers: [],
