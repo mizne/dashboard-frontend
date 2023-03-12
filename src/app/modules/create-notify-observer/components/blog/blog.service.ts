@@ -40,38 +40,37 @@ export class BlogService implements NotifyObserverTypeServiceInterface {
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {
-    const defaultScriptText = `
-    declare var require: any;
-    declare var module: any;
-    
-    const cheerio = require('cheerio');
-    const logger = require('logger');
-    const axios = require('axios');
+    const defaultScriptText = `declare var require: any;
+declare var module: any;
 
-    module.exports = async function parseData() {
-      const resp = await axios({
-        url: 'https://vitalik.ca',
-        method: 'get',
-        headers: {
-          accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36',
-        }
-      });
-      const $ = cheerio.load(resp.data);
-      const main = $('.main');
-      const items = $('.item', main);
-      const articles = []
-      for (const e of items) {
-        const title = $('.title', e).text();
-        const dateTimeStr = $('.date', e).text();
-        const urlText = $('.url', e).attr('href');
-        const url = 'https://vitalik.ca' + urlText;
-        const source = 'Vitalik - Blog';
-        articles.push({ title, publishedAt: new Date(dateTimeStr).getTime(), source, url })
-      }
+const cheerio = require('cheerio');
+const logger = require('logger');
+const axios = require('axios');
 
-      return articles
-    }`
+module.exports = async function parseData() {
+  const resp = await axios({
+    url: 'https://vitalik.ca',
+    method: 'get',
+    headers: {
+      accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36',
+    }
+  });
+  const $ = cheerio.load(resp.data);
+  const main = $('.main');
+  const items = $('.item', main);
+  const articles = []
+  for (const e of items) {
+    const title = $('.title', e).text();
+    const dateTimeStr = $('.date', e).text();
+    const urlText = $('.url', e).attr('href');
+    const url = 'https://vitalik.ca' + urlText;
+    const source = 'Vitalik - Blog';
+    articles.push({ title, publishedAt: new Date(dateTimeStr).getTime(), source, url })
+  }
+
+  return articles
+}`
     return {
       blogURL: [obj.blogURL],
       blogScript: [action === NotifyObserverModalActions.CREATE ? defaultScriptText : obj.blogScript],

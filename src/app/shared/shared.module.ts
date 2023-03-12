@@ -39,6 +39,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
+import { ClipboardModule } from 'ngx-clipboard';
 
 import { components } from './components';
 import { pipes } from './pipes';
@@ -84,8 +85,8 @@ const nzModules = [
 const ngModules = [CommonModule, ReactiveFormsModule, FormsModule];
 
 @NgModule({
-  imports: [...nzModules, ...ngModules],
-  exports: [...nzModules, ...ngModules, ...components, ...pipes],
+  imports: [...nzModules, ...ngModules, ClipboardModule],
+  exports: [...nzModules, ...ngModules, ClipboardModule, ...components, ...pipes],
   declarations: [...components, ...pipes],
   providers: [],
 })

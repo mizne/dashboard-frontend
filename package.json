@@ -24,6 +24,7 @@
     "lightweight-charts": "^4.0.0",
     "monaco-editor": "^0.33.0",
     "ng-zorro-antd": "14.0.0",
+    "ngx-clipboard": "^15.1.0",
     "ngx-monaco-editor-v2": "^14.0.0",
     "rxjs": "~7.5.0",
     "socket.io-client": "^4.5.1",
