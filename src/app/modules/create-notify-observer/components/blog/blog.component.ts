@@ -19,7 +19,7 @@ export class CreateBlogComponent implements OnInit, FormItemInterface {
     private notification: NzNotificationService
   ) { }
 
-  editorOptions = { theme: 'vs-dark', tabSize: 2, language: 'javascript' };
+  editorOptions = { theme: 'vs-dark', tabSize: 2, language: 'typescript' };
 
   ngOnInit(): void {
   }

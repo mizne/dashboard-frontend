@@ -16,12 +16,12 @@ export class CreateTimerComponent implements OnInit, FormItemInterface {
   constructor(
     private fb: FormBuilder,
     private sharedService: SharedService,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
   ) { }
 
   timerMessage = '00:00 到 01:00 为服务维护时间，不建议在此时间段内设置定时任务'
 
-  editorOptions = { theme: 'vs-dark', tabSize: 2, language: 'javascript' };
+  editorOptions = { theme: 'vs-dark', tabSize: 2, language: 'typescript' };
 
   ngOnInit(): void {
   }

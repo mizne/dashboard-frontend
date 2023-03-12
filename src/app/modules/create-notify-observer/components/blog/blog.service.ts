@@ -41,6 +41,9 @@ export class BlogService implements NotifyObserverTypeServiceInterface {
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {
     const defaultScriptText = `
+    declare var require: any;
+    declare var module: any;
+    
     const cheerio = require('cheerio');
     const logger = require('logger');
     const axios = require('axios');
