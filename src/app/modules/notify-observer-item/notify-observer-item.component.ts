@@ -60,7 +60,7 @@ export class NotifyObserverItemComponent implements OnInit {
     },
   ];
   form = this.fb.group({
-    hasRead: [this.readStatuses[0].value],
+    hasRead: [this.readStatuses[2].value],
   });
 
   ngOnInit() { }
@@ -98,7 +98,7 @@ export class NotifyObserverItemComponent implements OnInit {
 
   resetForm() {
     this.form.reset({
-      hasRead: this.readStatuses[0].value,
+      hasRead: this.readStatuses[2].value,
     });
     this.pageIndex = 1;
     this.pageSize = 6;
