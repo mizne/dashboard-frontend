@@ -77,9 +77,7 @@
 
   <ng-container *ngFor="let item of items; trackBy:trackByID">
 
-    <notify-history-item [item]="item" (ensureCreateNotAllow)="createNotAllow(item)"
-      (ensureCreateTimerNotifyObserver)="createTimerNotifyObserver(item)"
-      (ensureMarkRead)="markRead(item)"></notify-history-item>
+    <notify-history-item [item]="item" (markReadSuccess)="markRead(item)"></notify-history-item>
 
   </ng-container>
 

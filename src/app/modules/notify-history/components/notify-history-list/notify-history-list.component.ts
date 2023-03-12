@@ -88,44 +88,6 @@ export class NotifyHistoryListComponent implements OnInit {
     return item._id;
   }
 
-  createNotAllow(item: TableItem) {
-    const obj: Partial<NotifyObserverNotAllow> = {
-      type: item.type === NotifyObserverTypes.GALXE_RECOMMEND ? NotifyObserverTypes.GALXE : NotifyObserverTypes.QUEST3
-    };
-    const { success, error } = this.createNotifyObserverNotAllowService.createModal(
-      '添加黑名单通知源',
-      obj,
-    );
-
-    success.subscribe((v) => {
-      this.nzNotificationService.success(
-        `添加黑名单通知源 成功`,
-        `添加黑名单通知源 成功`
-      );
-    });
-    error.subscribe((e) => {
-      this.nzNotificationService.error(`添加黑名单通知源 失败`, `${e.message}`);
-    });
-  }
-
-  createTimerNotifyObserver(item: TableItem) {
-    this.sharedService.fetchLink3ActivityDetail(item.link)
-      .subscribe({
-        next: (v) => {
-          if (v.code === 0) {
-            this.showCreateTimerNotifyObserver(v.result, item.followedProjectID);
-          } else {
-            this.nzNotificationService.error(`获取Link3活动详情 失败`, `${v.message}`);
-            this.showCreateTimerNotifyObserver();
-          }
-        },
-        error: (err) => {
-          this.nzNotificationService.error(`获取Link3活动详情 失败`, `${err.message}`);
-          this.showCreateTimerNotifyObserver();
-        }
-      })
-  }
-
   submitForm(): void {
     this.pageIndex = 1;
     this.pageSize = 10;
@@ -143,69 +105,12 @@ export class NotifyHistoryListComponent implements OnInit {
   }
 
   markRead(item: NotifyHistory) {
-    this.notifyHistoryService
-      .update(item._id, {
-        hasRead: true,
-      })
-      .subscribe({
-        next: () => {
-          this.loadDataFromServer();
-        },
-        complete: () => { },
-        error: (e: Error) => {
-          this.nzNotificationService.error(`标记已读失败`, e.message);
-        },
-      });
+    this.loadDataFromServer();
   }
-
-  confirmDelete(item: NotifyHistory) {
-    this.notifyHistoryService.deleteByID(item._id).subscribe({
-      next: () => {
-        this.nzNotificationService.success(`删除成功`, `删除数据成功`);
-        this.loadDataFromServer();
-      },
-      complete: () => { },
-      error: (e) => {
-        this.nzNotificationService.error(`删除失败`, `请稍后重试，${e.message}`);
-      },
-    });
-  }
-
-  cancelDelete(item: NotifyHistory) { }
 
   pageIndexChange(index: number) {
     this.pageIndex = index;
     this.loadDataFromServer();
-  }
-
-  private showCreateTimerNotifyObserver(activity?: any, followedProjectID?: string) {
-    const obj: Partial<NotifyObserver> = {
-      enableTracking: true,
-      type: NotifyObserverTypes.TIMER,
-      timerOnce: true,
-      ...(followedProjectID ? { followedProjectID } : {}),
-
-      ...(activity ? {
-        notifyShowTitle: `${activity.organizerHandle} - Link3 | ${activity.title}`,
-        timerHour: [new Date(activity.startTime).getHours()],
-        timerMinute: [new Date(activity.startTime).getMinutes()],
-        timerDate: [new Date(activity.startTime).getDate()],
-        timerMonth: [new Date(activity.startTime).getMonth() + 1],
-        timerNotifyShowDesc: activity.rewardInfo,
-        timerNotifyShowUrl: activity.url
-      } : {})
-    };
-    const { success, error } = this.createNotifyObserverService.createModal(
-      '添加通知源',
-      obj,
-    );
-
-    success.subscribe((v) => {
-      this.nzNotificationService.success(`添加定时任务通知源成功`, `添加定时任务通知源成功`);
-    });
-    error.subscribe((e) => {
-      this.nzNotificationService.error(`添加定时任务通知源失败`, `${e.message}`);
-    });
   }
 
   private loadDataFromServer() {

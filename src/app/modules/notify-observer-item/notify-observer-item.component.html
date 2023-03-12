@@ -45,6 +45,10 @@
     </linkable>
     <span *ngIf="item.timerOnce" title="一次性通知" nz-icon nzType="minus-circle" [nzTheme]="'twotone'"
       [nzTwotoneColor]="'#eb2f96'" style="transform: rotate(90deg);"></span>
+
+    <span nz-icon nzType="history" nzTheme="outline" [title]="'查看该通知源通知历史'" (click)="toShowNotifyHistory()"
+      style="cursor: pointer;"></span>
+
     <created-at [createdAt]="item.createdAt"></created-at>
   </div>
 
@@ -64,3 +68,54 @@
 <linkable *ngIf="item && mode==='small'" [title]="item.notifyShowTitle" [href]=" resolveHref(item)"
   [content]="defaultLogo">
 </linkable>
+
+<nz-modal [(nzVisible)]="showModal" [nzWidth]="800" [nzFooter]="null" (nzOnCancel)="showModal=false"
+  [nzTitle]="'通知历史 - ' + item?.notifyShowTitle">
+  <ng-container *nzModalContent>
+
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
+      <nz-form-item>
+        <nz-form-label nzFor="hasRead">状态</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group formControlName="hasRead" nzButtonStyle="solid">
+            <label nz-radio-button *ngFor="let item of readStatuses" [nzValue]="item.value">{{item.label}}</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="register-area">
+        <nz-form-control>
+          <button nz-button [nzType]="'primary'">搜索</button>
+          <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+
+    <div style="display: flex; justify-content: center;">
+      <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
+        [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)" style="margin: 12px 0;">
+      </nz-pagination>
+    </div>
+
+    <div nz-row [nzGutter]="16">
+      <div nz-col class="gutter-row" [nzSpan]="12" *ngFor="let item of items; trackBy:trackByID">
+        <notify-history-item [item]="item" (markReadSuccess)="markRead(item)">
+        </notify-history-item>
+      </div>
+    </div>
+
+    <ng-container *ngIf="items.length === 0">
+      <nz-empty></nz-empty>
+    </ng-container>
+
+
+    <div style="display: flex; justify-content: center;">
+      <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
+        [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)" style="margin: 12px 0;">
+      </nz-pagination>
+    </div>
+    <ng-template #rangeTemplate let-range="range" let-total>
+      {{ range[0] }}-{{ range[1] }} of {{ total }} items
+    </ng-template>
+  </ng-container>
+</nz-modal>
