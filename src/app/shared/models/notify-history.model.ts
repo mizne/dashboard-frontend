@@ -12,6 +12,8 @@ export interface NotifyHistory {
   followedProjectLogo?: string;
   hasRead: boolean;
 
+  notifyObserverID?: string;
+
   readonly createdAt: number;
   readonly createdAtStr: string;
 }
