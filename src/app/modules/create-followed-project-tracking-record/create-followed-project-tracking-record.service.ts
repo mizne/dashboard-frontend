@@ -153,7 +153,6 @@ export class CreateFollowedProjectTrackingRecordService {
       return ''
     }
     return new Promise((resolve, reject) => {
-      // 这里写 更新接口
       this.followedProjectService.queryList({ _id: id }).subscribe({
         next: (v) => {
           if (v.length > 0) {
