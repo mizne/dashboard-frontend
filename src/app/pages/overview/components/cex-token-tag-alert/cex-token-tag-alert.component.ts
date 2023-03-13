@@ -102,7 +102,7 @@ export class CexTokenTagAlertComponent implements OnInit {
 
   form = this.fb.group({
     interval: [this.intervals[0].name],
-    chartType: [[this.chartTypes[0].value]]
+    chartType: [[this.chartTypes[0].value, this.chartTypes[1].value]]
   });
 
   status: 'loading' | 'error' | 'success' | '' = '';
@@ -116,7 +116,7 @@ export class CexTokenTagAlertComponent implements OnInit {
   resetForm() {
     this.form.reset({
       interval: this.intervals[0].name,
-      chartType: [this.chartTypes[0].value]
+      chartType: [this.chartTypes[0].value, this.chartTypes[1].value]
     });
     this.loadDataFromServer();
   }
