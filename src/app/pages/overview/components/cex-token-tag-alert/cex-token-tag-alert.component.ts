@@ -260,7 +260,7 @@ export class CexTokenTagAlertComponent implements OnInit {
         return {
           time: {
             $gte: this.klineIntervalService.resolveFourHoursIntervalMills(
-              60
+              180
             ),
           },
         };
@@ -268,7 +268,7 @@ export class CexTokenTagAlertComponent implements OnInit {
         return {
           time: {
             $gte: this.klineIntervalService.resolveOneDayIntervalMills(
-              60
+              180
             ),
           },
         };
@@ -277,7 +277,7 @@ export class CexTokenTagAlertComponent implements OnInit {
         return {
           time: {
             $gte: this.klineIntervalService.resolveFourHoursIntervalMills(
-              60
+              180
             ),
           },
         };
