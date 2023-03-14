@@ -129,59 +129,19 @@ export class MyNotificationComponent implements OnInit {
       return
     }
 
-    const id = this.message.loading('获取Link3活动详情...', { nzDuration: 0 }).messageId;
-
-    this.sharedService.fetchLink3ActivityDetail(this.link3ActivityInputCtrl.value)
-      .subscribe({
-        next: (v) => {
-          this.message.remove(id);
-          if (v.code === 0) {
-            this.link3ActivityInputModalVisible = false;
-            this.link3ActivityInputCtrl.patchValue(null);
-            this.showCreateTimerNotifyObserver(v.result);
-          } else {
-            this.nzNotificationService.error(`获取Link3活动详情 失败`, `${v.message}`);
-          }
-        },
-        error: (err) => {
-          this.message.remove(id);
-          this.nzNotificationService.error(`获取Link3活动详情 失败`, `${err.message}`);
-        }
-      })
+    const { success, error } = this.createNotifyObserverService.createLink3ActivityModal(this.link3ActivityInputCtrl.value)
+    success.subscribe((v) => {
+      this.link3ActivityInputModalVisible = false;
+      this.link3ActivityInputCtrl.patchValue(null);
+      this.loadDataFromServer();
+    });
+    error.subscribe((e) => {
+    });
   }
 
   cancelLink3ActivityInput() {
     this.link3ActivityInputModalVisible = false;
     this.link3ActivityInputCtrl.patchValue(null);
-  }
-
-  private showCreateTimerNotifyObserver(activity?: any) {
-    const obj: Partial<NotifyObserver> = {
-      enableTracking: true,
-      type: NotifyObserverTypes.TIMER,
-      timerOnce: true,
-
-      ...(activity ? {
-        notifyShowTitle: `${activity.organizerHandle} - Link3 | ${activity.title}`,
-        timerHour: [new Date(activity.startTime).getHours()],
-        timerMinute: [new Date(activity.startTime).getMinutes()],
-        timerDate: [new Date(activity.startTime).getDate()],
-        timerMonth: [new Date(activity.startTime).getMonth() + 1],
-        timerNotifyShowDesc: activity.rewardInfo,
-        timerNotifyShowUrl: activity.url
-      } : {})
-    };
-    const { success, error } = this.createNotifyObserverService.createModal(
-      '添加通知源',
-      obj,
-    );
-
-    success.subscribe((v) => {
-      this.nzNotificationService.success(`添加定时任务通知源成功`, `添加定时任务通知源成功`);
-    });
-    error.subscribe((e) => {
-      this.nzNotificationService.error(`添加定时任务通知源失败`, `${e.message}`);
-    });
   }
 
   confirmUpdate(item: TableItem) {

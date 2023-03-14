@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable, Subject } from 'rxjs';
 import {
   NotifyObserverService,
   NotifyObserver,
   SharedService,
   FollowedProjectService,
+  NotifyObserverTypes,
 } from 'src/app/shared';
 import { isNil } from 'src/app/utils';
 import { CreateNotifyObserverComponent } from './components/create-notify-observer.component';
@@ -23,9 +26,168 @@ export class CreateNotifyObserverService {
     private followedProjectService: FollowedProjectService,
     private sharedService: SharedService,
     private notifyObserverTypeService: NotifyObserverTypeManagerService,
+    private readonly nzNotificationService: NzNotificationService,
+    private message: NzMessageService,
   ) { }
 
   private modalInstance: NzModalRef<CreateNotifyObserverComponent> | null = null;
+
+  // 根据link3活动主页url 添加link3活动通知源
+  createLink3ActivityModal(link3URL: string, followedProjectID?: string): {
+    success: Observable<any>;
+    error: Observable<Error>;
+  } {
+    // 添加活动通知源成功
+    const successSubject = new Subject<any>();
+    // 添加活动通知源失败
+    const errorSubject = new Subject<Error>();
+
+    const id = this.message.loading('获取Link3活动详情...', { nzDuration: 0 }).messageId;
+
+    this.sharedService.fetchLink3ActivityDetail(link3URL)
+      .subscribe({
+        next: (v) => {
+          this.message.remove(id);
+          if (v.code === 0) {
+            this.checkLink3ActivityExisted(v.result, successSubject, errorSubject, followedProjectID);
+          } else {
+            this.nzNotificationService.error(`获取Link3活动详情 失败`, `${v.message}`);
+            errorSubject.next(new Error(`获取Link3活动详情 失败 ${v.message}`));
+            errorSubject.complete();
+            successSubject.complete();
+          }
+        },
+        error: (err) => {
+          this.message.remove(id);
+          this.nzNotificationService.error(`获取Link3活动详情 失败`, `${err.message}`);
+          errorSubject.next(new Error(`获取Link3活动详情 失败 ${err.message}`));
+          errorSubject.complete();
+          successSubject.complete();
+        }
+      })
+    return {
+      success: successSubject.asObservable(),
+      error: errorSubject.asObservable(),
+    }
+  }
+
+  private checkLink3ActivityExisted(activity: any, successSub: Subject<void>, errorSub: Subject<Error>, followedProjectID?: string) {
+    // 先查询是否已添加过该活动 
+    // 如添加过 则修改原来的通知源（因为原来通知源的时间 详情可能已被更新）
+    // 如未添加过 则直接添加
+
+    this.notifyObserverService.queryList({
+      enableTracking: true,
+      type: NotifyObserverTypes.TIMER,
+      timerOnce: true,
+      timerNotifyShowUrl: activity.url
+    })
+      .subscribe({
+        next: (items: NotifyObserver[]) => {
+          if (items.length > 0) {
+            if (this.isSame(activity, items[0])) {
+              this.nzNotificationService.warning(`相同 Link3活动 已存在`, `相同 Link3活动 已存在`);
+              successSub.complete();
+              errorSub.complete();
+            } else {
+              const ref = this.message.loading('Link3活动已存在，准备更新最新活动信息', { nzDuration: 4e3 });
+              ref.onClose.subscribe(() => {
+                this.ensureUpdateTimerNotifyObserver(activity, items[0], successSub, errorSub, followedProjectID)
+              })
+            }
+          } else {
+            this.ensureCreateTimerNotifyObserver(activity, successSub, errorSub, followedProjectID)
+          }
+        },
+        error: (err: Error) => {
+          this.nzNotificationService.error(`检查相似 Link3活动 失败`, `检查相似 Link3活动 失败`);
+          this.ensureCreateTimerNotifyObserver(activity, successSub, errorSub, followedProjectID)
+        }
+      })
+  }
+
+  private isSame(activity: any, item: NotifyObserver): boolean {
+    const sameTitle = `${activity.organizerHandle} - Link3 | ${activity.title}` === item.notifyShowTitle;
+    const sameHour = !!item.timerHour && (new Date(activity.startTime).getHours() === item.timerHour[0])
+    const sameMinute = !!item.timerMinute && (new Date(activity.startTime).getMinutes() === item.timerMinute[0])
+    const sameDate = !!item.timerDate && (new Date(activity.startTime).getDate() === item.timerDate[0])
+    const sameMonth = !!item.timerMonth && ((new Date(activity.startTime).getMonth() + 1) === item.timerMonth[0])
+    const sameDesc = activity.rewardInfo === item.timerNotifyShowDesc
+
+    return sameTitle && sameHour && sameMinute && sameDate && sameMonth && sameDesc
+  }
+
+  private ensureCreateTimerNotifyObserver(activity: any, successSub: Subject<void>, errorSub: Subject<Error>, followedProjectID?: string) {
+    const obj: Partial<NotifyObserver> = {
+      enableTracking: true,
+      type: NotifyObserverTypes.TIMER,
+      timerOnce: true,
+
+      notifyShowTitle: `${activity.organizerHandle} - Link3 | ${activity.title}`,
+      timerHour: [new Date(activity.startTime).getHours()],
+      timerMinute: [new Date(activity.startTime).getMinutes()],
+      timerDate: [new Date(activity.startTime).getDate()],
+      timerMonth: [new Date(activity.startTime).getMonth() + 1],
+      timerNotifyShowDesc: activity.rewardInfo,
+      timerNotifyShowUrl: activity.url,
+
+      ...(followedProjectID ? { followedProjectID } : {})
+    };
+    const { success, error } = this.createModal(
+      '添加Link3活动通知',
+      obj,
+    );
+
+    success.subscribe((v) => {
+      this.nzNotificationService.success(`添加Link3活动通知成功`, `添加Link3活动通知成功`);
+      successSub.next();
+      successSub.complete();
+      errorSub.complete();
+    });
+    error.subscribe((e) => {
+      this.nzNotificationService.error(`添加Link3活动通知失败`, `${e.message}`);
+      errorSub.next(new Error(`添加Link3活动通知失败 ${e.message}`));
+      errorSub.complete();
+      successSub.complete();
+    });
+  }
+
+  private ensureUpdateTimerNotifyObserver(activity: any, item: NotifyObserver, successSub: Subject<void>, errorSub: Subject<Error>, followedProjectID?: string) {
+    const obj: Partial<NotifyObserver> = {
+      _id: item._id,
+      enableTracking: true,
+      type: NotifyObserverTypes.TIMER,
+      timerOnce: true,
+
+      notifyShowTitle: `${activity.organizerHandle} - Link3 | ${activity.title}`,
+      timerHour: [new Date(activity.startTime).getHours()],
+      timerMinute: [new Date(activity.startTime).getMinutes()],
+      timerDate: [new Date(activity.startTime).getDate()],
+      timerMonth: [new Date(activity.startTime).getMonth() + 1],
+      timerNotifyShowDesc: activity.rewardInfo,
+      timerNotifyShowUrl: activity.url,
+
+      ...(followedProjectID ? { followedProjectID } : {})
+    };
+    const { success, error } = this.createModal(
+      '修改Link3活动通知',
+      obj,
+      NotifyObserverModalActions.UPDATE
+    );
+
+    success.subscribe((v) => {
+      this.nzNotificationService.success(`修改Link3活动通知成功`, `修改Link3活动通知成功`);
+      successSub.next();
+      successSub.complete();
+      errorSub.complete();
+    });
+    error.subscribe((e) => {
+      this.nzNotificationService.error(`修改Link3活动通知失败`, `${e.message}`);
+      errorSub.next(new Error(`修改Link3活动通知失败 ${e.message}`));
+      errorSub.complete();
+      successSub.complete();
+    });
+  }
 
   // 1. 成功 -> 结束
   // 2. 失败 -> 失败 -> 结束
