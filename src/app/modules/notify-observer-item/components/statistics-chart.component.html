@@ -10,7 +10,7 @@
       <div class="inner-box">
         <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
           {{item.label}}</div>
-        <tradingview-chart [series]="item.series" [width]="370"></tradingview-chart>
+        <tradingview-chart [series]="item.series" [width]="370" [options]="chartOptions"></tradingview-chart>
       </div>
     </div>
   </div>

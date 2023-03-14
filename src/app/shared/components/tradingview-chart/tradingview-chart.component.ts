@@ -29,6 +29,8 @@ export class TradingviewChartComponent implements OnInit, AfterViewInit, OnDestr
   @Input() width = 250;
   @Input() height = 200;
 
+  @Input() options: { [key: string]: any } = {}
+
   private _chart: IChartApi | null = null;
 
   seriesList: Array<ISeriesApi<SeriesType>> = []
@@ -77,6 +79,10 @@ export class TradingviewChartComponent implements OnInit, AfterViewInit, OnDestr
       }
       this.seriesList = [];
 
+      if (this.options) {
+        chart.applyOptions(this.options);
+      }
+
       for (const e of this.series) {
         if (e.type === 'line') {
           const lineSeries = chart.addLineSeries({
@@ -88,6 +94,8 @@ export class TradingviewChartComponent implements OnInit, AfterViewInit, OnDestr
       }
 
       chart.timeScale().fitContent();
+
+
     }
   }
 }
