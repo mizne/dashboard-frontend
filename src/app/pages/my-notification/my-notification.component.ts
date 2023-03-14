@@ -41,7 +41,6 @@ export class MyNotificationComponent implements OnInit {
   loading = true;
   pageSize = 12;
   pageIndex = 1;
-  query: { [key: string]: any } = {};
   sort: any = {
     createdAt: -1,
   };
@@ -110,6 +109,14 @@ export class MyNotificationComponent implements OnInit {
     error.subscribe((e) => {
       this.nzNotificationService.error(`添加通知源失败`, `${e.message}`);
     });
+  }
+
+  searchTimerEnableScriptEnableStatistics() {
+    this.loadDataFromServer({
+      type: NotifyObserverTypes.TIMER,
+      timerEnableScript: true,
+      timerEnableStatistics: true
+    })
   }
 
   showCreateLink3ActivityModal() {
@@ -219,12 +226,12 @@ export class MyNotificationComponent implements OnInit {
     this.submitForm();
   }
 
-  private loadDataFromServer(): void {
-    this.query = removeEmpty(this.form.value);
+  private loadDataFromServer(fixedQuery?: { [key: string]: any }): void {
+    const query = fixedQuery || removeEmpty(this.form.value);
     this.loading = true;
     this.notifyObserverService
       .queryList(
-        this.adjustQuery(this.query),
+        this.adjustQuery(query),
         { number: this.pageIndex, size: this.pageSize },
         this.sort
       )
@@ -245,7 +252,7 @@ export class MyNotificationComponent implements OnInit {
       });
 
     this.notifyObserverService
-      .queryCount(this.adjustQuery(this.query))
+      .queryCount(this.adjustQuery(query))
       .subscribe((count) => {
         this.total = count;
       });
