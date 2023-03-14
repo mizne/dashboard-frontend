@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared';
-import { NotifyObserverItemComponent } from './notify-observer-item.component'
 import { FollowedProjectSelectViewModule } from 'src/app/modules/followed-project-select-view'
 import { NotifyHistoryItemModule } from 'src/app/modules/notify-history-item';
+import { NotifyObserverItemComponent } from './notify-observer-item.component'
+import { StatisticsChartComponent } from './components/statistics-chart.component'
 
 @NgModule({
   imports: [
@@ -11,7 +12,7 @@ import { NotifyHistoryItemModule } from 'src/app/modules/notify-history-item';
     NotifyHistoryItemModule
   ],
   exports: [NotifyObserverItemComponent],
-  declarations: [NotifyObserverItemComponent],
+  declarations: [NotifyObserverItemComponent, StatisticsChartComponent],
   providers: [],
 })
 export class NotifyObserverItemModule { }

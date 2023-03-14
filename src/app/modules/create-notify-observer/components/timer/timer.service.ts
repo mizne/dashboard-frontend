@@ -49,6 +49,8 @@ export class TimerService implements NotifyObserverTypeServiceInterface {
       timerMonth: [obj.timerMonth],
       timerEnableScript: [!!obj.timerEnableScript],
       timerScript: [obj.timerScript],
+      timerEnableStatistics: [!!obj.timerEnableStatistics],
+      timerStatisticsDefinitions: [obj.timerStatisticsDefinitions],
       timerNotifyShowDesc: [obj.timerNotifyShowDesc],
       timerNotifyShowUrl: [obj.timerNotifyShowUrl],
       timerOnce: [!!obj.timerOnce],

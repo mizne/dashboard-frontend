@@ -27,6 +27,7 @@ export class NotifyObserverItemComponent implements OnInit {
     private readonly notifyObserverTypeService: NotifyObserverTypeManagerService,
     private readonly notifyHistoryService: NotifyHistoryService,
     private readonly fb: FormBuilder,
+    private readonly nzNotificationService: NzNotificationService,
   ) { }
 
   @Input() mode: 'small' | 'default' = 'default'
@@ -63,6 +64,8 @@ export class NotifyObserverItemComponent implements OnInit {
     hasRead: [this.readStatuses[2].value],
   });
 
+  showStatisticsModal = false;
+
   ngOnInit() { }
 
   resolveHref(item: TableItem) {
@@ -87,13 +90,13 @@ export class NotifyObserverItemComponent implements OnInit {
 
   toShowNotifyHistory() {
     this.showModal = true;
-    this.loadDataFromServer();
+    this.loadNotifyHistory();
   }
 
   submitForm(): void {
     this.pageIndex = 1;
     this.pageSize = 6;
-    this.loadDataFromServer();
+    this.loadNotifyHistory();
   }
 
   resetForm() {
@@ -102,23 +105,32 @@ export class NotifyObserverItemComponent implements OnInit {
     });
     this.pageIndex = 1;
     this.pageSize = 6;
-    this.loadDataFromServer();
+    this.loadNotifyHistory();
   }
 
   pageIndexChange(index: number) {
     this.pageIndex = index;
-    this.loadDataFromServer();
+    this.loadNotifyHistory();
   }
 
   markRead(item: NotifyHistoryTableItem) {
-    this.loadDataFromServer();
+    this.loadNotifyHistory();
   }
 
   trackByID(index: number, item: NotifyHistoryTableItem) {
     return item._id;
   }
 
-  private loadDataFromServer() {
+
+  toShowStatistics() {
+    if (this.item?.timerStatisticsDefinitions && this.item.timerStatisticsDefinitions.length > 0) {
+      this.showStatisticsModal = true;
+    } else {
+      this.nzNotificationService.warning(`还没有统计表定义`, `还没有统计表定义`)
+    }
+  }
+
+  private loadNotifyHistory() {
     this.loading = true;
     this.notifyHistoryService
       .queryList(removeEmpty({

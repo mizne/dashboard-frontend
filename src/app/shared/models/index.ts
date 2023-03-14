@@ -9,3 +9,4 @@ export * from './notify-observer-not-allow.model';
 export * from './global-settings.model';
 export * from './investor.model';
 export * from './wom-peg.model';
+export * from './general-table.model';

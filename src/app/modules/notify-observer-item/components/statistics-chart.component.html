@@ -1,0 +1,17 @@
+<div class="statistics-chart-container">
+  <div class="versions-container" style="margin-bottom: 16px;">
+    <nz-radio-group [formControl]="versionCtrl" nzButtonStyle="solid">
+      <label nz-radio-button *ngFor="let item of versions" [nzValue]="item.value">{{item.label}}</label>
+    </nz-radio-group>
+  </div>
+
+  <div nz-row [nzGutter]="16">
+    <div nz-col class="gutter-row" [nzSpan]="12" *ngFor="let item of charts">
+      <div class="inner-box">
+        <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
+          {{item.label}}</div>
+        <tradingview-chart [series]="item.series" [width]="370"></tradingview-chart>
+      </div>
+    </div>
+  </div>
+</div>

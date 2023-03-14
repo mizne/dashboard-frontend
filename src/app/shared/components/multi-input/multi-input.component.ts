@@ -43,7 +43,7 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
   @Input() min = 0;
   @Input() max = 999;
 
-  @Input() type: 'number' | 'text' = 'number'
+  @Input() type: 'number' | 'string' = 'number'
   @Input() mode: 'array' | 'string' = 'array' // 表示输入输出是数组还是逗号相连的字符串 [2, 3] or '2,3' / ['testnet', 'mainnet'] or 'testnet,mainnet'
 
   @ViewChild('inputNumber') inputNumberCom: NzInputNumberComponent | null = null;
@@ -77,7 +77,7 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
       this.emitValue();
     }
 
-    if (this.type === 'text' && typeof this.inputValue === 'string' && this.tags.indexOf(this.inputValue) === -1) {
+    if (this.type === 'string' && typeof this.inputValue === 'string' && this.tags.indexOf(this.inputValue) === -1) {
       this.tags = [...this.tags, this.inputValue];
       this.emitValue();
     }
@@ -92,13 +92,13 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
       if (this.mode === 'array') {
         if (this.type === 'number') {
           this.onChange(this.tags.map(e => Number(e)))
-        } else if (this.type === 'text') {
+        } else if (this.type === 'string') {
           this.onChange(this.tags.map(e => String(e)))
         }
       } else if (this.mode === 'string') {
         if (this.type === 'number') {
           this.onChange(this.tags.map(e => Number(e)).join(','))
-        } else if (this.type === 'text') {
+        } else if (this.type === 'string') {
           this.onChange(this.tags.map(e => String(e)).join(','))
         }
       } else {

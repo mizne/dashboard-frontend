@@ -85,6 +85,12 @@ export interface NotifyObserver {
   timerOnce?: boolean;
   timerEnableScript?: boolean;
   timerScript?: string;
+  timerEnableStatistics?: boolean;
+  timerStatisticsDefinitions?: Array<{
+    name: string;
+    version: number;
+    fields: string[];
+  }>
 
   soQuestHomeLink?: string;
   soQuestTitleKey?: string;

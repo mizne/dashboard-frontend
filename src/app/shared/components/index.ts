@@ -17,6 +17,7 @@ import { GlobalSettingsComponent } from './global-settings/global-settings.compo
 import { TradingviewChartComponent } from './tradingview-chart/tradingview-chart.component';
 import { ObjectInputComponent } from './object-input/object-input.component';
 import { WomPegChartComponent } from './wom-peg-chart/wom-peg-chart.component';
+import { StatisticsDefinitionsComponent } from './statistics-definitions/statistics-definitions.component';
 
 export const components = [
   LinkableComponent,
@@ -38,6 +39,7 @@ export const components = [
   TradingviewChartComponent,
   ObjectInputComponent,
   WomPegChartComponent,
+  StatisticsDefinitionsComponent,
 ];
 
 export {
@@ -60,4 +62,5 @@ export {
   TradingviewChartComponent,
   ObjectInputComponent,
   WomPegChartComponent,
+  StatisticsDefinitionsComponent,
 };

@@ -1,0 +1,63 @@
+<div class="statistics-definitions-container">
+  <button nz-button nzType="primary" nzShape="circle" (click)="addDefinition()" style="margin-bottom: 4px">
+    <span nz-icon nzType="plus"></span>
+  </button>
+
+  <nz-table [nzData]="definitions">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Version</th>
+        <th>Fields</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of definitions">
+        <td>
+          {{data.name}}
+        </td>
+        <td>
+          {{data.version}}
+        </td>
+        <td>
+          <nz-tag *ngFor="let tag of data.fields; let i = index" style="margin-bottom: 4px">
+            {{ tag }}
+          </nz-tag>
+        </td>
+        <td>
+          <button nz-button nzType="primary" nzDanger nzShape="circle" nz-popconfirm
+            nzPopconfirmTitle="删除表定义后，该表定义的统计数据也会搜索不到了，确认删除?" nzPopconfirmPlacement="bottom"
+            (nzOnConfirm)="confirmDelete(data)"><span nz-icon nzType="delete"></span></button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+<nz-modal [(nzVisible)]="showModal" [nzWidth]="600" (nzOnOk)="confirmAdd()" (nzOnCancel)="showModal=false"
+  nzTitle="添加定义">
+  <ng-container *nzModalContent>
+
+    <form nz-form [formGroup]="createForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="表名，系统会自动添加随机字符后缀以区分">
+          <span>表名</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input placeholder="Input name" formControlName="name" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="字段">
+          <span>字段</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <app-multi-input type="string" formControlName="fields"></app-multi-input>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+
+  </ng-container>
+</nz-modal>

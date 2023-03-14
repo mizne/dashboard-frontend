@@ -46,8 +46,14 @@
     <span *ngIf="item.timerOnce" title="一次性通知" nz-icon nzType="minus-circle" [nzTheme]="'twotone'"
       [nzTwotoneColor]="'#eb2f96'" style="transform: rotate(90deg);"></span>
 
-    <span nz-icon nzType="history" nzTheme="outline" [title]="'查看该通知源通知历史'" (click)="toShowNotifyHistory()"
-      style="cursor: pointer;"></span>
+    <span>
+      <span nz-icon nzType="history" nzTheme="outline" [title]="'查看该通知源通知历史'" (click)="toShowNotifyHistory()"
+        style="cursor: pointer;"></span>
+
+      <span *ngIf="!!item.timerEnableScript && !!item.timerEnableStatistics" nz-icon nzType="line-chart"
+        nzTheme="outline" [title]="'查看该通知源统计数据'" (click)="toShowStatistics()"
+        style="cursor: pointer; margin-left: 12px;"></span>
+    </span>
 
     <created-at [createdAt]="item.createdAt"></created-at>
   </div>
@@ -117,5 +123,13 @@
     <ng-template #rangeTemplate let-range="range" let-total>
       {{ range[0] }}-{{ range[1] }} of {{ total }} items
     </ng-template>
+  </ng-container>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="showStatisticsModal" [nzWidth]="800" [nzFooter]="null" (nzOnCancel)="showStatisticsModal=false"
+  [nzTitle]="'统计数据 - ' + item?.notifyShowTitle">
+  <ng-container *nzModalContent>
+    <statistics-chart [definitions]="item?.timerStatisticsDefinitions || []"></statistics-chart>
   </ng-container>
 </nz-modal>

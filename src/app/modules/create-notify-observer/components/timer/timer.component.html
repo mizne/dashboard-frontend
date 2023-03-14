@@ -53,6 +53,30 @@
     </nz-form-item>
 
     <nz-form-item *ngIf="data.get('timerEnableScript')?.value">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，数据也会写入统计表">
+        <span>开启统计数据</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-switch formControlName="timerEnableStatistics"></nz-switch>
+
+        <button *ngIf="!!data.get('timerEnableStatistics')?.value" style="margin-left: 12px;" [title]="'复制脚本模板'"
+          nz-button nzType="default" nzShape="circle" ngxClipboard [cbContent]="scriptTemplateWithEnableStatistics"
+          (cbOnSuccess)="copyScriptTemplateSucces($event)" (cbOnError)="copyScriptTemplateError($event)">
+          <span nz-icon nzType="copy"></span>
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="data.get('timerEnableStatistics')?.value">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="统计表定义">
+        <span>统计表定义</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-statistics-definitions formControlName="timerStatisticsDefinitions"></app-statistics-definitions>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="data.get('timerEnableScript')?.value">
       <nz-form-label [nzSpan]="4" nzFor="timerScript" nzTooltipTitle="script">
         <span>script</span>
       </nz-form-label>

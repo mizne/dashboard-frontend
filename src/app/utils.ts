@@ -159,3 +159,15 @@ export function resolvePriceStatus(
 export function fixTradingViewTime(time: number): UTCTimestamp {
   return (time / 1e3 + 8 * 60 * 60) as UTCTimestamp
 }
+
+export function randomString(length: number): string {
+  const total =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+  return Array.from({ length }, () => randomEleInArr(total.split(''))).join('');
+}
+
+export function randomEleInArr<T>(arr: T[]): T {
+  const rndIndex = Math.floor(Math.random() * arr.length);
+  return arr[rndIndex];
+}
