@@ -2,11 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { Subscription } from 'rxjs';
 import { removeEmpty } from 'src/app/utils';
 import { tokenTagNameOfTotalMarket } from '../../models/cex-token-tag.model';
 import { CexToken } from '../../models/cex-token.model';
 import { CexTokenTagService } from '../../services/cex-token-tag.service';
 import { CexTokenService } from '../../services/cex-token.service';
+
+interface TableItem extends CexToken {
+  enableNotifyCtrl: FormControl;
+}
 
 @Component({
   selector: 'cex-token-list',
@@ -23,7 +28,7 @@ export class CexTokenListComponent implements OnInit {
   visible = false;
 
   total = 1;
-  cexTokens: CexToken[] = [];
+  cexTokens: TableItem[] = [];
   loading = true;
   pageSize = 10;
   pageIndex = 1;
@@ -64,6 +69,8 @@ export class CexTokenListComponent implements OnInit {
 
   status: 'loading' | 'error' | 'success' | '' = '';
 
+  subscriptions: Subscription[] = [];
+
   submitForm(): void {
     this.pageIndex = 1;
     this.pageSize = 10;
@@ -98,7 +105,7 @@ export class CexTokenListComponent implements OnInit {
     this.loadDataFromServer();
   }
 
-  confirmDelete(item: CexToken) {
+  confirmDelete(item: TableItem) {
     this.cexTokenService.deleteByID(item._id).subscribe({
       next: () => {
         this.notification.success(`删除成功`, `删除数据成功`);
@@ -111,7 +118,7 @@ export class CexTokenListComponent implements OnInit {
     });
   }
 
-  cancelDelete(item: CexToken) { }
+  cancelDelete(item: TableItem) { }
 
   private loadTags() {
     this.cexTokenTagService.queryList().subscribe((items) => {
@@ -138,9 +145,15 @@ export class CexTokenListComponent implements OnInit {
       )
       .subscribe(
         (results) => {
+          this.unsubscribeUpdateEnableTrackingCtrls();
           this.loading = false;
           this.status = 'success';
-          this.cexTokens = results;
+          this.cexTokens = results.map(e => ({
+            ...e,
+            enableNotifyCtrl: new FormControl(!!e.enableNotify)
+          }));
+
+          this.subscribeUpdateEnableTrackingCtrls();
         },
         (e: Error) => {
           this.loading = false;
@@ -154,6 +167,27 @@ export class CexTokenListComponent implements OnInit {
       .subscribe((count) => {
         this.total = count;
       });
+  }
+
+  private unsubscribeUpdateEnableTrackingCtrls() {
+    this.subscriptions.forEach((e) => {
+      e.unsubscribe();
+    });
+    this.subscriptions = [];
+  }
+
+  private subscribeUpdateEnableTrackingCtrls() {
+    this.cexTokens.forEach((e) => {
+      const sub = e.enableNotifyCtrl.valueChanges.subscribe((v) => {
+        this.cexTokenService
+          .update(e._id, { enableNotify: !!v })
+          .subscribe(() => {
+            this.loadDataFromServer();
+          });
+      });
+
+      this.subscriptions.push(sub);
+    });
   }
 
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {

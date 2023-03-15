@@ -35,6 +35,19 @@ export class CexTokenService {
     );
   }
 
+  update(
+    id: string | undefined,
+    record: Partial<CexToken>
+  ): Observable<{ code: number; message: string; result: any }> {
+    return this.httpClient.post<{ code: number; message: string; result: any }>(
+      `${this.baseURL}/cex-token/update`,
+      {
+        id,
+        record,
+      }
+    );
+  }
+
   deleteByID(id: string): Observable<any> {
     return this.httpClient.delete<any>(`${this.baseURL}/cex-token/${id}`);
   }
