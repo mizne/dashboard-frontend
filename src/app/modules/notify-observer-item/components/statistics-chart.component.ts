@@ -41,6 +41,7 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
       data: { time: Time; value: number }[];
     }>
   }> = [];
+  fetching = false;
 
   chartOptions = {
     localization: {
@@ -59,6 +60,8 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
     },
   }
 
+  numberCtrl = new FormControl(100)
+
   ngOnInit() {
     if (this.versions.length > 0) {
       this.versionCtrl.valueChanges.pipe(
@@ -67,6 +70,10 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
         this.fetchStatisticsDataByVersion()
       })
     }
+  }
+
+  toSearch() {
+    this.fetchStatisticsDataByVersion()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -85,15 +92,18 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
       const name = theDefinition?.name;
       const fields = theDefinition?.fields || [];
 
+      this.fetching = true;
       this.generalTableService.queryList({
         name, version
-      }, { number: 1, size: 100 })
+      }, { number: 1, size: (this.numberCtrl.value || 100) })
         .subscribe({
           next: (modelDataResults: Array<any>) => {
+            this.fetching = false;
             this.viewDataResults = this.convertModelDataResults(modelDataResults, fields);
             this.buildCharts();
           },
           error: (err: Error) => {
+            this.fetching = false;
             this.nzNotificationService.error(`获取统计数据失败`, `${err.message}`)
           }
         })

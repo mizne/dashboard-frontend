@@ -9,6 +9,11 @@
     <nz-spin nzTip="获取WomPeg中..." [nzSpinning]="fetching">
       <div style="margin-bottom: 12px;">
         <nz-tag *ngFor="let item of chartTypes" [nzColor]="item.color">{{item.label}}</nz-tag>
+
+        <nz-input-number-group nzAddOnBefore="最近" nzAddOnAfter="天数据">
+          <nz-input-number [formControl]="daysCtrl" [nzStep]="1" [nzMin]="10" [nzMax]="365"></nz-input-number>
+        </nz-input-number-group>
+        <button nz-button nzType="primary" (click)="toSearch()">查询</button>
       </div>
       <tradingview-chart [series]="series" [width]="750" [height]="400"></tradingview-chart>
     </nz-spin>

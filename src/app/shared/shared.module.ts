@@ -27,6 +27,7 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -73,6 +74,7 @@ const nzModules = [
   NzPopoverModule,
   NzRadioModule,
   NzSelectModule,
+  NzSpaceModule,
   NzSpinModule,
   NzSwitchModule,
   NzTableModule,

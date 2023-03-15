@@ -1,17 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import {
-  GlobalSettingsService,
-  KlineIntervalService,
-  SharedService,
-  TimerService,
   WomPegService,
 } from '../../services';
-import { merge, startWith, map } from 'rxjs';
-import { KlineIntervals } from '../../models/base.model';
-import { FormBuilder } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { WomPeg } from '../../models';
-import { Time, UTCTimestamp } from 'lightweight-charts';
+import { Time } from 'lightweight-charts';
 import { fixTradingViewTime } from 'src/app/utils';
 
 @Component({
@@ -20,10 +14,8 @@ import { fixTradingViewTime } from 'src/app/utils';
 })
 export class WomPegChartComponent implements OnInit {
   constructor(
-    private sharedService: SharedService,
     private womPegService: WomPegService,
     private notification: NzNotificationService,
-    private fb: FormBuilder
   ) { }
 
   visible = false;
@@ -50,6 +42,7 @@ export class WomPegChartComponent implements OnInit {
     color: string;
     data: { time: Time; value: number }[];
   }> = []
+  daysCtrl = new FormControl(180)
 
   ngOnInit() { }
 
@@ -62,9 +55,13 @@ export class WomPegChartComponent implements OnInit {
     this.visible = false;
   }
 
+  toSearch() {
+    this.fetchWomPegs()
+  }
+
   private fetchWomPegs() {
     this.fetching = true;
-    this.womPegService.queryList({}, { number: 1, size: 180 * 12 })
+    this.womPegService.queryList({}, { number: 1, size: (this.daysCtrl.value || 180) * 12 })
       .subscribe(
         {
           next: (v) => {
