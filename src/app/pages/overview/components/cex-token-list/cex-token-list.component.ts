@@ -182,8 +182,14 @@ export class CexTokenListComponent implements OnInit {
       const sub = e.enableNotifyCtrl.valueChanges.subscribe((v) => {
         this.cexTokenService
           .update(e._id, { enableNotify: !!v })
-          .subscribe(() => {
-            this.loadDataFromServer();
+          .subscribe({
+            next: () => {
+              this.loadDataFromServer();
+            },
+            error: (err: Error) => {
+              this.notification.error(`修改 ${e.name} 订阅通知失败`, `${err.message}`)
+              this.loadDataFromServer();
+            }
           });
       });
 
