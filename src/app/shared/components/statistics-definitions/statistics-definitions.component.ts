@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subscription } from 'rxjs';
 import { isEmpty, randomString } from 'src/app/utils';
@@ -34,9 +34,14 @@ export class StatisticsDefinitionsComponent implements ControlValueAccessor, OnD
   definitions: Array<Definition> = [];
 
   showModal = false;
-  nameCtrl = new FormControl(null);
   createForm = this.fb.group({
     name: [null],
+    fields: [[]]
+  })
+
+  showUpdateModal = false;
+  updateVersion = 0;
+  updateForm = this.fb.group({
     fields: [[]]
   })
 
@@ -53,16 +58,7 @@ export class StatisticsDefinitionsComponent implements ControlValueAccessor, OnD
     this.showModal = true;
   }
 
-  confirmDelete(item: Definition) {
-    const index = this.definitions.indexOf(item);
-    if (index >= 0) {
-      this.definitions.splice(index, 1);
-    }
-
-    this.emitValue();
-  }
-
-  confirmAdd() {
+  ensureAdd() {
     if (!this.createForm.value.name) {
       this.notification.warning(`还没有填写 表名`, `还没有填写 表名`);
       return
@@ -84,6 +80,39 @@ export class StatisticsDefinitionsComponent implements ControlValueAccessor, OnD
     this.emitValue();
   }
 
+  updateDefinition(item: Definition) {
+    this.showUpdateModal = true;
+    this.updateVersion = item.version;
+    this.updateForm.patchValue({
+      fields: item.fields as any
+    })
+  }
+
+  ensureUpdate() {
+    if (!this.updateForm.value.fields || this.updateForm.value.fields.length === 0) {
+      this.notification.warning(`还没有填写 字段`, `还没有填写 字段`);
+      return
+    }
+    const theDefinition = this.definitions.find(e => e.version === this.updateVersion);
+    if (theDefinition) {
+      this.showUpdateModal = false;
+      theDefinition.fields = this.updateForm.value.fields;
+      this.updateForm.patchValue({
+        fields: []
+      })
+    }
+
+    this.emitValue();
+  }
+
+  confirmDelete(item: Definition) {
+    const index = this.definitions.indexOf(item);
+    if (index >= 0) {
+      this.definitions.splice(index, 1);
+    }
+
+    this.emitValue();
+  }
 
   emitValue() {
     if (this.onChange) {

@@ -5,7 +5,7 @@ import { Time } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { startWith } from 'rxjs';
 import { GeneralTableService } from 'src/app/shared';
-import { fixTradingViewTime } from 'src/app/utils';
+import { fixTradingViewTime, isNil } from 'src/app/utils';
 
 @Component({
   selector: 'statistics-chart',
@@ -117,7 +117,7 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
   private viewDataMapper(modelData: any, fields: string[]): any {
     return Object.keys(modelData).filter(key => key.startsWith('field')).reduce<any>((accu, modelKey) => {
       const viewKey = this.resolveViewKey(modelKey, fields);
-      accu[viewKey] = modelData[modelKey]
+      accu[viewKey] = isNil(modelData[modelKey]) ? 0 : modelData[modelKey]
       return accu;
     }, {
       createdAt: modelData['createdAt'],

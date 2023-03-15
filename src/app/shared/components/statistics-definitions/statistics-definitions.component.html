@@ -13,7 +13,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of definitions">
+      <tr *ngFor="let data of definitions; let isLast = last;">
         <td>
           {{data.name}}
         </td>
@@ -26,7 +26,11 @@
           </nz-tag>
         </td>
         <td>
-          <button nz-button nzType="primary" nzDanger nzShape="circle" nz-popconfirm
+          <button *ngIf="isLast" nz-button nzType="primary" nzDanger nzSize="small" nzShape="circle" nz-popconfirm
+            nzPopconfirmTitle="如果字段大部分相同，只是少部分变更，可以修改字段，否则建议重新添加表定义，确认修改？" nzPopconfirmPlacement="bottom"
+            (nzOnConfirm)="updateDefinition(data)"><span nz-icon nzType="edit"></span></button>
+
+          <button nz-button nzType="primary" nzDanger nzSize="small" nzShape="circle" nz-popconfirm
             nzPopconfirmTitle="删除表定义后，该表定义的统计数据也会搜索不到了，确认删除?" nzPopconfirmPlacement="bottom"
             (nzOnConfirm)="confirmDelete(data)"><span nz-icon nzType="delete"></span></button>
         </td>
@@ -35,7 +39,26 @@
   </nz-table>
 </div>
 
-<nz-modal [(nzVisible)]="showModal" [nzWidth]="600" (nzOnOk)="confirmAdd()" (nzOnCancel)="showModal=false"
+<nz-modal [(nzVisible)]="showUpdateModal" [nzWidth]="600" (nzOnOk)="ensureUpdate()" (nzOnCancel)="showUpdateModal=false"
+  nzTitle="添加、移除字段">
+  <ng-container *nzModalContent>
+
+    <form nz-form [formGroup]="updateForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="字段">
+          <span>字段</span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <app-multi-input type="string" formControlName="fields"></app-multi-input>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+
+  </ng-container>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="showModal" [nzWidth]="600" (nzOnOk)="ensureAdd()" (nzOnCancel)="showModal=false"
   nzTitle="添加定义">
   <ng-container *nzModalContent>
 
