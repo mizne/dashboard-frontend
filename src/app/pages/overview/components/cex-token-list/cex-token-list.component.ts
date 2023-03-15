@@ -40,6 +40,7 @@ export class CexTokenListComponent implements OnInit {
   form = this.fb.group({
     name: [''],
     createdAt: [0],
+    enableNotify: [null]
   });
   createdAtOptions = [
     {
@@ -210,6 +211,14 @@ export class CexTokenListComponent implements OnInit {
             }
             : {}
         );
+      } else if (key === 'enableNotify') {
+        Object.assign(o, query['enableNotify'] ? {
+          enableNotify: true
+        } : {
+          enableNotify: {
+            $in: [null, false]
+          }
+        })
       } else {
         Object.assign(o, { [key]: query[key] });
       }

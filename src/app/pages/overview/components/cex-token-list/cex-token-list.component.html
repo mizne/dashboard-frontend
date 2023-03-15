@@ -27,6 +27,17 @@
         </nz-form-control>
       </nz-form-item>
 
+      <nz-form-item>
+        <nz-form-label nzFor="enableNotify">订阅通知</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group formControlName="enableNotify" nzSize="small" [nzButtonStyle]="'solid'">
+            <label nz-radio-button [nzValue]="null">所有</label>
+            <label nz-radio-button [nzValue]="true">已订阅</label>
+            <label nz-radio-button [nzValue]="false">未订阅</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+
       <nz-form-item class="register-area">
         <nz-form-control>
           <button nz-button [nzType]="'primary'">搜索</button>
