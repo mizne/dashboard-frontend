@@ -64,7 +64,7 @@ export class WomPegChartComponent implements OnInit {
 
   private fetchWomPegs() {
     this.fetching = true;
-    this.womPegService.queryList({}, { number: 1, size: 100 })
+    this.womPegService.queryList({}, { number: 1, size: 180 * 12 })
       .subscribe(
         {
           next: (v) => {
