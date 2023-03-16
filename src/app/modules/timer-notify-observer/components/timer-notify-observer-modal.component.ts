@@ -67,7 +67,11 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     }
   ]
   form = this.fb.group({
-    taskType: [this.taskTypes[0].value]
+    taskType: [
+      this.taskTypes[0].value
+    ],
+    timerEnableScript: [false],
+    timerEnableStatistics: [false]
   })
 
   ngOnInit() {
@@ -156,7 +160,12 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   }
 
   private fetchTimerNotifyObservers() {
-    this.service.queryList({ type: NotifyObserverTypes.TIMER, enableTracking: true })
+    this.service.queryList({
+      type: NotifyObserverTypes.TIMER,
+      enableTracking: true,
+      timerEnableScript: !!this.form.value.timerEnableScript,
+      timerEnableStatistics: !!this.form.value.timerEnableStatistics,
+    })
       .subscribe({
         next: (results) => {
           this.resolveResults(results)
