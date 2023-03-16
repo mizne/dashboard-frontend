@@ -26,14 +26,22 @@
       <nz-form-item>
         <nz-form-label>脚本</nz-form-label>
         <nz-form-control>
-          <nz-switch formControlName="timerEnableScript"></nz-switch>
+          <nz-radio-group formControlName="timerEnableScript" nzSize="small" [nzButtonStyle]="'solid'">
+            <label nz-radio-button [nzValue]="null">全部</label>
+            <label nz-radio-button [nzValue]="true">有</label>
+            <label nz-radio-button [nzValue]="false">无</label>
+          </nz-radio-group>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
         <nz-form-label>统计数据</nz-form-label>
         <nz-form-control>
-          <nz-switch formControlName="timerEnableStatistics"></nz-switch>
+          <nz-radio-group formControlName="timerEnableStatistics" nzSize="small" [nzButtonStyle]="'solid'">
+            <label nz-radio-button [nzValue]="null">全部</label>
+            <label nz-radio-button [nzValue]="true">有</label>
+            <label nz-radio-button [nzValue]="false">无</label>
+          </nz-radio-group>
         </nz-form-control>
       </nz-form-item>
     </form>

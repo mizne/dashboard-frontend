@@ -4,8 +4,8 @@ import { NotifyObserver, NotifyObserverService, NotifyObserverTypes, TimerServic
 import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer'
 import { DestroyService } from 'src/app/shared/services/destroy.service';
 import { startWith, takeUntil } from 'rxjs';
-import { FormBuilder } from '@angular/forms';
-import { paddingZero } from 'src/app/utils';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { paddingZero, removeEmpty } from 'src/app/utils';
 
 enum TaskTypes {
   TODAY = 'today',
@@ -66,7 +66,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
       title: '所有的任务'
     }
   ]
-  form = this.fb.group({
+  form: FormGroup<any> = this.fb.group({
     taskType: [
       this.taskTypes[0].value
     ],
@@ -163,12 +163,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     this.service.queryList({
       type: NotifyObserverTypes.TIMER,
       enableTracking: true,
-      timerEnableScript: {
-        $in: !!this.form.value.timerEnableScript ? [null, undefined, true] : [null, undefined, false]
-      },
-      timerEnableStatistics: {
-        $in: !!this.form.value.timerEnableStatistics ? [null, undefined, true] : [null, undefined, false]
-      },
+      ...(this.resolveFormQuery())
     } as any)
       .subscribe({
         next: (results) => {
@@ -178,6 +173,39 @@ export class TimerNotifyObserverModalComponent implements OnInit {
           this.nzNotificationService.error(`获取定时任务失败`, `${err.message}`)
         }
       })
+  }
+
+  private resolveFormQuery() {
+    const o: { [key: string]: any } = {};
+    if (this.form.value.timerEnableScript === true) {
+      Object.assign(o, {
+        timerEnableScript: true
+      })
+    } else if (this.form.value.timerEnableScript === false) {
+      Object.assign(o, {
+        timerEnableScript: {
+          $in: [null, undefined, false]
+        }
+      })
+    } else {
+      // noop
+    }
+
+    if (this.form.value.timerEnableStatistics === true) {
+      Object.assign(o, {
+        timerEnableStatistics: true
+      })
+    } else if (this.form.value.timerEnableStatistics === false) {
+      Object.assign(o, {
+        timerEnableStatistics: {
+          $in: [null, undefined, false]
+        }
+      })
+    } else {
+      // noop
+    }
+
+    return o;
   }
 
   private resolveResults(results: NotifyObserver[]) {
