@@ -82,7 +82,9 @@
     <timer-notify-observer-modal style="margin-left: 48px;"></timer-notify-observer-modal>
 
     <button nz-button nzType="dashed" style="margin-left: 48px;"
-      (click)="searchTimerEnableScriptEnableStatistics()">快速查看支持统计数据的通知源</button>
+      (click)="searchTimerEnableScriptEnableStatistics()">脚本且支持统计数据的通知源</button>
+    <button nz-button nzType="dashed" style="margin-left: 32px;"
+      (click)="searchTimerEnableScriptNotEnableStatistics()">脚本且不支持统计数据的通知源</button>
   </div>
 
   <nz-spin [nzSpinning]="loading">

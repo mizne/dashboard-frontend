@@ -119,6 +119,16 @@ export class MyNotificationComponent implements OnInit {
     })
   }
 
+  searchTimerEnableScriptNotEnableStatistics() {
+    this.loadDataFromServer({
+      type: NotifyObserverTypes.TIMER,
+      timerEnableScript: true,
+      timerEnableStatistics: {
+        $nin: [true]
+      }
+    })
+  }
+
   showCreateLink3ActivityModal() {
     this.link3ActivityInputModalVisible = true;
   }
