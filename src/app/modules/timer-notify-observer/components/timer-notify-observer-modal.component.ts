@@ -163,9 +163,13 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     this.service.queryList({
       type: NotifyObserverTypes.TIMER,
       enableTracking: true,
-      timerEnableScript: !!this.form.value.timerEnableScript,
-      timerEnableStatistics: !!this.form.value.timerEnableStatistics,
-    })
+      timerEnableScript: {
+        $in: !!this.form.value.timerEnableScript ? [null, undefined, true] : [null, undefined, false]
+      },
+      timerEnableStatistics: {
+        $in: !!this.form.value.timerEnableStatistics ? [null, undefined, true] : [null, undefined, false]
+      },
+    } as any)
       .subscribe({
         next: (results) => {
           this.resolveResults(results)
