@@ -125,6 +125,15 @@
         <nz-switch formControlName="timerOnce"></nz-switch>
       </nz-form-control>
     </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="timer custom logo">
+        <span>timer logo</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your timer custom logo!">
+        <upload-file formControlName="timerLogo"></upload-file>
+      </nz-form-control>
+    </nz-form-item>
   </form>
 </div>
 

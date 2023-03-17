@@ -54,6 +54,7 @@ export class TimerService implements NotifyObserverTypeServiceInterface {
       timerNotifyShowDesc: [obj.timerNotifyShowDesc],
       timerNotifyShowUrl: [obj.timerNotifyShowUrl],
       timerOnce: [!!obj.timerOnce],
+      timerLogo: [obj.timerLogo]
     }
   }
 

@@ -91,6 +91,7 @@ export interface NotifyObserver {
     version: number;
     fields: string[];
   }>
+  timerLogo?: string;
 
   soQuestHomeLink?: string;
   soQuestTitleKey?: string;
