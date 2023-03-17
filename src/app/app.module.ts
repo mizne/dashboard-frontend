@@ -15,7 +15,7 @@ import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
 import { NotifyHistoryModule } from 'src/app/modules/notify-history';
 
 const ngZorroConfig: NzConfig = {
-  notification: { nzPlacement: 'bottom' }
+  notification: { nzPlacement: 'bottomLeft' }
 };
 
 registerLocaleData(zh);
