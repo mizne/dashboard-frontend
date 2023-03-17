@@ -39,3 +39,5 @@ export interface GeneralTable {
   readonly createdAt: number;
   readonly createdAtStr: string;
 }
+
+export const MAX_GENERAL_TABLE_FIELD_COUNT = 30;

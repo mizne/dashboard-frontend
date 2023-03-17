@@ -4,7 +4,7 @@ import { da } from 'date-fns/locale';
 import { Time } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { startWith } from 'rxjs';
-import { GeneralTableService } from 'src/app/shared';
+import { GeneralTableService, MAX_GENERAL_TABLE_FIELD_COUNT } from 'src/app/shared';
 import { fixTradingViewTime, isNil } from 'src/app/utils';
 
 @Component({
@@ -126,7 +126,7 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
   }
 
   private resolveViewKey(modelKey: string, viewKeys: string[]): string {
-    const modelKeys = Array.from({ length: 30 }, (_, i) => `field${i + 1}`);
+    const modelKeys = Array.from({ length: MAX_GENERAL_TABLE_FIELD_COUNT }, (_, i) => `field${i + 1}`);
     const modelKeyIndex = modelKeys.indexOf(modelKey);
     if (modelKeyIndex === -1) {
       throw new Error(`[StatisticsChartComponent] resolveViewKey() not found model key: ${modelKey}`)
