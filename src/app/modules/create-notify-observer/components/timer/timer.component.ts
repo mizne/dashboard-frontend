@@ -61,7 +61,10 @@ module.exports = async function parseData() {
     infos: [
       
     ],
-    link: 'https://defillama.com/'
+    link: 'https://defillama.com/',
+    predicate: {
+      link: 'https://defillama.com/'
+    }
   }
 }
   `
@@ -91,7 +94,10 @@ return {
     infos: [
       
     ],
-    link: 'https://defillama.com/'
+    link: 'https://defillama.com/',
+    predicate: {
+      link: 'https://defillama.com/'
+    }
   }
 }
 }
