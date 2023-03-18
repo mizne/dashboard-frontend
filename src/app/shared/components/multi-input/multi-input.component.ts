@@ -8,8 +8,9 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NzInputNumberComponent } from 'ng-zorro-antd/input-number';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import * as uuid from 'uuid';
 
 
@@ -40,6 +41,7 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
   inputVisible = false;
   inputValue = null;
 
+
   @Input() min = 0;
   @Input() max = 999;
 
@@ -49,7 +51,14 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
   @ViewChild('inputNumber') inputNumberCom: NzInputNumberComponent | null = null;
   @ViewChild('inputText') inputTextCom: ElementRef<HTMLInputElement> | null = null;
 
-  constructor() { }
+  showCreateRangeModal = false;
+  rangeMinCtrl = new FormControl(0)
+  rangeMaxCtrl = new FormControl(23)
+  rangeStepCtrl = new FormControl(1)
+
+  constructor(
+    private readonly nzNotificationService: NzNotificationService
+  ) { }
 
   handleClose(removedTag: string | number, theIndex: number): void {
     this.tags = this.tags.filter((tag, index) => index !== theIndex);
@@ -68,6 +77,31 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
         this.inputTextCom.nativeElement.focus();
       }
     }, 10)
+  }
+
+  toCreateRange() {
+    this.showCreateRangeModal = true;
+  }
+
+  ensureRange() {
+    const min = this.rangeMinCtrl.value as number;
+    const max = this.rangeMaxCtrl.value as number;
+    const step = this.rangeStepCtrl.value as number;
+    if (min > max) {
+      this.nzNotificationService.warning(`最小值不能大于最大值`, `最小值不能大于最大值`)
+      return
+    }
+    if (step <= 0) {
+      this.nzNotificationService.warning(`step必须大于0`, `step必须大于0`)
+      return
+    }
+    const results: number[] = []
+    for (let i = min; i <= max; i += step) {
+      results.push(i)
+    }
+    this.tags = [...this.tags, ...results];
+    this.showCreateRangeModal = false;
+    this.emitValue();
   }
 
   handleInputConfirm(): void {

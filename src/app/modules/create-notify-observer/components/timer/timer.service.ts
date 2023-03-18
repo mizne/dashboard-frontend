@@ -33,10 +33,10 @@ export class TimerService implements NotifyObserverTypeServiceInterface {
   resolveDesc(item: NotifyObserver): string {
     const infos = [
       item.timerNotifyShowDesc || '',
-      this.isNumberArray(item.timerMonth) ? `${item.timerMonth?.join(',')}月` : '',
-      this.isNumberArray(item.timerDate) ? ` ${item.timerDate?.join(',')}日` : '',
-      this.isNumberArray(item.timerHour) ? `${item.timerHour?.join(',')}时` : '',
-      this.isNumberArray(item.timerMinute) ? `${item.timerMinute?.join(',')}分` : '',
+      this.isNumberArray(item.timerMonth) ? `${this.normalizeNumberArray(item.timerMonth as number[])}月` : '',
+      this.isNumberArray(item.timerDate) ? ` ${this.normalizeNumberArray(item.timerDate as number[])}日` : '',
+      this.isNumberArray(item.timerHour) ? `${this.normalizeNumberArray(item.timerHour as number[])}时` : '',
+      this.isNumberArray(item.timerMinute) ? `${this.normalizeNumberArray(item.timerMinute as number[])}分` : '',
     ]
     return infos.filter(e => !!e).join(' ')
   }
@@ -60,5 +60,25 @@ export class TimerService implements NotifyObserverTypeServiceInterface {
 
   private isNumberArray(v?: number[]): boolean {
     return Array.isArray(v) && v.length > 0 && v.every(f => typeof f === 'number')
+  }
+
+  private normalizeNumberArray(nums: number[]): string {
+    const groupNums = [];
+    const sortedNums = Array.from(new Set(nums.sort((a, b) => a - b)))
+
+    for (const e of sortedNums) {
+      if (groupNums.length === 0) {
+        groupNums.push([e])
+      } else {
+        const lastGroup = groupNums[groupNums.length - 1];
+        const lastNum = lastGroup[lastGroup.length - 1];
+        if (lastNum === e - 1) {
+          lastGroup.push(e)
+        } else {
+          groupNums.push([e])
+        }
+      }
+    }
+    return groupNums.map(e => e.length > 1 ? `${e[0]}-${e[e.length - 1]}` : `${e[0]}`).join(',')
   }
 }
