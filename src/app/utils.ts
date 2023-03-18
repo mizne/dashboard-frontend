@@ -26,6 +26,19 @@ export const removeEmpty = (obj: { [key: string]: any }) => {
   return result;
 };
 
+// 移除 keys
+export const removeKeys = (obj: { [key: string]: any }, keys: string[]) => {
+  const result: { [key: string]: any } = {};
+  for (const key of Object.keys(obj)) {
+    if (keys.indexOf(key) === -1) {
+      Object.assign(result, {
+        [key]: obj[key],
+      });
+    }
+  }
+  return result;
+};
+
 export function isEmpty(v: any): boolean {
   return isNil(v) || v === '';
 }

@@ -4,7 +4,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { CreateFollowedProjectTrackingRecordService, FollowedProjectTrackingRecordModalActions } from 'src/app/modules/create-followed-project-tracking-record';
 import { FollowedProjectTrackingRecordService, FollowedProjectTrackingRecord, TagTypes } from 'src/app/shared';
-import { removeNullOrUndefined } from 'src/app/utils';
+import { removeKeys, removeNullOrUndefined } from 'src/app/utils';
 
 interface TableItem extends FollowedProjectTrackingRecord {
   followedProjectIDCtrl: FormControl;
@@ -75,6 +75,25 @@ export class TrackingRecordComponent implements OnInit {
     const { success, error } = this.createFollowedProjectTrackingRecordService.createModal(
       '添加跟踪记录',
       obj,
+    );
+
+    success.subscribe((v) => {
+      this.notification.success(`添加跟踪记录成功`, `添加跟踪记录成功`);
+      this.loadDataFromServer();
+    });
+    error.subscribe((e) => {
+      this.notification.error(`添加跟踪记录失败`, `${e.message}`);
+    });
+  }
+
+  confirmCopy(item: FollowedProjectTrackingRecord) {
+    const obj: Partial<FollowedProjectTrackingRecord> = {
+      ...removeKeys(item, ['_id', 'createdAt', 'createdAtStr']),
+    };
+    const { success, error } = this.createFollowedProjectTrackingRecordService.createModal(
+      '添加跟踪记录',
+      obj,
+      FollowedProjectTrackingRecordModalActions.CREATE
     );
 
     success.subscribe((v) => {
