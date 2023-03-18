@@ -18,6 +18,10 @@
         <linkable [href]="item.link">
         </linkable>
         <created-at [createdAt]="item.createdAt"></created-at>
+        <button nz-button (click)="confirmCopy(item)" nzType="primary" nzShape="circle" nzSize="small" nz-tooltip
+          [nzTooltipTitle]="'复制'" style="margin-left: 4px">
+          <i nz-icon nzType="copy" nzTheme="outline"></i>
+        </button>
       </nz-list-item>
       <!-- <nz-list-footer>Footer</nz-list-footer> -->
     </nz-list>

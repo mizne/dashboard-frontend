@@ -2,11 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CreateFollowedProjectTrackingRecordService } from 'src/app/modules/create-followed-project-tracking-record';
+import { CreateFollowedProjectTrackingRecordService, FollowedProjectTrackingRecordModalActions } from 'src/app/modules/create-followed-project-tracking-record';
 import { CreateNotifyObserverService } from 'src/app/modules/create-notify-observer';
 import { ClientNotifyService, FollowedProjectService, FollowedProjectTrackingRecord, FollowedProjectTrackingRecordService, NotifyObserver, NotifyObserverService, NotifyObserverTypes, TagTypes, } from 'src/app/shared';
 import { DestroyService } from 'src/app/shared/services/destroy.service';
 import { NotifyObserverTypeManagerService } from 'src/app/modules/create-notify-observer';
+import { removeKeys } from 'src/app/utils';
 
 interface TableItem extends NotifyObserver {
   enableTrackingCtrl: FormControl;
@@ -94,6 +95,26 @@ export class FollowedProjectMoreComponent implements OnInit {
 
     success.subscribe((v) => {
       this.notificationService.success(`添加跟踪记录成功`, `添加跟踪记录成功`);
+      this.fetchTrackingRecords();
+    });
+    error.subscribe((e) => {
+      this.notificationService.error(`添加跟踪记录失败`, `${e.message}`);
+    });
+  }
+
+  confirmCopy(item: FollowedProjectTrackingRecord) {
+    const obj: Partial<FollowedProjectTrackingRecord> = {
+      ...removeKeys(item, ['_id', 'createdAt', 'createdAtStr']),
+    };
+    const { success, error } = this.createFollowedProjectTrackingRecordService.createModal(
+      '添加跟踪记录',
+      obj,
+      FollowedProjectTrackingRecordModalActions.CREATE
+    );
+
+    success.subscribe((v) => {
+      this.notificationService.success(`添加跟踪记录成功`, `添加跟踪记录成功`);
+      this.fetchTrackingRecords();
     });
     error.subscribe((e) => {
       this.notificationService.error(`添加跟踪记录失败`, `${e.message}`);
