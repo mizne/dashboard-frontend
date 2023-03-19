@@ -69,7 +69,7 @@ export class NotifyHistoryItemComponent implements OnInit {
   }
 
   showCreateTimerNotifyObserverGetter(item: TableItem): boolean {
-    return item.type === NotifyObserverTypes.LINK3_RECOMMEND || item.type === NotifyObserverTypes.LINK3
+    return (item.type === NotifyObserverTypes.LINK3_RECOMMEND || item.type === NotifyObserverTypes.LINK3) && !!item.link && item.link?.indexOf('link3.to/e/') >= 0
   }
 
   markRead(item: NotifyHistory) {
