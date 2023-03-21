@@ -60,7 +60,8 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
     },
   }
 
-  numberCtrl = new FormControl(100)
+  defaultChartLength = 30 * 6
+  numberCtrl = new FormControl(this.defaultChartLength)
 
   ngOnInit() {
     if (this.versions.length > 0) {
@@ -95,7 +96,7 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
       this.fetching = true;
       this.generalTableService.queryList({
         name, version
-      }, { number: 1, size: (this.numberCtrl.value || 100) })
+      }, { number: 1, size: (this.numberCtrl.value || this.defaultChartLength) })
         .subscribe({
           next: (modelDataResults: Array<any>) => {
             this.fetching = false;
