@@ -9,6 +9,11 @@ const routes: Routes = [
       import('./pages/overview/overview.module').then((m) => m.OverviewModule),
   },
   {
+    path: 'cex-future',
+    loadChildren: () =>
+      import('./pages/cex-future-page/cex-future-page.module').then((m) => m.CexFuturePageModule),
+  },
+  {
     path: 'fund-raise',
     loadChildren: () =>
       import('./pages/fund-raise/fund-raise.module').then(

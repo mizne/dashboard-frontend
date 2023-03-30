@@ -10,3 +10,5 @@ export * from './global-settings.model';
 export * from './investor.model';
 export * from './wom-peg.model';
 export * from './general-table.model';
+export * from './cex-future.model';
+export * from './cex-future-daily.model';
