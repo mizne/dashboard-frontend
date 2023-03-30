@@ -20,7 +20,7 @@ export class ExecuteTaskCustomComponent implements OnInit {
     private klineIntervalService: KlineIntervalService,
     private notification: NzNotificationService,
     private fb: FormBuilder
-  ) {}
+  ) { }
 
   visible = false;
 
@@ -32,6 +32,10 @@ export class ExecuteTaskCustomComponent implements OnInit {
     {
       label: 'token tag',
       name: 'cex-token-tag-daily',
+    },
+    {
+      label: 'future',
+      name: 'cex-future-daily',
     },
   ];
 
@@ -61,7 +65,7 @@ export class ExecuteTaskCustomComponent implements OnInit {
     })
   );
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   submitForm(): void {
     const task = this.form.get('task')?.value as string;
