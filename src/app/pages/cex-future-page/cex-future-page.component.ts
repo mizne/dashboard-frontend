@@ -1,11 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Time } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { CreateFollowedProjectTrackingRecordService, FollowedProjectTrackingRecordModalActions } from 'src/app/modules/create-followed-project-tracking-record';
-import { FollowedProjectTrackingRecordService, FollowedProjectTrackingRecord, TagTypes, CexFutureService, CexFutureDailyService, CexFuture, CexFutureDaily } from 'src/app/shared';
-import { fixTradingViewTime, removeKeys, removeNullOrUndefined } from 'src/app/utils';
+import { CexFutureService, CexFutureDailyService, CexFuture, CexFutureDaily, NotifyObserverTypes } from 'src/app/shared';
+import { fixTradingViewTime, removeNullOrUndefined } from 'src/app/utils';
 
 @Component({
   selector: 'app-cex-future-page',
@@ -33,6 +32,7 @@ export class CexFuturePageComponent implements OnInit {
   form: FormGroup<any> = this.fb.group({
     symbol: [null],
   });
+  marketType = NotifyObserverTypes.MARKET
 
   futureDetailModalVisible = false;
   futureDetailModalTitle = '';

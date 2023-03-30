@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { removeEmpty } from 'src/app/utils';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -18,7 +18,7 @@ interface TableItem extends NotifyHistory {
   providers: [DestroyService],
 
 })
-export class NotifyHistoryListComponent implements OnInit {
+export class NotifyHistoryListComponent implements OnInit, OnChanges {
   constructor(
     private readonly fb: FormBuilder,
     private readonly notifyHistoryService: NotifyHistoryService,
@@ -82,6 +82,14 @@ export class NotifyHistoryListComponent implements OnInit {
           ...types
         ]
       })
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.condition && this.condition['type']) {
+      this.form.patchValue({
+        type: this.condition['type']
+      })
+    }
   }
 
   trackByID(index: number, item: TableItem) {
