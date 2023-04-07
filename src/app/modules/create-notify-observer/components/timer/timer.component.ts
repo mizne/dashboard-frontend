@@ -69,6 +69,40 @@ module.exports = async function parseData() {
 }
   `
 
+  scriptTemplateGitbook =
+    `declare var require: any;
+declare var module: any;
+  
+const cheerio = require('cheerio');
+const logger = require('logger');
+const axios = require('axios');
+const fetchGitbookPages = require('fetchGitbookPages');
+
+module.exports = async function parseData() {
+  const pages = await fetchGitbookPages('https://docs.alpacafinance.org/')
+
+  const pageFilter = (page) => {
+    return page.lastUpdatedAt >= new Date().getTime() - 1 * 24 * 60 * 60 * 1e3
+  }
+
+  return pages.filter(pageFilter).map(e => {
+    const infos = [
+      '页面: ' + e.url,
+      '更新时间：' + new Date(e.lastUpdatedAt).toLocaleString()
+    ]
+    return {
+      title: 'Alpaca Docs Update | ' + e.url,
+      infos: infos,
+      link: e.url,
+      predicate: {
+        desc: infos.join('<br />'),
+        link: e.url
+      }
+    }
+  })
+}
+  `
+
   scriptTemplateWithEnableStatistics =
     `declare var require: any;
 declare var module: any;

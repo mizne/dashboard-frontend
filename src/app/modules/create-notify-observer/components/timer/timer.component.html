@@ -44,8 +44,14 @@
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <nz-switch formControlName="timerEnableScript"></nz-switch>
 
-        <button *ngIf="!!data.get('timerEnableScript')?.value" style="margin-left: 12px;" [title]="'复制脚本模板'" nz-button
-          nzType="default" nzShape="circle" ngxClipboard [cbContent]="scriptTemplate"
+        <button *ngIf="!!data.get('timerEnableScript')?.value" style="margin-left: 12px;" [title]="'复制Blog脚本模板'"
+          nz-button nzType="default" nzShape="circle" ngxClipboard [cbContent]="scriptTemplate"
+          (cbOnSuccess)="copyScriptTemplateSucces($event)" (cbOnError)="copyScriptTemplateError($event)">
+          <span nz-icon nzType="copy"></span>
+        </button>
+
+        <button *ngIf="!!data.get('timerEnableScript')?.value" style="margin-left: 12px;" [title]="'复制Gitbook脚本模板'"
+          nz-button nzType="default" nzShape="circle" ngxClipboard [cbContent]="scriptTemplateGitbook"
           (cbOnSuccess)="copyScriptTemplateSucces($event)" (cbOnError)="copyScriptTemplateError($event)">
           <span nz-icon nzType="copy"></span>
         </button>
