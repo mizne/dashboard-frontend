@@ -72,22 +72,22 @@ export class CexFutureLongshortChartComponent implements OnInit, AfterViewInit {
     }> = []
     for (const time of times) {
       results.push({
-        time: format(time, 'MM-dd HH:mm'),
+        time: format(time, 'dd HH:mm'),
         type: '<=0.7',
         value: sortedItems.filter(e => e.time === time && e.longShortRatio <= 0.7).length
       })
       results.push({
-        time: format(time, 'MM-dd HH:mm'),
+        time: format(time, 'dd HH:mm'),
         type: '(0.7,1.0]',
         value: sortedItems.filter(e => e.time === time && e.longShortRatio > 0.7 && e.longShortRatio <= 1.0).length
       })
       results.push({
-        time: format(time, 'MM-dd HH:mm'),
+        time: format(time, 'dd HH:mm'),
         type: '(1.0,2.0]',
         value: sortedItems.filter(e => e.time === time && e.longShortRatio > 1.0 && e.longShortRatio <= 2.0).length
       })
       results.push({
-        time: format(time, 'MM-dd HH:mm'),
+        time: format(time, 'dd HH:mm'),
         type: '>2.0',
         value: sortedItems.filter(e => e.time === time && e.longShortRatio > 2.0).length
       })

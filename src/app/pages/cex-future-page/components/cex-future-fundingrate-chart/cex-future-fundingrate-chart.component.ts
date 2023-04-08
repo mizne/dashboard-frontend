@@ -72,27 +72,27 @@ export class CexFutureFundingrateChartComponent implements OnInit, AfterViewInit
     }> = []
     for (const time of times) {
       results.push({
-        time: format(time, 'MM-dd HH:mm'),
+        time: format(time, 'dd HH:mm'),
         type: '<=-0.05%',
         value: sortedItems.filter(e => e.time === time && e.fundingRate <= -0.0005).length
       })
       results.push({
-        time: format(time, 'MM-dd HH:mm'),
+        time: format(time, 'dd HH:mm'),
         type: '(-0.05%,-0.01%]',
         value: sortedItems.filter(e => e.time === time && e.fundingRate > -0.0005 && e.fundingRate <= -0.0001).length
       })
       results.push({
-        time: format(time, 'MM-dd HH:mm'),
+        time: format(time, 'dd HH:mm'),
         type: '(-0.01%,0.01%]',
         value: sortedItems.filter(e => e.time === time && e.fundingRate > -0.0001 && e.fundingRate <= 0.0001).length
       })
       results.push({
-        time: format(time, 'MM-dd HH:mm'),
+        time: format(time, 'dd HH:mm'),
         type: '(0.01%,0.05%]',
         value: sortedItems.filter(e => e.time === time && e.fundingRate > 0.0001 && e.fundingRate <= 0.0005).length
       })
       results.push({
-        time: format(time, 'MM-dd HH:mm'),
+        time: format(time, 'dd HH:mm'),
         type: '>0.05%',
         value: sortedItems.filter(e => e.time === time && e.fundingRate > 0.0005).length
       })
