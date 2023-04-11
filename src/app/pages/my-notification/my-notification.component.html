@@ -46,6 +46,19 @@
           </nz-form-item>
         </div>
 
+        <div nz-col [nzSpan]="6">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="timerEnableScript">脚本</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <nz-radio-group formControlName="timerEnableScript" nzSize="small" [nzButtonStyle]="'solid'">
+                <label nz-radio-button [nzValue]="null">所有</label>
+                <label nz-radio-button [nzValue]="true">开启</label>
+                <label nz-radio-button [nzValue]="false">关闭</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
       </div>
 
 
