@@ -26,7 +26,7 @@ export class CexFuturePageComponent implements OnInit {
   pageIndex = 1;
   query: { [key: string]: any } = {};
   sort: any = {
-    createdAt: -1,
+    createdAt: 1,
   };
 
   form: FormGroup<any> = this.fb.group({
