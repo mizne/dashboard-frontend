@@ -56,7 +56,8 @@ export class MyNotificationComponent implements OnInit {
     type: [this.types[0].value],
     enableTracking: [null],
     followedProjectID: [null],
-    timerEnableScript: [null]
+    timerEnableScript: [null],
+    timerEnableStatistics: [null],
   });
 
   subscriptions: Subscription[] = [];
@@ -110,24 +111,6 @@ export class MyNotificationComponent implements OnInit {
     error.subscribe((e) => {
       this.nzNotificationService.error(`添加通知源失败`, `${e.message}`);
     });
-  }
-
-  searchTimerEnableScriptEnableStatistics() {
-    this.loadDataFromServer({
-      type: NotifyObserverTypes.TIMER,
-      timerEnableScript: true,
-      timerEnableStatistics: true
-    })
-  }
-
-  searchTimerEnableScriptNotEnableStatistics() {
-    this.loadDataFromServer({
-      type: NotifyObserverTypes.TIMER,
-      timerEnableScript: true,
-      timerEnableStatistics: {
-        $nin: [true]
-      }
-    })
   }
 
   showCreateLink3ActivityModal() {
@@ -197,8 +180,8 @@ export class MyNotificationComponent implements OnInit {
     this.submitForm();
   }
 
-  private loadDataFromServer(fixedQuery?: { [key: string]: any }): void {
-    const query = fixedQuery || removeEmpty(this.form.value);
+  private loadDataFromServer(): void {
+    const query = removeEmpty(this.form.value);
     this.loading = true;
     this.notifyObserverService
       .queryList(
