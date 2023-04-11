@@ -1,34 +1,25 @@
 <div class="btc-network-checker-container" style="position:fixed; bottom: 24px; right: 24px; z-index: 100">
-  <button nz-button nzType="primary" nzShape="circle" nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="'bottomLeft'">
+  <button nz-button nzType="primary" nzShape="circle" nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+    [nzPlacement]="'bottomLeft'">
     <i nz-icon [nzType]="'global'" nzTheme="outline"></i>
   </button>
 
   <nz-dropdown-menu #menu="nzDropdownMenu">
-    <ul nz-menu>
-      <li nz-menu-item>
-        <update-time [status]="status"></update-time>
-      </li>
-      <li nz-menu-item *ngFor="let item of connections">
-        <ng-container *ngIf="item.status === 'success'">
-          <nz-tag nzColor="success" nz-tooltip [nzTooltipTitle]="item.message">
-            <i nz-icon nzType="check-circle"></i>
-            <span>{{item.hostname}}</span>
-          </nz-tag>
-        </ng-container>
-        <ng-container *ngIf="item.status === 'error'">
-          <nz-tag nzColor="error" nz-tooltip [nzTooltipTitle]="item.message">
-            <i nz-icon nzType="close-circle"></i>
-            <span>{{item.hostname}}</span>
-          </nz-tag>
-        </ng-container>
-        <ng-container *ngIf="item.status === 'loading'">
-          <nz-tag nzColor="processing" nz-tooltip [nzTooltipTitle]="item.message">
-            <i nz-icon nzType="sync" nzSpin></i>
-            <span>{{item.hostname}}</span>
-          </nz-tag>
-        </ng-container>
-
-      </li>
-    </ul>
+    <nz-list nzBordered nzSize="small" style="background: white;">
+      <nz-list-header>
+        <!-- <span style="width: 200px; display: inline-block;">ID</span> -->
+        <span style="width: 300px; display: inline-block;">Name</span>
+        <span style="width: 80px; display: inline-block;">Priority</span>
+        <span style="width: 100px; display: inline-block;">Start At</span>
+      </nz-list-header>
+      <nz-list-item *ngFor="let item of tasks">
+        <!-- <span style="width: 1; display: inline-block;">{{item.id}}</span> -->
+        <span style="width: 300px; display: inline-block;">{{item.name}}</span>
+        <span style="width: 80px; display: inline-block;">{{item.priority}}</span>
+        <span style="width: 100px; display: inline-block;">
+          <created-at [createdAt]="item.startAt"></created-at>
+        </span>
+      </nz-list-item>
+    </nz-list>
   </nz-dropdown-menu>
 </div>

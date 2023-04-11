@@ -23,11 +23,24 @@ interface ClientNotifyObserverData {
   payload: { title: string; desc: string; link?: string; icon?: string; };
 }
 
+interface ClientNotifyRunningTasksData {
+  type: 'running-tasks';
+  payload: {
+    tasks: Array<{
+      id: string;
+      name: string;
+      priority: number;
+      startAt: number;
+    }>
+  };
+}
+
 export type ClientNotifyData =
   | ClientNotifyNewlyCoinData
   | ClientNotifyTaskCompleteData
   | ClientNotifyTaskErrorData
-  | ClientNotifyObserverData;
+  | ClientNotifyObserverData
+  | ClientNotifyRunningTasksData;
 
 @Injectable({ providedIn: 'root' })
 export class ClientNotifyService {
@@ -99,5 +112,13 @@ export class ClientNotifyService {
       .pipe(
         filter((e) => e.type === 'notify-observer')
       ) as Observable<ClientNotifyObserverData>;
+  }
+
+  listenRunningTasks(): Observable<ClientNotifyRunningTasksData> {
+    return this.subject
+      .asObservable()
+      .pipe(
+        filter((e) => e.type === 'running-tasks')
+      ) as Observable<ClientNotifyRunningTasksData>;
   }
 }
