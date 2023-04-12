@@ -30,6 +30,7 @@ interface ClientNotifyRunningTasksData {
       id: string;
       name: string;
       priority: number;
+      progress: string;
       startAt: number;
     }>
   };
