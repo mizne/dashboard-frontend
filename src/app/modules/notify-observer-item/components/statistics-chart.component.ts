@@ -60,7 +60,7 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
     },
   }
 
-  defaultChartLength = 30 * 6
+  defaultChartLength = 180 * 6
   numberCtrl = new FormControl(this.defaultChartLength)
 
   ngOnInit() {
