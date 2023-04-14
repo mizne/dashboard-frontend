@@ -138,7 +138,7 @@ export class CexFutureLongshortChartComponent implements OnInit, AfterViewInit {
       .interval()
       .adjust('stack')
       .position('time*value')
-      .color('type', ['red', '#ef6548', '#74c476', 'green']);
+      .color('type', ['rgb(203, 24, 29)', 'rgb(252, 187, 161)', 'rgb(199, 233, 192)', 'rgb(35, 139, 69)']);
 
     chart.render();
   }
