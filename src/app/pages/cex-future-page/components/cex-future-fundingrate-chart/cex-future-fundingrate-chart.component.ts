@@ -143,7 +143,7 @@ export class CexFutureFundingrateChartComponent implements OnInit, AfterViewInit
       .interval()
       .adjust('stack')
       .position('time*value')
-      .color('type', ['red', '#ef6548', 'rgb(224, 224, 224)', 'rgb(0, 109, 44)', 'rgb(0, 68, 27)']);
+      .color('type', ['red', '#ef6548', 'rgb(224, 224, 224)', '#74c476', 'green']);
 
     chart.render();
   }
