@@ -175,6 +175,18 @@ export class MyNotificationComponent implements OnInit {
     });
   }
 
+  confirmTimerExecute(item: TableItem) {
+    this.notifyObserverService.timerExecute(item._id).subscribe({
+      next: () => {
+        this.nzNotificationService.success(`启动定时任务成功`, `启动定时任务成功`);
+      },
+      complete: () => { },
+      error: (e) => {
+        this.nzNotificationService.error(`启动定时任务失败`, `请稍后重试，${e.message}`);
+      },
+    });
+  }
+
   toSearchByNotifyObserver(item: TableItem) {
     this.form.patchValue({ followedProjectID: item.followedProjectID });
     this.submitForm();

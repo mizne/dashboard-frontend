@@ -1,11 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverNotAllow, NotifyObserverTypes, SharedService } from 'src/app/shared';
+import { NotifyHistory, NotifyHistoryService, NotifyObserver } from 'src/app/shared';
 import { NotifyObserverTypeManagerService } from 'src/app/modules/create-notify-observer';
 import { removeEmpty } from 'src/app/utils';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CreateNotifyObserverNotAllowService } from 'src/app/modules/create-notify-observer-not-allow';
-import { CreateNotifyObserverService } from 'src/app/modules/create-notify-observer';
 
 
 interface TableItem extends NotifyObserver {
@@ -37,6 +35,7 @@ export class NotifyObserverItemComponent implements OnInit {
 
   @Output() update = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
+  @Output() timerExecute = new EventEmitter<void>();
   @Output() search = new EventEmitter<void>();
 
   showModal = false;
@@ -82,6 +81,10 @@ export class NotifyObserverItemComponent implements OnInit {
 
   confirmDelete() {
     this.delete.emit();
+  }
+
+  confirmTimerExecute() {
+    this.timerExecute.emit();
   }
 
   toSearch() {

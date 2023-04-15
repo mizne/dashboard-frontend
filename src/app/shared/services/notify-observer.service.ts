@@ -31,6 +31,17 @@ export class NotifyObserverService {
     );
   }
 
+  timerExecute(
+    id: string | undefined,
+  ): Observable<{ code: number; message: string; result: any }> {
+    return this.httpClient.post<{ code: number; message: string; result: any }>(
+      `${this.baseURL}/notify-observer/timer-execute`,
+      {
+        id,
+      }
+    );
+  }
+
   queryList(
     query?: Partial<NotifyObserver>,
     page?: { number: number; size: number },
