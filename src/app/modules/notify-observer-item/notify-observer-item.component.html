@@ -55,8 +55,8 @@
         style="cursor: pointer; margin-left: 12px;"></span>
 
       <span *ngIf="!!item.timerEnableScript && !!item.timerEnableStatistics" nz-icon nzType="play-circle"
-        nzTheme="outline" [title]="'立即执行'" (click)="confirmTimerExecute()"
-        style="cursor: pointer; margin-left: 12px;"></span>
+        nzTheme="outline" [title]="'立即执行'" nz-popconfirm nzPopconfirmTitle="确认立即执行?" nzPopconfirmPlacement="bottom"
+        (nzOnConfirm)="confirmTimerExecute()" style="cursor: pointer; margin-left: 12px;"></span>
     </span>
 
     <created-at [createdAt]="item.createdAt"></created-at>
