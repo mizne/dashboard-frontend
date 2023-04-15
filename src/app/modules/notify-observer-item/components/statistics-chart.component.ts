@@ -32,6 +32,7 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
 
   versionCtrl = new FormControl(this.versions.length > 0 ? this.versions[this.versions.length - 1].value : null);
 
+
   viewDataResults: Array<any> = [];
   charts: Array<{
     label: string;
@@ -62,6 +63,7 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
 
   defaultChartLength = 180 * 6
   numberCtrl = new FormControl(this.defaultChartLength)
+  latestCreatedAt = 0;
 
   ngOnInit() {
     if (this.versions.length > 0) {
@@ -102,6 +104,9 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
             this.fetching = false;
             this.viewDataResults = this.convertModelDataResults(modelDataResults, fields);
             this.buildCharts();
+            if (modelDataResults.length > 0) {
+              this.latestCreatedAt = modelDataResults[0]['createdAt']
+            }
           },
           error: (err: Error) => {
             this.fetching = false;

@@ -10,6 +10,9 @@
       <nz-input-number [formControl]="numberCtrl" [nzStep]="1" [nzMin]="60" [nzMax]="360"></nz-input-number>
     </nz-input-number-group>
     <button nz-button nzType="primary" (click)="toSearch()">查询</button>
+
+    <span style="margin: 0 0 0 12px;">最近更新：</span>
+    <created-at [createdAt]="latestCreatedAt"></created-at>
   </div>
 
   <nz-spin nzTip="获取统计数据中..." [nzSpinning]="fetching">
