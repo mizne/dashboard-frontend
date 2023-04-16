@@ -1,6 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import * as uuid from 'uuid';
-import { Chart } from '@antv/g2';
+import { Component, OnInit } from '@angular/core';
 import { CexFutureDaily, CexFutureDailyService, KlineIntervalService } from 'src/app/shared';
 import { Observable } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -11,41 +9,36 @@ import { format } from 'date-fns';
   templateUrl: 'cex-future-fundingrate-chart.component.html'
 })
 
-export class CexFutureFundingrateChartComponent implements OnInit, AfterViewInit {
+export class CexFutureFundingrateChartComponent implements OnInit {
   constructor(
     private klineInterval: KlineIntervalService,
     private cexFutureDailyService: CexFutureDailyService,
     private readonly notification: NzNotificationService,
   ) { }
 
-  chart: Chart | null = null;
+  title = '资金费率分布';
+  data: Array<{
+    time: string;
+    type: string;
+    value: number;
+  }> = [];
+  colors: string[] = []
 
-  chartID = 'cex-future-fundingrate-chart-wrapper-' + uuid.v4();
-
-  height = 200
-
-  ngOnInit() { }
-
-  ngAfterViewInit(): void {
-    const chart = new Chart({
-      container: this.chartID,
-      theme: 'classic',
-      autoFit: true,
-    });
-
-    this.chart = chart;
-
+  ngOnInit() {
     const intervals = 5 * 6;
     this.fetchData(intervals)
       .subscribe({
         next: (items: CexFutureDaily[]) => {
-          this.renderChart(chart, this.convertData(items))
+          this.data = this.convertData(items);
+          this.colors = ['rgb(203, 24, 29)', 'rgb(252, 187, 161)', 'rgb(224, 224, 224)', 'rgb(199, 233, 192)', 'rgb(35, 139, 69)']
         },
         error: (err: Error) => {
           this.notification.error(`获取资金费率合约数据失败`, `${err.message}`)
         }
       })
   }
+
+
 
   private fetchData(intervals: number): Observable<CexFutureDaily[]> {
     const time = this.klineInterval.resolveFourHoursIntervalMills(intervals);
@@ -99,52 +92,5 @@ export class CexFutureFundingrateChartComponent implements OnInit, AfterViewInit
     }
 
     return results
-  }
-
-  private renderChart(chart: Chart, data: Array<{
-    time: string;
-    type: string;
-    value: number
-  }>) {
-
-
-    chart.data(data);
-    chart.scale('value', {
-      alias: '资金费率分布'
-    });
-    chart.axis('time', {
-      tickLine: null,
-    });
-
-    chart.axis('value', {
-      label: {
-        formatter: text => {
-          return text.replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
-        }
-      },
-      title: {
-        offset: 80,
-        style: {
-          fill: '#aaaaaa'
-        },
-      }
-    });
-    chart.legend({
-      position: 'top',
-    });
-
-    chart.tooltip({
-      shared: true,
-      showMarkers: false,
-    });
-    chart.interaction('active-region');
-
-    chart
-      .interval()
-      .adjust('stack')
-      .position('time*value')
-      .color('type', ['rgb(203, 24, 29)', 'rgb(252, 187, 161)', 'rgb(224, 224, 224)', 'rgb(199, 233, 192)', 'rgb(35, 139, 69)']);
-
-    chart.render();
   }
 }
