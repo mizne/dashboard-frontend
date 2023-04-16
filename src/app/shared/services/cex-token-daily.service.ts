@@ -5,10 +5,10 @@ import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FilterQuery } from 'src/app/shared';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CexTokenDailyService {
   private readonly baseURL = environment.baseURL;
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   queryList(
     query?: FilterQuery<CexTokenDaily>,

@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { CexToken } from '../models/cex-token.model';
 import { FilterQuery } from 'src/app/shared';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CexTokenService {
   private readonly baseURL = environment.baseURL;
 

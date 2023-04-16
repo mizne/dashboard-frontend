@@ -10,9 +10,9 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 import { KlineIntervals, KlineIntervalService } from 'src/app/shared';
 import { resolvePriceStatus } from 'src/app/utils';
-import { CexTokenTagDaily } from '../../models/cex-token-tag-daily.model';
-import { tokenTagNameOfTotalMarket } from '../../models/cex-token-tag.model';
-import { CexTokenTagDailyService } from '../../services/cex-token-tag-daily.service';
+import { CexTokenTagDaily } from 'src/app/shared';
+import { tokenTagNameOfTotalMarket } from 'src/app/shared';
+import { CexTokenTagDailyService } from 'src/app/shared';
 
 interface RankingItem {
   symbol: string;
@@ -36,7 +36,7 @@ export class TagItemComponent implements OnInit, OnChanges {
     private readonly cexTokenTagDailyService: CexTokenTagDailyService,
     private readonly notification: NzNotificationService,
     private readonly klineIntervalService: KlineIntervalService
-  ) {}
+  ) { }
 
   tokenTagNameOfTotalMarket = tokenTagNameOfTotalMarket;
 
@@ -130,43 +130,43 @@ export class TagItemComponent implements OnInit, OnChanges {
     label: string;
     rankingItems: Array<RankingItem>;
   }> = [
-    {
-      title: '空头->震荡',
-      color: '#b7eb8f',
-      label: '空转多',
-      rankingItems: [],
-    },
-    {
-      title: '震荡->多头',
-      color: '#b7eb8f',
-      label: '空转多',
-      rankingItems: [],
-    },
-    {
-      title: '空头->多头',
-      color: '#b7eb8f',
-      label: '空转多',
-      rankingItems: [],
-    },
-    {
-      title: '多头->震荡',
-      color: '#ffa39e',
-      label: '多转空',
-      rankingItems: [],
-    },
-    {
-      title: '震荡->空头',
-      color: '#ffa39e',
-      label: '多转空',
-      rankingItems: [],
-    },
-    {
-      title: '多头->空头',
-      color: '#ffa39e',
-      label: '多转空',
-      rankingItems: [],
-    },
-  ];
+      {
+        title: '空头->震荡',
+        color: '#b7eb8f',
+        label: '空转多',
+        rankingItems: [],
+      },
+      {
+        title: '震荡->多头',
+        color: '#b7eb8f',
+        label: '空转多',
+        rankingItems: [],
+      },
+      {
+        title: '空头->多头',
+        color: '#b7eb8f',
+        label: '空转多',
+        rankingItems: [],
+      },
+      {
+        title: '多头->震荡',
+        color: '#ffa39e',
+        label: '多转空',
+        rankingItems: [],
+      },
+      {
+        title: '震荡->空头',
+        color: '#ffa39e',
+        label: '多转空',
+        rankingItems: [],
+      },
+      {
+        title: '多头->空头',
+        color: '#ffa39e',
+        label: '多转空',
+        rankingItems: [],
+      },
+    ];
 
   ngOnInit() {
     this.filterCtrl.valueChanges.subscribe((v) => {
@@ -185,7 +185,7 @@ export class TagItemComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void { }
 
   toFilter() {
     this.filterRankingItems();
@@ -307,17 +307,17 @@ export class TagItemComponent implements OnInit, OnChanges {
         const color = e.newly
           ? 'purple'
           : e.delta > 0
-          ? 'green'
-          : e.delta < 0
-          ? 'red'
-          : '';
+            ? 'green'
+            : e.delta < 0
+              ? 'red'
+              : '';
         const text = e.newly
           ? 'new'
           : e.delta > 0
-          ? `+${e.delta}`
-          : e.delta < 0
-          ? `${e.delta}`
-          : '0';
+            ? `+${e.delta}`
+            : e.delta < 0
+              ? `${e.delta}`
+              : '0';
         return {
           symbol: e.symbol,
           percent: e.percent,
@@ -327,30 +327,28 @@ export class TagItemComponent implements OnInit, OnChanges {
 
           priceStatus: e.emaCompression
             ? this.resolvePriceStatus(
-                e.emaCompression.closeDeltaEma21,
-                e.emaCompression.ema21DeltaEma55,
-                e.emaCompression.ema55DeltaEma144,
-                e.emaCompression.emaCompressionRelative
-              )
+              e.emaCompression.closeDeltaEma21,
+              e.emaCompression.ema21DeltaEma55,
+              e.emaCompression.ema55DeltaEma144,
+              e.emaCompression.emaCompressionRelative
+            )
             : '',
           prevPriceStatus: e.prevEMACompression
             ? this.resolvePriceStatus(
-                e.prevEMACompression.closeDeltaEma21,
-                e.prevEMACompression.ema21DeltaEma55,
-                e.prevEMACompression.ema55DeltaEma144,
-                e.prevEMACompression.emaCompressionRelative
-              )
+              e.prevEMACompression.closeDeltaEma21,
+              e.prevEMACompression.ema21DeltaEma55,
+              e.prevEMACompression.ema55DeltaEma144,
+              e.prevEMACompression.emaCompressionRelative
+            )
             : '',
           color,
           text,
         };
       });
 
-      this.modalListDescription = `${
-        zippedItems.filter((e) => !e.newly && e.delta > 0).length
-      }↑ ${zippedItems.filter((e) => !e.newly && e.delta < 0).length}↓ ${
-        zippedItems.filter((e) => !e.newly && e.delta === 0).length
-      }-- ${zippedItems.filter((e) => e.newly).length}new`;
+      this.modalListDescription = `${zippedItems.filter((e) => !e.newly && e.delta > 0).length
+        }↑ ${zippedItems.filter((e) => !e.newly && e.delta < 0).length}↓ ${zippedItems.filter((e) => !e.newly && e.delta === 0).length
+        }-- ${zippedItems.filter((e) => e.newly).length}new`;
     } else {
       this.rankingItems = [];
       this.modalListDescription = '--';
@@ -377,17 +375,17 @@ export class TagItemComponent implements OnInit, OnChanges {
           const color = newly
             ? 'purple'
             : delta > 0
-            ? 'green'
-            : delta < 0
-            ? 'red'
-            : '';
+              ? 'green'
+              : delta < 0
+                ? 'red'
+                : '';
           const text = newly
             ? 'new'
             : delta > 0
-            ? `+${delta}`
-            : delta < 0
-            ? `${delta}`
-            : '0';
+              ? `+${delta}`
+              : delta < 0
+                ? `${delta}`
+                : '0';
           return {
             symbol: e.token,
             volume: (this.item?.volume || 0) * e.percent,
@@ -397,11 +395,11 @@ export class TagItemComponent implements OnInit, OnChanges {
 
             priceStatus: theEMACompression
               ? this.resolvePriceStatus(
-                  theEMACompression.closeDeltaEma21,
-                  theEMACompression.ema21DeltaEma55,
-                  theEMACompression.ema55DeltaEma144,
-                  theEMACompression.emaCompressionRelative
-                )
+                theEMACompression.closeDeltaEma21,
+                theEMACompression.ema21DeltaEma55,
+                theEMACompression.ema55DeltaEma144,
+                theEMACompression.emaCompressionRelative
+              )
               : '',
             prevPriceStatus: '',
             color,
@@ -409,11 +407,9 @@ export class TagItemComponent implements OnInit, OnChanges {
           };
         });
 
-        this.modalListDescription = `${
-          this.rankingItems.filter((e) => e.color === 'green').length
-        }↑ ${this.rankingItems.filter((e) => e.color === 'red').length}↓ ${
-          this.rankingItems.filter((e) => e.color === '').length
-        }-- ${this.rankingItems.filter((e) => e.color === 'purple').length}new`;
+        this.modalListDescription = `${this.rankingItems.filter((e) => e.color === 'green').length
+          }↑ ${this.rankingItems.filter((e) => e.color === 'red').length}↓ ${this.rankingItems.filter((e) => e.color === '').length
+          }-- ${this.rankingItems.filter((e) => e.color === 'purple').length}new`;
       }
     } else {
       const theTag = this.item;
@@ -435,17 +431,17 @@ export class TagItemComponent implements OnInit, OnChanges {
           const color = newly
             ? 'purple'
             : delta > 0
-            ? 'green'
-            : delta < 0
-            ? 'red'
-            : '';
+              ? 'green'
+              : delta < 0
+                ? 'red'
+                : '';
           const text = newly
             ? 'new'
             : delta > 0
-            ? `+${delta}`
-            : delta < 0
-            ? `${delta}`
-            : '0';
+              ? `+${delta}`
+              : delta < 0
+                ? `${delta}`
+                : '0';
           return {
             symbol: e.token,
             volume: (this.item?.volume || 0) * e.percent,
@@ -455,11 +451,11 @@ export class TagItemComponent implements OnInit, OnChanges {
 
             priceStatus: theEMACompression
               ? this.resolvePriceStatus(
-                  theEMACompression.closeDeltaEma21,
-                  theEMACompression.ema21DeltaEma55,
-                  theEMACompression.ema55DeltaEma144,
-                  theEMACompression.emaCompressionRelative
-                )
+                theEMACompression.closeDeltaEma21,
+                theEMACompression.ema21DeltaEma55,
+                theEMACompression.ema55DeltaEma144,
+                theEMACompression.emaCompressionRelative
+              )
               : '',
             prevPriceStatus: '',
             color,
@@ -467,11 +463,9 @@ export class TagItemComponent implements OnInit, OnChanges {
           };
         });
 
-        this.modalListDescription = `${
-          this.rankingItems.filter((e) => e.color === 'green').length
-        }↑ ${this.rankingItems.filter((e) => e.color === 'red').length}↓ ${
-          this.rankingItems.filter((e) => e.color === '').length
-        }-- ${this.rankingItems.filter((e) => e.color === 'purple').length}new`;
+        this.modalListDescription = `${this.rankingItems.filter((e) => e.color === 'green').length
+          }↑ ${this.rankingItems.filter((e) => e.color === 'red').length}↓ ${this.rankingItems.filter((e) => e.color === '').length
+          }-- ${this.rankingItems.filter((e) => e.color === 'purple').length}new`;
       } else {
         this.rankingItems = [];
         this.modalListDescription = '--';
@@ -578,15 +572,15 @@ export class TagItemComponent implements OnInit, OnChanges {
       status.status === 'long'
         ? '多头'
         : status.status === 'short'
-        ? '空头'
-        : '震荡';
+          ? '空头'
+          : '震荡';
 
     const suffix =
       status.compression <= 0.1
         ? '密集'
         : status.compression >= 0.9
-        ? '极限乖离'
-        : '';
+          ? '极限乖离'
+          : '';
 
     return prefix + suffix;
   }
@@ -673,7 +667,7 @@ export class TagItemComponent implements OnInit, OnChanges {
     return label === '多头'
       ? '#b7eb8f'
       : label === '空头'
-      ? '#ffa39e'
-      : '#47abfc';
+        ? '#ffa39e'
+        : '#47abfc';
   }
 }

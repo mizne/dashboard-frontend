@@ -5,13 +5,13 @@ import { TimerService } from 'src/app/shared';
 import { CexTokenTag } from '../models/cex-token-tag.model';
 import { CexTokenTagService } from './cex-token-tag.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CexTokenTagCacheService {
   constructor(
     private readonly cexTokenTagService: CexTokenTagService,
     private readonly notification: NzNotificationService,
     private readonly timerService: TimerService
-  ) {}
+  ) { }
 
   private allTokenTags: CexTokenTag[] = [];
   private loading = false;

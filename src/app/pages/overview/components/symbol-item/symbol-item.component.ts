@@ -7,8 +7,8 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { Observable, map, forkJoin, firstValueFrom } from 'rxjs';
-import { CexTokenCacheService } from '../../services/cex-token-cache.service';
-import { CexTokenTagCacheService } from '../../services/cex-token-tag-cache.service';
+import { CexTokenCacheService } from 'src/app/shared';
+import { CexTokenTagCacheService } from 'src/app/shared';
 
 @Component({
   selector: 'symbol-item',
@@ -18,7 +18,7 @@ export class SymbolItemComponent implements OnInit, OnChanges {
   constructor(
     private readonly cexTokenCacheService: CexTokenCacheService,
     private readonly cexTokenTagCacheService: CexTokenTagCacheService
-  ) {}
+  ) { }
 
   @Input() symbol = '';
 
@@ -37,7 +37,7 @@ export class SymbolItemComponent implements OnInit, OnChanges {
 
   templateContext: { [key: string]: any } = {};
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges): void {
     const symbol = changes['symbol'] && changes['symbol'].currentValue;

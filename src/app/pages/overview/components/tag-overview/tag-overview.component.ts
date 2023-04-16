@@ -8,10 +8,10 @@ import {
   SharedService,
   TimerService,
 } from 'src/app/shared';
-import { CexTokenTagDaily } from '../../models/cex-token-tag-daily.model';
-import { tokenTagNameOfTotalMarket } from '../../models/cex-token-tag.model';
-import { CexTokenTagDailyService } from '../../services/cex-token-tag-daily.service';
-import { CexTokenTagService } from '../../services/cex-token-tag.service';
+import { CexTokenTagDaily } from 'src/app/shared';
+import { tokenTagNameOfTotalMarket } from 'src/app/shared';
+import { CexTokenTagDailyService } from 'src/app/shared';
+import { CexTokenTagService } from 'src/app/shared';
 
 @Component({
   selector: 'tag-overview',
@@ -26,7 +26,7 @@ export class TagOverviewComponent implements OnInit {
     private readonly cexTokenTagService: CexTokenTagService,
     private readonly cexTokenTagDailyService: CexTokenTagDailyService,
     private readonly notification: NzNotificationService
-  ) {}
+  ) { }
 
   intervals = [
     {
@@ -67,8 +67,7 @@ export class TagOverviewComponent implements OnInit {
           );
         default:
           console.warn(
-            `intervalTime$ unknown interval: ${
-              this.form.get('interval')?.value
+            `intervalTime$ unknown interval: ${this.form.get('interval')?.value
             }`
           );
           return this.klineIntervalService.resolveFourHoursIntervalMills(

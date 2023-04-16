@@ -4,10 +4,10 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { Subscription } from 'rxjs';
 import { removeEmpty } from 'src/app/utils';
-import { tokenTagNameOfTotalMarket } from '../../models/cex-token-tag.model';
-import { CexToken } from '../../models/cex-token.model';
-import { CexTokenTagService } from '../../services/cex-token-tag.service';
-import { CexTokenService } from '../../services/cex-token.service';
+import { tokenTagNameOfTotalMarket } from 'src/app/shared';
+import { CexToken } from 'src/app/shared';
+import { CexTokenTagService } from 'src/app/shared';
+import { CexTokenService } from 'src/app/shared';
 
 interface TableItem extends CexToken {
   enableNotifyCtrl: FormControl;

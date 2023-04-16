@@ -7,13 +7,10 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { concatMap, forkJoin, map, Observable } from 'rxjs';
 import { KlineIntervals, KlineIntervalService } from 'src/app/shared';
 import { fixTradingViewTime, removeEmpty } from 'src/app/utils';
-import { CexTokenAlert, CexTokenAlertTypes } from '../../models/cex-token-alert.model';
-import { CexTokenTagAlert } from '../../models/cex-token-tag-alert.model';
-import { CexTokenTag, tokenTagNameOfTotalMarket } from '../../models/cex-token-tag.model';
-import { CexToken } from '../../models/cex-token.model';
-import { CexTokenAlertService } from '../../services/cex-token-alert.service';
-import { CexTokenTagAlertService } from '../../services/cex-token-tag-alert.service';
-import { CexTokenTagService } from '../../services/cex-token-tag.service';
+import { CexTokenTagAlert } from 'src/app/shared';
+import { CexTokenTag, tokenTagNameOfTotalMarket } from 'src/app/shared';
+import { CexTokenTagAlertService } from 'src/app/shared';
+import { CexTokenTagService } from 'src/app/shared';
 
 enum ChartTypes {
   ABOVE_EMA21_RATIO = 'ABOVE_EMA21_RATIO',

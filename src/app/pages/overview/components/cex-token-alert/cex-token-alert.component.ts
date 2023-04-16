@@ -4,9 +4,9 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { KlineIntervals, KlineIntervalService } from 'src/app/shared';
 import { removeEmpty } from 'src/app/utils';
-import { CexTokenAlert, CexTokenAlertTypes } from '../../models/cex-token-alert.model';
-import { CexToken } from '../../models/cex-token.model';
-import { CexTokenAlertService } from '../../services/cex-token-alert.service';
+import { CexTokenAlert, CexTokenAlertTypes } from 'src/app/shared';
+import { CexToken } from 'src/app/shared';
+import { CexTokenAlertService } from 'src/app/shared';
 
 @Component({
   selector: 'cex-token-alert',

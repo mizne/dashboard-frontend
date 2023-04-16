@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { CexTokenDaily } from './models/cex-token-daily.model';
-import { CexTokenDailyService } from './services/cex-token-daily.service';
+import { CexTokenDaily } from 'src/app/shared';
+import { CexTokenDailyService } from 'src/app/shared';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { removeEmpty } from 'src/app/utils';
 import { ActivatedRoute } from '@angular/router';
-import { tokenTagNameOfTotalMarket } from './models/cex-token-tag.model';
-import { CexTokenTagService } from './services/cex-token-tag.service';
+import { tokenTagNameOfTotalMarket } from 'src/app/shared';
+import { CexTokenTagService } from 'src/app/shared';
 import { KlineIntervals, KlineIntervalService } from 'src/app/shared';
 
 @Component({
@@ -115,10 +115,10 @@ export class OverviewComponent implements OnInit {
     const alpha = this.resolveAlpha(Math.abs(n));
     return {
       backgroundColor: `rgba(${color === 'green'
-          ? '0, 255, 0'
-          : color === 'red'
-            ? '255, 0, 0'
-            : '255, 255, 255'
+        ? '0, 255, 0'
+        : color === 'red'
+          ? '255, 0, 0'
+          : '255, 255, 255'
         }, ${alpha})`,
 
       width: '100%',

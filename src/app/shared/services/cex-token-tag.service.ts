@@ -5,10 +5,10 @@ import { environment } from 'src/environments/environment';
 import { CexTokenTag } from '../models/cex-token-tag.model';
 import { FilterQuery } from 'src/app/shared';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CexTokenTagService {
   private readonly baseURL = environment.baseURL;
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   queryList(
     query?: FilterQuery<CexTokenTag>,
