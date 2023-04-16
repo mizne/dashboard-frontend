@@ -27,13 +27,13 @@ export class CexFutureLongshortChartComponent implements OnInit {
   legends: Array<Legend> = [
     {
       type: {
-        lte: 0.7
+        lte: 0.85
       },
       color: 'rgb(203, 24, 29)'
     },
     {
       type: {
-        gt: 0.7,
+        gt: 0.85,
         lte: 1.0
       },
       color: 'rgb(252, 187, 161)'
@@ -41,13 +41,13 @@ export class CexFutureLongshortChartComponent implements OnInit {
     {
       type: {
         gt: 1.0,
-        lte: 2.0
+        lte: 2.5
       },
       color: 'rgb(199, 233, 192)'
     },
     {
       type: {
-        gt: 2.0,
+        gt: 2.5,
       },
       color: 'rgb(35, 139, 69)'
     },
