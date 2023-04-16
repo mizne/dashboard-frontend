@@ -108,7 +108,10 @@ function resolveBracket(typeKey: string): string {
 }
 
 function percentNumber(n: number): string {
-  return `${n * 100}%`
+  if (n < 0.1) {
+    return `${n * 100}%`
+  }
+  return String(n)
 }
 
 @Component({
