@@ -67,3 +67,5 @@ export {
   StatisticsDefinitionsComponent,
   StackBarChartComponent,
 };
+
+export * from './stack-bar-chart/stack-bar-chart.component'

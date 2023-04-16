@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CexFutureDaily, CexFutureDailyService, KlineIntervalService } from 'src/app/shared';
+import { CexFutureDaily, CexFutureDailyService, KlineIntervalService, filterLegendType, normalizeLegendType } from 'src/app/shared';
 import { Observable } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { format } from 'date-fns';
+import { Legend } from 'src/app/shared';
+
+
 
 @Component({
   selector: 'cex-future-fundingrate-chart',
@@ -22,7 +25,43 @@ export class CexFutureFundingrateChartComponent implements OnInit {
     type: string;
     value: number;
   }> = [];
-  colors: string[] = []
+  colors: string[] = [];
+
+  legends: Array<Legend> = [
+    {
+      type: {
+        lte: -0.0005
+      },
+      color: 'rgb(203, 24, 29)'
+    },
+    {
+      type: {
+        gt: -0.0005,
+        lte: -0.0001
+      },
+      color: 'rgb(252, 187, 161)'
+    },
+    {
+      type: {
+        gt: -0.0001,
+        lte: 0.0001
+      },
+      color: 'rgb(224, 224, 224)'
+    },
+    {
+      type: {
+        gt: 0.0001,
+        lte: 0.0005
+      },
+      color: 'rgb(199, 233, 192)'
+    },
+    {
+      type: {
+        gt: 0.0005,
+      },
+      color: 'rgb(35, 139, 69)'
+    }
+  ]
 
   ngOnInit() {
     const intervals = 5 * 6;
@@ -30,15 +69,13 @@ export class CexFutureFundingrateChartComponent implements OnInit {
       .subscribe({
         next: (items: CexFutureDaily[]) => {
           this.data = this.convertData(items);
-          this.colors = ['rgb(203, 24, 29)', 'rgb(252, 187, 161)', 'rgb(224, 224, 224)', 'rgb(199, 233, 192)', 'rgb(35, 139, 69)']
+          this.colors = this.legends.map(e => e.color);
         },
         error: (err: Error) => {
           this.notification.error(`获取资金费率合约数据失败`, `${err.message}`)
         }
       })
   }
-
-
 
   private fetchData(intervals: number): Observable<CexFutureDaily[]> {
     const time = this.klineInterval.resolveFourHoursIntervalMills(intervals);
@@ -63,34 +100,23 @@ export class CexFutureFundingrateChartComponent implements OnInit {
       type: string;
       value: number;
     }> = []
-    for (const time of times) {
-      results.push({
-        time: format(time, 'dd HH:mm'),
-        type: '<=-0.05%',
-        value: sortedItems.filter(e => e.time === time && e.fundingRate <= -0.0005).length
-      })
-      results.push({
-        time: format(time, 'dd HH:mm'),
-        type: '(-0.05%,-0.01%]',
-        value: sortedItems.filter(e => e.time === time && e.fundingRate > -0.0005 && e.fundingRate <= -0.0001).length
-      })
-      results.push({
-        time: format(time, 'dd HH:mm'),
-        type: '(-0.01%,0.01%]',
-        value: sortedItems.filter(e => e.time === time && e.fundingRate > -0.0001 && e.fundingRate <= 0.0001).length
-      })
-      results.push({
-        time: format(time, 'dd HH:mm'),
-        type: '(0.01%,0.05%]',
-        value: sortedItems.filter(e => e.time === time && e.fundingRate > 0.0001 && e.fundingRate <= 0.0005).length
-      })
-      results.push({
-        time: format(time, 'dd HH:mm'),
-        type: '>0.05%',
-        value: sortedItems.filter(e => e.time === time && e.fundingRate > 0.0005).length
-      })
-    }
 
+    const legendPres = this.legends.map(e => {
+      return {
+        type: normalizeLegendType(e),
+        predicate: filterLegendType(e)
+      }
+    })
+
+    for (const time of times) {
+      for (const legendPre of legendPres) {
+        results.push({
+          time: format(time, 'dd HH:mm'),
+          type: legendPre.type,
+          value: sortedItems.filter(e => e.time === time && legendPre.predicate(e.fundingRate)).length
+        })
+      }
+    }
     return results
   }
 }

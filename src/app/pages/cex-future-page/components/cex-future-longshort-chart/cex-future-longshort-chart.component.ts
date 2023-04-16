@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CexFutureDaily, CexFutureDailyService, KlineIntervalService } from 'src/app/shared';
+import { CexFutureDaily, CexFutureDailyService, KlineIntervalService, Legend, filterLegendType, normalizeLegendType } from 'src/app/shared';
 import { Observable } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { format } from 'date-fns';
@@ -24,13 +24,42 @@ export class CexFutureLongshortChartComponent implements OnInit {
   }> = [];
   colors: string[] = []
 
+  legends: Array<Legend> = [
+    {
+      type: {
+        lte: 0.7
+      },
+      color: 'rgb(203, 24, 29)'
+    },
+    {
+      type: {
+        gt: 0.7,
+        lte: 1.0
+      },
+      color: 'rgb(252, 187, 161)'
+    },
+    {
+      type: {
+        gt: 1.0,
+        lte: 2.0
+      },
+      color: 'rgb(199, 233, 192)'
+    },
+    {
+      type: {
+        gt: 2.0,
+      },
+      color: 'rgb(35, 139, 69)'
+    },
+  ]
+
   ngOnInit() {
     const intervals = 5 * 6;
     this.fetchData(intervals)
       .subscribe({
         next: (items: CexFutureDaily[]) => {
           this.data = this.convertData(items);
-          this.colors = ['rgb(203, 24, 29)', 'rgb(252, 187, 161)', 'rgb(199, 233, 192)', 'rgb(35, 139, 69)']
+          this.colors = this.legends.map(e => e.color);
         },
         error: (err: Error) => {
           this.notification.error(`获取多空比合约数据失败`, `${err.message}`)
@@ -61,29 +90,21 @@ export class CexFutureLongshortChartComponent implements OnInit {
       type: string;
       value: number;
     }> = []
+    const legendPres = this.legends.map(e => {
+      return {
+        type: normalizeLegendType(e),
+        predicate: filterLegendType(e)
+      }
+    })
     for (const time of times) {
-      results.push({
-        time: format(time, 'dd HH:mm'),
-        type: '<=0.7',
-        value: sortedItems.filter(e => e.time === time && e.longShortRatio <= 0.7).length
-      })
-      results.push({
-        time: format(time, 'dd HH:mm'),
-        type: '(0.7,1.0]',
-        value: sortedItems.filter(e => e.time === time && e.longShortRatio > 0.7 && e.longShortRatio <= 1.0).length
-      })
-      results.push({
-        time: format(time, 'dd HH:mm'),
-        type: '(1.0,2.0]',
-        value: sortedItems.filter(e => e.time === time && e.longShortRatio > 1.0 && e.longShortRatio <= 2.0).length
-      })
-      results.push({
-        time: format(time, 'dd HH:mm'),
-        type: '>2.0',
-        value: sortedItems.filter(e => e.time === time && e.longShortRatio > 2.0).length
-      })
+      for (const legendPre of legendPres) {
+        results.push({
+          time: format(time, 'dd HH:mm'),
+          type: legendPre.type,
+          value: sortedItems.filter(e => e.time === time && legendPre.predicate(e.longShortRatio)).length
+        })
+      }
     }
-
     return results
   }
 
