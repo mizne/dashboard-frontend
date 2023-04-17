@@ -14,6 +14,11 @@ const routes: Routes = [
       import('./pages/cex-future-page/cex-future-page.module').then((m) => m.CexFuturePageModule),
   },
   {
+    path: 'cex-token',
+    loadChildren: () =>
+      import('./pages/cex-token-page/cex-token-page.module').then((m) => m.CexTokenPageModule),
+  },
+  {
     path: 'fund-raise',
     loadChildren: () =>
       import('./pages/fund-raise/fund-raise.module').then(

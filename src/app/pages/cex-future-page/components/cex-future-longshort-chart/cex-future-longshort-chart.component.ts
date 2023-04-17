@@ -54,7 +54,7 @@ export class CexFutureLongshortChartComponent implements OnInit {
   ]
 
   ngOnInit() {
-    const intervals = 5 * 6;
+    const intervals = 6 * 6;
     this.fetchData(intervals)
       .subscribe({
         next: (items: CexFutureDaily[]) => {

@@ -1,6 +1,6 @@
 <div class="cex-future-page-container">
   <div nz-row [nzGutter]="16">
-    <div nz-col class="gutter-row" [nzSpan]="18">
+    <div nz-col class="gutter-row" [nzSpan]="24">
       <nz-card>
         <cex-future-longshort-chart></cex-future-longshort-chart>
         <cex-future-fundingrate-chart></cex-future-fundingrate-chart>
@@ -68,9 +68,9 @@
         </ng-template>
       </nz-card>
     </div>
-    <div nz-col class="gutter-row" [nzSpan]="6">
+    <!-- <div nz-col class="gutter-row" [nzSpan]="6">
       <notify-history-list [condition]="{type: marketType}"></notify-history-list>
-    </div>
+    </div> -->
   </div>
 
   <nz-modal [(nzVisible)]="futureDetailModalVisible" [nzTitle]="futureDetailModalTitle" [nzWidth]="1000"
