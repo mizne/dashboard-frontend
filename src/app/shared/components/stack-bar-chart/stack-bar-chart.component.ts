@@ -177,6 +177,7 @@ export class StackBarChartComponent implements OnInit, AfterViewInit, OnChanges 
 
     chart.axis('value', {
       position: 'bottom',
+      label: null,
       title: {
         offset: 40,
         style: {
