@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CexFutureDaily, CexFutureDailyService, KlineIntervalService, filterLegendType, normalizeLegendType } from 'src/app/shared';
-import { Observable } from 'rxjs';
+import { CexFutureDaily, CexFutureDailyService, KlineIntervalService, TimerService, filterLegendType, normalizeLegendType } from 'src/app/shared';
+import { Observable, map, merge, startWith } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { format } from 'date-fns';
 import { Legend } from 'src/app/shared';
+import { FormBuilder } from '@angular/forms';
 
 
 
@@ -17,6 +18,8 @@ export class CexFutureFundingrateChartComponent implements OnInit {
     private klineInterval: KlineIntervalService,
     private cexFutureDailyService: CexFutureDailyService,
     private readonly notification: NzNotificationService,
+    private readonly fb: FormBuilder,
+    private readonly timerService: TimerService,
   ) { }
 
   title = '资金费率分布';
@@ -65,6 +68,38 @@ export class CexFutureFundingrateChartComponent implements OnInit {
 
   loading = false;
 
+  visible = false;
+  tabsLoading = false;
+  tabs: Array<{
+    label: string;
+    color: string;
+    table: {
+      list: CexFutureDaily[];
+      pageIndex: number;
+      pageSize: number;
+    }
+  }> = []
+  form = this.fb.group({
+    latestIntervals: [1],
+  });
+  intervalTime$ = merge(
+    this.form.valueChanges,
+    this.timerService.interval(1)
+  ).pipe(
+    startWith(this.form.value),
+    map(() => {
+      return this.klineInterval.resolveFourHoursIntervalMills(
+        this.form.get('latestIntervals')?.value as number
+      );
+    })
+  );
+
+  fundingRateCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.fundingRate - b.fundingRate
+  longShortRatioCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.longShortRatio - b.longShortRatio
+  timeCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.time - b.time
+  createdAtCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.createdAt - b.createdAt
+
+
   ngOnInit() {
     this.loading = true;
     const intervals = 5 * 6;
@@ -77,6 +112,61 @@ export class CexFutureFundingrateChartComponent implements OnInit {
         },
         error: (err: Error) => {
           this.loading = false;
+          this.notification.error(`获取资金费率合约数据失败`, `${err.message}`)
+        }
+      })
+  }
+
+  open() {
+    this.visible = true;
+
+    this.fetchTabs();
+  }
+
+  submitForm(): void {
+    this.fetchTabs();
+  }
+
+  resetForm() {
+    this.form.reset({
+      latestIntervals: 1,
+    });
+    this.fetchTabs();
+  }
+
+  fetchTabs() {
+    this.tabsLoading = true;
+
+    const legendPres = this.legends.map(e => {
+      return {
+        type: normalizeLegendType(e),
+        color: e.color,
+        predicate: filterLegendType(e)
+      }
+    })
+
+    this.cexFutureDailyService.queryList({
+      time: this.klineInterval.resolveFourHoursIntervalMills(this.form.get('latestIntervals')?.value as number),
+    }, undefined, {
+      createdAt: 1
+    })
+      .subscribe({
+        next: (items: CexFutureDaily[]) => {
+          this.tabsLoading = false;
+          this.tabs = legendPres.map(e => {
+            return {
+              label: e.type,
+              color: e.color,
+              table: {
+                list: items.filter(f => e.predicate(f.fundingRate)),
+                pageIndex: 1,
+                pageSize: 10
+              }
+            }
+          })
+        },
+        error: (err: Error) => {
+          this.tabsLoading = false;
           this.notification.error(`获取资金费率合约数据失败`, `${err.message}`)
         }
       })

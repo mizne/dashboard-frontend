@@ -1,5 +1,127 @@
 <div class="cex-future-fundingrate-chart-container">
+  <div class="cex-future-list-action">
+    <button nz-button nzType="primary" (click)="open()" [title]="'查看详情'">
+      详情
+    </button>
+  </div>
   <nz-spin nzTip="Loading..." [nzSpinning]="loading">
     <stack-bar-chart [title]="title" [data]="data" [colors]="colors"></stack-bar-chart>
   </nz-spin>
 </div>
+
+<nz-modal [(nzVisible)]="visible" [nzWidth]="1200" [nzTitle]="'全部详情 - 资金费率分类'" [nzFooter]="null"
+  (nzOnCancel)="visible=false">
+  <ng-container *nzModalContent>
+
+    <nz-card>
+      <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
+        <nz-form-item>
+          <nz-form-label nzFor="latestIntervals">倒数第几个周期({{intervalTime$ | async | date:'MM-dd HH:mm'}})</nz-form-label>
+          <nz-form-control>
+            <nz-input-number formControlName="latestIntervals" [attr.id]="'latestIntervals'" [nzMin]="1" [nzStep]="1">
+            </nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="search-area">
+          <nz-form-control>
+            <button nz-button [nzType]="'primary'">搜索</button>
+            <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-card>
+
+    <nz-spin nzTip="Loading..." [nzSpinning]="tabsLoading">
+      <nz-tabset style="min-height: 200px">
+        <nz-tab *ngFor="let tab of tabs" [nzTitle]="titleTemplate">
+          <ng-template #titleTemplate>
+            <div style="display: flex; align-items: center;">
+              <span [ngStyle]="{
+                display: 'inline-block',
+                width: '16px',
+                height: '16px',
+                backgroundColor: tab.color
+              }"></span>
+              <span style="margin-left: 4px;">{{ tab.label }}</span>
+            </div>
+          </ng-template>
+          <nz-card style="margin-top: 12px">
+            <nz-table #rowSelectionTable nzShowSizeChanger nzShowPagination [nzData]="tab.table.list"
+              [nzFrontPagination]="true" [nzShowTotal]="rangeTemplate" [nzPageSize]="tab.table.pageSize"
+              [nzPageIndex]="tab.table.pageIndex">
+              <thead>
+                <tr>
+                  <th nzColumnKey="symbol">
+                    Symbol
+                  </th>
+                  <th nzColumnKey="baseAsset">
+                    标的
+                  </th>
+                  <th nzColumnKey="contractType">
+                    合约类型
+                  </th>
+                  <th nzColumnKey="fundingRate" [nzSortFn]="fundingRateCompare"
+                    [nzSortDirections]="['descend', 'ascend', null]">
+                    资金费率
+                  </th>
+                  <th nzColumnKey="openInterest">
+                    未平仓合约量
+                  </th>
+                  <th nzColumnKey="longShortRatio" [nzSortFn]="longShortRatioCompare"
+                    [nzSortDirections]="['descend', 'ascend', null]">
+                    多空比
+                  </th>
+                  <th nzColumnKey="time" [nzSortFn]="timeCompare" [nzSortDirections]="['descend', 'ascend', null]">周期
+                  </th>
+                  <th nzColumnKey="createdAt" [nzSortFn]="createdAtCompare"
+                    [nzSortDirections]="['descend', 'ascend', null]">添加时间
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of rowSelectionTable.data">
+                  <td [title]="data.symbol" style="display: flex; align-items: center;">
+                    <image-view [name]="data.logoName" style="margin-right: 4px;"></image-view>
+                    {{data.symbol}}
+                  </td>
+                  <td>
+                    {{data.baseAsset}}
+                  </td>
+                  <td>
+                    {{data.contractType}}
+                  </td>
+
+                  <td>
+                    {{data.fundingRate | percent}}
+                  </td>
+                  <td>
+                    {{data.openInterest}}
+                  </td>
+                  <td>
+                    {{data.longShortRatio}}
+                  </td>
+
+
+                  <td>
+                    {{data.time | date:'MM-dd HH:mm'}}
+                  </td>
+                  <td>
+                    <created-at [createdAt]="data.createdAt"></created-at>
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+
+
+          </nz-card>
+        </nz-tab>
+      </nz-tabset>
+    </nz-spin>
+
+
+    <ng-template #rangeTemplate let-range="range" let-total>
+      {{ range[0] }}-{{ range[1] }} of {{ total }} items
+    </ng-template>
+  </ng-container>
+</nz-modal>
