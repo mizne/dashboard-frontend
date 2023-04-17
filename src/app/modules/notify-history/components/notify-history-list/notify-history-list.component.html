@@ -71,24 +71,27 @@
     </nz-collapse-panel>
   </nz-collapse>
 
-  <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount" [nzShowTotal]="rangeTemplate"
-    (nzPageIndexChange)="pageIndexChange($event)" style="margin: 12px 0;">
-  </nz-pagination>
+  <nz-spin nzTip="Loading..." [nzSpinning]="loading">
+    <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
+      [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)" style="margin: 12px 0;">
+    </nz-pagination>
 
-  <ng-container *ngFor="let item of items; trackBy:trackByID">
+    <ng-container *ngFor="let item of items; trackBy:trackByID">
 
-    <notify-history-item [item]="item" (markReadSuccess)="markRead(item)"></notify-history-item>
+      <notify-history-item [item]="item" (markReadSuccess)="markRead(item)"></notify-history-item>
 
-  </ng-container>
+    </ng-container>
 
-  <ng-container *ngIf="items.length === 0">
-    <nz-empty></nz-empty>
-  </ng-container>
+    <ng-container *ngIf="items.length === 0">
+      <nz-empty></nz-empty>
+    </ng-container>
 
 
-  <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount" [nzShowTotal]="rangeTemplate"
-    (nzPageIndexChange)="pageIndexChange($event)">
-  </nz-pagination>
+    <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
+      [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)">
+    </nz-pagination>
+  </nz-spin>
+
   <ng-template #rangeTemplate let-range="range" let-total>
     {{ range[0] }}-{{ range[1] }} of {{ total }} items
   </ng-template>
