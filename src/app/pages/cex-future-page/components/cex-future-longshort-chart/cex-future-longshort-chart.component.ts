@@ -52,16 +52,20 @@ export class CexFutureLongshortChartComponent implements OnInit {
       color: 'rgb(35, 139, 69)'
     },
   ]
+  loading = false;
 
   ngOnInit() {
+    this.loading = true;
     const intervals = 5 * 6;
     this.fetchData(intervals)
       .subscribe({
         next: (items: CexFutureDaily[]) => {
+          this.loading = false;
           this.data = this.convertData(items);
           this.colors = this.legends.map(e => e.color);
         },
         error: (err: Error) => {
+          this.loading = false;
           this.notification.error(`获取多空比合约数据失败`, `${err.message}`)
         }
       })

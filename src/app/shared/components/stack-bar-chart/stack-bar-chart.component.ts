@@ -126,7 +126,7 @@ export class StackBarChartComponent implements OnInit, AfterViewInit, OnChanges 
 
   chartID = 'stack-bar-chart-wrapper-' + uuid.v4();
 
-  height = 200;
+  height = 240;
 
   @Input() data: Array<{
     time: string;
@@ -174,20 +174,13 @@ export class StackBarChartComponent implements OnInit, AfterViewInit, OnChanges 
     chart.scale('value', {
       alias: this.title
     });
-    chart.axis('time', {
-      tickLine: null,
-    });
 
     chart.axis('value', {
-      label: {
-        formatter: text => {
-          return text.replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
-        }
-      },
+      position: 'bottom',
       title: {
-        offset: 80,
+        offset: 40,
         style: {
-          fill: '#aaaaaa'
+          fill: '#999999'
         },
       }
     });

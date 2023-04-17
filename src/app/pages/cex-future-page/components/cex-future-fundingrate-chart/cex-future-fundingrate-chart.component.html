@@ -1,3 +1,5 @@
 <div class="cex-future-fundingrate-chart-container">
-  <stack-bar-chart [title]="title" [data]="data" [colors]="colors"></stack-bar-chart>
+  <nz-spin nzTip="Loading..." [nzSpinning]="loading">
+    <stack-bar-chart [title]="title" [data]="data" [colors]="colors"></stack-bar-chart>
+  </nz-spin>
 </div>
