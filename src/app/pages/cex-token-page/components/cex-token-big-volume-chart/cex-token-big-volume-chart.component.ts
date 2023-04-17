@@ -78,7 +78,7 @@ export class CexTokenBigVolumeChartComponent implements OnInit, OnChanges {
 
   private loadData() {
     this.loading = true;
-    const intervals = 6 * 6;
+    const intervals = 5 * 6;
     this.fetchData(intervals)
       .subscribe({
         next: (items: CexTokenDaily[]) => {

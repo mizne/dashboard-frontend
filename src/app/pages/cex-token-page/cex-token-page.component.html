@@ -1,9 +1,20 @@
 <div class="cex-token-page-container">
+  <form nz-form [formGroup]="form" [nzLayout]="'inline'" style="margin-bottom: 12px;">
+    <nz-form-item>
+      <nz-form-label nzFor="interval">周期</nz-form-label>
+      <nz-form-control>
+        <nz-radio-group formControlName="interval" nzButtonStyle="solid">
+          <label nz-radio-button *ngFor="let item of intervals" [nzValue]="item.name">{{item.name}}</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+
   <div nz-row [nzGutter]="16" style="margin-bottom: 12px;" *ngFor="let item of tags">
     <div nz-col class="gutter-row" [nzSpan]="24">
       <nz-card [nzTitle]="item.label">
-        <cex-token-big-volume-chart [tag]="item.name"></cex-token-big-volume-chart>
-        <cex-token-price-status-chart [tag]="item.name"></cex-token-price-status-chart>
+        <cex-token-big-volume-chart [tag]="item.name" [interval]="interval"></cex-token-big-volume-chart>
+        <cex-token-price-status-chart [tag]="item.name" [interval]="interval"></cex-token-price-status-chart>
       </nz-card>
     </div>
   </div>
