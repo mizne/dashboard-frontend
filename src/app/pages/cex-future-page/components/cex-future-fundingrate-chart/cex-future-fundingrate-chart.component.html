@@ -91,7 +91,6 @@
                   <td>
                     {{data.contractType}}
                   </td>
-
                   <td>
                     {{data.fundingRate | percent}}
                   </td>
@@ -101,8 +100,6 @@
                   <td>
                     {{data.longShortRatio}}
                   </td>
-
-
                   <td>
                     {{data.time | date:'MM-dd HH:mm'}}
                   </td>
@@ -115,13 +112,10 @@
                 </tr>
               </tbody>
             </nz-table>
-
-
           </nz-card>
         </nz-tab>
       </nz-tabset>
     </nz-spin>
-
 
     <ng-template #rangeTemplate let-range="range" let-total>
       {{ range[0] }}-{{ range[1] }} of {{ total }} items

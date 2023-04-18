@@ -9,7 +9,6 @@ import { FormBuilder } from '@angular/forms';
   selector: 'cex-future-longshort-chart',
   templateUrl: 'cex-future-longshort-chart.component.html'
 })
-
 export class CexFutureLongshortChartComponent implements OnInit {
   constructor(
     private klineInterval: KlineIntervalService,
@@ -200,5 +199,4 @@ export class CexFutureLongshortChartComponent implements OnInit {
     }
     return results
   }
-
 }

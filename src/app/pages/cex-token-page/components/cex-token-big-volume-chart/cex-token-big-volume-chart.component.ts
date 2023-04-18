@@ -6,13 +6,10 @@ import { format } from 'date-fns';
 import { Legend } from 'src/app/shared';
 import { FormBuilder } from '@angular/forms';
 
-
-
 @Component({
   selector: 'cex-token-big-volume-chart',
   templateUrl: 'cex-token-big-volume-chart.component.html'
 })
-
 export class CexTokenBigVolumeChartComponent implements OnInit, OnChanges {
   constructor(
     private klineInterval: KlineIntervalService,
@@ -105,7 +102,6 @@ export class CexTokenBigVolumeChartComponent implements OnInit, OnChanges {
   timeCompare = (a: CexTokenDaily, b: CexTokenDaily) => a.time - b.time
   createdAtCompare = (a: CexTokenDaily, b: CexTokenDaily) => a.createdAt - b.createdAt
 
-
   ngOnInit() {
     // this.loadData()
   }
@@ -130,7 +126,6 @@ export class CexTokenBigVolumeChartComponent implements OnInit, OnChanges {
     });
     this.fetchTabs();
   }
-
   fetchTabs() {
     this.tabsLoading = true;
 
@@ -199,7 +194,6 @@ export class CexTokenBigVolumeChartComponent implements OnInit, OnChanges {
       padding: '4px 6px',
     };
   }
-
   private resolveAlpha(n: number): number {
     if (n <= 0.02) {
       return 0.1;

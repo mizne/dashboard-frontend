@@ -6,13 +6,10 @@ import { format } from 'date-fns';
 import { Legend } from 'src/app/shared';
 import { FormBuilder } from '@angular/forms';
 
-
-
 @Component({
   selector: 'cex-future-fundingrate-chart',
   templateUrl: 'cex-future-fundingrate-chart.component.html'
 })
-
 export class CexFutureFundingrateChartComponent implements OnInit {
   constructor(
     private klineInterval: KlineIntervalService,
@@ -99,7 +96,6 @@ export class CexFutureFundingrateChartComponent implements OnInit {
   timeCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.time - b.time
   createdAtCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.createdAt - b.createdAt
 
-
   ngOnInit() {
     this.loading = true;
     const intervals = 5 * 6;
@@ -133,7 +129,6 @@ export class CexFutureFundingrateChartComponent implements OnInit {
     });
     this.fetchTabs();
   }
-
   fetchTabs() {
     this.tabsLoading = true;
 

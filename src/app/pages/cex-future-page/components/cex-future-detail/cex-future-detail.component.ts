@@ -8,7 +8,6 @@ import { fixTradingViewTime } from 'src/app/utils';
   selector: 'cex-future-detail',
   templateUrl: 'cex-future-detail.component.html'
 })
-
 export class CexFutureDetailComponent implements OnInit {
   constructor(
     private readonly cexFutureDailyService: CexFutureDailyService,

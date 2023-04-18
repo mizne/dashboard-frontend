@@ -49,12 +49,6 @@ export class CexFuturePageComponent implements OnInit {
     this.loadDataFromServer();
   }
 
-
-
-  confirmView(item: CexFuture) {
-
-  }
-
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex, sort, filter } = params;
     const currentSort = sort.find((item) => item.value !== null);
@@ -65,8 +59,6 @@ export class CexFuturePageComponent implements OnInit {
     this.sort = this.buildSort(sortField, sortOrder);
     this.loadDataFromServer();
   }
-
-
 
   private loadDataFromServer(): void {
     this.loading = true;
@@ -89,8 +81,6 @@ export class CexFuturePageComponent implements OnInit {
         this.total = count;
       });
   }
-
-
 
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
     // symbol 支持正则查询

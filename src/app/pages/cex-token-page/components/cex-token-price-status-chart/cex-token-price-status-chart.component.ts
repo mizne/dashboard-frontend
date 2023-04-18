@@ -10,7 +10,6 @@ import { FormBuilder } from '@angular/forms';
   selector: 'cex-token-price-status-chart',
   templateUrl: 'cex-token-price-status-chart.component.html'
 })
-
 export class CexTokenPriceStatusChartComponent implements OnInit, OnChanges {
   constructor(
     private klineInterval: KlineIntervalService,
@@ -67,7 +66,6 @@ export class CexTokenPriceStatusChartComponent implements OnInit, OnChanges {
   timeCompare = (a: CexTokenDaily, b: CexTokenDaily) => a.time - b.time
   createdAtCompare = (a: CexTokenDaily, b: CexTokenDaily) => a.createdAt - b.createdAt
 
-
   ngOnInit() {
     // this.loadData()
   }
@@ -92,7 +90,6 @@ export class CexTokenPriceStatusChartComponent implements OnInit, OnChanges {
     });
     this.fetchTabs();
   }
-
   fetchTabs() {
     this.tabsLoading = true;
 
@@ -273,5 +270,4 @@ export class CexTokenPriceStatusChartComponent implements OnInit, OnChanges {
     }
     return results
   }
-
 }
