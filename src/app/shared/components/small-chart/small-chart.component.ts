@@ -42,14 +42,16 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
   private _smallChart: Chart | null = null;
   private _largeChart: Chart | null = null;
 
+  private _hasDestroyed = false;
+
   isVisible = false;
   subscription: Subscription | null = null;
 
   constructor(
     private readonly destroy$: DestroyService,
     @Inject(DOCUMENT) private documentRef: Document
-  ) {}
-  ngOnInit() {}
+  ) { }
+  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.renderChart(this._smallChart);
@@ -57,11 +59,17 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.initSmallChart();
-    this.renderChart(this._smallChart);
+    setTimeout(() => {
+      if (this._hasDestroyed) {
+        return;
+      }
+      this.initSmallChart();
+      this.renderChart(this._smallChart);
+    }, 5e2)
   }
 
   ngOnDestroy(): void {
+    this._hasDestroyed = true;
     if (this._smallChart) {
       this._smallChart.destroy();
       this._smallChart = null;
@@ -134,16 +142,16 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
       const hasTimeAndInterval = !!(this.time && this.interval);
       const adjustedData = hasTimeAndInterval
         ? this.data.map((e, i) => {
-            return {
-              value: e,
-              time: format(
-                this.time -
-                  (this.data.length - i) *
-                    this.resolveDuration(this.interval as KlineIntervals),
-                'MM-dd HH:mm'
-              ),
-            };
-          })
+          return {
+            value: e,
+            time: format(
+              this.time -
+              (this.data.length - i) *
+              this.resolveDuration(this.interval as KlineIntervals),
+              'MM-dd HH:mm'
+            ),
+          };
+        })
         : this.data.map((e, i) => ({ value: e, index: i }));
       chart.data(adjustedData);
 
@@ -239,8 +247,8 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
               this.data[0] > this.data[this.data.length - 1]
                 ? 'red'
                 : this.data[0] < this.data[this.data.length - 1]
-                ? 'green'
-                : '#025DF4',
+                  ? 'green'
+                  : '#025DF4',
           },
         });
       }
