@@ -2,23 +2,23 @@
   [nzPopoverContent]="contentTemplate" style="display: flex; align-items: center;">
   <ng-container *ngIf="content" [ngTemplateOutlet]="content" [ngTemplateOutletContext]="templateContext"></ng-container>
   <ng-container *ngIf="!content">
-    <image-view [name]="logoName" style="margin-right: 4px;"></image-view>
-    <span class="symbol-item-default-content">{{symbol}}</span>
+    <image-view [name]="_logoName" style="margin-right: 4px;"></image-view>
+    <span class="symbol-item-default-content">{{_symbol}}</span>
   </ng-container>
 </span>
 
 <ng-template #titleTemplate>
   <div style="display: flex; align-items: center">
-    <image-view [name]="logoName"></image-view>
-    <span style="margin-left: 6px">{{name + ' - ' + fullname}}</span>
+    <image-view [name]="_logoName"></image-view>
+    <span style="margin-left: 6px">{{_name + ' - ' + _fullname}}</span>
   </div>
 </ng-template>
 <ng-template #contentTemplate>
   <div class="symbol-item-content">
     <div class="symbol-item-tags" style="margin-bottom: 12px;">
       <span class="tags-label" style="margin-right: 6px">分类：</span>
-      <ng-container *ngIf="tagLabels.length > 0; else noTags">
-        <span class="tag-item-label">{{tagLabels.join(', ')}}</span>
+      <ng-container *ngIf="_tagLabels.length > 0; else noTags">
+        <span class="tag-item-label">{{_tagLabels.join(', ')}}</span>
       </ng-container>
 
       <ng-template #noTags>
@@ -28,8 +28,8 @@
 
     <div class="symbol-item-tags" style="margin-bottom: 12px;">
       <span class="marketcap-label" style="margin-right: 6px">市值：</span>
-      <span class="marketcap-value">{{ marketCap | currency }}</span>
+      <span class="marketcap-value">{{ _marketCap | currency }}</span>
     </div>
-    <token-actions [symbol]="symbol" [slug]="slug" [website]="website" [twitter]="twitter"></token-actions>
+    <token-actions [symbol]="_symbol" [slug]="_slug" [website]="_website" [twitter]="_twitter"></token-actions>
   </div>
 </ng-template>

@@ -6,7 +6,7 @@ import {
   SimpleChanges,
   TemplateRef,
 } from '@angular/core';
-import { Observable, map, forkJoin, firstValueFrom } from 'rxjs';
+import { map, firstValueFrom } from 'rxjs';
 import { CexTokenCacheService } from 'src/app/shared';
 import { CexTokenTagCacheService } from 'src/app/shared';
 
@@ -21,19 +21,21 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
   ) { }
 
   @Input() symbol = '';
+  @Input() name = '';
 
   @Input() content: TemplateRef<any> | null = null;
 
-  slug = '';
-  name = '';
-  fullname = '';
-  logoName = '';
-  marketCap = 0;
+  _symbol = '';
+  _slug = '';
+  _name = '';
+  _fullname = '';
+  _logoName = '';
+  _marketCap = 0;
 
-  website = '';
-  twitter = '';
+  _website = '';
+  _twitter = '';
 
-  tagLabels: string[] = [];
+  _tagLabels: string[] = [];
 
   templateContext: { [key: string]: any } = {};
 
@@ -41,36 +43,52 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     const symbol = changes['symbol'] && changes['symbol'].currentValue;
+    const name = changes['name'] && changes['name'].currentValue;
     if (symbol) {
       this.templateContext = {
         $implicit: this.symbol,
       };
-      this.cexTokenCacheService.queryBySymbol(symbol).subscribe((token) => {
-        if (token) {
-          this.templateContext['slug'] = this.slug = token.slug || '';
-          this.templateContext['name'] = this.name = token.name || '';
-          this.templateContext['fullname'] = this.fullname =
-            token.fullname || '';
-          this.templateContext['logoName'] = this.logoName =
-            token.logoName || '';
-          this.templateContext['marketCap'] = this.marketCap =
-            token.marketCap || 0;
-
-          this.templateContext['website'] = this.website = token.website || '';
-          this.templateContext['twitter'] = this.twitter = token.twitter || '';
-
-          if (token.tags && token.tags.length > 0) {
-            Promise.all(token.tags.map((e) => this.resolveTagLabel(e))).then(
-              (labels) => {
-                this.templateContext['tagLabels'] = this.tagLabels = labels;
-              }
-            );
-          }
-        } else {
-          console.warn(`symbol: ${symbol} token: `, token);
-        }
-      });
+      this._symbol = symbol;
+      this.fetchToken(symbol)
     }
+
+    if (name) {
+      this.templateContext = {
+        $implicit: this.name,
+      };
+      this._name = name;
+      this.fetchToken('', name)
+    }
+  }
+
+  private fetchToken(symbol?: string, name?: string) {
+    (symbol ? this.cexTokenCacheService.queryBySymbol(symbol) : this.cexTokenCacheService.queryByName(name as string)).subscribe((token) => {
+      if (token) {
+        this.templateContext['symbol'] = this._symbol = token.symbol || '';
+        this.templateContext['slug'] = this._slug = token.slug || '';
+        this.templateContext['name'] = this._name = token.name || '';
+        this.templateContext['fullname'] = this._fullname =
+          token.fullname || '';
+        this.templateContext['logoName'] = this._logoName =
+          token.logoName || '';
+        this.templateContext['marketCap'] = this._marketCap =
+          token.marketCap || 0;
+
+        this.templateContext['website'] = this._website = token.website || '';
+        this.templateContext['twitter'] = this._twitter = token.twitter || '';
+
+        if (token.tags && token.tags.length > 0) {
+          Promise.all(token.tags.map((e) => this.resolveTagLabel(e))).then(
+            (labels) => {
+              this.templateContext['tagLabels'] = this._tagLabels = labels;
+            }
+          );
+        }
+      } else {
+        this._symbol = symbol || name || '';
+        console.warn(`[CexTokenSymbolItemComponent.ts] not found token by name: ${name} symbol: ${symbol}`);
+      }
+    });
   }
 
   private resolveTagLabel(tagName: string): Promise<string> {

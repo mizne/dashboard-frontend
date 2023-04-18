@@ -40,6 +40,30 @@ export class CexTokenCacheService {
     );
   }
 
+  queryByName(name: string): Observable<CexToken | undefined> {
+    const theToken = this.allTokens.find((e) => e.name === name);
+    if (theToken) {
+      return of(theToken);
+    }
+
+    if (this.loading) {
+      return this.timerService.interval(1).pipe(
+        filter(() => this.loading === false),
+        map(() => this.allTokens.find((e) => e.name === name))
+      );
+    }
+
+    return this.queryList().pipe(
+      tap((tokens) => {
+        this.allTokens = tokens;
+        this.loading = false;
+      }),
+      map((tokens) => {
+        return tokens.find((e) => e.name === name);
+      })
+    );
+  }
+
   private queryList(): Observable<CexToken[]> {
     this.loading = true;
     return this.cexTokenService.queryList().pipe(

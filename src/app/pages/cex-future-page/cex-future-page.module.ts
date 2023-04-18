@@ -6,12 +6,14 @@ import { CexFutureLongshortChartComponent } from './components/cex-future-longsh
 import { CexFutureFundingrateChartComponent } from './components/cex-future-fundingrate-chart/cex-future-fundingrate-chart.component'
 import { CexFutureDetailComponent } from './components/cex-future-detail/cex-future-detail.component'
 import { NotifyHistoryModule } from 'src/app/modules/notify-history';
+import { CexTokenSymbolItemModule } from 'src/app/modules/cex-token-symbol-item';
 
 @NgModule({
   imports: [
     SharedModule,
     CexFuturePageRoutingModule,
     NotifyHistoryModule,
+    CexTokenSymbolItemModule,
   ],
   declarations: [
     CexFuturePageComponent,

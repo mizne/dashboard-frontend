@@ -82,9 +82,8 @@
               </thead>
               <tbody>
                 <tr *ngFor="let data of rowSelectionTable.data">
-                  <td [title]="data.symbol" style="display: flex; align-items: center;">
-                    <image-view [name]="data.logoName" style="margin-right: 4px;"></image-view>
-                    {{data.symbol}}
+                  <td [title]="data.symbol" style="display: flex; align-items: center; min-height: 65px;">
+                    <cex-token-symbol-item [name]="data.baseAsset"></cex-token-symbol-item>
                   </td>
                   <td>
                     {{data.baseAsset}}
