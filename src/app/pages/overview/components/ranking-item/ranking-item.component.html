@@ -1,6 +1,6 @@
 <div class="ranking-item-container">
-  <symbol-item [symbol]="symbol" [content]="symbolContent" style="width: 20%">
-  </symbol-item>
+  <cex-token-symbol-item [symbol]="symbol" [content]="symbolContent" style="width: 20%">
+  </cex-token-symbol-item>
   <ng-template #symbolContent let-logoName="logoName">
     <image-view [name]="logoName" style="margin-right: 4px;"></image-view>
     <span class="symbol-item-custom-content">{{(index+1) + '. ' + symbol}}</span>

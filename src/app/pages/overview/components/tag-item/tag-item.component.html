@@ -13,8 +13,8 @@
       <span>交易量占比: </span>
       <div *ngFor="let p of item.volumePercents.slice(0, 3)" class="token-item"
         style="margin-bottom: 4px; font-size: 12px; display: flex; align-items: center;">
-        <symbol-item [symbol]="p.token" style="margin-right: 12px">
-        </symbol-item>
+        <cex-token-symbol-item [symbol]="p.token" style="margin-right: 12px">
+        </cex-token-symbol-item>
         <nz-tag [nzColor]="p.percent >= 0.5 ? 'error' : 'default'">{{p.percent |
           percent}}</nz-tag>
       </div>
@@ -57,8 +57,8 @@
       <span [title]="'共 ' + item.volumePercents.length + ' tokens'">交易量占比: </span>
       <span *ngFor="let p of item.volumePercents.slice(0, 10)" class="token-item"
         style="font-size: 12px; display: flex; align-items: center;">
-        <symbol-item [symbol]="p.token" style="margin-right: 4px">
-        </symbol-item>
+        <cex-token-symbol-item [symbol]="p.token" style="margin-right: 4px">
+        </cex-token-symbol-item>
         <nz-tag [nzColor]="p.percent >= 0.5 ? 'error' : 'default'">{{p.percent |
           percent}}</nz-tag>
       </span>
@@ -91,9 +91,9 @@
           <nz-descriptions nzTitle="趋势转折统计" nzBordered [nzSize]="'small'" [nzColumn]="3">
             <nz-descriptions-item *ngFor="let item of descriptions" [nzTitle]="descItemTitle">
               <div style="display: flex; align-items: center; flex-wrap: wrap;">
-                <symbol-item *ngFor="let item of item.rankingItems.slice(0, 2)" [symbol]="item.symbol"
+                <cex-token-symbol-item *ngFor="let item of item.rankingItems.slice(0, 2)" [symbol]="item.symbol"
                   style="margin-right: 6px">
-                </symbol-item>
+                </cex-token-symbol-item>
                 <span>{{'共 ' + item.rankingItems.length}}</span>
               </div>
 

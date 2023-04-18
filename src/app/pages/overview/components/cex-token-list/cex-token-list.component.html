@@ -77,7 +77,7 @@
         <tbody>
           <tr *ngFor="let data of cexTokens">
             <td [title]="data.symbol" style="display: flex; align-items: center;">
-              <symbol-item [symbol]="data.symbol" [content]="symbolContent"></symbol-item>
+              <cex-token-symbol-item [symbol]="data.symbol" [content]="symbolContent"></cex-token-symbol-item>
               <ng-template #symbolContent let-name="name" let-logoName="logoName">
                 <image-view [name]="logoName" style="margin-right: 4px;"></image-view>
                 <span class="symbol-item-custom-content" style="font-weight: bold">{{name}}</span>

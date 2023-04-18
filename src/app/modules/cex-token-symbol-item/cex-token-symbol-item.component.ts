@@ -11,10 +11,10 @@ import { CexTokenCacheService } from 'src/app/shared';
 import { CexTokenTagCacheService } from 'src/app/shared';
 
 @Component({
-  selector: 'symbol-item',
-  templateUrl: 'symbol-item.component.html',
+  selector: 'cex-token-symbol-item',
+  templateUrl: 'cex-token-symbol-item.component.html',
 })
-export class SymbolItemComponent implements OnInit, OnChanges {
+export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
   constructor(
     private readonly cexTokenCacheService: CexTokenCacheService,
     private readonly cexTokenTagCacheService: CexTokenTagCacheService

@@ -1,5 +1,5 @@
-<span class="symbol-item-container" nz-popover [nzPopoverTitle]="titleTemplate" [nzPopoverContent]="contentTemplate"
-  style="display: flex; align-items: center;">
+<span class="cex-token-symbol-item-container" nz-popover [nzPopoverTitle]="titleTemplate"
+  [nzPopoverContent]="contentTemplate" style="display: flex; align-items: center;">
   <ng-container *ngIf="content" [ngTemplateOutlet]="content" [ngTemplateOutletContext]="templateContext"></ng-container>
   <ng-container *ngIf="!content">
     <image-view [name]="logoName" style="margin-right: 4px;"></image-view>
