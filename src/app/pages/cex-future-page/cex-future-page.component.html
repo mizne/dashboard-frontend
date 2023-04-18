@@ -54,10 +54,7 @@
                 <created-at [createdAt]="data.createdAt"></created-at>
               </td>
               <td>
-                <button nz-button (click)="confirmView(data)" nzType="primary" nzShape="circle" nzSize="small"
-                  nz-tooltip [nzTooltipTitle]="'查看'" style="margin-right: 4px">
-                  <i nz-icon nzType="eye" nzTheme="outline"></i>
-                </button>
+                <cex-future-detail [symbol]="data.symbol"></cex-future-detail>
               </td>
             </tr>
           </tbody>
@@ -73,40 +70,5 @@
     </div> -->
   </div>
 
-  <nz-modal [(nzVisible)]="futureDetailModalVisible" [nzTitle]="futureDetailModalTitle" [nzWidth]="1000"
-    (nzOnCancel)="futureDetailModalVisible=false" (nzOnOk)="futureDetailModalVisible=false">
-    <ng-container *nzModalContent>
-      <nz-card>
-        <div nz-row [nzGutter]="16">
-          <div nz-col class="gutter-row" [nzSpan]="24">
-            <div class="inner-box">
-              <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
-                开仓量
-              </div>
-              <tradingview-chart [series]="openInterestSeries" [width]="900"
-                [options]="chartOptions"></tradingview-chart>
-            </div>
-          </div>
-          <div nz-col class="gutter-row" [nzSpan]="24">
-            <div class="inner-box">
-              <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
-                资金费率
-              </div>
-              <tradingview-chart [series]="fundingRateSeries" [width]="900"
-                [options]="chartOptions"></tradingview-chart>
-            </div>
-          </div>
-          <div nz-col class="gutter-row" [nzSpan]="24">
-            <div class="inner-box">
-              <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
-                多空比
-              </div>
-              <tradingview-chart [series]="longShortRatioSeries" [width]="900"
-                [options]="chartOptions"></tradingview-chart>
-            </div>
-          </div>
-        </div>
-      </nz-card>
-    </ng-container>
-  </nz-modal>
+
 </div>
