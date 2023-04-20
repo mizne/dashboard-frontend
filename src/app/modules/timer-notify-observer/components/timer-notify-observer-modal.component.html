@@ -46,7 +46,7 @@
       </nz-form-item>
     </form>
 
-    <div nz-row [nzGutter]="16" *ngFor="let outerItem of times" style="margin: 12px 0; min-height: 240px;">
+    <div nz-row [nzGutter]="16" *ngFor="let outerItem of times" style="margin: 12px 0;">
       <div nz-col class="gutter-row" [nzSpan]="4" *ngFor="let innerItem of outerItem">
         <div class="inner-box">
           <nz-list nzBordered nzSize="small" [ngStyle]="{
