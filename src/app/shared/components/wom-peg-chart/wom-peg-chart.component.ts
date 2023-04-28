@@ -66,7 +66,7 @@ export class WomPegChartComponent implements OnInit {
         {
           next: (v) => {
             this.fetching = false;
-            this.womPegs = v.sort((a, b) => a.createdAt - b.createdAt);
+            this.womPegs = v.sort((a, b) => a.createdAt - b.createdAt).filter(e => (e.mWom > 0) && (e.wmxWom > 0) && (e.qWom > 0));
             this.series = [
               {
                 type: 'line',
