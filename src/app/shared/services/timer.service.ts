@@ -57,13 +57,10 @@ export class TimerService {
   }
 
   interval(seconds: number): Observable<number> {
-    const invokeTime = new Date().getTime();
     let index = -1;
     return this.interval$.pipe(
-      filter(() => {
-        const now = new Date();
-        const diffSeconds = Math.floor((now.getTime() - invokeTime) / 1e3);
-        return diffSeconds > 0 && diffSeconds % seconds === 0;
+      filter((n: number) => {
+        return (n + 1) % seconds === 0;
       }),
       map(() => {
         index += 1;
