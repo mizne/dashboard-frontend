@@ -24,7 +24,7 @@ export class TrackingRecordComponent implements OnInit {
     private createFollowedProjectTrackingRecordService: CreateFollowedProjectTrackingRecordService
   ) { }
 
-  total = 1;
+  total = 0;
   items: TableItem[] = [];
   loading = true;
   pageSize = 10;

@@ -19,7 +19,7 @@ export class NotifyObserverNotAllowListComponent implements OnInit {
     private createNotifyObserverNotAllowService: CreateNotifyObserverNotAllowService
   ) { }
 
-  total = 1;
+  total = 0;
   items: NotifyObserverNotAllow[] = [];
   loading = true;
   pageSize = 10;

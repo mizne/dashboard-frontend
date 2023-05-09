@@ -27,7 +27,7 @@ export class CexTokenListComponent implements OnInit {
 
   visible = false;
 
-  total = 1;
+  total = 0;
   cexTokens: TableItem[] = [];
   loading = true;
   pageSize = 10;

@@ -36,7 +36,7 @@ export class MyNotificationComponent implements OnInit {
     private createNotifyObserverService: CreateNotifyObserverService
   ) { }
 
-  total = 1;
+  total = 0;
   items: TableItem[] = [];
   loading = true;
   pageSize = 12;

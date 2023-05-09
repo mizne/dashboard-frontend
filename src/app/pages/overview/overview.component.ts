@@ -25,7 +25,7 @@ export class OverviewComponent implements OnInit {
     private readonly route: ActivatedRoute
   ) { }
 
-  total = 1;
+  total = 0;
   cexTokenDailies: CexTokenDaily[] = [];
   loading = true;
   pageSize = 10;

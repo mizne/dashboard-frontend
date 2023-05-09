@@ -37,7 +37,7 @@ export class FollowedProjectSelectComponent implements ControlValueAccessor, OnD
   selectedFollowedProject: TableItem | null = null;
   selectModalVisible = false;
 
-  total = 1;
+  total = 0;
   items: TableItem[] = [];
   loading = true;
   pageSize = 12;

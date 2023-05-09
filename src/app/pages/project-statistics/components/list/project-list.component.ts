@@ -27,7 +27,7 @@ export class ProjectListComponent implements OnInit {
     private createProjectService: CreateProjectService
   ) { }
 
-  total = 1;
+  total = 0;
   items: TableItem[] = [];
   loading = true;
   pageSize = 10;

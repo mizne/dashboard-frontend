@@ -17,7 +17,7 @@ export class FundRaiseComponent implements OnInit {
     private readonly fb: FormBuilder,
   ) { }
 
-  total = 1;
+  total = 0;
   fundRaises: NotifyHistory[] = [];
   loading = true;
   pageSize = 10;

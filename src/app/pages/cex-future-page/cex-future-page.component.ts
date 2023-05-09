@@ -15,7 +15,7 @@ export class CexFuturePageComponent implements OnInit {
     private readonly fb: FormBuilder,
   ) { }
 
-  total = 1;
+  total = 0;
   items: CexFuture[] = [];
   loading = true;
   pageSize = 10;

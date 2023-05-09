@@ -22,7 +22,7 @@ export class CexTokenAlertComponent implements OnInit {
 
   visible = false;
 
-  total = 1;
+  total = 0;
   cexTokenAlerts: CexTokenAlert[] = [];
   loading = true;
   pageSize = 10;

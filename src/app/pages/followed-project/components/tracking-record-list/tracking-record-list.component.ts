@@ -22,7 +22,7 @@ export class TrackingRecordListComponent implements OnInit {
 
   @Input() followedProjectID = '';
 
-  total = 1;
+  total = 0;
   items: FollowedProjectTrackingRecord[] = [];
   loading = true;
   pageSize = 10;

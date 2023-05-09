@@ -19,7 +19,7 @@ export class InvestorListComponent implements OnInit {
     private createInvestorService: CreateInvestorService
   ) { }
 
-  total = 1;
+  total = 0;
   items: Investor[] = [];
   loading = true;
   pageSize = 10;

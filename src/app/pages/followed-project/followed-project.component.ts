@@ -26,7 +26,7 @@ export class FollowedProjectComponent implements OnInit {
     private createFollowedProjectService: CreateFollowedProjectService
   ) { }
 
-  total = 1;
+  total = 0;
   items: TableItem[] = [];
   loading = true;
   pageSize = 12;
