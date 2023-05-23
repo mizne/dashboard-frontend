@@ -75,7 +75,6 @@ declare var module: any;
   
 const cheerio = require('cheerio');
 const logger = require('logger');
-const axios = require('axios');
 const fetchGitbookPages = require('fetchGitbookPages');
 const reportProgress = require('reportProgress');
 
