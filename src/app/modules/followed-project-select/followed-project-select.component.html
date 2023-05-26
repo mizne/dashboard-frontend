@@ -59,6 +59,15 @@
               </nz-form-control>
             </nz-form-item>
           </div>
+
+          <div nz-col [nzSpan]="8">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10" nzFor="tagIDs">标签</nz-form-label>
+              <nz-form-control [nzSpan]="14">
+                <tag-select formControlName="tagIDs"></tag-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
         </div>
 
         <div nz-row [nzGutter]="24">

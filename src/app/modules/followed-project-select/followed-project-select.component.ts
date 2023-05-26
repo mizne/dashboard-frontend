@@ -132,6 +132,12 @@ export class FollowedProjectSelectComponent implements ControlValueAccessor, OnD
             $options: 'i',
           },
         });
+      } else if (key === 'tagIDs') {
+        if (Array.isArray(query['tagIDs']) && query['tagIDs'].length > 0) {
+          Object.assign(o, {
+            $or: query['tagIDs'].map((f: string) => ({ tagIDs: f }))
+          })
+        }
       } else {
         Object.assign(o, { [key]: query[key] });
       }
