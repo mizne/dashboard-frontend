@@ -74,9 +74,9 @@ export class CexFutureDetailComponent implements OnInit {
               type: 'line',
               color: '#f6bf26',
               data: results
-                .sort((a, b) => a.createdAt - b.createdAt)
-                .map(e => ({ createdAt: e.time, value: e.openInterest }))
-                .map(e => ({ time: fixTradingViewTime(e.createdAt), value: e.value }))
+                .sort((a, b) => a.time - b.time)
+                .map(e => ({ time: e.time, value: e.openInterest }))
+                .map(e => ({ time: fixTradingViewTime(e.time), value: e.value }))
             }
           ]
 
@@ -85,9 +85,9 @@ export class CexFutureDetailComponent implements OnInit {
               type: 'line',
               color: '#f6bf26',
               data: results
-                .sort((a, b) => a.createdAt - b.createdAt)
-                .map(e => ({ createdAt: e.time, value: e.fundingRate }))
-                .map(e => ({ time: fixTradingViewTime(e.createdAt), value: e.value }))
+                .sort((a, b) => a.time - b.time)
+                .map(e => ({ time: e.time, value: e.fundingRate }))
+                .map(e => ({ time: fixTradingViewTime(e.time), value: e.value }))
             }
           ]
 
@@ -96,9 +96,9 @@ export class CexFutureDetailComponent implements OnInit {
               type: 'line',
               color: '#f6bf26',
               data: results
-                .sort((a, b) => a.createdAt - b.createdAt)
-                .map(e => ({ createdAt: e.time, value: e.longShortRatio }))
-                .map(e => ({ time: fixTradingViewTime(e.createdAt), value: e.value }))
+                .sort((a, b) => a.time - b.time)
+                .map(e => ({ time: e.time, value: e.longShortRatio }))
+                .map(e => ({ time: fixTradingViewTime(e.time), value: e.value }))
             }
           ]
         },
