@@ -45,10 +45,10 @@ declare var module: any;
 
 const cheerio = require('cheerio');
 const logger = require('logger');
-const axios = require('axios');
+const http = require('http');
 
 module.exports = async function parseData() {
-  const resp = await axios({
+  const resp = await http({
     url: 'https://vitalik.ca',
     method: 'get',
     headers: {
