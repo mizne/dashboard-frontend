@@ -58,6 +58,7 @@ export class MyNotificationComponent implements OnInit {
     followedProjectID: [null],
     timerEnableScript: [null],
     timerEnableStatistics: [null],
+    scriptText: [null],
   });
 
   subscriptions: Subscription[] = [];
@@ -255,6 +256,13 @@ export class MyNotificationComponent implements OnInit {
             $regex: query['notifyShowTitle'].trim(),
             $options: 'i',
           },
+        });
+      } else if (key === 'scriptText') {
+        Object.assign(o, {
+          ['$or']: [
+            { blogScript: { $regex: query['scriptText'].trim(), $options: 'i' } },
+            { timerScript: { $regex: query['scriptText'].trim(), $options: 'i' } },
+          ],
         });
       } else {
         Object.assign(o, { [key]: query[key] });
