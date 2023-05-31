@@ -112,7 +112,7 @@ export class SharedService {
     });
   }
 
-  fetchBlogTester(script: string): Observable<{
+  fetchBlogTester(script: string, tag?: string): Observable<{
     result: Article[];
     logs: {
       debugs: string[];
@@ -125,10 +125,10 @@ export class SharedService {
         debugs: string[];
         errors: string[];
       }
-    }>(`${environment.baseURL}/app/blog-tester`, { script });
+    }>(`${environment.baseURL}/app/blog-tester`, { script, tag });
   }
 
-  fetchTimerTester(script: string): Observable<{
+  fetchTimerTester(script: string, tag?: string): Observable<{
     result: {
       title: string;
       infos: string[];
@@ -149,7 +149,7 @@ export class SharedService {
         debugs: string[];
         errors: string[];
       }
-    }>(`${environment.baseURL}/app/timer-tester`, { script });
+    }>(`${environment.baseURL}/app/timer-tester`, { script, tag });
   }
 
   fetchLink3ActivityDetail(url?: string): Observable<{
