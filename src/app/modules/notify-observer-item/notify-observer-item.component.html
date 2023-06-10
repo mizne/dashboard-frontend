@@ -131,8 +131,8 @@
 </nz-modal>
 
 
-<nz-modal [(nzVisible)]="showStatisticsModal" [nzWidth]="800" [nzFooter]="null" (nzOnCancel)="showStatisticsModal=false"
-  [nzTitle]="'统计数据 - ' + item?.notifyShowTitle">
+<nz-modal [(nzVisible)]="showStatisticsModal" [nzWidth]="1200" [nzFooter]="null"
+  (nzOnCancel)="showStatisticsModal=false" [nzTitle]="'统计数据 - ' + item?.notifyShowTitle">
   <ng-container *nzModalContent>
     <statistics-chart [definitions]="item?.timerStatisticsDefinitions || []"></statistics-chart>
   </ng-container>
