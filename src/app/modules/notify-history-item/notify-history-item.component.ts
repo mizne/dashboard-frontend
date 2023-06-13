@@ -27,6 +27,7 @@ export class NotifyHistoryItemComponent implements OnInit {
   @Input() item: TableItem | null = null;
 
   @Output() markReadSuccess = new EventEmitter<void>();
+  @Output() deleteSuccess = new EventEmitter<void>();
 
   ngOnInit() { }
 
@@ -70,6 +71,22 @@ export class NotifyHistoryItemComponent implements OnInit {
 
   showCreateTimerNotifyObserverGetter(item: TableItem): boolean {
     return (item.type === NotifyObserverTypes.LINK3_RECOMMEND || item.type === NotifyObserverTypes.LINK3) && !!item.link && item.link?.indexOf('link3.to/e/') >= 0
+  }
+
+  cancelDelete(item: NotifyHistory) { }
+
+  confirmDelete(item: NotifyHistory) {
+    this.notifyHistoryService
+      .deleteByID(item._id)
+      .subscribe({
+        next: () => {
+          this.deleteSuccess.emit();
+        },
+        complete: () => { },
+        error: (e: Error) => {
+          this.nzNotificationService.error(`删除失败`, e.message);
+        },
+      });
   }
 
   markRead(item: NotifyHistory) {

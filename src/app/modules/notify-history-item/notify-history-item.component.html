@@ -7,6 +7,10 @@
       <p style="position: absolute; right: 12px;">
         <span>添加时间：</span>
         <created-at [createdAt]="item.createdAt"></created-at>
+        <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
+          (nzOnConfirm)="confirmDelete(item)" (nzOnCancel)="cancelDelete(item)" style="margin-left: 8px;">
+          <button nz-button nzType="primary" nzShape="circle" nzDanger><span nz-icon nzType="delete"></span></button>
+        </a>
       </p>
       <p style="display: flex; align-items: center;">
         <linkable [href]="item.link" [content]="defaultLogo">

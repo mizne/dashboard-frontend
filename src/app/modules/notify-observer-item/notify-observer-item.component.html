@@ -109,7 +109,7 @@
 
     <div nz-row [nzGutter]="16">
       <div nz-col class="gutter-row" [nzSpan]="12" *ngFor="let item of items; trackBy:trackByID">
-        <notify-history-item [item]="item" (markReadSuccess)="markRead(item)">
+        <notify-history-item [item]="item" (markReadSuccess)="markRead(item)" (deleteSuccess)="markRead(item)">
         </notify-history-item>
       </div>
     </div>
