@@ -9,6 +9,7 @@ import { ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACC
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subscription } from 'rxjs';
 import { isEmpty, randomString } from 'src/app/utils';
+import { MAX_GENERAL_TABLE_FIELD_COUNT } from '../../models/general-table.model';
 
 
 export const STATISTICS_DEFINITIONS_VALUE_ACCESSOR: StaticProvider = {
@@ -69,6 +70,11 @@ export class StatisticsDefinitionsComponent implements ControlValueAccessor, OnD
       return
     }
 
+    if (this.createForm.value.fields.length > MAX_GENERAL_TABLE_FIELD_COUNT) {
+      this.notification.warning(`最多支持 ${MAX_GENERAL_TABLE_FIELD_COUNT} 个字段`, `建议分表`);
+      return
+    }
+
     this.showModal = false;
     const lastDefinition = this.definitions.length > 0 ? this.definitions[this.definitions.length - 1] : null
     this.definitions.push({
@@ -93,6 +99,12 @@ export class StatisticsDefinitionsComponent implements ControlValueAccessor, OnD
       this.notification.warning(`还没有填写 字段`, `还没有填写 字段`);
       return
     }
+
+    if (this.updateForm.value.fields.length > MAX_GENERAL_TABLE_FIELD_COUNT) {
+      this.notification.warning(`最多支持 ${MAX_GENERAL_TABLE_FIELD_COUNT} 个字段`, `建议分表`);
+      return
+    }
+
     const theDefinition = this.definitions.find(e => e.version === this.updateVersion);
     if (theDefinition) {
       this.showUpdateModal = false;
