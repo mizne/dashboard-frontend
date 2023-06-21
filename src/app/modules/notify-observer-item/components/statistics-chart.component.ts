@@ -59,7 +59,10 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
         if (n >= 0.01) {
           return `${(n).toFixed(2)}`
         }
-        return `${n}`
+        if (n >= 0.0001) {
+          return `${(n).toFixed(4)}`
+        }
+        return `${(n).toFixed(6)}`
       },
     },
   }
