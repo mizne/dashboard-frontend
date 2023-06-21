@@ -56,7 +56,10 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
         if (n >= 1e3) {
           return `${(n / 1e3).toFixed(2)} K`
         }
-        return `${(n).toFixed(2)}`
+        if (n >= 0.01) {
+          return `${(n).toFixed(2)}`
+        }
+        return `${n}`
       },
     },
   }
