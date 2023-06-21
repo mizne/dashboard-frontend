@@ -47,22 +47,26 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
   chartOptions = {
     localization: {
       priceFormatter: (n: number) => {
-        if (n >= 1e9) {
+        if (Math.abs(n) >= 1e9) {
           return `${(n / 1e9).toFixed(2)} B`
         }
-        if (n >= 1e6) {
+        if (Math.abs(n) >= 1e6) {
           return `${(n / 1e6).toFixed(2)} M`
         }
-        if (n >= 1e3) {
+        if (Math.abs(n) >= 1e3) {
           return `${(n / 1e3).toFixed(2)} K`
         }
-        if (n >= 0.01) {
+        if (Math.abs(n) >= 0.01) {
           return `${(n).toFixed(2)}`
         }
-        if (n >= 0.0001) {
+        if (Math.abs(n) >= 0.0001) {
           return `${(n).toFixed(4)}`
         }
-        return `${(n).toFixed(6)}`
+
+        if (n !== 0) {
+          return `${(n).toFixed(6)}`
+        }
+        return `${n}`
       },
     },
   }
