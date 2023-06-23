@@ -1,7 +1,7 @@
 <div class="create-notify-observer-group-container">
   <form nz-form [formGroup]="form">
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="title" nzRequired nzTooltipTitle="标题">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="title" nzTooltipTitle="标题">
         <span>标题</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input title!">
@@ -19,6 +19,14 @@
     </nz-form-item>
 
 
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="通知源列表">
+        <span>通知源列表</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please select!">
+        <notify-observer-multi-select formControlName="notifyObserverIDs"></notify-observer-multi-select>
+      </nz-form-control>
+    </nz-form-item>
   </form>
 
 </div>

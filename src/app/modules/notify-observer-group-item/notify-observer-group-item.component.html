@@ -27,8 +27,10 @@
   <ng-container *nzModalContent>
 
     <div nz-row [nzGutter]="16">
-      <div nz-col class="gutter-row" [nzSpan]="12" *ngFor="let item of items; trackBy:trackByID">
-        <notify-observer-item [item]="item" (update)="confirmUpdateNotifyObserver(item)"
+      <div nz-col class="gutter-row" [nzSpan]="12" *ngFor="let item of items; trackBy:trackByID"
+        style="margin-bottom: 8px;">
+        <notify-observer-item [item]="item" [enableEdit]="false" [enableDelete]="false"
+          (update)="confirmUpdateNotifyObserver(item)"
           (delete)="confirmDeleteNotifyObserver(item)"></notify-observer-item>
       </div>
     </div>

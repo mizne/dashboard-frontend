@@ -109,13 +109,26 @@ export class NotifyObserverGroupItemComponent implements OnInit {
         } as any)
         .subscribe((results) => {
           this.loading = false;
-          this.items = results.map((e) => ({
-            ...e,
-            enableTrackingCtrl: new FormControl(!!e.enableTracking),
-            ...(e.followedProjectID ? {
-              followedProjectIDCtrl: new FormControl(e.followedProjectID)
-            } : {})
-          }));
+
+          this.items = this.item?.notifyObserverIDs?.map(id => {
+            const theNotifyObserver = results.find(e => e._id === id);
+
+            if (theNotifyObserver) {
+              return {
+                ...theNotifyObserver,
+                enableTrackingCtrl: new FormControl(!!theNotifyObserver.enableTracking),
+                ...(theNotifyObserver.followedProjectID ? {
+                  followedProjectIDCtrl: new FormControl(theNotifyObserver.followedProjectID)
+                } : {})
+              }
+            } else {
+              return null;
+            }
+          }).filter(e => !!e) as Array<NotifyObserverTableItem>
+
+          if (this.items.length !== this.item?.notifyObserverIDs?.length) {
+            this.nzNotificationService.warning(`也许有通知源被删除`, `也许有通知源被删除`)
+          }
         });
     }
   }

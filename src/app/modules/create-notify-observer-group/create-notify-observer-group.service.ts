@@ -35,7 +35,7 @@ export class CreateNotifyObserverGroupService {
     const form = this.fb.group({
       title: [obj.title, [Validators.required]],
       desc: [obj.desc],
-      // notifyObserverIDs: [obj.notifyObserverIDs],
+      notifyObserverIDs: [obj.notifyObserverIDs],
     });
     // 创建成功时 会next值 弹框会关闭 且会结束
     const successSubject = new Subject<any>();

@@ -34,6 +34,9 @@ export class NotifyObserverItemComponent implements OnInit {
   @Input() width = 320;
   @Input() item: TableItem | null = null;
 
+  @Input() enableEdit = true;
+  @Input() enableDelete = true;
+
   @Output() update = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
   @Output() search = new EventEmitter<void>();
