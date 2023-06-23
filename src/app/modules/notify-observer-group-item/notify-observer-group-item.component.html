@@ -12,7 +12,6 @@
 
     <created-at [createdAt]="item.createdAt"></created-at>
   </div>
-
 </nz-card>
 <ng-template #extraTemplate>
   <button nz-button nzType="primary" nzShape="circle" (click)="confirmUpdate()"><span nz-icon
@@ -22,8 +21,6 @@
     nzPopconfirmTitle="确认删除该通知组?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete()"><span nz-icon
       nzType="delete"></span></button>
 </ng-template>
-
-
 
 <nz-modal [(nzVisible)]="showModal" [nzWidth]="800" [nzFooter]="null" (nzOnCancel)="showModal=false"
   [nzTitle]="'通知源 - ' + item?.title">
