@@ -1,0 +1,43 @@
+<nz-card *ngIf="item" class="notify-observer-group-item-container" [ngStyle]="{width: width+'px'}"
+  [nzTitle]="item.title || '【默认通知组标题】'" [nzExtra]="extraTemplate">
+
+  <p nz-typography nzEllipsis [nzEllipsisRows]="2" nzCopyable [nzContent]="item.desc">
+  </p>
+
+  <div style="display: flex;justify-content: space-between;align-items: center;">
+    <span>
+      <span nz-icon nzType="history" nzTheme="outline" [title]="'查看通知源'" (click)="toShowNotifyObservers()"
+        style="cursor: pointer;"></span>
+    </span>
+
+    <created-at [createdAt]="item.createdAt"></created-at>
+  </div>
+
+</nz-card>
+<ng-template #extraTemplate>
+  <button nz-button nzType="primary" nzShape="circle" (click)="confirmUpdate()"><span nz-icon
+      nzType="edit"></span></button>
+
+  <button style="margin-left: 6px" nz-button nzType="primary" nzDanger nzShape="circle" nz-popconfirm
+    nzPopconfirmTitle="确认删除该通知组?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete()"><span nz-icon
+      nzType="delete"></span></button>
+</ng-template>
+
+
+
+<nz-modal [(nzVisible)]="showModal" [nzWidth]="800" [nzFooter]="null" (nzOnCancel)="showModal=false"
+  [nzTitle]="'通知源 - ' + item?.title">
+  <ng-container *nzModalContent>
+
+    <div nz-row [nzGutter]="16">
+      <div nz-col class="gutter-row" [nzSpan]="12" *ngFor="let item of items; trackBy:trackByID">
+        <notify-observer-item [item]="item" (update)="confirmUpdateNotifyObserver(item)"
+          (delete)="confirmDeleteNotifyObserver(item)"></notify-observer-item>
+      </div>
+    </div>
+
+    <ng-container *ngIf="items.length === 0">
+      <nz-empty></nz-empty>
+    </ng-container>
+  </ng-container>
+</nz-modal>

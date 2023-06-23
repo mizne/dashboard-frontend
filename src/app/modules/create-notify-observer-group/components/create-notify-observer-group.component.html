@@ -1,0 +1,24 @@
+<div class="create-notify-observer-group-container">
+  <form nz-form [formGroup]="form">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="title" nzRequired nzTooltipTitle="标题">
+        <span>标题</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input title!">
+        <input nz-input class="ant-input" id="title" formControlName="title" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="desc" nzTooltipTitle="描述">
+        <span>描述</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea nz-input class="ant-input" id="desc" formControlName="desc"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+
+  </form>
+
+</div>

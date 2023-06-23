@@ -40,6 +40,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'my-notify-observer-group',
+    loadChildren: () =>
+      import('./pages/my-notify-observer-group/my-notify-observer-group.module').then(
+        (m) => m.MyNotifyObserverGroupModule
+      ),
+  },
+  {
     path: 'my-notification',
     loadChildren: () =>
       import('./pages/my-notification/my-notification.module').then(

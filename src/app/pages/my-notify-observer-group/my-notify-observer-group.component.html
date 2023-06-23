@@ -1,0 +1,74 @@
+<div class="my-notify-observer-group-container">
+  <nz-card>
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="6">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="title">标题</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <input nz-input class="ant-input" placeholder="请输入标题" formControlName="title" [attr.id]="'title'" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="6">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="desc">描述</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <input nz-input class="ant-input" placeholder="请输入描述" formControlName="desc" [attr.id]="'desc'" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+
+      <div nz-row [nzGutter]="24">
+        <div nz-col [nzSpan]="24">
+          <nz-form-item nz-row class="register-area">
+            <nz-form-control [nzSpan]="14" [nzOffset]="6">
+              <button nz-button [nzType]="'primary'">搜索</button>
+              <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+  </nz-card>
+
+  <div style="margin-top: 12px; display: flex;">
+    <button nz-button [nzType]="'primary'" (click)="showCreateModal()">
+      添加通知组
+    </button>
+  </div>
+
+  <nz-spin [nzSpinning]="loading">
+    <nz-card style="margin-top: 12px">
+      <div style="display: flex; justify-content: center; margin-bottom: 12px">
+        <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="total" [nzShowTotal]="rangeTemplate"
+          (nzPageIndexChange)="pageIndexChange($event)">
+        </nz-pagination>
+      </div>
+      <div nz-row [nzGutter]="16">
+        <div *ngFor="let item of items" nz-col nzLg="8" nzXl="6" style="margin-bottom: 12px">
+          <notify-observer-group-item [item]="item" (update)="confirmUpdate(item)"
+            (delete)="confirmDelete(item)"></notify-observer-group-item>
+        </div>
+
+        <ng-container *ngIf="items.length === 0">
+          <div style="width: 100%; display: flex; justify-content: center;">
+            <nz-empty></nz-empty>
+          </div>
+        </ng-container>
+      </div>
+
+      <div style="display: flex; justify-content: center;">
+        <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="total" [nzShowTotal]="rangeTemplate"
+          (nzPageIndexChange)="pageIndexChange($event)">
+        </nz-pagination>
+      </div>
+      <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} of {{ total }} items
+      </ng-template>
+    </nz-card>
+  </nz-spin>
+</div>

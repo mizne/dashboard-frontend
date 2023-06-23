@@ -129,7 +129,7 @@
       <div nz-row [nzGutter]="16">
         <div *ngFor="let item of items" nz-col nzLg="8" nzXl="6" style="margin-bottom: 12px">
           <notify-observer-item [item]="item" (update)="confirmUpdate(item)" (delete)="confirmDelete(item)"
-            (timerExecute)="confirmTimerExecute(item)" (search)="toSearchByNotifyObserver(item)"></notify-observer-item>
+            (search)="toSearchByNotifyObserver(item)"></notify-observer-item>
         </div>
 
         <ng-container *ngIf="items.length === 0">

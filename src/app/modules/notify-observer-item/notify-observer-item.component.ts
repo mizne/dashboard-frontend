@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { NotifyHistory, NotifyHistoryService, NotifyObserver } from 'src/app/shared';
+import { NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverService } from 'src/app/shared';
 import { NotifyObserverTypeManagerService } from 'src/app/modules/create-notify-observer';
 import { removeEmpty } from 'src/app/utils';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -26,6 +26,7 @@ export class NotifyObserverItemComponent implements OnInit {
     private readonly notifyHistoryService: NotifyHistoryService,
     private readonly fb: FormBuilder,
     private readonly nzNotificationService: NzNotificationService,
+    private readonly notifyObserverService: NotifyObserverService,
   ) { }
 
   @Input() mode: 'small' | 'default' = 'default'
@@ -35,7 +36,6 @@ export class NotifyObserverItemComponent implements OnInit {
 
   @Output() update = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
-  @Output() timerExecute = new EventEmitter<void>();
   @Output() search = new EventEmitter<void>();
 
   showModal = false;
@@ -84,7 +84,19 @@ export class NotifyObserverItemComponent implements OnInit {
   }
 
   confirmTimerExecute() {
-    this.timerExecute.emit();
+    if (!this.item) {
+      return
+    }
+
+    this.notifyObserverService.timerExecute(this.item._id).subscribe({
+      next: () => {
+        this.nzNotificationService.success(`启动定时任务成功`, `启动定时任务成功`);
+      },
+      complete: () => { },
+      error: (e) => {
+        this.nzNotificationService.error(`启动定时任务失败`, `请稍后重试，${e.message}`);
+      },
+    });
   }
 
   toSearch() {
