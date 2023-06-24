@@ -1,7 +1,5 @@
-<div class="timer-notify-observer-modal-container">
-  <button nz-button nzType="primary" (click)="open()">
-    定时任务时刻表
-  </button>
+<div class="timer-notify-observer-modal-container" style="position:fixed; bottom: 72px; right: 24px; z-index: 100">
+  <button nz-button nzType="primary" nzShape="circle" (click)="open()"><span nz-icon nzType="calendar"></span></button>
 </div>
 
 <nz-modal [(nzVisible)]="visible" [nzWidth]="1200" [nzTitle]="'定时任务时刻表'" [nzFooter]="null" (nzOnCancel)="visible=false">

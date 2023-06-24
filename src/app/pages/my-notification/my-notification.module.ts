@@ -4,7 +4,6 @@ import { SharedModule } from 'src/app/shared';
 import { MyNotificationComponent } from './my-notification.component';
 import { CreateNotifyObserverModule } from 'src/app/modules/create-notify-observer';
 import { NotifyObserverNotAllowListModule } from 'src/app/modules/notify-observer-not-allow-list';
-import { TimerNotifyObserverModalModule } from 'src/app/modules/timer-notify-observer';
 import { NotifyObserverItemModule } from 'src/app/modules/notify-observer-item';
 import { FollowedProjectSelectModule } from 'src/app/modules/followed-project-select';
 
@@ -14,7 +13,6 @@ import { FollowedProjectSelectModule } from 'src/app/modules/followed-project-se
     CreateNotifyObserverModule,
     MyNotificationRoutingModule,
     NotifyObserverNotAllowListModule,
-    TimerNotifyObserverModalModule,
     NotifyObserverItemModule,
     FollowedProjectSelectModule,
   ],

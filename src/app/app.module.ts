@@ -13,6 +13,7 @@ import { IconsProviderModule } from './icons-provider.module';
 import { SharedModule } from './shared/shared.module';
 import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
 import { NotifyHistoryModule } from 'src/app/modules/notify-history';
+import { TimerNotifyObserverModalModule } from 'src/app/modules/timer-notify-observer';
 
 const ngZorroConfig: NzConfig = {
   notification: { nzPlacement: 'bottomLeft' }
@@ -30,6 +31,7 @@ registerLocaleData(zh);
     IconsProviderModule,
     SharedModule,
     NotifyHistoryModule,
+    TimerNotifyObserverModalModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },
