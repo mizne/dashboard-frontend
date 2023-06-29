@@ -79,11 +79,27 @@
   [content]="defaultLogo">
 </linkable>
 
-<nz-modal [(nzVisible)]="showModal" [nzWidth]="800" [nzFooter]="null" (nzOnCancel)="showModal=false"
+<nz-modal [(nzVisible)]="showModal" [nzWidth]="900" [nzFooter]="null" (nzOnCancel)="showModal=false"
   [nzTitle]="'通知历史 - ' + item?.notifyShowTitle">
   <ng-container *nzModalContent>
 
     <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
+
+      <nz-form-item>
+        <nz-form-label nzFor="title">标题</nz-form-label>
+        <nz-form-control>
+          <input nz-input class="ant-input" placeholder="请输入标题" formControlName="title" [attr.id]="'title'" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="desc">内容</nz-form-label>
+        <nz-form-control>
+          <input nz-input class="ant-input" placeholder="请输入内容" formControlName="desc" [attr.id]="'desc'" />
+        </nz-form-control>
+      </nz-form-item>
+
+
       <nz-form-item>
         <nz-form-label nzFor="hasRead">状态</nz-form-label>
         <nz-form-control>

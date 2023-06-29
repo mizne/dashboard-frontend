@@ -63,6 +63,8 @@ export class NotifyObserverItemComponent implements OnInit {
     },
   ];
   form = this.fb.group({
+    title: [null],
+    desc: [null],
     hasRead: [this.readStatuses[2].value],
   });
 
@@ -153,7 +155,7 @@ export class NotifyObserverItemComponent implements OnInit {
     this.notifyHistoryService
       .queryList(removeEmpty({
         notifyObserverID: this.item?._id,
-        ...this.form.value
+        ...(this.adjustQuery(this.form.value))
       }), {
         number: this.pageIndex,
         size: this.pageSize,
@@ -171,10 +173,34 @@ export class NotifyObserverItemComponent implements OnInit {
     this.notifyHistoryService
       .queryCount(removeEmpty({
         notifyObserverID: this.item?._id,
-        ...this.form.value
+        ...(this.adjustQuery(this.form.value))
       }))
       .subscribe((count) => {
         this.totalCount = count;
       });
+  }
+
+  private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
+    // title desc 支持正则查询
+    const o: { [key: string]: any } = {
+    };
+    Object.keys(query).forEach((key) => {
+      if (key === 'title') {
+        Object.assign(o, {
+          ['title']: { $regex: query['title'].trim(), $options: 'i' },
+        });
+      } else if (key === 'desc') {
+        Object.assign(o, {
+          ['desc']: { $regex: query['desc'].trim(), $options: 'i' },
+        });
+      } else if (key === 'hasRead' && query['hasRead'] === false) {
+        Object.assign(o, {
+          ['hasRead']: { $in: [false, undefined, null] },
+        });
+      } else {
+        Object.assign(o, { [key]: query[key] });
+      }
+    });
+    return o;
   }
 }
