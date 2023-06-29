@@ -153,10 +153,10 @@ export class NotifyObserverItemComponent implements OnInit {
   private loadNotifyHistory() {
     this.loading = true;
     this.notifyHistoryService
-      .queryList(removeEmpty({
+      .queryList(this.adjustQuery(removeEmpty({
         notifyObserverID: this.item?._id,
-        ...(this.adjustQuery(this.form.value))
-      }), {
+        ...this.form.value
+      })), {
         number: this.pageIndex,
         size: this.pageSize,
       })
@@ -171,10 +171,12 @@ export class NotifyObserverItemComponent implements OnInit {
       });
 
     this.notifyHistoryService
-      .queryCount(removeEmpty({
-        notifyObserverID: this.item?._id,
-        ...(this.adjustQuery(this.form.value))
-      }))
+      .queryCount(this.adjustQuery(
+        removeEmpty({
+          notifyObserverID: this.item?._id,
+          ...this.form.value
+        })
+      ))
       .subscribe((count) => {
         this.totalCount = count;
       });
