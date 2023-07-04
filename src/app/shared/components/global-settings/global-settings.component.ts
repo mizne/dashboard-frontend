@@ -29,6 +29,9 @@ export class GlobalSettingsComponent implements OnInit {
 
   form: FormGroup<any> = this.fb.group({
     defaultKeyOfTwitterNotifyObserver: [null],
+    defaultTwitterAuthorization: [null],
+    defaultTwitterXCsrfToken: [null],
+    defaultTwitterCookie: [null],
   });
 
 
@@ -68,6 +71,9 @@ export class GlobalSettingsComponent implements OnInit {
               this.fetchingGlobalSettings = false;
               this.globalSettingsID = v[0]._id;
               this.form.get('defaultKeyOfTwitterNotifyObserver')?.patchValue(v[0].defaultKeyOfTwitterNotifyObserver)
+              this.form.get('defaultTwitterAuthorization')?.patchValue(v[0].defaultTwitterAuthorization)
+              this.form.get('defaultTwitterXCsrfToken')?.patchValue(v[0].defaultTwitterXCsrfToken)
+              this.form.get('defaultTwitterCookie')?.patchValue(v[0].defaultTwitterCookie)
             }
 
             if (v.length >= 2) {
@@ -84,8 +90,16 @@ export class GlobalSettingsComponent implements OnInit {
   }
 
   private createItem() {
-    const key = this.form.get('defaultKeyOfTwitterNotifyObserver')?.value as string;
-    this.globalSettingsService.create({ defaultKeyOfTwitterNotifyObserver: key })
+    const defaultKeyOfTwitterNotifyObserver = this.form.get('defaultKeyOfTwitterNotifyObserver')?.value as string;
+    const defaultTwitterAuthorization = this.form.get('defaultTwitterAuthorization')?.value as string;
+    const defaultTwitterXCsrfToken = this.form.get('defaultTwitterXCsrfToken')?.value as string;
+    const defaultTwitterCookie = this.form.get('defaultTwitterCookie')?.value as string;
+    this.globalSettingsService.create({
+      defaultKeyOfTwitterNotifyObserver,
+      defaultTwitterAuthorization,
+      defaultTwitterXCsrfToken,
+      defaultTwitterCookie,
+    })
       .subscribe({
         next: (v) => {
           if (v.code === 0) {
@@ -102,8 +116,16 @@ export class GlobalSettingsComponent implements OnInit {
   }
 
   private updateItem() {
-    const key = this.form.get('defaultKeyOfTwitterNotifyObserver')?.value as string;
-    this.globalSettingsService.update(this.globalSettingsID, { defaultKeyOfTwitterNotifyObserver: key })
+    const defaultKeyOfTwitterNotifyObserver = this.form.get('defaultKeyOfTwitterNotifyObserver')?.value as string;
+    const defaultTwitterAuthorization = this.form.get('defaultTwitterAuthorization')?.value as string;
+    const defaultTwitterXCsrfToken = this.form.get('defaultTwitterXCsrfToken')?.value as string;
+    const defaultTwitterCookie = this.form.get('defaultTwitterCookie')?.value as string;
+    this.globalSettingsService.update(this.globalSettingsID, {
+      defaultKeyOfTwitterNotifyObserver,
+      defaultTwitterAuthorization,
+      defaultTwitterXCsrfToken,
+      defaultTwitterCookie,
+    })
       .subscribe({
         next: (v) => {
           if (v.code === 0) {
