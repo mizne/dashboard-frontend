@@ -82,7 +82,7 @@ module.exports = async function parseData() {
   const pages = await fetchGitbookPages('https://docs.alpacafinance.org/', 'https://docs.alpacafinance.org/past-products/stronk-vault', reportProgress)
 
   const pageFilter = (page) => {
-    return page.lastUpdatedAt >= new Date().getTime() - 1 * 24 * 60 * 60 * 1e3
+    return page.lastUpdatedAt >= new Date().getTime() - 5 * 24 * 60 * 60 * 1e3
   }
 
   return pages.filter(pageFilter).map(e => {
