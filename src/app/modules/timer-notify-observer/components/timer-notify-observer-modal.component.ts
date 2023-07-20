@@ -233,13 +233,13 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   private filterByTaskType(type: TaskTypes, item: NotifyObserver): boolean {
     switch (type) {
       case TaskTypes.TODAY:
-        return this.checkTodayMatched(item.timerDate, item.timerMonth);
+        return this.checkTodayMatched(item.timerDate, item.timerMonth, item.timerDayOfWeek);
       case TaskTypes.TOMORROW:
-        return this.checkTomorrowMatched(item.timerDate, item.timerMonth);
+        return this.checkTomorrowMatched(item.timerDate, item.timerMonth, item.timerDayOfWeek);
       case TaskTypes.THIS_MONTH:
-        return this.checkThisMonthMatched(item.timerDate, item.timerMonth);
+        return this.checkThisMonthMatched(item.timerDate, item.timerMonth, item.timerDayOfWeek);
       case TaskTypes.NOT_TODAY:
-        return !(this.checkTodayMatched(item.timerDate, item.timerMonth));
+        return !(this.checkTodayMatched(item.timerDate, item.timerMonth, item.timerDayOfWeek));
       case TaskTypes.ALL:
         return true;
       default:
@@ -248,28 +248,31 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     }
   }
 
-  private checkTodayMatched(timerDate?: number[], timerMonth?: number[]): boolean {
+  private checkTodayMatched(timerDate?: number[], timerMonth?: number[], timerDayOfWeek?: number[]): boolean {
     const date = new Date();
     const theDate = date.getDate();
     const theMonth = date.getMonth() + 1;
-    return this.checkTheDayMatched(theDate, theMonth, timerDate, timerMonth);
+    const theDayOfWeek = date.getDay();
+    return this.checkTheDayMatched(theDate, theMonth, theDayOfWeek, timerDate, timerMonth, timerDayOfWeek);
   }
 
-  private checkTomorrowMatched(timerDate?: number[], timerMonth?: number[]): boolean {
+  private checkTomorrowMatched(timerDate?: number[], timerMonth?: number[], timerDayOfWeek?: number[]): boolean {
     const tomorrow = new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1e3);
     const theDate = tomorrow.getDate();
     const theMonth = tomorrow.getMonth() + 1;
-    return this.checkTheDayMatched(theDate, theMonth, timerDate, timerMonth);
+    const theDayOfWeek = tomorrow.getDay();
+    return this.checkTheDayMatched(theDate, theMonth, theDayOfWeek, timerDate, timerMonth, timerDayOfWeek);
   }
 
-  private checkThisMonthMatched(timerDate?: number[], timerMonth?: number[]): boolean {
+  private checkThisMonthMatched(timerDate?: number[], timerMonth?: number[], timerDayOfWeek?: number[]): boolean {
     const oneDay = 1 * 24 * 60 * 60 * 1e3;
     const afterTomorrow = new Date(new Date().getTime() + 2 * oneDay);
 
     for (let day = afterTomorrow.getTime(); new Date(day).getMonth() === new Date().getMonth(); day += oneDay) {
       const theDate = new Date(day).getDate();
       const theMonth = new Date(day).getMonth() + 1;
-      const matched = this.checkTheDayMatched(theDate, theMonth, timerDate, timerMonth);
+      const theDayOfWeek = new Date(day).getDay();
+      const matched = this.checkTheDayMatched(theDate, theMonth, theDayOfWeek, timerDate, timerMonth, timerDayOfWeek);
       if (matched) {
         return true;
       }
@@ -280,8 +283,9 @@ export class TimerNotifyObserverModalComponent implements OnInit {
 
   // theDate 一号/1  二号/2 ...
   // theMonth 一月/1  二月/2 ...
-  private checkTheDayMatched(theDate: number, theMonth: number, timerDate?: number[], timerMonth?: number[]): boolean {
-    return this.checkDate(theDate, timerDate) && this.checkMonth(theMonth, timerMonth)
+  // theDayOfWeek 周日/0 周一/1 周二/2
+  private checkTheDayMatched(theDate: number, theMonth: number, theDayOfWeek: number, timerDate?: number[], timerMonth?: number[], timerDayOfWeek?: number[]): boolean {
+    return this.checkDate(theDate, timerDate) && this.checkMonth(theMonth, timerMonth) && this.checkDayOfWeek(theDayOfWeek, timerDayOfWeek)
   }
 
   private checkDate(theDate: number, date?: number[]): boolean {
@@ -295,6 +299,14 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   private checkMonth(theMonth: number, month?: number[]): boolean {
     if (month && month.length > 0) {
       return month.indexOf(theMonth) >= 0
+    }
+
+    return true
+  }
+
+  private checkDayOfWeek(theDayOfWeek: number, dayOfWeek?: number[]): boolean {
+    if (dayOfWeek && dayOfWeek.length > 0) {
+      return dayOfWeek.indexOf(theDayOfWeek) >= 0
     }
 
     return true

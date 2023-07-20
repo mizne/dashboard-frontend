@@ -32,6 +32,7 @@ export class TimerService implements NotifyObserverTypeServiceInterface {
 
   resolveDesc(item: NotifyObserver): string {
     const infos = [
+      this.isNumberArray(item.timerDayOfWeek) ? `${this.normalizeDayOfWeekArray(item.timerDayOfWeek as number[])}` : '',
       this.isNumberArray(item.timerMonth) ? `${this.normalizeNumberArray(item.timerMonth as number[])}月` : '',
       this.isNumberArray(item.timerDate) ? ` ${this.normalizeNumberArray(item.timerDate as number[])}日` : '',
       this.isNumberArray(item.timerHour) ? `${this.normalizeNumberArray(item.timerHour as number[])}时` : '',
@@ -47,6 +48,7 @@ export class TimerService implements NotifyObserverTypeServiceInterface {
       timerMinute: [obj.timerMinute],
       timerDate: [obj.timerDate],
       timerMonth: [obj.timerMonth],
+      timerDayOfWeek: [obj.timerDayOfWeek],
       timerEnableScript: [!!obj.timerEnableScript],
       timerScript: [obj.timerScript],
       timerEnableStatistics: [!!obj.timerEnableStatistics],
@@ -80,5 +82,12 @@ export class TimerService implements NotifyObserverTypeServiceInterface {
       }
     }
     return groupNums.map(e => e.length > 1 ? `${e[0]}-${e[e.length - 1]}` : `${e[0]}`).join(',')
+  }
+
+  private normalizeDayOfWeekArray(nums: number[]): string {
+    const strs = [
+      '周日', '周一', '周二', '周三', '周四', '周五', '周六'
+    ]
+    return nums.map(e => strs[e] || '未知').join(',')
   }
 }

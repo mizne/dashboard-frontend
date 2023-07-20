@@ -38,6 +38,16 @@
     </nz-form-item>
 
     <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerDayOfWeek"
+        nzTooltipTitle="dayOfWeek : 0 - 6 选填，0表示周日，1表示周一，2表示周二等">
+        <span>周几</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-multi-input formControlName="timerDayOfWeek" [min]="0" [max]="6"></app-multi-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，使用脚本获取通知内容">
         <span>开启脚本</span>
       </nz-form-label>
