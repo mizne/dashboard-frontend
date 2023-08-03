@@ -57,7 +57,7 @@ export class FollowedProjectMoreComponent implements OnInit {
   }
 
   resolveTitle(item: NotifyObserver) {
-    return `${item.notifyShowTitle} ${this.notifyObserverTypeService.resolveDesc(item)}`
+    return `${item.notifyShowTitle} | ${this.notifyObserverTypeService.resolveDesc(item)}`
   }
 
   showCreateNotifyObserverModal() {
