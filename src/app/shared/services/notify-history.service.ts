@@ -31,6 +31,15 @@ export class NotifyHistoryService {
     );
   }
 
+  batchMarkRead(ids: string[]) {
+    return this.httpClient.post<{ code: number; message: string; result: any }>(
+      `${this.baseURL}/notify-history/batch-mark-read`,
+      {
+        ids,
+      }
+    );
+  }
+
   queryList(
     query?: Partial<NotifyHistory>,
     page?: { number: number; size: number },

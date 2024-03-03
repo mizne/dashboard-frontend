@@ -121,6 +121,13 @@ export class NotifyHistoryListComponent implements OnInit, OnChanges {
     this.loadDataFromServer();
   }
 
+  batchMarkRead() {
+    this.notifyHistoryService.batchMarkRead(this.items.map(e => e._id))
+      .subscribe(() => {
+        this.loadDataFromServer();
+      })
+  }
+
   private loadDataFromServer() {
     this.query = removeEmpty(this.form.value);
     this.loading = true;
