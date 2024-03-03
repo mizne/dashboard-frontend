@@ -92,6 +92,10 @@
     </ng-container>
 
 
+    <button *ngIf="items.length > 0" nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popconfirm
+      nzPopconfirmTitle="确认全部标记已读?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="batchMarkRead()"
+      style="margin-top: 12px"><span nz-icon nzType="eye"></span></button>
+
     <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
       [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)">
     </nz-pagination>
