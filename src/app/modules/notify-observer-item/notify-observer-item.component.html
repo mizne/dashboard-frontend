@@ -121,6 +121,10 @@
       <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
         [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)" style="margin: 12px 0;">
       </nz-pagination>
+
+      <button *ngIf="items.length > 0" nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popconfirm
+        nzPopconfirmTitle="确认全部标记已读?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="batchMarkRead()"
+        style="margin-left: 12px"><span nz-icon nzType="eye"></span></button>
     </div>
 
     <div nz-row [nzGutter]="16">
@@ -139,6 +143,10 @@
       <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
         [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)" style="margin: 12px 0;">
       </nz-pagination>
+
+      <button *ngIf="items.length > 0" nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popconfirm
+        nzPopconfirmTitle="确认全部标记已读?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="batchMarkRead()"
+        style="margin-left: 12px"><span nz-icon nzType="eye"></span></button>
     </div>
     <ng-template #rangeTemplate let-range="range" let-total>
       {{ range[0] }}-{{ range[1] }} of {{ total }} items

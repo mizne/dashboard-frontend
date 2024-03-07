@@ -141,6 +141,13 @@ export class NotifyObserverItemComponent implements OnInit {
     return item._id;
   }
 
+  batchMarkRead() {
+    this.notifyHistoryService.batchMarkRead(this.items.map(e => e._id))
+      .subscribe(() => {
+        this.loadNotifyHistory();
+      })
+  }
+
 
   toShowStatistics() {
     if (this.item?.timerStatisticsDefinitions && this.item.timerStatisticsDefinitions.length > 0) {
