@@ -7,7 +7,7 @@
 
   <div style="margin-bottom: 12px;">
     <nz-input-number-group nzAddOnBefore="最近" nzAddOnAfter="条数据">
-      <nz-input-number [formControl]="numberCtrl" [nzStep]="1" [nzMin]="60" [nzMax]="360"></nz-input-number>
+      <nz-input-number [formControl]="numberCtrl" [nzStep]="1" [nzMin]="1" [nzMax]="9999"></nz-input-number>
     </nz-input-number-group>
     <button nz-button nzType="primary" (click)="toSearch()">查询</button>
 
