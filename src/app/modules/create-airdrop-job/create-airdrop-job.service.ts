@@ -37,6 +37,7 @@ export class CreateAirdropJobService {
       title: [obj.title, [Validators.required]],
       status: [obj.status || AirdropJobStatus.NOT_STARTED],
       remark: [obj.remark],
+      link: [obj.link],
       followedProjectID: [obj.followedProjectID],
     });
     // 创建成功时 会next值 弹框会关闭 且会结束
