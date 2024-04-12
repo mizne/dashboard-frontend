@@ -20,3 +20,5 @@ export * from './cex-token-tag-alert.model';
 export * from './cex-token-tag-daily.model';
 export * from './cex-token-tag.model';
 export * from './cex-token.model';
+
+export * from './airdrop-job.model';

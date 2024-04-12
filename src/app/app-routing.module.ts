@@ -67,6 +67,13 @@ const routes: Routes = [
         (m) => m.FollowedProjectModule
       ),
   },
+  {
+    path: 'airdrop-job',
+    loadChildren: () =>
+      import('./pages/airdrop-job/airdrop-job.module').then(
+        (m) => m.AirdropJobModule
+      ),
+  },
 ];
 
 @NgModule({

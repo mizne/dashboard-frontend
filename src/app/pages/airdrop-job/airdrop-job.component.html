@@ -1,0 +1,106 @@
+<div class="airdrop-job-container">
+  <nz-card>
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
+      <nz-form-item>
+        <nz-form-label nzFor="title">标题</nz-form-label>
+        <nz-form-control>
+          <input nz-input class="ant-input" placeholder="请输入标题" formControlName="title" [attr.id]="'title'" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="status">状态</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group formControlName="status" nzButtonStyle="solid">
+            <label nz-radio-button *ngFor="let item of statuses" [nzValue]="item.value">{{item.label}}</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="followedProjectID">关注项目</nz-form-label>
+        <nz-form-control>
+          <followed-project-select mode="simple" formControlName="followedProjectID"></followed-project-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="register-area" style="margin-left: 64px;">
+        <nz-form-control>
+          <button nz-button [nzType]="'primary'">搜索</button>
+          <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-card>
+
+  <button nz-button [nzType]="'primary'" (click)="showCreateModal()" style="margin-top: 12px;">
+    添加空投任务
+  </button>
+
+
+  <nz-card style="margin-top: 12px">
+    <nz-table nzShowSizeChanger [nzData]="items" [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total"
+      [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
+      (nzQueryParams)="onQueryParamsChange($event)">
+      <thead>
+        <tr>
+          <th nzColumnKey="title">标题</th>
+          <th nzColumnKey="status">状态</th>
+          <th nzColumnKey="link">链接</th>
+          <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
+          <th nzColumnKey="Action" style="width: 130px;">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of items">
+          <td style="display: flex; align-items: center; min-height: 70px;">
+            <image-view [name]="data.logo" nz-popover nzPopoverTrigger="click"
+              [nzPopoverContent]="contentTemplate"></image-view>
+            <ng-template #contentTemplate>
+              <followed-project-select-view [formControl]="data.followedProjectIDCtrl"></followed-project-select-view>
+            </ng-template>
+
+            <button *ngIf="data.followedProjectID" nz-button nzSize="small" nzType="primary" nzShape="circle"
+              style="margin-left: 8px" (click)="toSearch(data)" title="搜索该项目空投任务">
+              <span nz-icon nzType="search" nzTheme="outline"></span>
+            </button>
+
+            <span style="margin-left: 8px">{{ data.title }}</span>
+          </td>
+
+          <td>
+            <nz-tag [nzColor]="data.status | airdropJobStatusColor">{{data.status | airdropJobStatusString}}</nz-tag>
+          </td>
+
+          <td>
+            <linkable [href]="data.link">
+            </linkable>
+          </td>
+
+          <td>
+            <created-at [createdAt]="data.createdAt"></created-at>
+          </td>
+          <td>
+            <button nz-button (click)="confirmUpdate(data)" nzType="primary" nzShape="circle" nzSize="small" nz-tooltip
+              [nzTooltipTitle]="'修改'" style="margin-right: 4px">
+              <i nz-icon nzType="edit" nzTheme="outline"></i>
+            </button>
+
+            <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
+              (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)">
+              <button nz-button nzType="primary" nzDanger nzShape="circle" nzSize="small" nz-tooltip
+                [nzTooltipTitle]="'删除'">
+                <i nz-icon nzType="delete" nzTheme="outline"></i>
+              </button>
+            </a>
+
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+    <ng-template #rangeTemplate let-range="range" let-total>
+      {{ range[0] }}-{{ range[1] }} of {{ total }} items
+    </ng-template>
+  </nz-card>
+</div>

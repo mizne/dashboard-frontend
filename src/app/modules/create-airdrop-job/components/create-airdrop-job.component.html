@@ -1,0 +1,53 @@
+<div class="create-project-airdrop-job-container">
+  <form nz-form [formGroup]="form">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="title" nzRequired nzTooltipTitle="标题">
+        <span>标题</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input title!">
+        <input nz-input class="ant-input" id="title" formControlName="title" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="remark" nzTooltipTitle="备注">
+        <span>备注</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea nz-input class="ant-input" id="remark" formControlName="remark"
+          [nzAutosize]="{ minRows: 3, maxRows: 6 }"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="status" nzTooltipTitle="状态">
+        <span>状态</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-radio-group formControlName="status" nzButtonStyle="solid">
+          <label nz-radio-button *ngFor="let item of statuses" [nzValue]="item.value">{{item.label}}</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="followedProjectID" nzTooltipTitle="关注项目">
+        <span>关注项目</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <followed-project-select formControlName="followedProjectID"></followed-project-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="link" nzTooltipTitle="链接">
+        <span>链接</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input class="ant-input" id="link" formControlName="link" />
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+
+</div>

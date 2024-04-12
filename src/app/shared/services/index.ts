@@ -26,3 +26,5 @@ export * from './cex-token-tag-cache.service'
 export * from './cex-token-tag-daily.service'
 export * from './cex-token-tag.service'
 export * from './cex-token.service'
+
+export * from './airdrop-job.service'
