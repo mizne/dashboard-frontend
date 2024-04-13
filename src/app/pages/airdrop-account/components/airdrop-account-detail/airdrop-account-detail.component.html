@@ -11,20 +11,21 @@
             <div class="project-desc-container">
               <h2>{{airdropAccountDetail?.name}}</h2>
 
-              <p>{{airdropAccountDetail?.remark}}</p>
+              <p>{{airdropAccountDetail?.remark || '【无】'}}</p>
 
               <div *ngIf="airdropAccountDetail" class="airdrop-account-addresses" style="display: flex">
-                <p nz-typography nzCopyable [nzCopyText]="airdropAccountDetail.evmWalletAddress">
+                <p *ngIf="airdropAccountDetail.evmWalletAddress" nz-typography nzCopyable
+                  [nzCopyText]="airdropAccountDetail.evmWalletAddress">
                   evm: {{airdropAccountDetail.evmWalletAddress | blockchainAddressString}}</p>
-                <p nz-typography nzCopyable [nzCopyText]="airdropAccountDetail.solWalletAddress"
-                  style="margin-left: 16px">
+                <p *ngIf="airdropAccountDetail.solWalletAddress" nz-typography nzCopyable
+                  [nzCopyText]="airdropAccountDetail.solWalletAddress" style="margin-left: 16px">
                   solana: {{airdropAccountDetail.solWalletAddress | blockchainAddressString}}</p>
 
                 <created-at [createdAt]="airdropAccountDetail.createdAt" style="margin-left: 16px"></created-at>
               </div>
 
               <div *ngIf="airdropAccountDetail" class="airdrop-account-links" style="display: flex;">
-                <div class="airdrop-account-gmail" style="display: flex;">
+                <div *ngIf="airdropAccountDetail.gmailName" class="airdrop-account-gmail" style="display: flex;">
                   <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                     <image [attr.href]="'/assets/gmail-logo.jpg'" width="24" height="24" />
                   </svg>
@@ -35,7 +36,8 @@
                     passwordString}}</span>
                 </div>
 
-                <div class="airdrop-account-twitter" style="display: flex; margin-left: 16px">
+                <div *ngIf="airdropAccountDetail.twitterName" class="airdrop-account-twitter"
+                  style="display: flex; margin-left: 16px">
                   <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                     <image [attr.href]="'/assets/twitter-logo.svg'" width="24" height="24" />
                   </svg>
@@ -46,7 +48,8 @@
                     passwordString}}</span>
                 </div>
 
-                <div class="airdrop-account-discord" style="display: flex; margin-left: 16px">
+                <div *ngIf="airdropAccountDetail.discordName" class="airdrop-account-discord"
+                  style="display: flex; margin-left: 16px">
                   <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                     <image [attr.href]="'/assets/discord-logo.svg'" width="24" height="24" />
                   </svg>
@@ -57,7 +60,8 @@
                     passwordString}}</span>
                 </div>
 
-                <div class="airdrop-account-galxe" style="display: flex; margin-left: 16px">
+                <div *ngIf="airdropAccountDetail.galxeName" class="airdrop-account-galxe"
+                  style="display: flex; margin-left: 16px">
                   <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                     <image [attr.href]="'/assets/galxe-logo.webp'" width="24" height="24" />
                   </svg>

@@ -15,10 +15,10 @@
       </div>
       <div class="airdrop-account-more"
         style="display: flex;align-items: center;justify-content: space-between;margin-top: 8px">
-        <span nz-typography nzCopyable [nzCopyText]="item.evmWalletAddress">
+        <span *ngIf="item.evmWalletAddress" nz-typography nzCopyable [nzCopyText]="item.evmWalletAddress">
           {{item.evmWalletAddress | blockchainAddressString:4}}
         </span>
-        <span nz-typography nzCopyable [nzCopyText]="item.solWalletAddress">
+        <span *ngIf="item.solWalletAddress" nz-typography nzCopyable [nzCopyText]="item.solWalletAddress">
           {{item.solWalletAddress | blockchainAddressString:4}}
         </span>
         <button nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popover
