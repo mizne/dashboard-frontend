@@ -16,10 +16,10 @@
       <div class="airdrop-account-more"
         style="display: flex;align-items: center;justify-content: space-between;margin-top: 8px">
         <span nz-typography nzCopyable [nzCopyText]="item.evmWalletAddress">
-          evm
+          {{item.evmWalletAddress | blockchainAddressString:4}}
         </span>
         <span nz-typography nzCopyable [nzCopyText]="item.solWalletAddress">
-          solana
+          {{item.solWalletAddress | blockchainAddressString:4}}
         </span>
         <button nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popover
           [nzPopoverContent]="contentTemplate">

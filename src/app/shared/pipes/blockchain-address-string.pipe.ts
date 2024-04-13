@@ -4,9 +4,9 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'blockchainAddressString',
 })
 export class BlockchainAddressStringPipe implements PipeTransform {
-  transform(n?: string): string {
+  transform(n?: string, sliceCount = 6): string {
     n = n || '';
 
-    return `${n.slice(0, 6)}...${n.slice(-6)}`
+    return `${n.slice(0, sliceCount)}...${n.slice(-sliceCount)}`
   }
 }
