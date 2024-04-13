@@ -15,10 +15,11 @@
 
               <div *ngIf="airdropAccountDetail" class="airdrop-account-addresses" style="display: flex">
                 <p *ngIf="airdropAccountDetail.evmWalletAddress" nz-typography nzCopyable
-                  [nzCopyText]="airdropAccountDetail.evmWalletAddress">
+                  [nzCopyText]="airdropAccountDetail.evmWalletAddress" [nzCopyTooltips]="['复制EVM地址', '复制EVM地址成功']">
                   evm: {{airdropAccountDetail.evmWalletAddress | blockchainAddressString}}</p>
                 <p *ngIf="airdropAccountDetail.solWalletAddress" nz-typography nzCopyable
-                  [nzCopyText]="airdropAccountDetail.solWalletAddress" style="margin-left: 16px">
+                  [nzCopyText]="airdropAccountDetail.solWalletAddress" [nzCopyTooltips]="['复制Sol地址', '复制Sol地址成功']"
+                  style="margin-left: 16px">
                   solana: {{airdropAccountDetail.solWalletAddress | blockchainAddressString}}</p>
 
                 <created-at [createdAt]="airdropAccountDetail.createdAt" style="margin-left: 16px"></created-at>
@@ -29,10 +30,11 @@
                   <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                     <image [attr.href]="'/assets/gmail-logo.jpg'" width="24" height="24" />
                   </svg>
+                  <span nz-typography nzCopyable style="margin-left: 8px" [nzCopyText]="airdropAccountDetail.gmailName"
+                    [nzCopyTooltips]="['复制Gamil用户名', '复制Gamil用户名成功']">{{airdropAccountDetail.gmailName}}</span>
                   <span nz-typography nzCopyable style="margin-left: 8px"
-                    [nzCopyText]="airdropAccountDetail.gmailName">{{airdropAccountDetail.gmailName}}</span>
-                  <span nz-typography nzCopyable style="margin-left: 8px"
-                    [nzCopyText]="airdropAccountDetail.gmailPassword">{{airdropAccountDetail.gmailPassword |
+                    [nzCopyText]="airdropAccountDetail.gmailPassword"
+                    [nzCopyTooltips]="['复制Gmail密码', '复制Gmail密码成功']">{{airdropAccountDetail.gmailPassword |
                     passwordString}}</span>
                 </div>
 
@@ -42,9 +44,11 @@
                     <image [attr.href]="'/assets/twitter-logo.svg'" width="24" height="24" />
                   </svg>
                   <span nz-typography nzCopyable style="margin-left: 8px"
-                    [nzCopyText]="airdropAccountDetail.twitterName">{{airdropAccountDetail.twitterName}}</span>
+                    [nzCopyText]="airdropAccountDetail.twitterName"
+                    [nzCopyTooltips]="['复制twitter用户名', '复制twitter用户名成功']">{{airdropAccountDetail.twitterName}}</span>
                   <span nz-typography nzCopyable style="margin-left: 8px"
-                    [nzCopyText]="airdropAccountDetail.twitterPassword">{{airdropAccountDetail.twitterPassword |
+                    [nzCopyText]="airdropAccountDetail.twitterPassword"
+                    [nzCopyTooltips]="['复制twitter密码', '复制twitter密码成功']">{{airdropAccountDetail.twitterPassword |
                     passwordString}}</span>
                 </div>
 
@@ -54,9 +58,11 @@
                     <image [attr.href]="'/assets/discord-logo.svg'" width="24" height="24" />
                   </svg>
                   <span nz-typography nzCopyable style="margin-left: 8px"
-                    [nzCopyText]="airdropAccountDetail.discordName">{{airdropAccountDetail.discordName}}</span>
+                    [nzCopyText]="airdropAccountDetail.discordName"
+                    [nzCopyTooltips]="['复制discord用户名', '复制discord用户名成功']">{{airdropAccountDetail.discordName}}</span>
                   <span nz-typography nzCopyable style="margin-left: 8px"
-                    [nzCopyText]="airdropAccountDetail.discordPassword">{{airdropAccountDetail.discordPassword |
+                    [nzCopyText]="airdropAccountDetail.discordPassword"
+                    [nzCopyTooltips]="['复制discord密码', '复制discord密码成功']">{{airdropAccountDetail.discordPassword |
                     passwordString}}</span>
                 </div>
 
@@ -65,8 +71,8 @@
                   <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                     <image [attr.href]="'/assets/galxe-logo.webp'" width="24" height="24" />
                   </svg>
-                  <span nz-typography nzCopyable style="margin-left: 8px"
-                    [nzCopyText]="airdropAccountDetail.galxeName">{{airdropAccountDetail.galxeName}}</span>
+                  <span nz-typography nzCopyable style="margin-left: 8px" [nzCopyText]="airdropAccountDetail.galxeName"
+                    [nzCopyTooltips]="['复制galxe用户名', '复制galxe用户名成功']">{{airdropAccountDetail.galxeName}}</span>
                 </div>
               </div>
             </div>
