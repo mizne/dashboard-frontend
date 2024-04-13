@@ -6,6 +6,8 @@ import { CreatedAtPipe } from './created-at.pipe';
 import { EMACompressionsStringPipe } from './ema-compressions-string.pipe';
 import { AirdropStatusStringPipe } from './airdrop-status-string.pipe';
 import { AirdropStatusColorPipe } from './airdrop-status-color.pipe';
+import { BlockchainAddressStringPipe } from './blockchain-address-string.pipe';
+import { PasswordStringPipe } from './password-string.pipe';
 
 export const pipes = [
   PercentPipe,
@@ -16,6 +18,8 @@ export const pipes = [
   EMACompressionsStringPipe,
   AirdropStatusStringPipe,
   AirdropStatusColorPipe,
+  BlockchainAddressStringPipe,
+  PasswordStringPipe,
 ];
 
 export * from './percent.pipe';
@@ -26,3 +30,5 @@ export * from './created-at.pipe';
 export * from './ema-compressions-string.pipe';
 export * from './airdrop-status-string.pipe';
 export * from './airdrop-status-color.pipe';
+export * from './blockchain-address-string.pipe';
+export * from './password-string.pipe';

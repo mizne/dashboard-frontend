@@ -1,0 +1,115 @@
+<div class="airdrop-account-detail-container">
+  <div nz-row [nzGutter]="16">
+    <div nz-col class="gutter-row" [nzSpan]="24">
+
+      <nz-spin [nzSpinning]="loadingAirdropAccount">
+        <nz-card style="width:100%" nzTitle="基本信息" [nzExtra]="extraTemplate">
+          <div class="base-info-container">
+            <div class="project-logo-container">
+              <image-view [width]="64" [name]="airdropAccountDetail?.logo"></image-view>
+            </div>
+            <div class="project-desc-container">
+              <h2>{{airdropAccountDetail?.name}}</h2>
+
+              <p>{{airdropAccountDetail?.remark}}</p>
+
+              <div *ngIf="airdropAccountDetail" class="airdrop-account-addresses" style="display: flex">
+                <p nz-typography nzCopyable [nzCopyText]="airdropAccountDetail.evmWalletAddress">
+                  evm: {{airdropAccountDetail.evmWalletAddress | blockchainAddressString}}</p>
+                <p nz-typography nzCopyable [nzCopyText]="airdropAccountDetail.solWalletAddress"
+                  style="margin-left: 16px">
+                  solana: {{airdropAccountDetail.solWalletAddress | blockchainAddressString}}</p>
+
+                <created-at [createdAt]="airdropAccountDetail.createdAt" style="margin-left: 16px"></created-at>
+              </div>
+
+              <div *ngIf="airdropAccountDetail" class="airdrop-account-links" style="display: flex;">
+                <div class="airdrop-account-gmail" style="display: flex;">
+                  <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <image [attr.href]="'/assets/gmail-logo.jpg'" width="24" height="24" />
+                  </svg>
+                  <span nz-typography nzCopyable style="margin-left: 8px"
+                    [nzCopyText]="airdropAccountDetail.gmailName">{{airdropAccountDetail.gmailName}}</span>
+                  <span nz-typography nzCopyable style="margin-left: 8px"
+                    [nzCopyText]="airdropAccountDetail.gmailPassword">{{airdropAccountDetail.gmailPassword |
+                    passwordString}}</span>
+                </div>
+
+                <div class="airdrop-account-twitter" style="display: flex; margin-left: 16px">
+                  <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <image [attr.href]="'/assets/twitter-logo.svg'" width="24" height="24" />
+                  </svg>
+                  <span nz-typography nzCopyable style="margin-left: 8px"
+                    [nzCopyText]="airdropAccountDetail.twitterName">{{airdropAccountDetail.twitterName}}</span>
+                  <span nz-typography nzCopyable style="margin-left: 8px"
+                    [nzCopyText]="airdropAccountDetail.twitterPassword">{{airdropAccountDetail.twitterPassword |
+                    passwordString}}</span>
+                </div>
+
+                <div class="airdrop-account-discord" style="display: flex; margin-left: 16px">
+                  <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <image [attr.href]="'/assets/discord-logo.svg'" width="24" height="24" />
+                  </svg>
+                  <span nz-typography nzCopyable style="margin-left: 8px"
+                    [nzCopyText]="airdropAccountDetail.discordName">{{airdropAccountDetail.discordName}}</span>
+                  <span nz-typography nzCopyable style="margin-left: 8px"
+                    [nzCopyText]="airdropAccountDetail.discordPassword">{{airdropAccountDetail.discordPassword |
+                    passwordString}}</span>
+                </div>
+
+                <div class="airdrop-account-galxe" style="display: flex; margin-left: 16px">
+                  <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                    <image [attr.href]="'/assets/galxe-logo.webp'" width="24" height="24" />
+                  </svg>
+                  <span nz-typography nzCopyable style="margin-left: 8px"
+                    [nzCopyText]="airdropAccountDetail.galxeName">{{airdropAccountDetail.galxeName}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nz-card>
+        <ng-template #extraTemplate>
+          <button nz-button nzType="primary" nzShape="circle" (click)="confirmUpdateAirdropAccount()"><span nz-icon
+              nzType="edit"></span></button>
+        </ng-template>
+      </nz-spin>
+
+      <!-- <nz-spin [nzSpinning]="loadingNotifyObservers">
+        <nz-card style="width: 100%; margin-top: 12px" nzTitle="通知源">
+          <div class="notify-observer-container">
+            <div class="create-notify-observer-container">
+              <button nz-button [nzType]="'primary'" (click)="showCreateNotifyObserverModal()"
+                style="margin-top: 12px;">
+                添加
+              </button>
+            </div>
+            <div class="notify-observer-list-container" style="margin-top: 12px">
+
+              <div nz-row [nzGutter]="16">
+                <div *ngFor="let item of notifyObservers" nz-col nzLg="12" nzXl="8" style="margin-bottom: 12px">
+                  <notify-observer-item [width]="270" [item]="item" (update)="confirmUpdate(item)"
+                    (delete)="confirmDelete(item)"></notify-observer-item>
+                </div>
+
+                <ng-container *ngIf="notifyObservers.length === 0">
+                  <div style="width: 100%; display: flex; justify-content: center;">
+                    <nz-empty></nz-empty>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </nz-card>
+      </nz-spin> -->
+
+      <nz-card style="width: 100%; margin-top: 12px" nzTitle="参加的任务">
+        <p>待完成</p>
+      </nz-card>
+      <nz-card style="width: 100%; margin-top: 12px" nzTitle="交互记录">
+        <p>待完成</p>
+        <!-- <app-tracking-record-list [followedProjectID]="followedProjectID"></app-tracking-record-list> -->
+      </nz-card>
+
+    </div>
+  </div>
+</div>

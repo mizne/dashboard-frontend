@@ -28,3 +28,4 @@ export * from './cex-token-tag.service'
 export * from './cex-token.service'
 
 export * from './airdrop-job.service'
+export * from './airdrop-account.service'

@@ -1,0 +1,114 @@
+<div class="create-airdrop-account-container">
+  <form nz-form [formGroup]="form">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired nzTooltipTitle="airdrop account name">
+        <span>名称</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your airdrop account name!">
+        <input nz-input class="ant-input" id="name" formControlName="name" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="logo" nzTooltipTitle="airdrop account logo">
+        <span>Logo</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your airdrop account logo!">
+        <upload-file formControlName="logo"></upload-file>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="remark" nzTooltipTitle="remark">
+        <span>备注</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea nz-input class="ant-input" id="remark" formControlName="remark"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="evmWalletAddress" nzTooltipTitle="evm wallet address">
+        <span>EVM 地址</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your evm wallet address!">
+        <input nz-input class="ant-input" id="evmWalletAddress" formControlName="evmWalletAddress" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="solWalletAddress" nzTooltipTitle="solana wallet address">
+        <span>Solana 地址</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your solana wallet address!">
+        <input nz-input class="ant-input" id="solWalletAddress" formControlName="solWalletAddress" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="gmailName" nzTooltipTitle="gmail name">
+        <span>Gmail name</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your gmail name!">
+        <input nz-input class="ant-input" id="gmailName" formControlName="gmailName" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="gmailPassword" nzTooltipTitle="gmail password">
+        <span>Gmail password</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your gmail password!">
+        <input nz-input class="ant-input" id="gmailPassword" formControlName="gmailPassword" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="twitterName" nzTooltipTitle="twitter name">
+        <span>Twitter name</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your twitter name!">
+        <input nz-input class="ant-input" id="twitterName" formControlName="twitterName" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="twitterPassword" nzTooltipTitle="twitter password">
+        <span>Twitter password</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your twitter password!">
+        <input nz-input class="ant-input" id="twitterPassword" formControlName="twitterPassword" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="discordName" nzTooltipTitle="discord name">
+        <span>Discord name</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your discord name!">
+        <input nz-input class="ant-input" id="discordName" formControlName="discordName" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="discordPassword" nzTooltipTitle="discord password">
+        <span>Discord password</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your discord password!">
+        <input nz-input class="ant-input" id="discordPassword" formControlName="discordPassword" />
+      </nz-form-control>
+    </nz-form-item>
+
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="galxeName" nzTooltipTitle="galxe name">
+        <span>Galxe name</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your galxe name!">
+        <input nz-input class="ant-input" id="galxeName" formControlName="galxeName" />
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+
+</div>
