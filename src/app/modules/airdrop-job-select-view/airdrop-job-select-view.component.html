@@ -10,7 +10,7 @@
       </div>
 
       <div class="airdrop-job-remark" style="margin-top: 8px">
-        <p nz-typography nzEllipsis>
+        <p nz-typography nzEllipsis [title]="selectedAirdropJob.remark || '【无】'">
           {{selectedAirdropJob.remark || '【无】'}}
         </p>
       </div>

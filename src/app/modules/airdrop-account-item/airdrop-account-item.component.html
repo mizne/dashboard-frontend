@@ -9,7 +9,7 @@
         </linkable>
       </div>
       <div class="airdrop-account-remark" style="margin-top: 8px">
-        <p nz-typography nzEllipsis>
+        <p nz-typography nzEllipsis [title]="item.remark || '【无】'">
           {{item.remark || '【无】'}}
         </p>
       </div>
