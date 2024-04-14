@@ -109,7 +109,8 @@ export function stringifyMills(ms: number): string {
   if (ms < oneHour) {
     const minutes = Math.floor(ms / oneMinute);
     const seconds = Math.floor((ms - minutes * oneMinute) / oneSecond);
-    return `${paddingZero(String(minutes))}m ${paddingZero(String(seconds))}s`;
+    return `${paddingZero(String(minutes))}m`;
+    // return `${paddingZero(String(minutes))}m ${paddingZero(String(seconds))}s`;
   }
   if (ms < oneDay) {
     const hours = Math.floor(ms / oneHour);
@@ -119,7 +120,10 @@ export function stringifyMills(ms: number): string {
     );
     return `${paddingZero(String(hours))}h ${paddingZero(
       String(minutes)
-    )}m ${paddingZero(String(seconds))}s`;
+    )}m`;
+    // return `${paddingZero(String(hours))}h ${paddingZero(
+    //   String(minutes)
+    // )}m ${paddingZero(String(seconds))}s`;
   }
 
   const days = Math.floor(ms / oneDay);
@@ -132,7 +136,11 @@ export function stringifyMills(ms: number): string {
   );
   return `${paddingZero(String(days))}day ${paddingZero(
     String(hours)
-  )}h ${paddingZero(String(minutes))}m ${paddingZero(String(seconds))}s`;
+  )}h`;
+
+  // return `${paddingZero(String(days))}day ${paddingZero(
+  //   String(hours)
+  // )}h ${paddingZero(String(minutes))}m ${paddingZero(String(seconds))}s`;
 }
 
 export function stringifyNumber(n: number): string {
