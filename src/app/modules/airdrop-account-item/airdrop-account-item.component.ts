@@ -25,6 +25,9 @@ export class AirdropAccountItemComponent implements OnInit {
   @Output() delete = new EventEmitter<void>()
   @Output() update = new EventEmitter<void>()
 
+  manageAttendJobModalVisible = false
+  airdropAccountID: any = null
+
   ngOnInit(): void {
   }
 
@@ -42,5 +45,10 @@ export class AirdropAccountItemComponent implements OnInit {
 
   confirmDelete(item: TableItem) {
     this.delete.emit()
+  }
+
+  showManageAirdropAccount() {
+    this.manageAttendJobModalVisible = true;
+    this.airdropAccountID = this.item?._id
   }
 }

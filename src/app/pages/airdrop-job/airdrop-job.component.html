@@ -81,6 +81,11 @@
             <created-at [createdAt]="data.createdAt"></created-at>
           </td>
           <td>
+            <button nz-button (click)="showManageAttendJobModal(data)" nzType="primary" nzShape="circle" nzSize="small"
+              nz-tooltip [nzTooltipTitle]="'管理空投账号'" style="margin-right: 4px">
+              <i nz-icon nzType="user" nzTheme="outline"></i>
+            </button>
+
             <button nz-button (click)="confirmUpdate(data)" nzType="primary" nzShape="circle" nzSize="small" nz-tooltip
               [nzTooltipTitle]="'修改'" style="margin-right: 4px">
               <i nz-icon nzType="edit" nzTheme="outline"></i>
@@ -104,3 +109,16 @@
     </ng-template>
   </nz-card>
 </div>
+
+
+<nz-modal [(nzVisible)]="manageAttendJobModalVisible" [nzWidth]="1400"
+  [nzTitle]="'参加 ' + selectedAirdropJobTitle + ' 的空投账号'" [nzFooter]="null"
+  (nzOnCancel)="manageAttendJobModalVisible = false">
+  <ng-container *nzModalContent>
+
+    <nz-card>
+      <airdrop-account-attend-job-manager-for-job
+        [airdropJobID]="airdropJobID"></airdrop-account-attend-job-manager-for-job>
+    </nz-card>
+  </ng-container>
+</nz-modal>

@@ -2,12 +2,17 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { CreateAirdropAccountAttendJobService } from 'src/app/modules/create-airdrop-account-attend-job/create-airdrop-account-attend-job.service';
 import { CreateAirdropJobService, AirdropJobModalActions } from 'src/app/modules/create-airdrop-job';
-import { AirdropJobService, AirdropJob, TagTypes, AirdropJobStatus } from 'src/app/shared';
+import { AirdropJobService, AirdropJob, TagTypes, AirdropJobStatus, AirdropAccountAttendJob, AirdropAccountAttendJobService } from 'src/app/shared';
 import { removeKeys, removeNullOrUndefined } from 'src/app/utils';
 
 interface TableItem extends AirdropJob {
   followedProjectIDCtrl: FormControl;
+}
+
+interface AttendJobTableItem extends AirdropAccountAttendJob {
+  airdropAccountIDCtrl: FormControl
 }
 
 @Component({
@@ -20,7 +25,9 @@ export class AirdropJobComponent implements OnInit {
     private readonly airdropJobService: AirdropJobService,
     private readonly notification: NzNotificationService,
     private readonly fb: FormBuilder,
-    private createAirdropJobService: CreateAirdropJobService
+    private createAirdropJobService: CreateAirdropJobService,
+    private airdropAccountAttendJobService: AirdropAccountAttendJobService,
+    private createAirdropAccountAttendJobService: CreateAirdropAccountAttendJobService,
   ) { }
 
   total = 0;
@@ -56,6 +63,12 @@ export class AirdropJobComponent implements OnInit {
       value: AirdropJobStatus.HAS_ENDED
     }
   ]
+
+  manageAttendJobModalVisible = false;
+  airdropJobID: null | string = null;
+  selectedAirdropJobTitle: null | string = null;
+  attendJobs: AttendJobTableItem[] = [];
+  loadingAttendJobs = false;
 
 
   submitForm(): void {
@@ -145,6 +158,12 @@ export class AirdropJobComponent implements OnInit {
   }
 
   cancelDelete(item: AirdropJob) { }
+
+  showManageAttendJobModal(item: AirdropJob) {
+    this.manageAttendJobModalVisible = true;
+    this.airdropJobID = item._id;
+    this.selectedAirdropJobTitle = item.title;
+  }
 
   private loadDataFromServer(): void {
     this.loading = true;

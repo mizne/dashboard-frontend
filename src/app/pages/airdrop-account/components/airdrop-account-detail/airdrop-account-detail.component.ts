@@ -32,7 +32,7 @@ export class AirdropAccountDetailComponent implements OnInit {
     private readonly createAttendJobService: CreateAirdropAccountAttendJobService,
     private readonly destroy$: DestroyService,
     private readonly clientNotifyService: ClientNotifyService,
-    private createAirdropAccountService: CreateAirdropAccountService
+    private readonly createAirdropAccountService: CreateAirdropAccountService
   ) { }
 
   airdropAccountID = this.route.snapshot.params['id'];
@@ -40,13 +40,10 @@ export class AirdropAccountDetailComponent implements OnInit {
   loadingAirdropAccount = false;
 
 
-  attendJobs: TableItem[] = [];
-  loadingAttendJobs = false;
 
 
   ngOnInit() {
     this.fetchAirdropAccountDetail();
-    this.fetchAirdropAccountAttendJobs();
   }
 
   confirmUpdateAirdropAccount() {
@@ -72,40 +69,7 @@ export class AirdropAccountDetailComponent implements OnInit {
     });
   }
 
-  showCreateAttendJobModal() {
-    if (!this.airdropAccountID) {
-      return;
-    }
-    const obj: Partial<AirdropAccountAttendJob> = {
-      airdropAccountID: this.airdropAccountID
-    };
-    const { success, error } = this.createAttendJobService.createModal(
-      '参加任务',
-      obj,
-    );
 
-    success.subscribe((v) => {
-      this.notificationService.success(`参加任务成功`, `参加任务成功`);
-      this.fetchAirdropAccountAttendJobs();
-    });
-    error.subscribe((e) => {
-      this.notificationService.error(`参加任务失败`, `${e.message}`);
-    });
-  }
-
-
-  confirmDeleteAttendJob(item: AirdropAccountAttendJob) {
-    this.airdropAccountAttendJobService.deleteByID(item._id).subscribe({
-      next: () => {
-        this.notificationService.success(`删除成功`, `删除数据成功`);
-        this.fetchAirdropAccountAttendJobs();
-      },
-      complete: () => { },
-      error: (e) => {
-        this.notificationService.error(`删除失败`, `请稍后重试，${e.message}`);
-      },
-    });
-  }
 
   private fetchAirdropAccountDetail() {
     if (!this.airdropAccountID) {
@@ -132,32 +96,6 @@ export class AirdropAccountDetailComponent implements OnInit {
   }
 
 
-  private fetchAirdropAccountAttendJobs() {
-    if (!this.airdropAccountID) {
-      return
-    }
 
-    this.loadingAttendJobs = true;
-    this.airdropAccountAttendJobService.queryList({ airdropAccountID: this.airdropAccountID })
-      .subscribe({
-        next: (items: AirdropAccountAttendJob[]) => {
-          this.loadingAttendJobs = false;
-          if (items.length > 0) {
-            this.attendJobs = items.map((e) => ({
-              ...e,
-              airdropJobIDCtrl: new FormControl(e.airdropJobID)
-            }))
-          } else {
-            this.attendJobs = [];
-            this.notificationService.warning(`没有找到 参加任务`, `也许该项目还没有添加参加任务`)
-          }
-        },
-        complete: () => { },
-        error: (err: Error) => {
-          this.loadingAttendJobs = false;
-          this.notificationService.error(`获取 参加任务 失败`, `${err.message}`)
-        }
-      })
-  }
 
 }

@@ -28,6 +28,9 @@
           <span nz-icon nzType="more" nzTheme="outline"></span>
         </button>
         <ng-template #contentTemplate>
+          <nz-card>
+            <button nz-button nzType="primary" (click)="showManageAirdropAccount()">管理空投任务</button>
+          </nz-card>
           <!-- <airdrop-account-more [id]="item._id"></airdrop-account-more> -->
         </ng-template>
       </div>
@@ -44,3 +47,14 @@
     </ng-template>
   </nz-badge>
 </div>
+
+<nz-modal [(nzVisible)]="manageAttendJobModalVisible" [nzWidth]="1400" [nzTitle]="(item?.name) + ' 参加的任务'"
+  [nzFooter]="null" (nzOnCancel)="manageAttendJobModalVisible = false">
+  <ng-container *nzModalContent>
+
+    <nz-card>
+      <airdrop-account-attend-job-manager-for-account
+        [airdropAccountID]="airdropAccountID"></airdrop-account-attend-job-manager-for-account>
+    </nz-card>
+  </ng-container>
+</nz-modal>

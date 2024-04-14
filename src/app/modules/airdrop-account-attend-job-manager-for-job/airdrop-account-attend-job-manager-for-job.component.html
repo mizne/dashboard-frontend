@@ -1,0 +1,29 @@
+<nz-spin [nzSpinning]="loadingAttendJobs">
+  <div class="attend-job-container">
+    <div class="create-attend-job-container">
+      <button nz-button [nzType]="'primary'" (click)="showCreateAttendJobModal()">
+        添加
+      </button>
+    </div>
+    <div class="attend-job-list-container" style="margin-top: 12px">
+
+      <div nz-row [nzGutter]="16">
+        <div *ngFor="let item of attendJobs" nz-col nzLg="8" nzXl="6" style="position: relative; margin-bottom: 12px">
+          <airdrop-account-select-view [formControl]="item.airdropAccountIDCtrl"></airdrop-account-select-view>
+
+          <button style="position: absolute; right: 16px; top: 12px;" nz-button nzType="primary" nzDanger
+            nzShape="circle" nz-popconfirm nzPopconfirmTitle="确认移除任务?" nzPopconfirmPlacement="bottom"
+            (nzOnConfirm)="confirmDeleteAttendJob(item)">
+            <span nz-icon nzType="delete"></span>
+          </button>
+        </div>
+
+        <ng-container *ngIf="attendJobs.length === 0">
+          <div style="width: 100%; display: flex; justify-content: center;">
+            <nz-empty></nz-empty>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</nz-spin>

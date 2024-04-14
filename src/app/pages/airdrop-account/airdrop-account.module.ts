@@ -6,8 +6,7 @@ import { components } from './components'
 import { CreateAirdropAccountModule } from 'src/app/modules/create-airdrop-account';
 import { AirdropAccountItemModule } from 'src/app/modules/airdrop-account-item';
 
-import { AirdropJobSelectViewModule } from 'src/app/modules/airdrop-job-select-view';
-import { CreateAirdropAccountAttendJobModule } from 'src/app/modules/create-airdrop-account-attend-job';
+import { AirdropAccountAttendJobManagerForAccountModule } from 'src/app/modules/airdrop-account-attend-job-manager-for-account';
 
 @NgModule({
   imports: [
@@ -16,8 +15,7 @@ import { CreateAirdropAccountAttendJobModule } from 'src/app/modules/create-aird
     CreateAirdropAccountModule,
     AirdropAccountItemModule,
 
-    AirdropJobSelectViewModule,
-    CreateAirdropAccountAttendJobModule,
+    AirdropAccountAttendJobManagerForAccountModule,
   ],
   declarations: [AirdropAccountComponent, ...components],
   exports: [AirdropAccountComponent],
