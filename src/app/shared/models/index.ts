@@ -23,3 +23,4 @@ export * from './cex-token.model';
 
 export * from './airdrop-job.model';
 export * from './airdrop-account.model';
+export * from './airdrop-account-attend-job.model';

@@ -4,14 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import { CreateAirdropAccountService, AirdropAccountModalActions } from 'src/app/modules/create-airdrop-account';
-import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer';
-import { ClientNotifyService, AirdropAccount, AirdropAccountService, NotifyObserver, NotifyObserverService, } from 'src/app/shared';
+import { CreateAirdropAccountAttendJobService, AirdropAccountAttendJobModalActions } from 'src/app/modules/create-airdrop-account-attend-job';
+import { ClientNotifyService, AirdropAccount, AirdropAccountService, NotifyObserver, NotifyObserverService, AirdropAccountAttendJob, AirdropAccountAttendJobService, } from 'src/app/shared';
 import { DestroyService } from 'src/app/shared/services/destroy.service';
 
-// interface TableItem extends NotifyObserver {
-//   enableTrackingCtrl: FormControl;
-//   airdropAccountIDCtrl?: FormControl;
-// }
+interface TableItem extends AirdropAccountAttendJob {
+  airdropJobIDCtrl: FormControl;
+}
 
 interface Detail extends AirdropAccount {
   // tagIDsCtrl: FormControl
@@ -28,9 +27,9 @@ export class AirdropAccountDetailComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly airdropAccountService: AirdropAccountService,
-    private readonly notifyObserverService: NotifyObserverService,
+    private readonly airdropAccountAttendJobService: AirdropAccountAttendJobService,
     private readonly notificationService: NzNotificationService,
-    private readonly createNotifyObserverService: CreateNotifyObserverService,
+    private readonly createAttendJobService: CreateAirdropAccountAttendJobService,
     private readonly destroy$: DestroyService,
     private readonly clientNotifyService: ClientNotifyService,
     private createAirdropAccountService: CreateAirdropAccountService
@@ -41,13 +40,13 @@ export class AirdropAccountDetailComponent implements OnInit {
   loadingAirdropAccount = false;
 
 
-  // notifyObservers: TableItem[] = [];
-  loadingNotifyObservers = false;
+  attendJobs: TableItem[] = [];
+  loadingAttendJobs = false;
 
 
   ngOnInit() {
     this.fetchAirdropAccountDetail();
-    this.fetchAirdropJobs();
+    this.fetchAirdropAccountAttendJobs();
   }
 
   confirmUpdateAirdropAccount() {
@@ -73,59 +72,40 @@ export class AirdropAccountDetailComponent implements OnInit {
     });
   }
 
-  // showCreateNotifyObserverModal() {
-  //   if (!this.airdropAccountID) {
-  //     return;
-  //   }
-  //   const obj: Partial<NotifyObserver> = {
-  //     enableTracking: true,
-  //     airdropAccountID: this.airdropAccountID
-  //   };
-  //   const { success, error } = this.createNotifyObserverService.createModal(
-  //     '添加通知源',
-  //     obj,
-  //   );
+  showCreateAttendJobModal() {
+    if (!this.airdropAccountID) {
+      return;
+    }
+    const obj: Partial<AirdropAccountAttendJob> = {
+      airdropAccountID: this.airdropAccountID
+    };
+    const { success, error } = this.createAttendJobService.createModal(
+      '参加任务',
+      obj,
+    );
 
-  //   success.subscribe((v) => {
-  //     this.notificationService.success(`添加通知源成功`, `添加通知源成功`);
-  //     this.fetchAirdropJobs();
-  //   });
-  //   error.subscribe((e) => {
-  //     this.notificationService.error(`添加通知源失败`, `${e.message}`);
-  //   });
-  // }
+    success.subscribe((v) => {
+      this.notificationService.success(`参加任务成功`, `参加任务成功`);
+      this.fetchAirdropAccountAttendJobs();
+    });
+    error.subscribe((e) => {
+      this.notificationService.error(`参加任务失败`, `${e.message}`);
+    });
+  }
 
-  // confirmUpdate(item: TableItem) {
-  //   const obj: Partial<NotifyObserver> = {
-  //     ...item,
-  //   };
-  //   const { success, error } = this.createNotifyObserverService.createModal(
-  //     '修改通知源',
-  //     obj,
-  //     NotifyObserverModalActions.UPDATE
-  //   );
 
-  //   success.subscribe((v) => {
-  //     this.notificationService.success(`修改通知源成功`, `修改通知源成功`);
-  //     this.fetchAirdropJobs();
-  //   });
-  //   error.subscribe((e) => {
-  //     this.notificationService.error(`修改通知源失败`, `${e.message}`);
-  //   });
-  // }
-
-  // confirmDelete(item: TableItem) {
-  //   this.notifyObserverService.deleteByID(item._id).subscribe({
-  //     next: () => {
-  //       this.notificationService.success(`删除成功`, `删除数据成功`);
-  //       this.fetchAirdropJobs();
-  //     },
-  //     complete: () => { },
-  //     error: (e) => {
-  //       this.notificationService.error(`删除失败`, `请稍后重试，${e.message}`);
-  //     },
-  //   });
-  // }
+  confirmDeleteAttendJob(item: AirdropAccountAttendJob) {
+    this.airdropAccountAttendJobService.deleteByID(item._id).subscribe({
+      next: () => {
+        this.notificationService.success(`删除成功`, `删除数据成功`);
+        this.fetchAirdropAccountAttendJobs();
+      },
+      complete: () => { },
+      error: (e) => {
+        this.notificationService.error(`删除失败`, `请稍后重试，${e.message}`);
+      },
+    });
+  }
 
   private fetchAirdropAccountDetail() {
     if (!this.airdropAccountID) {
@@ -152,36 +132,32 @@ export class AirdropAccountDetailComponent implements OnInit {
   }
 
 
-  private fetchAirdropJobs() {
-    // if (!this.airdropAccountID) {
-    //   return
-    // }
+  private fetchAirdropAccountAttendJobs() {
+    if (!this.airdropAccountID) {
+      return
+    }
 
-    // this.loadingNotifyObservers = true;
-    // this.notifyObserverService.queryList({ airdropAccountID: this.airdropAccountID })
-    //   .subscribe({
-    //     next: (items: NotifyObserver[]) => {
-    //       this.loadingNotifyObservers = false;
-    //       if (items.length > 0) {
-    //         this.unsubscribeUpdateEnableTrackingCtrls();
-    //         this.notifyObservers = items.map((e) => ({
-    //           ...e,
-    //           enableTrackingCtrl: new FormControl(!!e.enableTracking),
-    //           ...(e.airdropAccountID ? {
-    //             airdropAccountIDCtrl: new FormControl(e.airdropAccountID)
-    //           } : {})
-    //         }))
-    //         this.subscribeUpdateEnableTrackingCtrls();
-    //       } else {
-    //         this.notifyObservers = [];
-    //         this.notificationService.warning(`没有找到 通知源`, `也许该项目还没有添加通知源`)
-    //       }
-    //     },
-    //     error: (err: Error) => {
-    //       this.loadingNotifyObservers = false;
-    //       this.notificationService.error(`获取 通知源 失败`, `${err.message}`)
-    //     }
-    //   })
+    this.loadingAttendJobs = true;
+    this.airdropAccountAttendJobService.queryList({ airdropAccountID: this.airdropAccountID })
+      .subscribe({
+        next: (items: AirdropAccountAttendJob[]) => {
+          this.loadingAttendJobs = false;
+          if (items.length > 0) {
+            this.attendJobs = items.map((e) => ({
+              ...e,
+              airdropJobIDCtrl: new FormControl(e.airdropJobID)
+            }))
+          } else {
+            this.attendJobs = [];
+            this.notificationService.warning(`没有找到 参加任务`, `也许该项目还没有添加参加任务`)
+          }
+        },
+        complete: () => { },
+        error: (err: Error) => {
+          this.loadingAttendJobs = false;
+          this.notificationService.error(`获取 参加任务 失败`, `${err.message}`)
+        }
+      })
   }
 
 }

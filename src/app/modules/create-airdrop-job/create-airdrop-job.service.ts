@@ -124,7 +124,7 @@ export class CreateAirdropJobService {
     }
 
     return new Promise((resolve, reject) => {
-      // 这里写 更新接口
+      // 这里写 修改接口
       this.fetchFollowedProjectLogo(form.value.followedProjectID)
         .then(logo => {
           this.airdropJobService.update(id, {

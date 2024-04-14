@@ -1,0 +1,31 @@
+<div class="create-airdrop-account-attend-job-container">
+  <form nz-form [formGroup]="form">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="airdropAccountID" nzRequired nzTooltipTitle="airdrop account">
+        <span>空投账号</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your airdrop account!">
+        <airdrop-account-select formControlName="airdropAccountID"></airdrop-account-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="airdropJobID" nzRequired nzTooltipTitle="airdrop job">
+        <span>空投任务</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your airdrop job!">
+        <airdrop-job-select formControlName="airdropJobID"></airdrop-job-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="remark" nzTooltipTitle="remark">
+        <span>备注</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea nz-input class="ant-input" id="remark" formControlName="remark"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+</div>

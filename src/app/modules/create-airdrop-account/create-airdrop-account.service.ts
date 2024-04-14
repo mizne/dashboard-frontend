@@ -99,7 +99,7 @@ export class CreateAirdropAccountService {
     }
 
     return new Promise((resolve, reject) => {
-      // 这里写 添加project接口
+      // 这里写 添加接口
       this.airdropAccountService.create(form.value).subscribe({
         next: (v) => {
           if (v.code === 0) {
@@ -128,7 +128,7 @@ export class CreateAirdropAccountService {
     }
 
     return new Promise((resolve, reject) => {
-      // 这里写 添加project接口
+      // 这里写 修改接口
       this.airdropAccountService.update(id, form.value).subscribe({
         next: (v) => {
           if (v.code === 0) {

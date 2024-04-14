@@ -84,24 +84,29 @@
         </ng-template>
       </nz-spin>
 
-      <!-- <nz-spin [nzSpinning]="loadingNotifyObservers">
-        <nz-card style="width: 100%; margin-top: 12px" nzTitle="通知源">
-          <div class="notify-observer-container">
-            <div class="create-notify-observer-container">
-              <button nz-button [nzType]="'primary'" (click)="showCreateNotifyObserverModal()"
-                style="margin-top: 12px;">
+      <nz-spin [nzSpinning]="loadingAttendJobs">
+        <nz-card style="width: 100%; margin-top: 12px" nzTitle="参加的任务">
+          <div class="attend-job-container">
+            <div class="create-attend-job-container">
+              <button nz-button [nzType]="'primary'" (click)="showCreateAttendJobModal()">
                 添加
               </button>
             </div>
-            <div class="notify-observer-list-container" style="margin-top: 12px">
+            <div class="attend-job-list-container" style="margin-top: 12px">
 
               <div nz-row [nzGutter]="16">
-                <div *ngFor="let item of notifyObservers" nz-col nzLg="12" nzXl="8" style="margin-bottom: 12px">
-                  <notify-observer-item [width]="270" [item]="item" (update)="confirmUpdate(item)"
-                    (delete)="confirmDelete(item)"></notify-observer-item>
+                <div *ngFor="let item of attendJobs" nz-col nzLg="8" nzXl="6"
+                  style="position: relative; margin-bottom: 12px">
+                  <airdrop-job-select-view [formControl]="item.airdropJobIDCtrl"></airdrop-job-select-view>
+
+                  <button style="position: absolute; right: 16px; top: 12px;" nz-button nzType="primary" nzDanger
+                    nzShape="circle" nz-popconfirm nzPopconfirmTitle="确认移除任务?" nzPopconfirmPlacement="bottom"
+                    (nzOnConfirm)="confirmDeleteAttendJob(item)">
+                    <span nz-icon nzType="delete"></span>
+                  </button>
                 </div>
 
-                <ng-container *ngIf="notifyObservers.length === 0">
+                <ng-container *ngIf="attendJobs.length === 0">
                   <div style="width: 100%; display: flex; justify-content: center;">
                     <nz-empty></nz-empty>
                   </div>
@@ -110,11 +115,8 @@
             </div>
           </div>
         </nz-card>
-      </nz-spin> -->
+      </nz-spin>
 
-      <nz-card style="width: 100%; margin-top: 12px" nzTitle="参加的任务">
-        <p>待完成</p>
-      </nz-card>
       <nz-card style="width: 100%; margin-top: 12px" nzTitle="交互记录">
         <p>待完成</p>
         <!-- <app-tracking-record-list [followedProjectID]="followedProjectID"></app-tracking-record-list> -->
