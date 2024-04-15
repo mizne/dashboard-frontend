@@ -7,6 +7,7 @@ import { FollowedProjectSelectViewModule } from 'src/app/modules/followed-projec
 import { FollowedProjectSelectModule } from 'src/app/modules/followed-project-select';
 
 import { AirdropAccountAttendJobManagerForJobModule } from 'src/app/modules/airdrop-account-attend-job-manager-for-job';
+import { AirdropInteractionRecordManagerModule } from 'src/app/modules/airdrop-interaction-record-manager';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { AirdropAccountAttendJobManagerForJobModule } from 'src/app/modules/aird
     FollowedProjectSelectModule,
 
     AirdropAccountAttendJobManagerForJobModule,
+    AirdropInteractionRecordManagerModule,
   ],
   declarations: [AirdropJobComponent],
   exports: [AirdropJobComponent],

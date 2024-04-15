@@ -1,0 +1,59 @@
+<div class="create-airdrop-interaction-record-container">
+  <form nz-form [formGroup]="form">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="title" nzRequired nzTooltipTitle="标题">
+        <span>标题</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input title!">
+        <input nz-input class="ant-input" id="title" formControlName="title" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description" nzTooltipTitle="描述">
+        <span>描述</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea nz-input class="ant-input" id="description" formControlName="description"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="tagIDs" nzTooltipTitle="标签">
+        <span>标签</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <tag-select [type]="tagType" formControlName="tagIDs"></tag-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="airdropAccountID" nzRequired nzTooltipTitle="空投账号">
+        <span>空投账号</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please 选择空投账号!">
+        <airdrop-account-select formControlName="airdropAccountID"></airdrop-account-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="airdropJobID" nzRequired nzTooltipTitle="空投任务">
+        <span>空投任务</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please 选择空投任务!">
+        <airdrop-job-select formControlName="airdropJobID"></airdrop-job-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="link" nzTooltipTitle="链接">
+        <span>链接</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input class="ant-input" id="link" formControlName="link" />
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+
+</div>

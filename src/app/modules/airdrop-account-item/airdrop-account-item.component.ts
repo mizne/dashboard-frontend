@@ -26,6 +26,7 @@ export class AirdropAccountItemComponent implements OnInit {
   @Output() update = new EventEmitter<void>()
 
   manageAttendJobModalVisible = false
+  manageAirdropInteractionRecordModalVisible = false;
   airdropAccountID: any = null
 
   ngOnInit(): void {
@@ -49,6 +50,11 @@ export class AirdropAccountItemComponent implements OnInit {
 
   showManageAirdropAccount() {
     this.manageAttendJobModalVisible = true;
+    this.airdropAccountID = this.item?._id
+  }
+
+  showManageAirdropInteractionRecord() {
+    this.manageAirdropInteractionRecordModalVisible = true;
     this.airdropAccountID = this.item?._id
   }
 }

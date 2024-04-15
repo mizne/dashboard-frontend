@@ -1,0 +1,80 @@
+<div class="airdrop-interaction-record-manager-container">
+  <div class="create-airdrop-interaction-record-container">
+    <button nz-button [nzType]="'primary'" (click)="showCreateModal()">
+      添加
+    </button>
+  </div>
+  <nz-card style="margin-top: 12px">
+    <nz-table nzShowSizeChanger [nzData]="items" [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total"
+      [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
+      (nzQueryParams)="onQueryParamsChange($event)">
+      <thead>
+        <tr>
+          <th nzColumnKey="title">标题</th>
+          <th nzColumnKey="tagIDsCtrl">标签</th>
+          <th nzColumnKey="description" style="width: 400px">描述</th>
+          <th nzColumnKey="link">链接</th>
+          <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
+          <th nzColumnKey="Action" style="width: 130px;">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of items">
+          <td style="display: flex; align-items: center; min-height: 70px;">
+            <image-view [name]="data.airdropAccountLogo" nz-popover nzPopoverTrigger="click"
+              [nzPopoverContent]="airdropAccountTemplate"></image-view>
+            <ng-template #airdropAccountTemplate>
+              <airdrop-account-select-view [formControl]="data.airdropAccountIDCtrl"></airdrop-account-select-view>
+            </ng-template>
+
+            <image-view style="margin-left: 4px" [name]="data.airdropJobLogo" nz-popover nzPopoverTrigger="click"
+              [nzPopoverContent]="airdropJobTemplate"></image-view>
+            <ng-template #airdropJobTemplate>
+              <airdrop-job-select-view [formControl]="data.airdropJobIDCtrl"></airdrop-job-select-view>
+            </ng-template>
+
+            <span style="margin-left: 8px">{{ data.title }}</span>
+          </td>
+          <td><tag-select [type]="tagType" mode="view" [formControl]="data.tagIDsCtrl"></tag-select></td>
+          <td style="width: 400px">
+            <p nz-typography nzEllipsis nzCopyable [nzContent]="data.description" [title]="data.description"
+              style="margin-bottom: 0;"></p>
+          </td>
+
+          <td>
+            <linkable [href]="data.link">
+            </linkable>
+          </td>
+
+          <td>
+            <created-at [createdAt]="data.createdAt"></created-at>
+          </td>
+          <td>
+            <button nz-button (click)="confirmCopy(data)" nzType="primary" nzShape="circle" nzSize="small" nz-tooltip
+              [nzTooltipTitle]="'复制'" style="margin-right: 4px">
+              <i nz-icon nzType="copy" nzTheme="outline"></i>
+            </button>
+
+            <button nz-button (click)="confirmUpdate(data)" nzType="primary" nzShape="circle" nzSize="small" nz-tooltip
+              [nzTooltipTitle]="'修改'" style="margin-right: 4px">
+              <i nz-icon nzType="edit" nzTheme="outline"></i>
+            </button>
+
+            <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
+              (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)">
+              <button nz-button nzType="primary" nzDanger nzShape="circle" nzSize="small" nz-tooltip
+                [nzTooltipTitle]="'删除'">
+                <i nz-icon nzType="delete" nzTheme="outline"></i>
+              </button>
+            </a>
+
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+    <ng-template #rangeTemplate let-range="range" let-total>
+      {{ range[0] }}-{{ range[1] }} of {{ total }} items
+    </ng-template>
+  </nz-card>
+</div>

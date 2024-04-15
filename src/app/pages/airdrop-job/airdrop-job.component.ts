@@ -65,10 +65,11 @@ export class AirdropJobComponent implements OnInit {
   ]
 
   manageAttendJobModalVisible = false;
+  manageAirdropInteractionRecordModalVisible = false;
+
   airdropJobID: null | string = null;
   selectedAirdropJobTitle: null | string = null;
-  attendJobs: AttendJobTableItem[] = [];
-  loadingAttendJobs = false;
+
 
 
   submitForm(): void {
@@ -161,6 +162,12 @@ export class AirdropJobComponent implements OnInit {
 
   showManageAttendJobModal(item: AirdropJob) {
     this.manageAttendJobModalVisible = true;
+    this.airdropJobID = item._id;
+    this.selectedAirdropJobTitle = item.title;
+  }
+
+  showManageAirdropInteractionRecordModal(item: AirdropJob) {
+    this.manageAirdropInteractionRecordModalVisible = true;
     this.airdropJobID = item._id;
     this.selectedAirdropJobTitle = item.title;
   }

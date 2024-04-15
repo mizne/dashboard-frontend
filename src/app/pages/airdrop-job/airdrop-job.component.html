@@ -87,10 +87,15 @@
           <td>
             <created-at [createdAt]="data.createdAt"></created-at>
           </td>
-          <td>
+          <td style="min-width: 180px">
             <button nz-button (click)="showManageAttendJobModal(data)" nzType="primary" nzShape="circle" nzSize="small"
               nz-tooltip [nzTooltipTitle]="'管理空投账号'" style="margin-right: 4px">
               <i nz-icon nzType="user" nzTheme="outline"></i>
+            </button>
+
+            <button nz-button (click)="showManageAirdropInteractionRecordModal(data)" nzType="primary" nzShape="circle"
+              nzSize="small" nz-tooltip [nzTooltipTitle]="'管理交互记录'" style="margin-right: 4px">
+              <i nz-icon nzType="menu" nzTheme="outline"></i>
             </button>
 
             <button nz-button (click)="confirmUpdate(data)" nzType="primary" nzShape="circle" nzSize="small" nz-tooltip
@@ -126,6 +131,17 @@
     <nz-card>
       <airdrop-account-attend-job-manager-for-job
         [airdropJobID]="airdropJobID"></airdrop-account-attend-job-manager-for-job>
+    </nz-card>
+  </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="manageAirdropInteractionRecordModalVisible" [nzWidth]="1400"
+  [nzTitle]="selectedAirdropJobTitle + ' 的空投交互记录'" [nzFooter]="null"
+  (nzOnCancel)="manageAirdropInteractionRecordModalVisible = false">
+  <ng-container *nzModalContent>
+
+    <nz-card>
+      <airdrop-interaction-record-manager [airdropJobID]="airdropJobID"></airdrop-interaction-record-manager>
     </nz-card>
   </ng-container>
 </nz-modal>

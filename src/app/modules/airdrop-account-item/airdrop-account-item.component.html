@@ -30,6 +30,8 @@
         <ng-template #contentTemplate>
           <nz-card>
             <button nz-button nzType="primary" (click)="showManageAirdropAccount()">管理空投任务</button>
+            <button style="margin-left: 8px;" nz-button nzType="primary"
+              (click)="showManageAirdropInteractionRecord()">管理交互记录</button>
           </nz-card>
           <!-- <airdrop-account-more [id]="item._id"></airdrop-account-more> -->
         </ng-template>
@@ -55,6 +57,17 @@
     <nz-card>
       <airdrop-account-attend-job-manager-for-account
         [airdropAccountID]="airdropAccountID"></airdrop-account-attend-job-manager-for-account>
+    </nz-card>
+  </ng-container>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="manageAirdropInteractionRecordModalVisible" [nzWidth]="1400"
+  [nzTitle]="(item?.name) + ' 的交互记录'" [nzFooter]="null"
+  (nzOnCancel)="manageAirdropInteractionRecordModalVisible = false">
+  <ng-container *nzModalContent>
+    <nz-card>
+      <airdrop-interaction-record-manager [airdropAccountID]="airdropAccountID"></airdrop-interaction-record-manager>
     </nz-card>
   </ng-container>
 </nz-modal>
