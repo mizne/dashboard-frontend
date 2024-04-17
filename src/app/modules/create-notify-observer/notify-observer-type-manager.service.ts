@@ -35,6 +35,7 @@ export class NotifyObserverTypeManagerService {
       ],
       followedProjectID: [obj.followedProjectID],
       notifyShowTitle: [obj.notifyShowTitle],
+      airdropJobID: [obj.airdropJobID],
     });
 
     return form;

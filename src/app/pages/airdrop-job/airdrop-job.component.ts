@@ -67,6 +67,8 @@ export class AirdropJobComponent implements OnInit {
   manageAttendJobModalVisible = false;
   manageAirdropInteractionRecordModalVisible = false;
 
+  manageNotifyObserverModalVisible = false;
+
   airdropJobID: null | string = null;
   selectedAirdropJobTitle: null | string = null;
 
@@ -168,6 +170,12 @@ export class AirdropJobComponent implements OnInit {
 
   showManageAirdropInteractionRecordModal(item: AirdropJob) {
     this.manageAirdropInteractionRecordModalVisible = true;
+    this.airdropJobID = item._id;
+    this.selectedAirdropJobTitle = item.title;
+  }
+
+  showManageNotifyObserverModal(item: AirdropJob) {
+    this.manageNotifyObserverModalVisible = true;
     this.airdropJobID = item._id;
     this.selectedAirdropJobTitle = item.title;
   }

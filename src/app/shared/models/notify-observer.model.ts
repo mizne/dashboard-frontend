@@ -40,6 +40,7 @@ export interface NotifyObserver {
   logo?: string;
   followedProjectID?: string;
   followedProjectLogo?: string;
+  airdropJobID?: string;
 
   mediumHomeLink?: string;
   mediumTitleKey?: string;

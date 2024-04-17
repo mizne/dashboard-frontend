@@ -31,6 +31,15 @@
     </nz-form-item>
 
     <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="关联的空投任务">
+        <span>空投任务</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <airdrop-job-select formControlName="airdropJobID"></airdrop-job-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="notifyShowTitle" nzTooltipTitle="通知标题，支持占位符{title}、{time}">
         <span>通知标题</span>
       </nz-form-label>

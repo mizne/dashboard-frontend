@@ -1,0 +1,37 @@
+<div class="notify-observer-manager-container">
+  <div class="create-notify-observer-container">
+    <button nz-button [nzType]="'primary'" (click)="showCreateModal()">
+      添加
+    </button>
+  </div>
+  <nz-spin [nzSpinning]="loading">
+    <nz-card style="margin-top: 12px">
+      <div style="display: flex; justify-content: center; margin-bottom: 12px">
+        <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="total" [nzShowTotal]="rangeTemplate"
+          (nzPageIndexChange)="pageIndexChange($event)">
+        </nz-pagination>
+      </div>
+      <div nz-row [nzGutter]="16">
+        <div *ngFor="let item of items" nz-col nzLg="8" nzXl="6" style="margin-bottom: 12px">
+          <notify-observer-item [item]="item" (update)="confirmUpdate(item)"
+            (delete)="confirmDelete(item)"></notify-observer-item>
+        </div>
+
+        <ng-container *ngIf="items.length === 0">
+          <div style="width: 100%; display: flex; justify-content: center;">
+            <nz-empty></nz-empty>
+          </div>
+        </ng-container>
+      </div>
+
+      <div style="display: flex; justify-content: center;">
+        <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="total" [nzShowTotal]="rangeTemplate"
+          (nzPageIndexChange)="pageIndexChange($event)">
+        </nz-pagination>
+      </div>
+      <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} of {{ total }} items
+      </ng-template>
+    </nz-card>
+  </nz-spin>
+</div>

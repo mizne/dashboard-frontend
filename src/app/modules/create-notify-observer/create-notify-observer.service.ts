@@ -25,7 +25,7 @@ export class CreateNotifyObserverService {
     private notifyObserverService: NotifyObserverService,
     private followedProjectService: FollowedProjectService,
     private sharedService: SharedService,
-    private notifyObserverTypeService: NotifyObserverTypeManagerService,
+    private notifyObserverTypeManagerService: NotifyObserverTypeManagerService,
     private readonly nzNotificationService: NzNotificationService,
     private message: NzMessageService,
   ) { }
@@ -201,8 +201,8 @@ export class CreateNotifyObserverService {
     success: Observable<any>;
     error: Observable<Error>;
   } {
-    const baseForm = this.notifyObserverTypeService.createBaseForm(obj);
-    const secondForm = this.notifyObserverTypeService.createSecondForm(baseForm.get('type')?.value, obj, action)
+    const baseForm = this.notifyObserverTypeManagerService.createBaseForm(obj);
+    const secondForm = this.notifyObserverTypeManagerService.createSecondForm(baseForm.get('type')?.value, obj, action)
     // 创建成功时 会next值 弹框会关闭 且会结束
     const successSubject = new Subject<any>();
 
@@ -264,7 +264,7 @@ export class CreateNotifyObserverService {
       ...secondForm.value,
     }
 
-    const valid = await this.notifyObserverTypeService.checkValidForm(obj);
+    const valid = await this.notifyObserverTypeManagerService.checkValidForm(obj);
     if (valid.code !== 0) {
       errorSub.next(new Error(valid.message));
       return Promise.resolve(false);
@@ -285,7 +285,7 @@ export class CreateNotifyObserverService {
           }).subscribe({
             next: (v) => {
               if (v.code === 0) {
-                this.notifyObserverTypeService.updateDefaultType(obj.type)
+                this.notifyObserverTypeManagerService.updateDefaultType(obj.type)
                 resolve(v.result || '添加成功');
               } else {
                 errorSub.next(new Error(v.message));
@@ -320,7 +320,7 @@ export class CreateNotifyObserverService {
       ...secondForm.value,
     }
 
-    const valid = await this.notifyObserverTypeService.checkValidForm(obj);
+    const valid = await this.notifyObserverTypeManagerService.checkValidForm(obj);
     if (valid.code !== 0) {
       errorSub.next(new Error(valid.message));
       return Promise.resolve(false);
@@ -340,7 +340,7 @@ export class CreateNotifyObserverService {
           }).subscribe({
             next: (v) => {
               if (v.code === 0) {
-                this.notifyObserverTypeService.updateDefaultType(obj.type)
+                this.notifyObserverTypeManagerService.updateDefaultType(obj.type)
                 resolve(v.result || '修改成功');
               } else {
                 errorSub.next(new Error(v.message));
@@ -359,7 +359,7 @@ export class CreateNotifyObserverService {
   }
 
   private checkExisted(obj: Partial<NotifyObserver>, errorSub: Subject<Error>, id?: string): Promise<boolean> {
-    const condition = this.notifyObserverTypeService.resolveExistedCondition(obj);
+    const condition = this.notifyObserverTypeManagerService.resolveExistedCondition(obj);
     if (!condition) {
       return Promise.resolve(false)
     }

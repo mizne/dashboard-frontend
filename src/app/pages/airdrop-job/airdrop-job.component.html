@@ -98,6 +98,11 @@
               <i nz-icon nzType="menu" nzTheme="outline"></i>
             </button>
 
+            <button nz-button (click)="showManageNotifyObserverModal(data)" nzType="primary" nzShape="circle"
+              nzSize="small" nz-tooltip [nzTooltipTitle]="'管理通知源'" style="margin-right: 4px">
+              <i nz-icon nzType="alert" nzTheme="outline"></i>
+            </button>
+
             <button nz-button (click)="confirmUpdate(data)" nzType="primary" nzShape="circle" nzSize="small" nz-tooltip
               [nzTooltipTitle]="'修改'" style="margin-right: 4px">
               <i nz-icon nzType="edit" nzTheme="outline"></i>
@@ -142,6 +147,18 @@
 
     <nz-card>
       <airdrop-interaction-record-manager [airdropJobID]="airdropJobID"></airdrop-interaction-record-manager>
+    </nz-card>
+  </ng-container>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="manageNotifyObserverModalVisible" [nzWidth]="1400"
+  [nzTitle]="selectedAirdropJobTitle + ' 的通知源'" [nzFooter]="null"
+  (nzOnCancel)="manageNotifyObserverModalVisible = false">
+  <ng-container *nzModalContent>
+
+    <nz-card>
+      <notify-observer-manager [airdropJobID]="airdropJobID"></notify-observer-manager>
     </nz-card>
   </ng-container>
 </nz-modal>
