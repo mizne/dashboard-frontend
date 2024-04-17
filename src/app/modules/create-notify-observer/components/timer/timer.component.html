@@ -1,6 +1,25 @@
 <div class="create-timer-notify-observer-container">
   <form nz-form [formGroup]="data">
     <nz-alert nzType="warning" [nzMessage]="timerMessage" style="margin: 12px 0"></nz-alert>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerMonth" nzTooltipTitle="month: 1 - 12 选填">
+        <span>月</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-multi-input formControlName="timerMonth" [min]="1" [max]="12"></app-multi-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerDate" nzTooltipTitle="date: 1 - 31 选填">
+        <span>日</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-multi-input formControlName="timerDate" [min]="1" [max]="31"></app-multi-input>
+      </nz-form-control>
+    </nz-form-item>
+
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerHour" nzTooltipTitle="hour: 0 - 23 必填">
         <span>时</span>
@@ -16,24 +35,6 @@
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <app-multi-input formControlName="timerMinute" [min]="0" [max]="59"></app-multi-input>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerDate" nzTooltipTitle="date: 1 - 31 选填">
-        <span>日</span>
-      </nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <app-multi-input formControlName="timerDate" [min]="1" [max]="31"></app-multi-input>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerMonth" nzTooltipTitle="month: 1 - 12 选填">
-        <span>月</span>
-      </nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <app-multi-input formControlName="timerMonth" [min]="1" [max]="12"></app-multi-input>
       </nz-form-control>
     </nz-form-item>
 
