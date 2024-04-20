@@ -81,6 +81,13 @@ const routes: Routes = [
         (m) => m.AirdropAccountModule
       ),
   },
+  {
+    path: 'airdrop-interaction-record',
+    loadChildren: () =>
+      import('./pages/airdrop-interaction-record/airdrop-interaction-record.module').then(
+        (m) => m.AirdropInteractionRecordModule
+      ),
+  },
 ];
 
 @NgModule({

@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AirdropInteractionRecord, AirdropInteractionRecordService, SharedService, TagTypes } from 'src/app/shared';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { AirdropInteractionRecordModalActions, CreateAirdropInteractionRecordService } from 'src/app/modules/create-airdrop-interaction-record';
-import { removeKeys, removeNullOrUndefined } from 'src/app/utils';
+import { removeEmpty, removeKeys } from 'src/app/utils';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 interface TableItem extends AirdropInteractionRecord {
@@ -34,7 +34,6 @@ export class AirdropInteractionRecordManagerComponent implements OnInit {
   loading = true;
   pageSize = 10;
   pageIndex = 1;
-  query: { [key: string]: any } = {};
   sort: any = {
     createdAt: -1,
   };
@@ -42,11 +41,14 @@ export class AirdropInteractionRecordManagerComponent implements OnInit {
   tagType = TagTypes.AIRDROP_INTERACTION_RECORD_CATEGORY
   form: FormGroup<any> = this.fb.group({
     title: [null],
+    description: [null],
+    airdropAccountID: [],
+    airdropJobID: [],
+    tagIDs: []
   });
 
 
   submitForm(): void {
-    this.query = removeNullOrUndefined(this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
     this.loadDataFromServer();
@@ -54,17 +56,22 @@ export class AirdropInteractionRecordManagerComponent implements OnInit {
 
   resetForm() {
     this.form.reset();
-    this.query = removeNullOrUndefined(this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
     this.loadDataFromServer();
   }
 
   ngOnInit(): void {
+    this.patchForm();
     this.loadDataFromServer();
   }
 
-
+  private patchForm() {
+    this.form.patchValue({
+      airdropAccountID: this.airdropAccountID,
+      airdropJobID: this.airdropJobID
+    })
+  }
 
   showCreateModal() {
     const obj: Partial<AirdropInteractionRecord> = {
@@ -153,7 +160,7 @@ export class AirdropInteractionRecordManagerComponent implements OnInit {
     this.loading = true;
     this.airdropInteractionRecordService
       .queryList(
-        this.adjustQuery(this.query),
+        this.adjustQuery(removeEmpty(this.form.value)),
         { number: this.pageIndex, size: this.pageSize },
         this.sort
       )
@@ -168,7 +175,7 @@ export class AirdropInteractionRecordManagerComponent implements OnInit {
       });
 
     this.airdropInteractionRecordService
-      .queryCount(this.adjustQuery(this.query))
+      .queryCount(this.adjustQuery(removeEmpty(this.form.value)))
       .subscribe((count) => {
         this.total = count;
       });
@@ -178,8 +185,6 @@ export class AirdropInteractionRecordManagerComponent implements OnInit {
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
     // 支持正则查询
     const o: { [key: string]: any } = {
-      ...this.airdropAccountID ? { airdropAccountID: this.airdropAccountID } : {},
-      ...this.airdropJobID ? { airdropJobID: this.airdropJobID } : {},
     };
     Object.keys(query).forEach((key) => {
       if (key === 'title') {

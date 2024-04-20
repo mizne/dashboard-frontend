@@ -4,6 +4,8 @@ import { AirdropInteractionRecordManagerComponent } from './airdrop-interaction-
 
 import { AirdropAccountSelectViewModule } from 'src/app/modules/airdrop-account-select-view';
 import { AirdropJobSelectViewModule } from 'src/app/modules/airdrop-job-select-view';
+import { AirdropAccountSelectModule } from 'src/app/modules/airdrop-account-select';
+import { AirdropJobSelectModule } from 'src/app/modules/airdrop-job-select';
 import { CreateAirdropInteractionRecordModule } from 'src/app/modules/create-airdrop-interaction-record';
 
 
@@ -12,6 +14,8 @@ import { CreateAirdropInteractionRecordModule } from 'src/app/modules/create-air
     SharedModule,
     AirdropAccountSelectViewModule,
     AirdropJobSelectViewModule,
+    AirdropAccountSelectModule,
+    AirdropJobSelectModule,
     CreateAirdropInteractionRecordModule,
   ],
   exports: [AirdropInteractionRecordManagerComponent],
