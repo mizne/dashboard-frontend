@@ -18,6 +18,9 @@ export interface AirdropAccount {
   discordName?: string;
   discordPassword?: string;
 
+  openAIName?: string;
+  openAIPassword?: string;
+
   galxeName?: string;
 
   readonly createdAt: number;

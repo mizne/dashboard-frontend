@@ -99,6 +99,24 @@
       </nz-form-control>
     </nz-form-item>
 
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="openAIName" nzTooltipTitle="openAI name">
+        <span>OpenAI name</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your openAI name!">
+        <input nz-input class="ant-input" id="openAIName" formControlName="openAIName" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="openAIPassword" nzTooltipTitle="openAI password">
+        <span>OpenAI password</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your openAI password!">
+        <input nz-input class="ant-input" id="openAIPassword" formControlName="openAIPassword" />
+      </nz-form-control>
+    </nz-form-item>
+
 
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="galxeName" nzTooltipTitle="galxe name">
