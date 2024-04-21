@@ -50,7 +50,7 @@
   </nz-badge>
 </div>
 
-<nz-modal [(nzVisible)]="manageAttendJobModalVisible" [nzWidth]="1400" [nzTitle]="(item?.name) + ' 参加的任务'"
+<nz-modal [(nzVisible)]="manageAttendJobModalVisible" [nzWidth]="1400" [nzTitle]="'【'+ (item?.name) + '】 参加的任务'"
   [nzFooter]="null" (nzOnCancel)="manageAttendJobModalVisible = false">
   <ng-container *nzModalContent>
 
@@ -63,7 +63,7 @@
 
 
 <nz-modal [(nzVisible)]="manageAirdropInteractionRecordModalVisible" [nzWidth]="1400"
-  [nzTitle]="(item?.name) + ' 的交互记录'" [nzFooter]="null"
+  [nzTitle]="'【' + (item?.name) + '】 的交互记录'" [nzFooter]="null"
   (nzOnCancel)="manageAirdropInteractionRecordModalVisible = false">
   <ng-container *nzModalContent>
     <nz-card>

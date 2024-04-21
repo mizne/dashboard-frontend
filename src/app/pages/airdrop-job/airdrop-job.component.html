@@ -129,7 +129,7 @@
 
 
 <nz-modal [(nzVisible)]="manageAttendJobModalVisible" [nzWidth]="1400"
-  [nzTitle]="'参加 ' + selectedAirdropJobTitle + ' 的空投账号'" [nzFooter]="null"
+  [nzTitle]="'参加 【' + selectedAirdropJobTitle + '】 的空投账号'" [nzFooter]="null"
   (nzOnCancel)="manageAttendJobModalVisible = false">
   <ng-container *nzModalContent>
 
@@ -141,7 +141,7 @@
 </nz-modal>
 
 <nz-modal [(nzVisible)]="manageAirdropInteractionRecordModalVisible" [nzWidth]="1400"
-  [nzTitle]="selectedAirdropJobTitle + ' 的空投交互记录'" [nzFooter]="null"
+  [nzTitle]="'【' + selectedAirdropJobTitle + '】 的空投交互记录'" [nzFooter]="null"
   (nzOnCancel)="manageAirdropInteractionRecordModalVisible = false">
   <ng-container *nzModalContent>
 
@@ -153,7 +153,7 @@
 
 
 <nz-modal [(nzVisible)]="manageNotifyObserverModalVisible" [nzWidth]="1400"
-  [nzTitle]="selectedAirdropJobTitle + ' 的通知源'" [nzFooter]="null"
+  [nzTitle]="'【' + selectedAirdropJobTitle + '】 的通知源'" [nzFooter]="null"
   (nzOnCancel)="manageNotifyObserverModalVisible = false">
   <ng-container *nzModalContent>
 
