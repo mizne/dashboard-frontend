@@ -30,6 +30,8 @@ export class AirdropJobSelectViewComponent implements ControlValueAccessor, OnDe
 
   selectedAirdropJob: TableItem | null = null;
 
+  loadingAirdropJob = false;
+
   constructor(
     private readonly airdropJobService: AirdropJobService,
     private readonly messageService: NzMessageService,
@@ -42,9 +44,11 @@ export class AirdropJobSelectViewComponent implements ControlValueAccessor, OnDe
 
   writeValue(id: string): void {
     if (id) {
+      this.loadingAirdropJob = true;
       this.airdropJobService.queryList({ _id: id })
         .subscribe({
           next: (items: AirdropJob[]) => {
+            this.loadingAirdropJob = false;
             if (items.length > 0) {
               this.selectedAirdropJob = {
                 ...items[0],
@@ -54,6 +58,7 @@ export class AirdropJobSelectViewComponent implements ControlValueAccessor, OnDe
             }
           },
           error: (err: Error) => {
+            this.loadingAirdropJob = false;
             this.notificationService.error(`获取 空投任务失败`, `${err.message}, id: ${id}`)
           }
         })

@@ -1,17 +1,19 @@
 <div class="airdrop-account-select-view-container">
-  <ng-container *ngIf="selectedAirdropAccount">
-    <nz-card *ngIf="selectedAirdropAccount" style="width:280px;" [nzTitle]="selectedAirdropAccount.name">
-      <div style="display: flex;justify-content: space-between;align-items: center;">
-        <image-view [width]="64" [name]="selectedAirdropAccount.logo"></image-view>
-        <created-at [createdAt]="selectedAirdropAccount.createdAt"></created-at>
+  <nz-spin [nzSpinning]="loadingAirdropAccount">
+    <ng-container *ngIf="selectedAirdropAccount">
+      <nz-card *ngIf="selectedAirdropAccount" style="width:280px;" [nzTitle]="selectedAirdropAccount.name">
+        <div style="display: flex;justify-content: space-between;align-items: center;">
+          <image-view [width]="64" [name]="selectedAirdropAccount.logo"></image-view>
+          <created-at [createdAt]="selectedAirdropAccount.createdAt"></created-at>
 
-      </div>
+        </div>
 
-      <div class="airdrop-account-remark" style="margin-top: 8px">
-        <p nz-typography nzEllipsis [title]="selectedAirdropAccount.remark || '【无】'">
-          {{selectedAirdropAccount.remark || '【无】'}}
-        </p>
-      </div>
-    </nz-card>
-  </ng-container>
+        <div class="airdrop-account-remark" style="margin-top: 8px">
+          <p nz-typography nzEllipsis [title]="selectedAirdropAccount.remark || '【无】'">
+            {{selectedAirdropAccount.remark || '【无】'}}
+          </p>
+        </div>
+      </nz-card>
+    </ng-container>
+  </nz-spin>
 </div>

@@ -30,6 +30,8 @@ export class AirdropAccountSelectViewComponent implements ControlValueAccessor, 
 
   selectedAirdropAccount: TableItem | null = null;
 
+  loadingAirdropAccount = false;
+
   constructor(
     private readonly airdropAccountService: AirdropAccountService,
     private readonly messageService: NzMessageService,
@@ -42,9 +44,11 @@ export class AirdropAccountSelectViewComponent implements ControlValueAccessor, 
 
   writeValue(id: string): void {
     if (id) {
+      this.loadingAirdropAccount = true;
       this.airdropAccountService.queryList({ _id: id })
         .subscribe({
           next: (items: AirdropAccount[]) => {
+            this.loadingAirdropAccount = false;
             if (items.length > 0) {
               this.selectedAirdropAccount = {
                 ...items[0],
@@ -54,6 +58,7 @@ export class AirdropAccountSelectViewComponent implements ControlValueAccessor, 
             }
           },
           error: (err: Error) => {
+            this.loadingAirdropAccount = false;
             this.notificationService.error(`获取 空投账号失败`, `${err.message}, id: ${id}`)
           }
         })
