@@ -122,9 +122,17 @@ export class NotifyHistoryListComponent implements OnInit, OnChanges {
   }
 
   batchMarkRead() {
+    this.loading = true;
     this.notifyHistoryService.batchMarkRead(this.items.map(e => e._id))
-      .subscribe(() => {
-        this.loadDataFromServer();
+      .subscribe({
+        next: () => {
+          this.loading = false;
+          this.loadDataFromServer();
+        },
+        error: (err) => {
+          this.loading = false;
+          this.nzNotificationService.error(`批量已读失败`, `${err.message}`)
+        }
       })
   }
 
