@@ -10,7 +10,7 @@
       <div nz-row [nzGutter]="16">
         <div *ngFor="let item of attendJobs" nz-col nzLg="8" nzXl="6" style="position: relative; margin-bottom: 12px">
           <airdrop-account-select-view [formControl]="item.airdropAccountIDCtrl"></airdrop-account-select-view>
-
+          <p *ngIf="item.remark">{{item.remark}}</p>
           <button style="position: absolute; right: 16px; top: 12px;" nz-button nzType="primary" nzDanger
             nzShape="circle" nz-popconfirm nzPopconfirmTitle="确认移除任务?" nzPopconfirmPlacement="bottom"
             (nzOnConfirm)="confirmDeleteAttendJob(item)">
