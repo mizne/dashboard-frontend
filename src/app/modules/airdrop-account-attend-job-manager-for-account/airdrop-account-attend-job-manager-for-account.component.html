@@ -8,9 +8,11 @@
     <div class="attend-job-list-container" style="margin-top: 12px">
 
       <div nz-row [nzGutter]="16">
-        <div *ngFor="let item of attendJobs" nz-col nzLg="8" nzXl="6" style="position: relative; margin-bottom: 12px">
+        <div *ngFor="let item of attendJobs; let i = index;" nz-col nzLg="8" nzXl="6"
+          style="position: relative; margin-bottom: 12px">
           <airdrop-job-select-view [formControl]="item.airdropJobIDCtrl"></airdrop-job-select-view>
-          <p *ngIf="item.remark">{{item.remark}}</p>
+          <p nz-typography nzEditable [(nzContent)]="item.remark" (nzContentChange)="remarkChange($event, item, i)">
+            {{item.remark}}</p>
           <button style="position: absolute; right: 16px; top: 12px;" nz-button nzType="primary" nzDanger
             nzShape="circle" nz-popconfirm nzPopconfirmTitle="确认移除任务?" nzPopconfirmPlacement="bottom"
             (nzOnConfirm)="confirmDeleteAttendJob(item)">

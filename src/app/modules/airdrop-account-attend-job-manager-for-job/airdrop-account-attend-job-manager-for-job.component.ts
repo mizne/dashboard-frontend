@@ -25,6 +25,7 @@ export class AirdropAccountAttendJobManagerForJobComponent implements OnInit {
   @Input() airdropJobID: string | null = null;
 
   attendJobs: TableItem[] = [];
+  attendJobsRemarks: Array<string | undefined> = [];
   loadingAttendJobs = false;
 
   ngOnInit() { }
@@ -35,6 +36,22 @@ export class AirdropAccountAttendJobManagerForJobComponent implements OnInit {
     this.fetchAirdropAccountAttendJobs();
   }
 
+  remarkChange(text: string, item: TableItem, index: number) {
+    if (text === this.attendJobsRemarks[index]) {
+      return
+    }
+
+    this.airdropAccountAttendJobService.update(item._id, { remark: text })
+      .subscribe({
+        next: () => {
+          this.notificationService.success(`修改备注成功`, `修改备注成功`);
+          this.fetchAirdropAccountAttendJobs();
+        },
+        error: (err) => {
+          this.notificationService.error(`修改备注失败`, `${err.message}`)
+        }
+      })
+  }
 
   private fetchAirdropAccountAttendJobs() {
     if (!this.airdropJobID) {
@@ -51,6 +68,7 @@ export class AirdropAccountAttendJobManagerForJobComponent implements OnInit {
               ...e,
               airdropAccountIDCtrl: new FormControl(e.airdropAccountID)
             }))
+            this.attendJobsRemarks = items.map(e => e.remark)
           } else {
             this.attendJobs = [];
             this.notificationService.warning(`没有找到 参加任务`, `也许该空投任务还没有账号参加`)
