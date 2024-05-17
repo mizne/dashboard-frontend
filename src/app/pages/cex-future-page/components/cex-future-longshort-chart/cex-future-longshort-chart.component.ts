@@ -4,6 +4,7 @@ import { Observable, map, merge, startWith } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { format } from 'date-fns';
 import { FormBuilder } from '@angular/forms';
+import { group } from 'src/app/utils';
 
 @Component({
   selector: 'cex-future-longshort-chart',
@@ -87,6 +88,12 @@ export class CexFutureLongshortChartComponent implements OnInit {
   timeCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.time - b.time
   createdAtCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.createdAt - b.createdAt
 
+  monthModalVisible = false;
+  monthModalTitle = '';
+  monthModalLoading = false;
+  monthModalData: Array<Array<{ time: string; type: string; value: number }>> = [];
+  monthModalColors: string[] = [];
+
   ngOnInit() {
     this.loading = true;
     const intervals = 15 * 6;
@@ -99,6 +106,29 @@ export class CexFutureLongshortChartComponent implements OnInit {
         },
         error: (err: Error) => {
           this.loading = false;
+          this.notification.error(`获取多空比合约数据失败`, `${err.message}`)
+        }
+      })
+  }
+
+  openModal(months: number) {
+    this.monthModalVisible = true;
+    this.monthModalTitle = `最近 ${months} 个月多空比`;
+
+    this.monthModalLoading = true;
+
+    const intervals = months * 30 * 6;
+    this.fetchData(intervals)
+      .subscribe({
+        next: (items: CexFutureDaily[]) => {
+          this.monthModalLoading = false;
+
+          const totalItems = this.convertData(items)
+          this.monthModalData = group(totalItems, totalItems.length / (months * 2));
+          this.monthModalColors = this.legends.map(e => e.color);
+        },
+        error: (err: Error) => {
+          this.monthModalLoading = false;
           this.notification.error(`获取多空比合约数据失败`, `${err.message}`)
         }
       })
@@ -191,7 +221,7 @@ export class CexFutureLongshortChartComponent implements OnInit {
     for (const time of times) {
       for (const legendPre of legendPres) {
         results.push({
-          time: format(time, 'dd HH:mm'),
+          time: format(time, 'MM dd HH:mm'),
           type: legendPre.type,
           value: sortedItems.filter(e => e.time === time && legendPre.predicate(e.longShortRatio)).length
         })
