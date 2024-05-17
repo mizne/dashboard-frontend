@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CexTokenDaily, CexTokenDailyService, KlineIntervalService, KlineIntervals, TimerService, filterLegendType, normalizeLegendType, tokenTagNameOfTotalMarket } from 'src/app/shared';
-import { Observable, map, merge, startWith } from 'rxjs';
+import { Observable, lastValueFrom, map, merge, startWith } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { format } from 'date-fns';
 import { Legend } from 'src/app/shared';
@@ -102,6 +102,12 @@ export class CexTokenBigVolumeChartComponent implements OnInit, OnChanges {
   timeCompare = (a: CexTokenDaily, b: CexTokenDaily) => a.time - b.time
   createdAtCompare = (a: CexTokenDaily, b: CexTokenDaily) => a.createdAt - b.createdAt
 
+  monthModalVisible = false;
+  monthModalTitle = '';
+  monthModalLoading = false;
+  monthModalData: Array<Array<{ time: string; type: string; value: number }>> = [];
+  monthModalColors: string[] = [];
+
   ngOnInit() {
     // this.loadData()
   }
@@ -114,6 +120,34 @@ export class CexTokenBigVolumeChartComponent implements OnInit, OnChanges {
     this.visible = true;
 
     this.fetchTabs();
+  }
+
+  async openModal(months: number) {
+    if (months <= 1) {
+      this.notification.warning(`最少查询 2 个月`, `最少查询 2 个月`)
+      return
+    }
+    this.monthModalData = [];
+    this.monthModalVisible = true;
+    this.monthModalTitle = `最近 ${months} 个月交易量暴增分布`;
+
+    for (let i = months; i >= 1; i -= 1) {
+      this.monthModalLoading = true;
+      let startTime = this.resolveTime(i * 30 * this.resolveCountPerDay());
+      let endTime = i === 1 ? new Date().getTime() : this.resolveTime((i - 1) * 30 * this.resolveCountPerDay());
+
+      try {
+        const items = await lastValueFrom(this.fetchDataByTime(startTime, endTime));
+        this.monthModalLoading = false;
+
+        const totalItems = this.convertData(items)
+        this.monthModalData.push(totalItems);
+        this.monthModalColors = this.legends.map(e => e.color);
+      } catch (err: any) {
+        this.monthModalLoading = false;
+        this.notification.error(`获取交易量暴增数据失败`, `${err.message}`)
+      }
+    }
   }
 
   submitForm(): void {
@@ -215,8 +249,10 @@ export class CexTokenBigVolumeChartComponent implements OnInit, OnChanges {
 
   private loadData() {
     this.loading = true;
-    const intervals = 5 * 6;
-    this.fetchData(intervals)
+    const intervals = 30 * this.resolveCountPerDay();
+    const startTime = this.resolveTime(intervals);
+    const endTime = new Date().getTime();
+    this.fetchDataByTime(startTime, endTime)
       .subscribe({
         next: (items: CexTokenDaily[]) => {
           this.loading = false;
@@ -230,12 +266,11 @@ export class CexTokenBigVolumeChartComponent implements OnInit, OnChanges {
       })
   }
 
-  private fetchData(intervals: number): Observable<CexTokenDaily[]> {
-    const time = this.resolveTime(intervals);
-
+  private fetchDataByTime(startTime: number, endTime: number): Observable<CexTokenDaily[]> {
     return this.cexTokenDailyService.queryList({
       time: {
-        $gte: time
+        $gte: startTime,
+        $lt: endTime
       },
       interval: this.interval,
       ...(this.tag === tokenTagNameOfTotalMarket ? {} : {
@@ -253,6 +288,18 @@ export class CexTokenBigVolumeChartComponent implements OnInit, OnChanges {
       default:
         this.notification.error(`未知 kline时间周期`, `CexTokenBigVolumeChartComponent resolveTime() 未知interval: ${this.interval}`)
         return this.klineInterval.resolveFourHoursIntervalMills(intervals);
+    }
+  }
+
+  private resolveCountPerDay(): number {
+    switch (this.interval) {
+      case KlineIntervals.FOUR_HOURS:
+        return 6;
+      case KlineIntervals.ONE_DAY:
+        return 1;
+      default:
+        this.notification.error(`未知 kline时间周期`, `CexTokenBigVolumeChartComponent resolveCountPerDay() 未知interval: ${this.interval}`)
+        return 1;
     }
   }
 
@@ -280,7 +327,7 @@ export class CexTokenBigVolumeChartComponent implements OnInit, OnChanges {
     for (const time of times) {
       for (const legendPre of legendPres) {
         results.push({
-          time: format(time, 'dd HH:mm'),
+          time: format(time, 'MM dd HH:mm'),
           type: legendPre.type,
           value: sortedItems.filter(e => e.time === time && legendPre.predicate(e.volumeMultiple)).length
         })
