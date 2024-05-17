@@ -105,7 +105,7 @@ export class CexFutureFundingrateChartComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    const intervals = 15 * 6;
+    const intervals = 30 * 6;
     this.fetchData(intervals)
       .subscribe({
         next: (items: CexFutureDaily[]) => {
@@ -133,7 +133,7 @@ export class CexFutureFundingrateChartComponent implements OnInit {
           this.monthModalLoading = false;
 
           const totalItems = this.convertData(items)
-          this.monthModalData = group(totalItems, totalItems.length / (months * 2));
+          this.monthModalData = group(totalItems, totalItems.length / (months * 1));
           this.monthModalColors = this.legends.map(e => e.color);
         },
         error: (err: Error) => {

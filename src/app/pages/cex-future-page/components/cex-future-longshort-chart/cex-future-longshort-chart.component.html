@@ -4,9 +4,9 @@
       详情
     </button>
 
-    <button nz-button nzType="primary" (click)="openModal(1)" [title]="'查看最近一月'" style="margin-left: 8px;">
+    <!-- <button nz-button nzType="primary" (click)="openModal(1)" [title]="'查看最近一月'" style="margin-left: 8px;">
       最近一月
-    </button>
+    </button> -->
 
     <button nz-button nzType="primary" (click)="openModal(3)" [title]="'查看最近三月'" style="margin-left: 8px;">
       最近三月
@@ -14,6 +14,10 @@
 
     <button nz-button nzType="primary" (click)="openModal(6)" [title]="'查看最近半年'" style="margin-left: 8px;">
       最近半年
+    </button>
+
+    <button nz-button nzType="primary" (click)="openModal(12)" [title]="'查看最近一年'" style="margin-left: 8px;">
+      最近一年
     </button>
   </div>
   <nz-spin nzTip="Loading..." [nzSpinning]="loading">
