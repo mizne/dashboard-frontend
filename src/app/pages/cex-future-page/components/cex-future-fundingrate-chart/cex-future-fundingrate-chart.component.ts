@@ -133,6 +133,7 @@ export class CexFutureFundingrateChartComponent implements OnInit {
           this.monthModalLoading = false;
 
           this.monthModalData = group(this.convertData(items), 15 * 6);
+          console.log(`this.monthModalData: `, this.monthModalData)
           this.monthModalColors = this.legends.map(e => e.color);
         },
         error: (err: Error) => {
@@ -230,7 +231,7 @@ export class CexFutureFundingrateChartComponent implements OnInit {
     for (const time of times) {
       for (const legendPre of legendPres) {
         results.push({
-          time: format(time, 'dd HH:mm'),
+          time: format(time, 'MM dd HH:mm'),
           type: legendPre.type,
           value: sortedItems.filter(e => e.time === time && legendPre.predicate(e.fundingRate)).length
         })
