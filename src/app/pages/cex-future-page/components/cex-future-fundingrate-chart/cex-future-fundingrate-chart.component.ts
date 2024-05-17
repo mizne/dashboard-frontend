@@ -98,7 +98,7 @@ export class CexFutureFundingrateChartComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    const intervals = 5 * 6;
+    const intervals = 15 * 6;
     this.fetchData(intervals)
       .subscribe({
         next: (items: CexFutureDaily[]) => {
