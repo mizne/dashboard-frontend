@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CexFutureDaily, CexFutureDailyService, KlineIntervalService, Legend, TimerService, filterLegendType, normalizeLegendType } from 'src/app/shared';
-import { Observable, map, merge, startWith } from 'rxjs';
+import { Observable, lastValueFrom, map, merge, startWith } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { format } from 'date-fns';
 import { FormBuilder } from '@angular/forms';
@@ -97,7 +97,9 @@ export class CexFutureLongshortChartComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     const intervals = 30 * 6;
-    this.fetchData(intervals)
+    const startTime = this.klineInterval.resolveFourHoursIntervalMills(intervals);
+    const endTime = new Date().getTime();
+    this.fetchDataByTime(startTime, endTime)
       .subscribe({
         next: (items: CexFutureDaily[]) => {
           this.loading = false;
@@ -111,27 +113,32 @@ export class CexFutureLongshortChartComponent implements OnInit {
       })
   }
 
-  openModal(months: number) {
+  async openModal(months: number) {
+    if (months <= 1) {
+      this.notification.warning(`最少查询 2 个月`, `最少查询 2 个月`)
+      return
+    }
+    this.monthModalData = [];
     this.monthModalVisible = true;
     this.monthModalTitle = `最近 ${months} 个月多空比`;
 
-    this.monthModalLoading = true;
+    for (let i = months; i >= 1; i -= 1) {
+      this.monthModalLoading = true;
+      let startTime = this.klineInterval.resolveFourHoursIntervalMills(i * 30 * 6);
+      let endTime = i === 1 ? new Date().getTime() : this.klineInterval.resolveFourHoursIntervalMills((i - 1) * 30 * 6);
 
-    const intervals = months * 30 * 6;
-    this.fetchData(intervals)
-      .subscribe({
-        next: (items: CexFutureDaily[]) => {
-          this.monthModalLoading = false;
+      try {
+        const items = await lastValueFrom(this.fetchDataByTime(startTime, endTime));
+        this.monthModalLoading = false;
 
-          const totalItems = this.convertData(items)
-          this.monthModalData = group(totalItems, totalItems.length / (months * 1));
-          this.monthModalColors = this.legends.map(e => e.color);
-        },
-        error: (err: Error) => {
-          this.monthModalLoading = false;
-          this.notification.error(`获取多空比合约数据失败`, `${err.message}`)
-        }
-      })
+        const totalItems = this.convertData(items)
+        this.monthModalData.push(totalItems);
+        this.monthModalColors = this.legends.map(e => e.color);
+      } catch (err: any) {
+        this.monthModalLoading = false;
+        this.notification.error(`获取多空比合约数据失败`, `${err.message}`)
+      }
+    }
   }
 
   open() {
@@ -189,12 +196,11 @@ export class CexFutureLongshortChartComponent implements OnInit {
       })
   }
 
-  private fetchData(intervals: number): Observable<CexFutureDaily[]> {
-    const time = this.klineInterval.resolveFourHoursIntervalMills(intervals);
-
+  private fetchDataByTime(startTime: number, endTime: number): Observable<CexFutureDaily[]> {
     return this.cexFutureDailyService.queryList({
       time: {
-        $gte: time
+        $gte: startTime,
+        $lt: endTime
       }
     })
   }

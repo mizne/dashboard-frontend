@@ -8,7 +8,7 @@
       最近一月
     </button> -->
 
-    <button nz-button nzType="primary" (click)="openModal(3)" [title]="'查看最近三月'" style="margin-left: 8px;">
+    <button nz-button nzType="primary" (click)="openModal(3)" [title]="'查看最近三月'" style="margin-left: 24px;">
       最近三月
     </button>
 
@@ -30,12 +30,13 @@
 
   <ng-container *nzModalContent>
     <nz-spin nzTip="Loading..." [nzSpinning]="monthModalLoading">
-      <ng-container *ngFor="let item of monthModalData">
-        <stack-bar-chart [title]="''" [data]="item" [colors]="monthModalColors"></stack-bar-chart>
-      </ng-container>
+      <div style="min-height: 400px;">
+        <ng-container *ngFor="let item of monthModalData">
+          <stack-bar-chart [title]="''" [data]="item" [colors]="monthModalColors"></stack-bar-chart>
+        </ng-container>
+      </div>
     </nz-spin>
   </ng-container>
-
 </nz-modal>
 
 <nz-modal [(nzVisible)]="visible" [nzWidth]="1200" [nzTitle]="'全部 - 资金费率分类'" [nzFooter]="null"
