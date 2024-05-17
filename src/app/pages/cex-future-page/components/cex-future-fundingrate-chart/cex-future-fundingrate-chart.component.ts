@@ -122,7 +122,7 @@ export class CexFutureFundingrateChartComponent implements OnInit {
 
   openModal(months: number) {
     this.monthModalVisible = true;
-    this.monthModalTitle = `最近 ${months} 月资金费率`;
+    this.monthModalTitle = `最近 ${months} 个月资金费率`;
 
     this.monthModalLoading = true;
 
@@ -132,8 +132,8 @@ export class CexFutureFundingrateChartComponent implements OnInit {
         next: (items: CexFutureDaily[]) => {
           this.monthModalLoading = false;
 
-          this.monthModalData = group(this.convertData(items), 15 * 6);
-          console.log(`this.monthModalData: `, this.monthModalData)
+          const totalItems = this.convertData(items)
+          this.monthModalData = group(totalItems, totalItems.length / (months * 2));
           this.monthModalColors = this.legends.map(e => e.color);
         },
         error: (err: Error) => {
