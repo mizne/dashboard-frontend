@@ -192,3 +192,21 @@ export function randomEleInArr<T>(arr: T[]): T {
   const rndIndex = Math.floor(Math.random() * arr.length);
   return arr[rndIndex];
 }
+
+export function group<T>(arr: T[], groupCount: number): T[][] {
+  const results: T[][] = [];
+
+  for (const e of arr) {
+    if (results.length === 0) {
+      results.push([e])
+    } else {
+      if (results[results.length - 1].length === groupCount) {
+        results.push([e])
+      } else {
+        results[results.length - 1].push(e)
+      }
+    }
+  }
+
+  return results;
+}

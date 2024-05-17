@@ -5,6 +5,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { format } from 'date-fns';
 import { Legend } from 'src/app/shared';
 import { FormBuilder } from '@angular/forms';
+import { group } from 'src/app/utils';
 
 @Component({
   selector: 'cex-future-fundingrate-chart',
@@ -96,6 +97,12 @@ export class CexFutureFundingrateChartComponent implements OnInit {
   timeCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.time - b.time
   createdAtCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.createdAt - b.createdAt
 
+  monthModalVisible = false;
+  monthModalTitle = '';
+  monthModalLoading = false;
+  monthModalData: Array<Array<{ time: string; type: string; value: number }>> = [];
+  monthModalColors: string[] = [];
+
   ngOnInit() {
     this.loading = true;
     const intervals = 15 * 6;
@@ -108,6 +115,28 @@ export class CexFutureFundingrateChartComponent implements OnInit {
         },
         error: (err: Error) => {
           this.loading = false;
+          this.notification.error(`获取资金费率合约数据失败`, `${err.message}`)
+        }
+      })
+  }
+
+  openModal(months: number) {
+    this.monthModalVisible = true;
+    this.monthModalTitle = `最近 ${months} 月资金费率`;
+
+    this.monthModalLoading = true;
+
+    const intervals = months * 30 * 6;
+    this.fetchData(intervals)
+      .subscribe({
+        next: (items: CexFutureDaily[]) => {
+          this.monthModalLoading = false;
+
+          this.monthModalData = group(this.convertData(items), 15 * 6);
+          this.monthModalColors = this.legends.map(e => e.color);
+        },
+        error: (err: Error) => {
+          this.monthModalLoading = false;
           this.notification.error(`获取资金费率合约数据失败`, `${err.message}`)
         }
       })
