@@ -31,6 +31,7 @@
           <thead>
             <tr>
               <th nzColumnKey="symbol">symbol</th>
+              <th nzColumnKey="pair">pair</th>
               <th nzColumnKey="baseAsset">跟踪标的</th>
               <th nzColumnKey="contractType">合约类型</th>
               <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
@@ -40,7 +41,16 @@
           <tbody>
             <tr *ngFor="let data of items">
               <td [title]="data.symbol" style="display: flex; align-items: center; min-height: 65px;">
-                <cex-token-symbol-item [name]="data.baseAsset"></cex-token-symbol-item>
+                <cex-token-symbol-item [name]="data.baseAsset" [content]="symbolContent">
+                </cex-token-symbol-item>
+
+                <ng-template #symbolContent let-logoName="logoName">
+                  <image-view [name]="logoName" style="margin-right: 4px;"></image-view>
+                  <span class="symbol-item-custom-content">{{data.symbol}}</span>
+                </ng-template>
+              </td>
+              <td>
+                <span>{{ data.pair }}</span>
               </td>
               <td>
                 <span>{{ data.baseAsset }}</span>
