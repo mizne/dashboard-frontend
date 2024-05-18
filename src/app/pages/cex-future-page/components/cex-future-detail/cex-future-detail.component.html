@@ -12,11 +12,21 @@
         <div nz-col class="gutter-row" [nzSpan]="24">
           <div class="inner-box">
             <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
+              价格
+            </div>
+            <tradingview-chart [series]="priceSeries" [width]="900" [options]="chartOptions"></tradingview-chart>
+          </div>
+        </div>
+
+        <div nz-col class="gutter-row" [nzSpan]="24">
+          <div class="inner-box">
+            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
               开仓量
             </div>
             <tradingview-chart [series]="openInterestSeries" [width]="900" [options]="chartOptions"></tradingview-chart>
           </div>
         </div>
+
         <div nz-col class="gutter-row" [nzSpan]="24">
           <div class="inner-box">
             <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
@@ -25,6 +35,7 @@
             <tradingview-chart [series]="fundingRateSeries" [width]="900" [options]="chartOptions"></tradingview-chart>
           </div>
         </div>
+
         <div nz-col class="gutter-row" [nzSpan]="24">
           <div class="inner-box">
             <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">

@@ -4,6 +4,7 @@ import { ContractTypes } from './cex-future.model';
 export interface CexFutureDaily {
   readonly _id: string;
   readonly symbol: string;
+  readonly pair: string;
   readonly baseAsset: string;
 
   readonly contractType: ContractTypes;
@@ -13,6 +14,7 @@ export interface CexFutureDaily {
   readonly time: number;
   readonly timeStr: string;
 
+  readonly price: number;
   readonly fundingRate: number;
   readonly openInterest: number;
   readonly longShortRatio: number;

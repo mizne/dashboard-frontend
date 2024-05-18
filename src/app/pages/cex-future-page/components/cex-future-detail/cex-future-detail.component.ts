@@ -37,6 +37,11 @@ export class CexFutureDetailComponent implements OnInit {
       },
     },
   }
+  priceSeries: Array<{
+    type: string;
+    color: string;
+    data: { time: Time; value: number }[];
+  }> = []
   openInterestSeries: Array<{
     type: string;
     color: string;
@@ -68,6 +73,17 @@ export class CexFutureDetailComponent implements OnInit {
         next: (results: CexFutureDaily[]) => {
           this.futureDetailModalVisible = true;
           this.futureDetailModalTitle = `${this.symbol} 近 ${days} 天数据`;
+
+          this.priceSeries = [
+            {
+              type: 'line',
+              color: '#f6bf26',
+              data: results
+                .sort((a, b) => a.time - b.time)
+                .map(e => ({ time: e.time, value: e.price }))
+                .map(e => ({ time: fixTradingViewTime(e.time), value: e.value }))
+            }
+          ]
 
           this.openInterestSeries = [
             {

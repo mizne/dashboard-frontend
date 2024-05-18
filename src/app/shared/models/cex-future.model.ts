@@ -7,6 +7,7 @@ export enum ContractTypes {
 export interface CexFuture {
   readonly _id: string;
   readonly symbol: string;
+  readonly pair: string;
   readonly baseAsset: string;
 
   readonly contractType: ContractTypes;
