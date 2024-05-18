@@ -1,5 +1,5 @@
-<nz-spin [nzTip]="'正在上传...'" [nzSpinning]="loading">
-  <div class="dev-upload-container">
+<div class="dev-upload-container">
+  <nz-spin [nzTip]="'正在上传...'" [nzSpinning]="loading">
     <ng-container *ngIf="imageUrl; else noImage">
       <div class="dev-has-upload">
         <img [src]="imageUrl" alt="uploaded_image">
@@ -11,11 +11,14 @@
       </div>
     </ng-container>
     <ng-template #noImage>
-      <label [for]="id" class="dev-no-upload">
-        <i class="anticon anticon-plus"></i>
-        <span class="mt-sm text-grey">上传图片</span>
-        <input type="file" (change)="fileChange($event)" [id]="id" accept="image/*" multiple>
-      </label>
+      <div class="dev-no-upload">
+        <span class="upload-action" nz-icon nzType="twitter" nzTheme="outline" (click)="open()"
+          [title]="'从twitter主页链接下载'"></span>
+        <label class="upload-action" [for]="id" style="margin-left: 12px;">
+          <span nz-icon nzType="file-add" nzTheme="outline"></span>
+          <input type="file" (change)="fileChange($event)" [id]="id" accept="image/*" multiple>
+        </label>
+      </div>
     </ng-template>
     <ng-template #previewModal>
       <div class="preview-container">
@@ -23,5 +26,20 @@
         <img [src]="imageUrl" alt="preview_image" style="width: 100%;">
       </div>
     </ng-template>
-  </div>
-</nz-spin>
+  </nz-spin>
+</div>
+
+<nz-modal [(nzVisible)]="modalVisible" [nzWidth]="600" [nzTitle]="'下载Twitter Logo'" [nzFooter]="modalFooter">
+
+  <ng-container *nzModalContent>
+    <nz-spin nzTip="uploading..." [nzSpinning]="loading">
+      <input nz-input placeholder="请输入推特主页链接" [formControl]="twitterHomeLinkCtrl" />
+    </nz-spin>
+  </ng-container>
+
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="modalVisible=false">取消</button>
+    <button nz-button nzType="primary" (click)="handleUploadTwitter()" [nzLoading]="loading">上传</button>
+  </ng-template>
+
+</nz-modal>

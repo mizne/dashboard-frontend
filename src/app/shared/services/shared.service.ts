@@ -74,6 +74,20 @@ export class SharedService {
     );
   }
 
+  uploadFileFromTwitter(url: string): Observable<string> {
+    return this.httpClient.post<ExecuteTaskResp>(`${environment.baseURL}/app/upload-file-from-twitter`, {
+      url: url,
+    }).pipe(
+      map(resp => {
+        if (resp.code === 0) {
+          return resp.result as string
+        } else {
+          throw new Error(resp.message)
+        }
+      })
+    )
+  }
+
   checkConnections(): Observable<Array<Connection>> {
     return this.httpClient.post<Array<Connection>>(
       `${this.baseURL}/app/check-connections`,

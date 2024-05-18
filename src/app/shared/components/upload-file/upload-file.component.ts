@@ -6,7 +6,7 @@ import {
   OnDestroy,
   ViewChild
 } from '@angular/core'
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms'
 import { NzMessageService } from 'ng-zorro-antd/message'
 import { NzNotificationService } from 'ng-zorro-antd/notification'
 import { Subject } from 'rxjs'
@@ -35,6 +35,9 @@ export class UploadFileComponent implements ControlValueAccessor, OnDestroy {
   private destroySubject = new Subject<void>()
   public id = uuid.v4()
 
+  modalVisible = false;
+  twitterHomeLinkCtrl = new FormControl()
+
   constructor(
     private sharedService: SharedService,
     private notify: NzNotificationService,
@@ -44,6 +47,7 @@ export class UploadFileComponent implements ControlValueAccessor, OnDestroy {
   fileChange(ev: any) {
     const files = ev.target.files
     this.loading = true
+
     this.sharedService
       .uploadFile(files[0])
       .pipe(takeUntil(this.destroySubject.asObservable()))
@@ -53,6 +57,37 @@ export class UploadFileComponent implements ControlValueAccessor, OnDestroy {
           this.imageUrl = `${environment.imageBaseURL}${filename}`
           this.onChange(filename)
           this.notify.success(`上传文件成功`, `恭喜您，上传文件成功！`)
+        },
+        e => {
+          this.loading = false
+          this.notify.error(
+            `上传文件失败`,
+            e.message
+          )
+        }
+      )
+
+  }
+
+  open() {
+    this.modalVisible = true;
+  }
+
+  handleUploadTwitter(): any {
+    if (!this.twitterHomeLinkCtrl.value) {
+      return ''
+    }
+    this.loading = true
+    this.sharedService
+      .uploadFileFromTwitter(this.twitterHomeLinkCtrl.value)
+      .pipe(takeUntil(this.destroySubject.asObservable()))
+      .subscribe(
+        filename => {
+          this.loading = false
+          this.imageUrl = `${environment.imageBaseURL}${filename}`
+          this.onChange(filename)
+          this.notify.success(`上传文件成功`, `恭喜您，上传文件成功！`)
+          this.modalVisible = false;
         },
         e => {
           this.loading = false
