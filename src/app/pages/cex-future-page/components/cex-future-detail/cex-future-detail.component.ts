@@ -60,14 +60,14 @@ export class CexFutureDetailComponent implements OnInit {
       this.notification.error(`查看详情失败`, `没有symbol`)
       return
     }
-
+    const days = 180;
     this.cexFutureDailyService.queryList({
       symbol: this.symbol,
-    }, { number: 1, size: 180 })
+    }, { number: 1, size: days * 6 })
       .subscribe({
         next: (results: CexFutureDaily[]) => {
           this.futureDetailModalVisible = true;
-          this.futureDetailModalTitle = `${this.symbol} 近30天数据`;
+          this.futureDetailModalTitle = `${this.symbol} 近 ${days} 天数据`;
 
           this.openInterestSeries = [
             {
