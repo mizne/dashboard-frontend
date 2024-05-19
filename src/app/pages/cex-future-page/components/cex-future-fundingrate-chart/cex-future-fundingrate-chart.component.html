@@ -39,7 +39,7 @@
   </ng-container>
 </nz-modal>
 
-<nz-modal [(nzVisible)]="visible" [nzWidth]="1200" [nzTitle]="'全部 - 资金费率分类'" [nzFooter]="null"
+<nz-modal [(nzVisible)]="visible" [nzWidth]="1400" [nzTitle]="'全部 - 资金费率分类'" [nzFooter]="null"
   (nzOnCancel)="visible=false">
   <ng-container *nzModalContent>
 
@@ -102,6 +102,14 @@
                     [nzSortDirections]="['descend', 'ascend', null]">
                     多空比
                   </th>
+                  <th nzColumnKey="openInterestRelative21" [nzSortFn]="openInterestRelative21Compare"
+                    title="未平仓合约量 相对变动" [nzSortDirections]="['descend', 'ascend', null]">
+                    21周期
+                  </th>
+                  <th nzColumnKey="openInterestRelative55" [nzSortFn]="openInterestRelative55Compare"
+                    title="未平仓合约量 相对变动" [nzSortDirections]="['descend', 'ascend', null]">
+                    55周期
+                  </th>
                   <th nzColumnKey="time" [nzSortFn]="timeCompare" [nzSortDirections]="['descend', 'ascend', null]">周期
                   </th>
                   <th nzColumnKey="createdAt" [nzSortFn]="createdAtCompare"
@@ -135,6 +143,12 @@
                   </td>
                   <td>
                     {{data.longShortRatio}}
+                  </td>
+                  <td>
+                    {{data.openInterestRelative21 | toFixed}}
+                  </td>
+                  <td>
+                    {{data.openInterestRelative55 | toFixed}}
                   </td>
                   <td>
                     {{data.time | date:'MM-dd HH:mm'}}

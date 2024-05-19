@@ -3,14 +3,13 @@ import { CexFutureDaily, CexFutureDailyService, KlineIntervalService, Legend, Ti
 import { Observable, lastValueFrom, map, merge, startWith } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { format } from 'date-fns';
-import { FormBuilder } from '@angular/forms';
-import { group } from 'src/app/utils';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'cex-future-longshort-chart',
-  templateUrl: 'cex-future-longshort-chart.component.html'
+  selector: 'cex-future-openinterest-chart',
+  templateUrl: 'cex-future-openinterest-chart.component.html'
 })
-export class CexFutureLongshortChartComponent implements OnInit {
+export class CexFutureOpeninterestChartComponent implements OnInit {
   constructor(
     private klineInterval: KlineIntervalService,
     private cexFutureDailyService: CexFutureDailyService,
@@ -19,7 +18,7 @@ export class CexFutureLongshortChartComponent implements OnInit {
     private readonly timerService: TimerService,
   ) { }
 
-  title = '多空比分布';
+  title = '开仓量相对分布';
   data: Array<{
     time: string;
     type: string;
@@ -27,16 +26,28 @@ export class CexFutureLongshortChartComponent implements OnInit {
   }> = [];
   colors: string[] = []
 
+  relativeCtrl = new FormControl(21)
+  relatives = [
+    {
+      label: '21周期',
+      value: 21,
+    },
+    {
+      label: '55周期',
+      value: 55,
+    }
+  ]
+
   legends: Array<Legend> = [
     {
       type: {
-        lte: 0.85
+        lte: 0.7
       },
       color: 'rgb(203, 24, 29)'
     },
     {
       type: {
-        gt: 0.85,
+        gt: 0.7,
         lte: 1.0
       },
       color: 'rgb(252, 187, 161)'
@@ -44,13 +55,13 @@ export class CexFutureLongshortChartComponent implements OnInit {
     {
       type: {
         gt: 1.0,
-        lte: 2.5
+        lte: 1.5
       },
       color: 'rgb(199, 233, 192)'
     },
     {
       type: {
-        gt: 2.5,
+        gt: 1.5,
       },
       color: 'rgb(35, 139, 69)'
     },
@@ -58,6 +69,8 @@ export class CexFutureLongshortChartComponent implements OnInit {
   loading = false;
 
   visible = false;
+  detailModalTitle = `全部 - 开仓量相对 分类`
+
   tabsLoading = false;
   tabs: Array<{
     label: string;
@@ -96,7 +109,15 @@ export class CexFutureLongshortChartComponent implements OnInit {
   monthModalData: Array<Array<{ time: string; type: string; value: number }>> = [];
   monthModalColors: string[] = [];
 
+
+
   ngOnInit() {
+    this.relativeCtrl.valueChanges.pipe(startWith(42)).subscribe(() => {
+      this.fetchChartData()
+    })
+  }
+
+  private fetchChartData() {
     this.loading = true;
     const intervals = 30 * 6;
     const startTime = this.klineInterval.resolveFourHoursIntervalMills(intervals);
@@ -110,7 +131,7 @@ export class CexFutureLongshortChartComponent implements OnInit {
         },
         error: (err: Error) => {
           this.loading = false;
-          this.notification.error(`获取多空比合约数据失败`, `${err.message}`)
+          this.notification.error(`获取开仓量相对合约数据失败`, `${err.message}`)
         }
       })
   }
@@ -122,7 +143,7 @@ export class CexFutureLongshortChartComponent implements OnInit {
     }
     this.monthModalData = [];
     this.monthModalVisible = true;
-    this.monthModalTitle = `最近 ${months} 个月多空比`;
+    this.monthModalTitle = `最近 ${months} 个月开仓量相对 ${this.relativeCtrl.value}周期`;
 
     for (let i = months; i >= 1; i -= 1) {
       this.monthModalLoading = true;
@@ -138,7 +159,7 @@ export class CexFutureLongshortChartComponent implements OnInit {
         this.monthModalColors = this.legends.map(e => e.color);
       } catch (err: any) {
         this.monthModalLoading = false;
-        this.notification.error(`获取多空比合约数据失败`, `${err.message}`)
+        this.notification.error(`获取开仓量相对合约数据失败`, `${err.message}`)
       }
     }
   }
@@ -184,7 +205,7 @@ export class CexFutureLongshortChartComponent implements OnInit {
               label: e.type,
               color: e.color,
               table: {
-                list: items.filter(f => e.predicate(f.longShortRatio)),
+                list: items.filter(f => e.predicate(this.resolveRelativeDuration(f))),
                 pageIndex: 1,
                 pageSize: 10
               }
@@ -193,7 +214,7 @@ export class CexFutureLongshortChartComponent implements OnInit {
         },
         error: (err: Error) => {
           this.tabsLoading = false;
-          this.notification.error(`获取多空比合约数据失败`, `${err.message}`)
+          this.notification.error(`获取开仓量相对合约数据失败`, `${err.message}`)
         }
       })
   }
@@ -231,10 +252,14 @@ export class CexFutureLongshortChartComponent implements OnInit {
         results.push({
           time: format(time, 'MM dd HH:mm'),
           type: legendPre.type,
-          value: sortedItems.filter(e => e.time === time && legendPre.predicate(e.longShortRatio)).length
+          value: sortedItems.filter(e => e.time === time && legendPre.predicate(this.resolveRelativeDuration(e))).length
         })
       }
     }
     return results
+  }
+
+  private resolveRelativeDuration(item: CexFutureDaily): number {
+    return this.relativeCtrl.value === 21 ? item.openInterestRelative21 : item.openInterestRelative55
   }
 }

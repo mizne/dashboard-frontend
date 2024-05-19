@@ -94,6 +94,8 @@ export class CexFutureFundingrateChartComponent implements OnInit {
 
   fundingRateCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.fundingRate - b.fundingRate
   longShortRatioCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.longShortRatio - b.longShortRatio
+  openInterestRelative21Compare = (a: CexFutureDaily, b: CexFutureDaily) => a.openInterestRelative21 - b.openInterestRelative21
+  openInterestRelative55Compare = (a: CexFutureDaily, b: CexFutureDaily) => a.openInterestRelative55 - b.openInterestRelative55
   timeCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.time - b.time
   createdAtCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.createdAt - b.createdAt
 

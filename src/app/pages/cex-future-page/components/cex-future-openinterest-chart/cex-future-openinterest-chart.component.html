@@ -1,4 +1,4 @@
-<div class="cex-future-longshort-chart-container">
+<div class="cex-future-openinterest-chart-container">
   <div class="cex-future-list-action">
     <button nz-button nzType="primary" (click)="open()" [title]="'查看详情'">
       详情
@@ -19,6 +19,10 @@
     <button nz-button nzType="primary" (click)="openModal(12)" [title]="'查看最近一年'" style="margin-left: 8px;">
       最近一年
     </button>
+
+    <nz-radio-group [formControl]="relativeCtrl" style="margin-left: 32px">
+      <label *ngFor="let item of relatives" nz-radio-button [nzValue]="item.value">{{item.label}}</label>
+    </nz-radio-group>
   </div>
   <nz-spin nzTip="Loading..." [nzSpinning]="loading">
     <stack-bar-chart [title]="title" [data]="data" [colors]="colors"></stack-bar-chart>
@@ -40,7 +44,7 @@
 
 </nz-modal>
 
-<nz-modal [(nzVisible)]="visible" [nzWidth]="1400" [nzTitle]="'全部 - 多空比分类'" [nzFooter]="null"
+<nz-modal [(nzVisible)]="visible" [nzWidth]="1400" [nzTitle]="detailModalTitle" [nzFooter]="null"
   (nzOnCancel)="visible=false">
   <ng-container *nzModalContent>
 

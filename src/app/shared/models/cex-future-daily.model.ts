@@ -19,6 +19,9 @@ export interface CexFutureDaily {
   readonly openInterest: number;
   readonly longShortRatio: number;
 
+  readonly openInterestRelative21: number;
+  readonly openInterestRelative55: number;
+
   readonly createdAt: number;
   readonly createdAtStr: string;
 }
