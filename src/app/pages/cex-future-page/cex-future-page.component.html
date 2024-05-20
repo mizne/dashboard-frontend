@@ -16,6 +16,15 @@
             </nz-form-control>
           </nz-form-item>
 
+          <nz-form-item>
+            <nz-form-label>是否标记</nz-form-label>
+            <nz-form-control>
+              <nz-radio-group formControlName="hasCollect" nzButtonStyle="solid">
+                <label nz-radio-button *ngFor="let item of colletStatuses" [nzValue]="item.value">{{item.label}}</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+
           <nz-form-item class="register-area">
             <nz-form-control>
               <button nz-button [nzType]="'primary'">搜索</button>
@@ -36,12 +45,14 @@
               <th nzColumnKey="baseAsset">跟踪标的</th>
               <th nzColumnKey="contractType">合约类型</th>
               <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
-              <th nzColumnKey="Action" style="width: 130px;">操作</th>
+              <th nzColumnKey="Action" style="width: 200px;">操作</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let data of items">
-              <td [title]="data.symbol" style="display: flex; align-items: center; min-height: 65px;">
+              <td style="display: flex; align-items: center; min-height: 65px;">
+                <nz-rate [ngModel]="!!data.hasCollect ? 1 : 0" [nzCount]="1" [title]="!!data.hasCollect?'取消标记':'标记'"
+                  (click)="changeCollet(data)" style="margin-right: 8px;"></nz-rate>
                 <cex-token-symbol-item [name]="data.baseAsset" [content]="symbolContent">
                 </cex-token-symbol-item>
 

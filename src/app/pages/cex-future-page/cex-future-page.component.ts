@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { CexFutureService, CexFuture, NotifyObserverTypes } from 'src/app/shared';
 import { removeNullOrUndefined } from 'src/app/utils';
@@ -13,6 +14,7 @@ export class CexFuturePageComponent implements OnInit {
   constructor(
     private readonly cexFutureService: CexFutureService,
     private readonly fb: FormBuilder,
+    private readonly notification: NzNotificationService,
   ) { }
 
   total = 0;
@@ -27,7 +29,22 @@ export class CexFuturePageComponent implements OnInit {
 
   form: FormGroup<any> = this.fb.group({
     symbol: [null],
+    hasCollect: [null]
   });
+  colletStatuses = [
+    {
+      label: '所有',
+      value: null
+    },
+    {
+      label: '已标记',
+      value: true
+    },
+    {
+      label: '未标记',
+      value: false
+    }
+  ]
   marketType = NotifyObserverTypes.MARKET
 
   submitForm(): void {
@@ -47,6 +64,21 @@ export class CexFuturePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDataFromServer();
+  }
+
+  changeCollet(item: CexFuture) {
+    this.cexFutureService.update(item._id, { hasCollect: !item.hasCollect })
+      .subscribe({
+        next: () => {
+          const s = item.hasCollect ? '取消标记' : '标记'
+          this.notification.success(`${s}成功`, `${s}成功`)
+          this.loadDataFromServer();
+        },
+        error: (err: Error) => {
+          const s = item.hasCollect ? '取消标记' : '标记'
+          this.notification.error(`${s}失败`, `${err.message}`)
+        }
+      })
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
@@ -90,6 +122,10 @@ export class CexFuturePageComponent implements OnInit {
       if (key === 'symbol') {
         Object.assign(o, {
           ['symbol']: { $regex: query['symbol'].trim(), $options: 'i' },
+        });
+      } else if (key === 'hasCollect') {
+        Object.assign(o, {
+          ['hasCollect']: !!query['hasCollect'] ? true : { $in: [false, null, undefined] },
         });
       } else {
         Object.assign(o, { [key]: query[key] });

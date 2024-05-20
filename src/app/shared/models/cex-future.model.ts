@@ -12,6 +12,7 @@ export interface CexFuture {
 
   readonly contractType: ContractTypes;
   readonly logoName: string;
+  readonly hasCollect: boolean;
 
   readonly createdAt: number;
   readonly createdAtStr: string;
