@@ -102,6 +102,25 @@ export class FollowedProjectDetailComponent implements OnInit {
     });
   }
 
+  confirmCopy(item: TableItem) {
+    const obj: Partial<NotifyObserver> = {
+      ...item,
+    };
+    const { success, error } = this.createNotifyObserverService.createModal(
+      '复制通知源',
+      obj,
+      NotifyObserverModalActions.CREATE
+    );
+
+    success.subscribe((v) => {
+      this.notificationService.success(`复制通知源成功`, `复制通知源成功`);
+      this.fetchNotifyObservers();
+    });
+    error.subscribe((e) => {
+      this.notificationService.error(`复制通知源失败`, `${e.message}`);
+    });
+  }
+
   confirmUpdate(item: TableItem) {
     const obj: Partial<NotifyObserver> = {
       ...item,

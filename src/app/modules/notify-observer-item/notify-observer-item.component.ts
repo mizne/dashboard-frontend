@@ -34,9 +34,11 @@ export class NotifyObserverItemComponent implements OnInit {
   @Input() width = 320;
   @Input() item: TableItem | null = null;
 
+  @Input() enableCopy = true;
   @Input() enableEdit = true;
   @Input() enableDelete = true;
 
+  @Output() copy = new EventEmitter<void>();
   @Output() update = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
   @Output() search = new EventEmitter<void>();
@@ -78,6 +80,10 @@ export class NotifyObserverItemComponent implements OnInit {
 
   resolveDesc(item: TableItem) {
     return this.notifyObserverTypeService.resolveDesc(item)
+  }
+
+  confirmCopy() {
+    this.copy.emit();
   }
 
   confirmUpdate() {

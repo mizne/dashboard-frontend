@@ -139,6 +139,25 @@ export class MyNotificationComponent implements OnInit {
     this.link3ActivityInputCtrl.patchValue(null);
   }
 
+  confirmCopy(item: TableItem) {
+    const obj: Partial<NotifyObserver> = {
+      ...item,
+    };
+    const { success, error } = this.createNotifyObserverService.createModal(
+      '复制通知源',
+      obj,
+      NotifyObserverModalActions.CREATE
+    );
+
+    success.subscribe((v) => {
+      this.nzNotificationService.success(`复制通知源成功`, `复制通知源成功`);
+      this.loadDataFromServer();
+    });
+    error.subscribe((e) => {
+      this.nzNotificationService.error(`复制通知源失败`, `${e.message}`);
+    });
+  }
+
   confirmUpdate(item: TableItem) {
     const obj: Partial<NotifyObserver> = {
       ...item,

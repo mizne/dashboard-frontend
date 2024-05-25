@@ -64,8 +64,11 @@
 
 </nz-card>
 <ng-template #extraTemplate>
-  <button *ngIf="enableEdit" nz-button nzType="primary" nzShape="circle" (click)="confirmUpdate()"><span nz-icon
-      nzType="edit"></span></button>
+  <button *ngIf="enableCopy" nz-button nzType="primary" nzShape="circle" (click)="confirmCopy()"><span nz-icon
+      nzType="copy"></span></button>
+
+  <button *ngIf="enableEdit" style="margin-left: 6px" nz-button nzType="primary" nzShape="circle"
+    (click)="confirmUpdate()"><span nz-icon nzType="edit"></span></button>
 
   <button *ngIf="enableDelete" style="margin-left: 6px" nz-button nzType="primary" nzDanger nzShape="circle"
     nz-popconfirm nzPopconfirmTitle="确认删除该通知源?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete()"><span
