@@ -44,13 +44,13 @@ export class CexFutureLongshortChartComponent implements OnInit {
     {
       type: {
         gt: 1.0,
-        lte: 2.5
+        lte: 3
       },
       color: 'rgb(199, 233, 192)'
     },
     {
       type: {
-        gt: 2.5,
+        gt: 3,
       },
       color: 'rgb(35, 139, 69)'
     },
