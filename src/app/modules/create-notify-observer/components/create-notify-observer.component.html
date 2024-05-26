@@ -13,11 +13,20 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，定时追踪最新文章">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，定时追踪最新通知">
         <span>开启追踪</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <nz-switch formControlName="enableTracking"></nz-switch>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，通知到telegram客户端">
+        <span>开启通知到telegram</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-switch formControlName="enableTelegram"></nz-switch>
       </nz-form-control>
     </nz-form-item>
 

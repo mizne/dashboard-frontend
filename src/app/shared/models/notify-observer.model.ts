@@ -36,6 +36,7 @@ export interface NotifyObserver {
   readonly _id: string;
   type: NotifyObserverTypes;
   enableTracking: boolean; // 开启追踪数据
+  enableTelegram: boolean; // 开启 通知到telegram客户端
   notifyShowTitle?: string;
   logo?: string;
   followedProjectID?: string;

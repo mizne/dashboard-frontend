@@ -33,6 +33,10 @@ export class NotifyObserverTypeManagerService {
         obj.enableTracking === false ? false : true,
         [Validators.required],
       ],
+      enableTelegram: [
+        !!obj.enableTelegram,
+        [Validators.required],
+      ],
       followedProjectID: [obj.followedProjectID],
       notifyShowTitle: [obj.notifyShowTitle],
       airdropJobID: [obj.airdropJobID],

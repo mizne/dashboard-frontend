@@ -66,8 +66,7 @@ module.exports = async function parseData() {
     link: 'https://defillama.com/',
     predicate: {
       link: 'https://defillama.com/'
-    },
-    enableTelegram: false
+    }
   }
 }
   `
