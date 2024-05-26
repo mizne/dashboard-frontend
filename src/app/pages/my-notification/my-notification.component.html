@@ -27,6 +27,19 @@
 
         <div nz-col [nzSpan]="6">
           <nz-form-item>
+            <nz-form-label [nzSpan]="10" nzFor="enableTelegram">是否通知telegram</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <nz-radio-group formControlName="enableTelegram" nzSize="small" [nzButtonStyle]="'solid'">
+                <label nz-radio-button [nzValue]="null">所有</label>
+                <label nz-radio-button [nzValue]="true">通知</label>
+                <label nz-radio-button [nzValue]="false">不通知</label>
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="6">
+          <nz-form-item>
             <nz-form-label [nzSpan]="10" nzFor="sourceType">来源类型</nz-form-label>
             <nz-form-control [nzSpan]="14">
               <nz-select [attr.id]="'sourceType'" formControlName="type">
@@ -37,14 +50,7 @@
           </nz-form-item>
         </div>
 
-        <div nz-col [nzSpan]="6">
-          <nz-form-item>
-            <nz-form-label [nzSpan]="10">关注项目</nz-form-label>
-            <nz-form-control [nzSpan]="14">
-              <followed-project-select mode="simple" formControlName="followedProjectID"></followed-project-select>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
+
 
         <div nz-col [nzSpan]="6">
           <nz-form-item>
@@ -78,6 +84,15 @@
             <nz-form-control [nzSpan]="14">
               <input nz-input class="ant-input" placeholder="请输入脚本内容" formControlName="scriptText"
                 [attr.id]="'scriptText'" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col [nzSpan]="6">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="10">关注项目</nz-form-label>
+            <nz-form-control [nzSpan]="14">
+              <followed-project-select mode="simple" formControlName="followedProjectID"></followed-project-select>
             </nz-form-control>
           </nz-form-item>
         </div>

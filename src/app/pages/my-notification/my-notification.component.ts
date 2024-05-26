@@ -55,6 +55,7 @@ export class MyNotificationComponent implements OnInit {
     notifyShowTitle: [null],
     type: [this.types[0].value],
     enableTracking: [null],
+    enableTelegram: [null],
     followedProjectID: [null],
     timerEnableScript: [null],
     timerEnableStatistics: [null],
