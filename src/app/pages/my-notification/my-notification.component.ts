@@ -272,6 +272,10 @@ export class MyNotificationComponent implements OnInit {
             { timerScript: { $regex: query['scriptText'].trim(), $options: 'i' } },
           ],
         });
+      } else if (key === 'enableTelegram') {
+        Object.assign(o, {
+          ['enableTelegram']: query['enableTelegram'] ? true : { $in: [false, null, undefined] }
+        })
       } else {
         Object.assign(o, { [key]: query[key] });
       }

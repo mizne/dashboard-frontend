@@ -35,6 +35,9 @@
     </ng-template>
 
     <nz-switch [formControl]="item.enableTrackingCtrl"></nz-switch>
+
+    <span *ngIf="item.enableTelegram" title="通知到telegram" nz-icon nzType="send" nzTheme="outline"
+      style="color: #1890ff;transform: rotate(310deg) scale(1.2);"></span>
   </p>
 
   <p nz-typography nzEllipsis [nzEllipsisRows]="2" nzCopyable [nzContent]="resolveDesc(item)">
