@@ -47,6 +47,7 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
 
   @Input() type: 'number' | 'string' = 'number'
   @Input() mode: 'array' | 'string' = 'array' // 表示输入输出是数组还是逗号相连的字符串 [2, 3] or '2,3' / ['testnet', 'mainnet'] or 'testnet,mainnet'
+  @Input() sort: boolean = false;
 
   @ViewChild('inputNumber') inputNumberCom: NzInputNumberComponent | null = null;
   @ViewChild('inputText') inputTextCom: ElementRef<HTMLInputElement> | null = null;
@@ -152,7 +153,7 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
       this.tags = [];
     }
 
-    if (this.type === 'string') {
+    if (this.sort) {
       this.tags = this.tags.sort()
     }
   }
