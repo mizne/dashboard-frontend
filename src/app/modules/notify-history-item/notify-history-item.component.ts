@@ -59,7 +59,7 @@ export class NotifyHistoryItemComponent implements OnInit {
     return item.type === NotifyObserverTypes.GALXE_RECOMMEND || item.type === NotifyObserverTypes.QUEST3_RECOMMEND
   }
 
-  createTimerNotifyObserver(item: TableItem) {
+  createLink3TimerNotifyObserver(item: TableItem) {
     if (item.link) {
       const { success, error } = this.createNotifyObserverService.createLink3ActivityModal(item.link, item.followedProjectID)
       success.subscribe((v) => {
@@ -69,8 +69,34 @@ export class NotifyHistoryItemComponent implements OnInit {
     }
   }
 
-  showCreateTimerNotifyObserverGetter(item: TableItem): boolean {
+  showCreateLink3TimerNotifyObserverGetter(item: TableItem): boolean {
     return (item.type === NotifyObserverTypes.LINK3_RECOMMEND || item.type === NotifyObserverTypes.LINK3) && !!item.link && item.link?.indexOf('link3.to/e/') >= 0
+  }
+
+  createTimerNotifyObserver(item: TableItem) {
+    const { success, error } = this.createNotifyObserverService.createModal(`添加通知源`, {
+      type: NotifyObserverTypes.TIMER,
+      enableTracking: true,
+      notifyShowTitle: item.title,
+      followedProjectID: item.followedProjectID,
+      followedProjectLogo: item.followedProjectLogo,
+      timerNotifyShowDesc: item.desc,
+      timerNotifyShowUrl: item.link,
+      timerOnce: true
+    })
+    success.subscribe((v) => {
+      this.nzNotificationService.success(
+        `添加定时任务 成功`,
+        `添加定时任务 成功`
+      );
+    });
+    error.subscribe((e) => {
+      this.nzNotificationService.error(`添加定时任务 失败`, `${e.message}`);
+    });
+  }
+
+  showCreateTimerNotifyObserverGetter(item: TableItem): boolean {
+    return (item.type === NotifyObserverTypes.GALXE || item.type === NotifyObserverTypes.QUEST3 || item.type === NotifyObserverTypes.TIMER)
   }
 
   cancelDelete(item: NotifyHistory) { }

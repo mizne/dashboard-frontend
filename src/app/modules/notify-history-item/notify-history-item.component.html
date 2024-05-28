@@ -41,6 +41,13 @@
         </button>
       </p>
 
+      <p style="display: flex; align-items: center;" *ngIf="showCreateLink3TimerNotifyObserverGetter(item)">
+        <button nz-button nzType="primary" nzSize="small" nzShape="circle" title="添加到定时任务"
+          (click)="createLink3TimerNotifyObserver(item)">
+          <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
+        </button>
+      </p>
+
       <p style="display: flex; align-items: center;" *ngIf="showCreateTimerNotifyObserverGetter(item)">
         <button nz-button nzType="primary" nzSize="small" nzShape="circle" title="添加到定时任务"
           (click)="createTimerNotifyObserver(item)">
