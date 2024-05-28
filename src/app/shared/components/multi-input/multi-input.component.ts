@@ -151,6 +151,10 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
     } else {
       this.tags = [];
     }
+
+    if (this.type === 'string') {
+      this.tags = this.tags.sort()
+    }
   }
 
   registerOnChange(fn: any): void {
