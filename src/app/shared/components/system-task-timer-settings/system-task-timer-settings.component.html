@@ -1,10 +1,10 @@
 <div class="system-task-timer-settings-container">
-  <button nz-button nzType="primary" (click)="open()" [title]="type + ' 定时任务'">
-    {{type}} 定时任务
+  <button nz-button nzType="primary" (click)="open()" [title]="type + ' 定时'">
+    {{type}} 定时
   </button>
 </div>
 
-<nz-modal [(nzVisible)]="visible" [nzWidth]="800" [nzTitle]="type + ' 定时任务'" [nzFooter]="null"
+<nz-modal [(nzVisible)]="visible" [nzWidth]="800" [nzTitle]="type + ' 定时'" [nzFooter]="null"
   (nzOnCancel)="visible=false">
   <ng-container *nzModalContent>
     <nz-spin nzTip="获取全局设置中..." [nzSpinning]="fetchingGlobalSettings">
