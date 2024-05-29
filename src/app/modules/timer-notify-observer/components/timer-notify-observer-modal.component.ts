@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { NotifyObserver, NotifyObserverService, NotifyObserverTypes, TimerService } from 'src/app/shared';
+import { NotifyObserver, NotifyObserverService, NotifyObserverTypes, SystemTaskTimerSettingsService, TimerService } from 'src/app/shared';
 import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer'
 import { DestroyService } from 'src/app/shared/services/destroy.service';
-import { startWith, takeUntil } from 'rxjs';
+import { Observable, forkJoin, map, mergeMap, startWith, takeUntil } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { paddingZero, removeEmpty } from 'src/app/utils';
 
@@ -23,7 +23,7 @@ enum TaskTypes {
 
 export class TimerNotifyObserverModalComponent implements OnInit {
   constructor(
-    private readonly service: NotifyObserverService,
+    private readonly systemTaskTimerSettingsService: SystemTaskTimerSettingsService,
     private readonly nzNotificationService: NzNotificationService,
     private readonly createNotifyObserverService: CreateNotifyObserverService,
     private readonly notifyObserverService: NotifyObserverService,
@@ -109,6 +109,11 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   }
 
   confirmUpdate(item: NotifyObserver) {
+    if (item.type !== NotifyObserverTypes.TIMER) {
+      this.nzNotificationService.warning(`${item.type} 定时任务请去工具包修改`, `${item.type} 定时任务请去工具包修改`);
+      return
+    }
+
     const obj: Partial<NotifyObserver> = {
       ...item,
     };
@@ -128,6 +133,11 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   }
 
   confirmDelete(item: NotifyObserver) {
+    if (item.type !== NotifyObserverTypes.TIMER) {
+      this.nzNotificationService.warning(`${item.type} 定时任务不能删除`, `${item.type} 定时任务不能删除`);
+      return
+    }
+
     this.notifyObserverService.deleteByID(item._id).subscribe({
       next: () => {
         this.nzNotificationService.success(`删除成功`, `删除数据成功`);
@@ -160,19 +170,62 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   }
 
   private fetchTimerNotifyObservers() {
-    this.service.queryList({
-      type: NotifyObserverTypes.TIMER,
-      enableTracking: true,
-      ...(this.resolveFormQuery())
-    } as any)
+    forkJoin(
+      this.notifyObserverService.queryList({
+        type: NotifyObserverTypes.TIMER,
+        enableTracking: true,
+        ...(this.resolveFormQuery())
+      } as any),
+      this.fetchFakeTimerNotifyObservers()
+    )
       .subscribe({
-        next: (results) => {
-          this.resolveResults(results)
+        next: ([results1, results2]) => {
+          this.resolveResults([...results1, ...results2])
         },
         error: (err) => {
           this.nzNotificationService.error(`获取定时任务失败`, `${err.message}`)
         }
       })
+  }
+
+  private fetchFakeTimerNotifyObservers(): Observable<NotifyObserver[]> {
+    return this.systemTaskTimerSettingsService.queryList({})
+      .pipe(
+        mergeMap((timers) => {
+          return forkJoin(...timers.map(e => this.notifyObserverService.queryCount({ type: e.type, enableTracking: true })))
+            .pipe(
+              map((counts) => {
+                return timers.map((e, i) => {
+                  return {
+                    notifyObserver: {
+                      type: e.type,
+                      notifyShowTitle: e.type,
+                      timerHour: e.timerHour,
+                      timerMinute: e.timerMinute,
+                      timerDate: e.timerDate,
+                      timerMonth: e.timerMonth,
+                      timerDayOfWeek: e.timerDayOfWeek
+                    } as NotifyObserver,
+                    count: counts[i]
+                  }
+                })
+              })
+            )
+        }),
+        map(results => {
+          return results.map(e => {
+            return {
+              type: e.notifyObserver.type,
+              notifyShowTitle: e.notifyObserver.type + ` ( ${e.count} )`,
+              timerHour: e.notifyObserver.timerHour,
+              timerMinute: e.notifyObserver.timerMinute,
+              timerDate: e.notifyObserver.timerDate,
+              timerMonth: e.notifyObserver.timerMonth,
+              timerDayOfWeek: e.notifyObserver.timerDayOfWeek
+            } as NotifyObserver
+          })
+        })
+      )
   }
 
   private resolveFormQuery() {
