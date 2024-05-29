@@ -1,0 +1,68 @@
+<div class="system-task-timer-settings-container">
+  <button nz-button nzType="primary" (click)="open()" [title]="type + ' 定时任务'">
+    {{type}} 定时任务
+  </button>
+</div>
+
+<nz-modal [(nzVisible)]="visible" [nzWidth]="800" [nzTitle]="type + ' 定时任务'" [nzFooter]="null"
+  (nzOnCancel)="visible=false">
+  <ng-container *nzModalContent>
+    <nz-spin nzTip="获取全局设置中..." [nzSpinning]="fetchingGlobalSettings">
+      <form nz-form [formGroup]="form" [nzLayout]="'horizontal'">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerMonth" nzTooltipTitle="month: 1 - 12 选填">
+            <span>月</span>
+          </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <app-multi-input formControlName="timerMonth" [min]="1" [max]="12"></app-multi-input>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerDate" nzTooltipTitle="date: 1 - 31 选填">
+            <span>日</span>
+          </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <app-multi-input formControlName="timerDate" [min]="1" [max]="31"></app-multi-input>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerHour" nzTooltipTitle="hour: 0 - 23 必填">
+            <span>时</span>
+          </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <app-multi-input formControlName="timerHour" [min]="0" [max]="23"></app-multi-input>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerMinute" nzTooltipTitle="minute: 0 - 59 必填">
+            <span>分</span>
+          </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <app-multi-input formControlName="timerMinute" [min]="0" [max]="59"></app-multi-input>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerDayOfWeek"
+            nzTooltipTitle="dayOfWeek : 0 - 6 选填，0表示周日，1表示周一，2表示周二等">
+            <span>周几</span>
+          </nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <app-multi-input formControlName="timerDayOfWeek" [min]="0" [max]="6"></app-multi-input>
+          </nz-form-control>
+        </nz-form-item>
+
+
+        <nz-form-item class="search-area">
+          <nz-form-control>
+            <button nz-button type="button" [nzType]="'primary'" (click)="submitForm()">保存</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-spin>
+
+  </ng-container>
+</nz-modal>

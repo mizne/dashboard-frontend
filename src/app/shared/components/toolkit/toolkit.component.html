@@ -9,9 +9,9 @@
           <div nz-col class="gutter-row" [nzSpan]="12" style="margin-bottom: 8px">
             <execute-task-custom></execute-task-custom>
           </div>
-          <div nz-col class="gutter-row" [nzSpan]="12" style="margin-bottom: 8px">
+          <!-- <div nz-col class="gutter-row" [nzSpan]="12" style="margin-bottom: 8px">
             <leverage-calc></leverage-calc>
-          </div>
+          </div> -->
           <div nz-col class="gutter-row" [nzSpan]="12" style="margin-bottom: 8px">
             <global-settings></global-settings>
           </div>
@@ -22,6 +22,10 @@
             <button nz-button nzType="primary" (click)="markMainClient()" [title]="'接收websocket消息'">
               标记主客户端
             </button>
+          </div>
+
+          <div *ngFor="let type of types" nz-col class="gutter-row" [nzSpan]="12" style="margin-bottom: 8px">
+            <system-task-timer-settings [type]="type"></system-task-timer-settings>
           </div>
         </div>
       </nz-card>

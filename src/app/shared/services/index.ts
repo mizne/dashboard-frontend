@@ -31,3 +31,5 @@ export * from './airdrop-job.service'
 export * from './airdrop-account.service'
 export * from './airdrop-account-attend-job.service'
 export * from './airdrop-interaction-record.service'
+
+export * from './system-task-timer-settings.service'

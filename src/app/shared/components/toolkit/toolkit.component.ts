@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientNotifyService } from '../../services';
+import { NotifyObserverTypes } from '../../models';
 
 @Component({
   selector: 'toolkit',
@@ -11,6 +12,8 @@ export class ToolkitComponent implements OnInit {
   ) { }
 
   visible = false;
+
+  types = [NotifyObserverTypes.BLOG, NotifyObserverTypes.GALXE]
 
   ngOnInit() { }
 

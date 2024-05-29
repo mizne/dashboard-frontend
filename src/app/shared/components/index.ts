@@ -19,6 +19,7 @@ import { ObjectInputComponent } from './object-input/object-input.component';
 import { WomPegChartComponent } from './wom-peg-chart/wom-peg-chart.component';
 import { StatisticsDefinitionsComponent } from './statistics-definitions/statistics-definitions.component';
 import { StackBarChartComponent } from './stack-bar-chart/stack-bar-chart.component';
+import { SystemTaskTimerSettingsComponent } from './system-task-timer-settings/system-task-timer-settings.component';
 
 export const components = [
   LinkableComponent,
@@ -42,6 +43,7 @@ export const components = [
   WomPegChartComponent,
   StatisticsDefinitionsComponent,
   StackBarChartComponent,
+  SystemTaskTimerSettingsComponent,
 ];
 
 export {
@@ -66,6 +68,7 @@ export {
   WomPegChartComponent,
   StatisticsDefinitionsComponent,
   StackBarChartComponent,
+  SystemTaskTimerSettingsComponent,
 };
 
 export * from './stack-bar-chart/stack-bar-chart.component'

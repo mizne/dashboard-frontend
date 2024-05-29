@@ -25,3 +25,5 @@ export * from './airdrop-job.model';
 export * from './airdrop-account.model';
 export * from './airdrop-account-attend-job.model';
 export * from './airdrop-interaction-record.model';
+
+export * from './system-task-timer-settings.model';
