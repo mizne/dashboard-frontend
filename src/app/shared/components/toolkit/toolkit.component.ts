@@ -14,14 +14,16 @@ export class ToolkitComponent implements OnInit {
   visible = false;
 
   types = [
-    NotifyObserverTypes.BLOG,
     NotifyObserverTypes.GALXE,
+    NotifyObserverTypes.GALXE_RECOMMEND,
+    NotifyObserverTypes.QUEST3,
+    NotifyObserverTypes.QUEST3_RECOMMEND,
+    NotifyObserverTypes.BLOG,
     NotifyObserverTypes.GHOST,
     NotifyObserverTypes.GUILD,
     NotifyObserverTypes.LINK3,
     NotifyObserverTypes.MEDIUM,
     NotifyObserverTypes.MIRROR,
-    NotifyObserverTypes.QUEST3,
     NotifyObserverTypes.SNAPSHOT,
     NotifyObserverTypes.SUBSTACK,
     NotifyObserverTypes.TWITTER_SPACE,
