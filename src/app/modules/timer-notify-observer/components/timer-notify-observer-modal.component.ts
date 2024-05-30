@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { NotifyObserver, NotifyObserverService, NotifyObserverTypes, SystemTaskTimerSettingsService, TimerService } from 'src/app/shared';
+import { NotifyObserver, NotifyObserverService, NotifyObserverTypes, SystemTaskTimerSettings, SystemTaskTimerSettingsService, TimerService } from 'src/app/shared';
 import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer'
+import { CreateSystemTaskTimerSettingsService, SystemTaskTimerSettingsModalActions } from 'src/app/modules/create-system-task-timer-settings'
 import { DestroyService } from 'src/app/shared/services/destroy.service';
 import { Observable, forkJoin, map, mergeMap, startWith, takeUntil } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -26,6 +27,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     private readonly systemTaskTimerSettingsService: SystemTaskTimerSettingsService,
     private readonly nzNotificationService: NzNotificationService,
     private readonly createNotifyObserverService: CreateNotifyObserverService,
+    private readonly createSystemTaskTimerSettingsService: CreateSystemTaskTimerSettingsService,
     private readonly notifyObserverService: NotifyObserverService,
     private readonly destroyService: DestroyService,
     private readonly timerService: TimerService,
@@ -110,10 +112,38 @@ export class TimerNotifyObserverModalComponent implements OnInit {
 
   confirmUpdate(item: NotifyObserver) {
     if (item.type !== NotifyObserverTypes.TIMER) {
-      this.nzNotificationService.warning(`${item.type} 定时任务请去工具包修改`, `${item.type} 定时任务请去工具包修改`);
-      return
+      this.confirmUpdateSystemTaskTimerSettings(item)
+    } else {
+      this.confirmUpdateTimerNotifyObserver(item)
     }
+  }
 
+  private confirmUpdateSystemTaskTimerSettings(item: NotifyObserver) {
+    const obj: Partial<SystemTaskTimerSettings> = {
+      _id: item._id,
+      type: item.type,
+      timerHour: item.timerHour,
+      timerMinute: item.timerMinute,
+      timerDate: item.timerDate,
+      timerMonth: item.timerMonth,
+      timerDayOfWeek: item.timerDayOfWeek
+    };
+    const { success, error } = this.createSystemTaskTimerSettingsService.createModal(
+      `修改 ${item.type} 定时任务`,
+      obj,
+      SystemTaskTimerSettingsModalActions.UPDATE
+    );
+
+    success.subscribe((v) => {
+      this.nzNotificationService.success(`修改 ${item.type} 定时任务成功`, `修改 ${item.type} 定时任务成功`);
+      this.fetchTimerNotifyObservers();
+    });
+    error.subscribe((e) => {
+      this.nzNotificationService.error(`修改 ${item.type} 定时任务失败`, `${e.message}`);
+    });
+  }
+
+  private confirmUpdateTimerNotifyObserver(item: NotifyObserver) {
     const obj: Partial<NotifyObserver> = {
       ...item,
     };
@@ -198,6 +228,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
                 return timers.map((e, i) => {
                   return {
                     notifyObserver: {
+                      _id: e._id,
                       type: e.type,
                       notifyShowTitle: e.type,
                       timerHour: e.timerHour,
@@ -215,6 +246,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
         map(results => {
           return results.map(e => {
             return {
+              _id: e.notifyObserver._id,
               type: e.notifyObserver.type,
               notifyShowTitle: e.notifyObserver.type + ` ( ${e.count} )`,
               timerHour: e.notifyObserver.timerHour,

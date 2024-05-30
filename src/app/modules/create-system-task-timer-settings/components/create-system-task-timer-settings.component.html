@@ -1,0 +1,51 @@
+<div class="create-system-task-timer-settings-container">
+  <form nz-form [formGroup]="form">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerMonth" nzTooltipTitle="month: 1 - 12 选填">
+        <span>月</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-multi-input formControlName="timerMonth" [min]="1" [max]="12"></app-multi-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerDate" nzTooltipTitle="date: 1 - 31 选填">
+        <span>日</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-multi-input formControlName="timerDate" [min]="1" [max]="31"></app-multi-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerHour" nzTooltipTitle="hour: 0 - 23 必填">
+        <span>时</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-multi-input formControlName="timerHour" [min]="0" [max]="23"></app-multi-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerMinute" nzTooltipTitle="minute: 0 - 59 必填">
+        <span>分</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-multi-input formControlName="timerMinute" [min]="0" [max]="59"></app-multi-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="timerDayOfWeek"
+        nzTooltipTitle="dayOfWeek : 0 - 6 选填，0表示周日，1表示周一，2表示周二等">
+        <span>周几</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-multi-input formControlName="timerDayOfWeek" [min]="0" [max]="6"></app-multi-input>
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+
+</div>
