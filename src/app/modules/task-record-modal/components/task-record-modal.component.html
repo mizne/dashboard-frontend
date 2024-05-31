@@ -32,7 +32,16 @@
           </nz-form-control>
         </nz-form-item>
 
-        <nz-form-item class="register-area" style="margin-left: 64px;">
+        <nz-form-item>
+          <nz-form-label nzFor="duration">时长</nz-form-label>
+          <nz-form-control>
+            <nz-radio-group formControlName="duration" nzSize="small" [nzButtonStyle]="'solid'">
+              <label *ngFor="let item of durations" nz-radio-button [nzValue]="item.value">{{item.label}}</label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="register-area" style="margin-left: 12px;">
           <nz-form-control>
             <button nz-button [nzType]="'primary'">搜索</button>
             <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>

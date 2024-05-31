@@ -31,10 +31,44 @@ export class TaskRecordModalComponent implements OnInit {
     createdAt: -1,
   };
 
+  durations = [
+    {
+      label: '所有',
+      value: null
+    },
+    {
+      label: '< 1分钟',
+      value: {
+        $lt: 60 * 1e3
+      }
+    },
+    {
+      label: '1 ~ 10分钟',
+      value: {
+        $gte: 60 * 1e3,
+        $lt: 10 * 60 * 1e3
+      }
+    },
+    {
+      label: '10 ~ 60分钟',
+      value: {
+        $gte: 10 * 60 * 1e3,
+        $lt: 60 * 60 * 1e3
+      }
+    },
+    {
+      label: '>= 1小时',
+      value: {
+        $gte: 60 * 60 * 1e3,
+      }
+    },
+  ]
+
   form: FormGroup<any> = this.fb.group({
     name: [null],
     key: [null],
-    hasError: [null]
+    hasError: [null],
+    duration: [null]
   })
 
   submitForm(): void {
