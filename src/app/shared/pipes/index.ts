@@ -8,6 +8,7 @@ import { AirdropStatusStringPipe } from './airdrop-status-string.pipe';
 import { AirdropStatusColorPipe } from './airdrop-status-color.pipe';
 import { BlockchainAddressStringPipe } from './blockchain-address-string.pipe';
 import { PasswordStringPipe } from './password-string.pipe';
+import { TimeDurationPipe } from './time-duration.pipe';
 
 export const pipes = [
   PercentPipe,
@@ -20,6 +21,7 @@ export const pipes = [
   AirdropStatusColorPipe,
   BlockchainAddressStringPipe,
   PasswordStringPipe,
+  TimeDurationPipe,
 ];
 
 export * from './percent.pipe';
@@ -32,3 +34,4 @@ export * from './airdrop-status-string.pipe';
 export * from './airdrop-status-color.pipe';
 export * from './blockchain-address-string.pipe';
 export * from './password-string.pipe';
+export * from './time-duration.pipe';

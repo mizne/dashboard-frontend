@@ -14,6 +14,7 @@ import { SharedModule } from './shared/shared.module';
 import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
 import { NotifyHistoryModule } from 'src/app/modules/notify-history';
 import { TimerNotifyObserverModalModule } from 'src/app/modules/timer-notify-observer';
+import { TaskRecordModalModule } from 'src/app/modules/task-record-modal';
 
 const ngZorroConfig: NzConfig = {
   notification: { nzPlacement: 'bottomLeft' }
@@ -32,6 +33,7 @@ registerLocaleData(zh);
     SharedModule,
     NotifyHistoryModule,
     TimerNotifyObserverModalModule,
+    TaskRecordModalModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },

@@ -1,0 +1,119 @@
+<div class="task-record-modal-container" style="position:fixed; bottom: 120px; right: 24px; z-index: 100">
+  <button nz-button nzType="primary" nzShape="circle" (click)="open()"><span nz-icon nzType="history"></span></button>
+</div>
+
+<nz-modal [(nzVisible)]="visible" [nzWidth]="1400" [nzTitle]="'定时任务记录'" [nzFooter]="null" (nzOnCancel)="visible=false">
+  <ng-container *nzModalContent>
+
+    <nz-card>
+      <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
+        <nz-form-item>
+          <nz-form-label nzFor="name">名称</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="ant-input" placeholder="请输入名称" formControlName="name" [attr.id]="'name'" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzFor="key">Key</nz-form-label>
+          <nz-form-control>
+            <input nz-input class="ant-input" placeholder="请输入key" formControlName="key" [attr.id]="'key'" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzFor="hasError">发生错误</nz-form-label>
+          <nz-form-control>
+            <nz-radio-group formControlName="hasError" nzSize="small" [nzButtonStyle]="'solid'">
+              <label nz-radio-button [nzValue]="null">所有</label>
+              <label nz-radio-button [nzValue]="true">有</label>
+              <label nz-radio-button [nzValue]="false">没有</label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="register-area" style="margin-left: 64px;">
+          <nz-form-control>
+            <button nz-button [nzType]="'primary'">搜索</button>
+            <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-card>
+
+    <nz-card style="margin-top: 12px">
+      <nz-table nzShowSizeChanger [nzData]="items" [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total"
+        [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
+        (nzQueryParams)="onQueryParamsChange($event)">
+        <thead>
+          <tr>
+            <th nzColumnKey="name">名称</th>
+            <th nzColumnKey="key">Key</th>
+            <th nzColumnKey="priority">优先级</th>
+
+            <th nzColumnKey="startAt" [nzSortFn]="true">开始时间</th>
+            <th nzColumnKey="endAt" [nzSortFn]="true">完成时间</th>
+            <th nzColumnKey="duration" [nzSortFn]="true">任务时长</th>
+
+            <th nzColumnKey="errorAt" [nzSortFn]="true">错误发生时间</th>
+            <th nzColumnKey="errorMessage">错误信息</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of items">
+            <td style="display: flex; align-items: center; min-height: 70px;">
+              <span>{{ data.name }}</span>
+            </td>
+            <td>
+              <p nz-typography nzEllipsis nzCopyable [nzContent]="data.key" style="margin-bottom: 0;"></p>
+            </td>
+
+            <td>
+              <span>{{ data.priority }}</span>
+            </td>
+
+            <td>
+              <created-at [createdAt]="data.startAt"></created-at>
+            </td>
+            <td>
+              <created-at *ngIf="data.endAt; else noEndAt" [createdAt]="data.endAt"></created-at>
+
+              <ng-template #noEndAt>
+                <span>--</span>
+              </ng-template>
+            </td>
+            <td>
+              <span *ngIf="data.duration; else noDuration">
+                {{ data.duration | timeDuration }}
+              </span>
+
+              <ng-template #noDuration>
+                <span>--</span>
+              </ng-template>
+            </td>
+
+            <td>
+              <created-at *ngIf="data.errorAt; else noErrorAt" [createdAt]="data.errorAt"></created-at>
+
+              <ng-template #noErrorAt>
+                <span>--</span>
+              </ng-template>
+            </td>
+            <td>
+              <p *ngIf="data.errorMessage; else noErrorMessage" nz-typography nzEllipsis nzCopyable
+                [nzContent]="data.errorMessage" style="margin-bottom: 0;"></p>
+
+              <ng-template #noErrorMessage>
+                <span>--</span>
+              </ng-template>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+      <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} of {{ total }} items
+      </ng-template>
+    </nz-card>
+  </ng-container>
+</nz-modal>
