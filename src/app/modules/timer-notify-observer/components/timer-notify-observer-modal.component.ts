@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { NotifyObserver, NotifyObserverService, NotifyObserverTypes, SystemTaskTimerSettings, SystemTaskTimerSettingsService, TimerService } from 'src/app/shared';
+import { NotifyObserver, NotifyObserverService, NotifyObserverTypes, SystemTaskTimerSettings, SystemTaskTimerSettingsService, TimerService, genTaskRecordCondition } from 'src/app/shared';
 import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer'
 import { CreateSystemTaskTimerSettingsService, SystemTaskTimerSettingsModalActions } from 'src/app/modules/create-system-task-timer-settings'
 import { DestroyService } from 'src/app/shared/services/destroy.service';
@@ -89,6 +89,16 @@ export class TimerNotifyObserverModalComponent implements OnInit {
 
   tooltipGetter(hour: string, item: NotifyObserver) {
     return `${hour}:${(item.timerMinute || []).map(e => paddingZero(String(e))).join(',')} / 点击编辑`
+  }
+
+  genTaskRecordCondition(item: NotifyObserver) {
+    const cond = genTaskRecordCondition(item.type)
+    if (item.type === NotifyObserverTypes.TIMER) {
+      Object.assign(cond, {
+        ['key']: { $regex: item._id, $options: 'i' },
+      })
+    }
+    return cond
   }
 
   confirmCreate() {

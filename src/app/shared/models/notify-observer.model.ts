@@ -32,6 +32,85 @@ export enum NotifyObserverTypes {
   BLOG = 'BLOG'
 }
 
+export function genTaskRecordCondition(type: NotifyObserverTypes): any {
+  switch (type) {
+    case NotifyObserverTypes.MEDIUM:
+      return {
+        name: 'NotifyHistoryMediumService'
+      };
+    case NotifyObserverTypes.MIRROR:
+      return {
+        name: 'NotifyHistoryMirrorService'
+      };
+    case NotifyObserverTypes.TWITTER:
+      return {
+        name: 'NotifyHistoryTwitterService'
+      };
+    case NotifyObserverTypes.TWITTER_SPACE:
+      return {
+        name: 'NotifyHistoryTwitterSpaceService'
+      };
+    case NotifyObserverTypes.QUEST3:
+      return {
+        name: 'NotifyHistoryQuest3Service'
+      };
+    case NotifyObserverTypes.QUEST3_RECOMMEND:
+      return {
+        name: 'NotifyHistoryQuest3RecommendService'
+      };
+    case NotifyObserverTypes.LINK3:
+      return {
+        name: 'NotifyHistoryLink3Service'
+      };
+    case NotifyObserverTypes.GALXE:
+      return {
+        name: 'NotifyHistoryGalxeService'
+      };
+    case NotifyObserverTypes.GALXE_RECOMMEND:
+      return {
+        name: 'NotifyHistoryGalxeRecommendService'
+      };
+    case NotifyObserverTypes.TIMER:
+      return {
+        name: 'NotifyHistoryTimerTaskService'
+      };
+
+    case NotifyObserverTypes.SNAPSHOT:
+      return {
+        name: 'NotifyHistorySnapshotService'
+      };
+
+    case NotifyObserverTypes.GUILD:
+      return {
+        name: 'NotifyHistoryGuildService'
+      };
+
+    case NotifyObserverTypes.XIAOYUZHOU:
+      return {
+        name: 'NotifyHistoryXiaoYuZhouService'
+      };
+    case NotifyObserverTypes.SOQUEST:
+      return {
+        name: 'NotifyHistorySoQuestService'
+      };
+    case NotifyObserverTypes.SUBSTACK:
+      return {
+        name: 'NotifyHistorySubstackService'
+      };
+    case NotifyObserverTypes.GHOST:
+      return {
+        name: 'NotifyHistoryGhostService'
+      };
+    case NotifyObserverTypes.BLOG:
+      return {
+        name: 'NotifyHistoryBlogService'
+      };
+
+    default:
+      return {};
+  }
+}
+
 export interface NotifyObserver {
   readonly _id: string;
   type: NotifyObserverTypes;

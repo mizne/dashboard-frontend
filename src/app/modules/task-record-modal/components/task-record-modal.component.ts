@@ -1,15 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { NotifyObserver, NotifyObserverService, NotifyObserverTypes, SystemTaskTimerSettings, SystemTaskTimerSettingsService, TaskRecord, TaskRecordService, TimerService } from 'src/app/shared';
-import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer'
-import { CreateSystemTaskTimerSettingsService, SystemTaskTimerSettingsModalActions } from 'src/app/modules/create-system-task-timer-settings'
+import { Component, OnInit, Input } from '@angular/core';
+import { TaskRecord, TaskRecordService } from 'src/app/shared';
 import { DestroyService } from 'src/app/shared/services/destroy.service';
-import { Observable, forkJoin, map, mergeMap, startWith, takeUntil } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { paddingZero, removeEmpty, removeNullOrUndefined } from 'src/app/utils';
+import { removeNullOrUndefined } from 'src/app/utils';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-
-
 @Component({
   selector: 'task-record-modal',
   templateUrl: 'task-record-modal.component.html',
@@ -18,11 +12,12 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 export class TaskRecordModalComponent implements OnInit {
   constructor(
-    private readonly nzNotificationService: NzNotificationService,
     private readonly destroyService: DestroyService,
     private readonly taskRecordService: TaskRecordService,
     private readonly fb: FormBuilder,
   ) { }
+
+  @Input() condition: { [key: string]: any } = {};
 
   visible = false;
 
@@ -104,6 +99,7 @@ export class TaskRecordModalComponent implements OnInit {
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
     // title website 支持正则查询
     const o: { [key: string]: any } = {
+      ...this.condition
     };
     Object.keys(query).forEach((key) => {
       if (key === 'name') {

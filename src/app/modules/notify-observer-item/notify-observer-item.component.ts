@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverService } from 'src/app/shared';
+import { NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverService, NotifyObserverTypes, genTaskRecordCondition } from 'src/app/shared';
 import { NotifyObserverTypeManagerService } from 'src/app/modules/create-notify-observer';
 import { removeEmpty } from 'src/app/utils';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -80,6 +80,16 @@ export class NotifyObserverItemComponent implements OnInit {
 
   resolveDesc(item: TableItem) {
     return this.notifyObserverTypeService.resolveDesc(item)
+  }
+
+  genTaskRecordCondition(item: TableItem): any {
+    const cond = genTaskRecordCondition(item.type)
+    if (item.type === NotifyObserverTypes.TIMER) {
+      Object.assign(cond, {
+        ['key']: { $regex: item._id, $options: 'i' },
+      })
+    }
+    return cond
   }
 
   confirmCopy() {

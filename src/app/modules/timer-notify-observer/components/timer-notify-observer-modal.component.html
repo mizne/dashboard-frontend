@@ -74,6 +74,12 @@
                       </button>
                     </ng-template>
 
+                    <task-record-modal [condition]="genTaskRecordCondition(item)">
+                      <button style="margin-left: 12px" nz-button nzType="primary" [nzSize]="'small'" nzShape="circle">
+                        <span nz-icon nzType="pie-chart" [title]="'任务执行统计'"></span>
+                      </button>
+                    </task-record-modal>
+
                     <button style="margin-left: 12px" nz-button nzType="primary" [nzSize]="'small'" nzShape="circle"
                       (click)="confirmUpdate(item)">
                       <span nz-icon nzType="edit"></span>

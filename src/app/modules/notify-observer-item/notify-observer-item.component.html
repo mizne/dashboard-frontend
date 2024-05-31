@@ -50,11 +50,18 @@
       [nzTwotoneColor]="'#eb2f96'" style="transform: rotate(90deg);"></span>
 
     <span>
-      <span nz-icon nzType="history" nzTheme="outline" [title]="'查看通知历史'" (click)="toShowNotifyHistory()"
+      <span nz-icon nzType="history" nzTheme="outline" [title]="'通知历史'" (click)="toShowNotifyHistory()"
         style="cursor: pointer;"></span>
 
+      <span style="cursor: pointer; margin-left: 12px;">
+        <task-record-modal [condition]="genTaskRecordCondition(item)">
+          <span nz-icon nzType="pie-chart" nzTheme="outline" [title]="'任务执行统计'">
+          </span>
+        </task-record-modal>
+      </span>
+
       <span *ngIf="!!item.timerEnableScript && !!item.timerEnableStatistics" nz-icon nzType="line-chart"
-        nzTheme="outline" [title]="'查看统计数据'" (click)="toShowStatistics()"
+        nzTheme="outline" [title]="'统计数据'" (click)="toShowStatistics()"
         style="cursor: pointer; margin-left: 12px;"></span>
 
       <span *ngIf="!!item.timerEnableScript && !!item.timerEnableStatistics" nz-icon nzType="play-circle"

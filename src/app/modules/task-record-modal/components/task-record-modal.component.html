@@ -1,6 +1,6 @@
-<div class="task-record-modal-container" style="position:fixed; bottom: 120px; right: 24px; z-index: 100">
-  <button nz-button nzType="primary" nzShape="circle" (click)="open()"><span nz-icon nzType="history"></span></button>
-</div>
+<span class="task-record-modal-container" (click)="open()">
+  <ng-content></ng-content>
+</span>
 
 <nz-modal [(nzVisible)]="visible" [nzWidth]="1400" [nzTitle]="'定时任务记录'" [nzFooter]="null" (nzOnCancel)="visible=false">
   <ng-container *nzModalContent>
