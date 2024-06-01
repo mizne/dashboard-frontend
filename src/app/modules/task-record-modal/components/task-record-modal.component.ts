@@ -203,11 +203,14 @@ export class TaskRecordModalComponent implements OnInit {
           duration: legend.type
         })
 
-        this.data.push({
-          time: format(timeDuration.startHour, 'dd HH:mm') + ' ~ ' + format(timeDuration.endHour, 'dd HH:mm'),
-          type: legend.label,
-          value: count
-        })
+        this.data = [
+          ...this.data,
+          {
+            time: format(timeDuration.startHour, 'dd HH:mm') + ' ~ ' + format(timeDuration.endHour, 'dd HH:mm'),
+            type: legend.label,
+            value: count
+          }
+        ]
       }
     }
 
