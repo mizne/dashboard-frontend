@@ -136,8 +136,6 @@ export class TaskRecordModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDataFromServer();
-
-    this.loadChartData()
   }
 
   open() {
@@ -182,6 +180,7 @@ export class TaskRecordModalComponent implements OnInit {
 
   private async loadChartData() {
     this.loadingChart = true;
+    this.data = [];
     this.colors = this.legends.map(e => e.color)
 
     const now = new Date().getTime();
