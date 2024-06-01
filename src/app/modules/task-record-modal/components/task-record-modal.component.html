@@ -6,6 +6,12 @@
   <ng-container *nzModalContent>
 
     <nz-card>
+      <nz-spin nzTip="Loading..." [nzSpinning]="loadingChart">
+        <stack-bar-chart [title]="title" [data]="data" [colors]="colors"></stack-bar-chart>
+      </nz-spin>
+    </nz-card>
+
+    <nz-card style="margin-top: 12px">
       <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
         <nz-form-item>
           <nz-form-label nzFor="name">名称</nz-form-label>
@@ -41,7 +47,14 @@
           </nz-form-control>
         </nz-form-item>
 
-        <nz-form-item class="register-area" style="margin-left: 12px;">
+        <nz-form-item style="margin-top: 4px">
+          <nz-form-label nzFor="time">开始时间</nz-form-label>
+          <nz-form-control>
+            <nz-range-picker [nzShowTime]="true" formControlName="time"></nz-range-picker>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="register-area" style="margin-left: 12px;margin-top: 4px">
           <nz-form-control>
             <button nz-button [nzType]="'primary'">搜索</button>
             <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>

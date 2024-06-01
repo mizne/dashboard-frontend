@@ -69,9 +69,9 @@ export function today(): number {
 }
 
 // 返回 小时 零分零秒的 时间戳
-export function currentHour(): number {
+export function currentHour(d?: Date | number): number {
   return parse(
-    format(new Date(), 'yyyy-MM-dd HH') + ':00:00',
+    format(d || new Date(), 'yyyy-MM-dd HH') + ':00:00',
     'yyyy-MM-dd HH:mm:ss',
     new Date()
   ).getTime();

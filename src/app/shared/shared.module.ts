@@ -6,6 +6,7 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
@@ -54,6 +55,7 @@ const nzModules = [
   NzButtonModule,
   NzCardModule,
   NzCollapseModule,
+  NzDatePickerModule,
   NzDescriptionsModule,
   NzDividerModule,
   NzDrawerModule,
