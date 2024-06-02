@@ -20,6 +20,7 @@ export class TaskRecordModalComponent implements OnInit {
     private readonly fb: FormBuilder,
   ) { }
 
+  @Input() showChart = false;
   @Input() condition: { [key: string]: any } = {};
 
   visible = false;
@@ -142,7 +143,9 @@ export class TaskRecordModalComponent implements OnInit {
     this.visible = true;
     this.loadDataFromServer();
 
-    this.loadChartData()
+    if (this.showChart) {
+      this.loadChartData()
+    }
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
