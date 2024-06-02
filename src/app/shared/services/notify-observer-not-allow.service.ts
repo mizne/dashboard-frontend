@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { NotifyObserverNotAllow, NotifyObserverTypes } from '../models';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { FilterQuery } from 'src/app/shared';
 
 @Injectable({ providedIn: 'root' })
 export class NotifyObserverNotAllowService {
@@ -32,7 +33,7 @@ export class NotifyObserverNotAllowService {
   }
 
   queryList(
-    query?: Partial<NotifyObserverNotAllow>,
+    query?: FilterQuery<NotifyObserverNotAllow>,
     page?: { number: number; size: number },
     sort?: any
   ): Observable<NotifyObserverNotAllow[]> {
@@ -46,7 +47,7 @@ export class NotifyObserverNotAllowService {
     );
   }
 
-  queryCount(query?: Partial<NotifyObserverNotAllow>): Observable<number> {
+  queryCount(query?: FilterQuery<NotifyObserverNotAllow>): Observable<number> {
     return this.httpClient.post<number>(
       `${this.baseURL}/notify-observer-not-allow/queryCount`,
       {

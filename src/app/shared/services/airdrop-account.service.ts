@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AirdropAccount } from '../models';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { FilterQuery } from 'src/app/shared';
 
 @Injectable({ providedIn: 'root' })
 export class AirdropAccountService {
@@ -32,7 +33,7 @@ export class AirdropAccountService {
   }
 
   queryList(
-    query?: Partial<AirdropAccount>,
+    query?: FilterQuery<AirdropAccount>,
     page?: { number: number; size: number },
     sort?: any
   ): Observable<AirdropAccount[]> {
@@ -46,7 +47,7 @@ export class AirdropAccountService {
     );
   }
 
-  queryCount(query?: Partial<AirdropAccount>): Observable<number> {
+  queryCount(query?: FilterQuery<AirdropAccount>): Observable<number> {
     return this.httpClient.post<number>(
       `${this.baseURL}/airdrop-account/queryCount`,
       {

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Tag } from '../models';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { FilterQuery } from 'src/app/shared';
 
 @Injectable({ providedIn: 'root' })
 export class TagService {
@@ -32,7 +33,7 @@ export class TagService {
   }
 
   queryList(
-    query?: Partial<Tag>,
+    query?: FilterQuery<Tag>,
     page?: { number: number; size: number },
     sort?: any
   ): Observable<Tag[]> {
@@ -46,7 +47,7 @@ export class TagService {
     );
   }
 
-  queryCount(query?: Partial<Tag>): Observable<number> {
+  queryCount(query?: FilterQuery<Tag>): Observable<number> {
     return this.httpClient.post<number>(
       `${this.baseURL}/tag/queryCount`,
       {

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Investor } from '../models';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { FilterQuery } from 'src/app/shared';
 
 @Injectable({ providedIn: 'root' })
 export class InvestorService {
@@ -32,7 +33,7 @@ export class InvestorService {
   }
 
   queryList(
-    query?: Partial<Investor>,
+    query?: FilterQuery<Investor>,
     page?: { number: number; size: number },
     sort?: any
   ): Observable<Investor[]> {
@@ -46,7 +47,7 @@ export class InvestorService {
     );
   }
 
-  queryCount(query?: Partial<Investor>): Observable<number> {
+  queryCount(query?: FilterQuery<Investor>): Observable<number> {
     return this.httpClient.post<number>(
       `${this.baseURL}/investor/queryCount`,
       {

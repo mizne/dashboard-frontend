@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FollowedProject } from '../models';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { FilterQuery } from 'src/app/shared';
 
 @Injectable({ providedIn: 'root' })
 export class FollowedProjectService {
@@ -35,7 +36,7 @@ export class FollowedProjectService {
   }
 
   queryList(
-    query?: Partial<FollowedProject>,
+    query?: FilterQuery<FollowedProject>,
     page?: { number: number; size: number },
     sort?: any
   ): Observable<FollowedProject[]> {
@@ -49,7 +50,7 @@ export class FollowedProjectService {
     );
   }
 
-  queryCount(query?: Partial<FollowedProject>): Observable<number> {
+  queryCount(query?: FilterQuery<FollowedProject>): Observable<number> {
     return this.httpClient.post<number>(
       `${this.baseURL}/followed-project/queryCount`,
       {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { ClientNotifyService, SharedService } from '../../services';
-import { firstValueFrom } from 'rxjs';
+import { ClientNotifyService, SharedService, TaskRecordService } from '../../services';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 import { sleep } from 'src/app/utils';
 import { environment } from 'src/environments/environment';
 
@@ -14,6 +14,7 @@ export class NetworkCheckerComponent implements OnInit {
     private sharedService: SharedService,
     private notification: NzNotificationService,
     private readonly clientNotifyService: ClientNotifyService,
+    private readonly taskRecordService: TaskRecordService,
   ) { }
 
   tasks: Array<{
@@ -23,11 +24,65 @@ export class NetworkCheckerComponent implements OnInit {
     priority: number;
     progress: string;
     startAt: number;
+
+    ignoreCompute: boolean;
+    avgCostTime: number;
   }> = [];
 
   ngOnInit() {
-    this.clientNotifyService.listenRunningTasks().subscribe((data) => {
-      this.tasks = data.payload.tasks;
+    this.clientNotifyService.listenRunningTasks().subscribe(async (data) => {
+      const tasks = data.payload.tasks;
+
+      // 对已存在的任务更新任务进度 对新的任务进行添加
+      for (const t of tasks) {
+        const the = this.tasks.find(e => e.id === t.id);
+        if (the) {
+          the.progress = t.progress;
+        } else {
+          // NotifyHistoryTimerTaskService 该任务 不计算平均任务时长
+          if (t.name === 'NotifyHistoryTimerTaskService') {
+            this.tasks.push({
+              id: t.id,
+              name: t.name,
+              key: t.key,
+              priority: t.priority,
+              progress: t.progress,
+              startAt: t.startAt,
+
+              ignoreCompute: true,
+              avgCostTime: 0
+            })
+          } else {
+            this.tasks.push({
+              id: t.id,
+              name: t.name,
+              key: t.key,
+              priority: t.priority,
+              progress: t.progress,
+              startAt: t.startAt,
+
+              ignoreCompute: false,
+              avgCostTime: await this.computeAvgCostTime(t.name, t.key)
+            })
+          }
+        }
+      }
+
+      // 移除已经结束的任务
+      this.tasks = this.tasks.filter(e => !!tasks.find(f => f.id === e.id))
     });
+  }
+
+  private async computeAvgCostTime(name: string, key: string): Promise<number> {
+    const items = await lastValueFrom(this.taskRecordService.queryList({
+      name, key, duration: { $gt: 0 }, hasError: false
+    }, { number: 1, size: 20 }))
+
+    if (items.length > 0) {
+      const total = items.reduce((accu, curr) => accu + (curr.duration || 0), 0)
+      return total / items.length
+    }
+
+    return 0;
   }
 }

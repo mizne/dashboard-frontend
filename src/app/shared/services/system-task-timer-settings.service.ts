@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { SystemTaskTimerSettings } from '../models';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { FilterQuery } from 'src/app/shared';
 
 @Injectable({ providedIn: 'root' })
 export class SystemTaskTimerSettingsService {
@@ -32,7 +33,7 @@ export class SystemTaskTimerSettingsService {
   }
 
   queryList(
-    query?: Partial<SystemTaskTimerSettings>,
+    query?: FilterQuery<SystemTaskTimerSettings>,
     page?: { number: number; size: number },
     sort?: any
   ): Observable<SystemTaskTimerSettings[]> {
@@ -46,7 +47,7 @@ export class SystemTaskTimerSettingsService {
     );
   }
 
-  queryCount(query?: Partial<SystemTaskTimerSettings>): Observable<number> {
+  queryCount(query?: FilterQuery<SystemTaskTimerSettings>): Observable<number> {
     return this.httpClient.post<number>(
       `${this.baseURL}/system-task-timer-settings/queryCount`,
       {

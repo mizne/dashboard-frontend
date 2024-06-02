@@ -9,21 +9,29 @@
     <nz-list nzBordered nzSize="small" style="background: white; max-height: 800px; overflow: auto;">
       <nz-list-header>
         <!-- <span style="width: 200px; display: inline-block;">ID</span> -->
-        <span style="width: 300px; display: inline-block;">Name</span>
-        <span style="width: 100px; display: inline-block;">Key</span>
+        <span style="width: 240px; display: inline-block;">Name</span>
+        <span style="width: 240px; display: inline-block;">Key</span>
         <span style="width: 80px; display: inline-block;">Progress</span>
         <span style="width: 80px; display: inline-block;">Priority</span>
         <span style="width: 100px; display: inline-block;">Start At</span>
+        <span style="width: 80px; display: inline-block;">估算时长</span>
       </nz-list-header>
       <nz-list-item *ngFor="let item of tasks">
         <!-- <span style="width: 1; display: inline-block;">{{item.id}}</span> -->
-        <span style="width: 300px; display: inline-block;">{{item.name}}</span>
-        <span style="width: 100px; display: inline-block;">{{item.key}}</span>
+        <span style="width: 240px; display: inline-block;">{{item.name}}</span>
+        <span style="width: 240px; display: inline-block;">
+          <p nz-typography nzEllipsis [nzEllipsisRows]="1" nzCopyable [nzContent]="item.key"
+            style="width: 220px; margin-bottom: 0;">
+          </p>
+        </span>
         <span style="width: 80px; display: inline-block;">{{item.progress}}</span>
         <span style="width: 80px; display: inline-block;">{{item.priority}}</span>
         <span style="width: 100px; display: inline-block;">
           <created-at [createdAt]="item.startAt"></created-at>
         </span>
+        <span style="width: 80px; display: inline-block;">{{item.ignoreCompute ? '--' : (item.avgCostTime>0?
+          (item.avgCostTime|timeDuration) :
+          '--')}}</span>
       </nz-list-item>
     </nz-list>
   </nz-dropdown-menu>

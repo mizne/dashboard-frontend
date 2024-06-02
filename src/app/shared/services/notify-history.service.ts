@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { NotifyHistory, NotifyObserverTypes } from '../models';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { FilterQuery } from 'src/app/shared';
 
 @Injectable({ providedIn: 'root' })
 export class NotifyHistoryService {
@@ -41,7 +42,7 @@ export class NotifyHistoryService {
   }
 
   queryList(
-    query?: Partial<NotifyHistory>,
+    query?: FilterQuery<NotifyHistory>,
     page?: { number: number; size: number },
     sort?: any
   ): Observable<NotifyHistory[]> {
@@ -55,7 +56,7 @@ export class NotifyHistoryService {
     );
   }
 
-  queryCount(query?: Partial<NotifyHistory>): Observable<number> {
+  queryCount(query?: FilterQuery<NotifyHistory>): Observable<number> {
     return this.httpClient.post<number>(
       `${this.baseURL}/notify-history/queryCount`,
       {

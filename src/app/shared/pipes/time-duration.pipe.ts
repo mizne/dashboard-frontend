@@ -5,7 +5,7 @@ import { isNil, stringifyMills } from 'src/app/utils';
   name: 'timeDuration',
 })
 export class TimeDurationPipe implements PipeTransform {
-  transform(n: number): string {
+  transform(n?: number): string {
     n = Number(n);
     return stringifyMills(n)
   }

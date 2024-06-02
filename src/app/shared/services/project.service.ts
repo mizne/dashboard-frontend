@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Project } from '../models';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { FilterQuery } from 'src/app/shared';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
   private readonly baseURL = environment.baseURL;
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   create(
     params: Partial<Project>
@@ -32,7 +33,7 @@ export class ProjectService {
   }
 
   queryList(
-    query?: Partial<Project>,
+    query?: FilterQuery<Project>,
     page?: { number: number; size: number },
     sort?: any
   ): Observable<Project[]> {
@@ -46,7 +47,7 @@ export class ProjectService {
     );
   }
 
-  queryCount(query?: Partial<Project>): Observable<number> {
+  queryCount(query?: FilterQuery<Project>): Observable<number> {
     return this.httpClient.post<number>(`${this.baseURL}/projects/queryCount`, {
       query,
     });

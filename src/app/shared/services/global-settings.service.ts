@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { GlobalSettings } from '../models';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { FilterQuery } from 'src/app/shared';
 
 @Injectable({ providedIn: 'root' })
 export class GlobalSettingsService {
@@ -32,7 +33,7 @@ export class GlobalSettingsService {
   }
 
   queryList(
-    query?: Partial<GlobalSettings>,
+    query?: FilterQuery<GlobalSettings>,
     page?: { number: number; size: number },
     sort?: any
   ): Observable<GlobalSettings[]> {
@@ -46,7 +47,7 @@ export class GlobalSettingsService {
     );
   }
 
-  queryCount(query?: Partial<GlobalSettings>): Observable<number> {
+  queryCount(query?: FilterQuery<GlobalSettings>): Observable<number> {
     return this.httpClient.post<number>(
       `${this.baseURL}/global-settings/queryCount`,
       {

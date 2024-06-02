@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AirdropJob } from '../models';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { FilterQuery } from 'src/app/shared';
 
 @Injectable({ providedIn: 'root' })
 export class AirdropJobService {
@@ -32,7 +33,7 @@ export class AirdropJobService {
   }
 
   queryList(
-    query?: Partial<AirdropJob>,
+    query?: FilterQuery<AirdropJob>,
     page?: { number: number; size: number },
     sort?: any
   ): Observable<AirdropJob[]> {
@@ -46,7 +47,7 @@ export class AirdropJobService {
     );
   }
 
-  queryCount(query?: Partial<AirdropJob>): Observable<number> {
+  queryCount(query?: FilterQuery<AirdropJob>): Observable<number> {
     return this.httpClient.post<number>(
       `${this.baseURL}/airdrop-job/queryCount`,
       {

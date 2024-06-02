@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { TaskRecord } from '../models';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { FilterQuery } from 'src/app/shared';
 
 @Injectable({ providedIn: 'root' })
 export class TaskRecordService {
@@ -32,7 +33,7 @@ export class TaskRecordService {
   }
 
   queryList(
-    query?: Partial<TaskRecord>,
+    query?: FilterQuery<TaskRecord>,
     page?: { number: number; size: number },
     sort?: any
   ): Observable<TaskRecord[]> {
@@ -46,7 +47,7 @@ export class TaskRecordService {
     );
   }
 
-  queryCount(query?: Partial<TaskRecord>): Observable<number> {
+  queryCount(query?: FilterQuery<TaskRecord>): Observable<number> {
     return this.httpClient.post<number>(
       `${this.baseURL}/task-record/queryCount`,
       {

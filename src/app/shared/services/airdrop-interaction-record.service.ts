@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AirdropInteractionRecord } from '../models';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { FilterQuery } from 'src/app/shared';
 
 @Injectable({ providedIn: 'root' })
 export class AirdropInteractionRecordService {
@@ -32,7 +33,7 @@ export class AirdropInteractionRecordService {
   }
 
   queryList(
-    query?: Partial<AirdropInteractionRecord>,
+    query?: FilterQuery<AirdropInteractionRecord>,
     page?: { number: number; size: number },
     sort?: any
   ): Observable<AirdropInteractionRecord[]> {
@@ -46,7 +47,7 @@ export class AirdropInteractionRecordService {
     );
   }
 
-  queryCount(query?: Partial<AirdropInteractionRecord>): Observable<number> {
+  queryCount(query?: FilterQuery<AirdropInteractionRecord>): Observable<number> {
     return this.httpClient.post<number>(
       `${this.baseURL}/airdrop-interaction-record/queryCount`,
       {
