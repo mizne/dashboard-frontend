@@ -1,9 +1,8 @@
-import { AfterContentInit, Component, ContentChild, ElementRef, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { Time } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CexFutureDaily, CexFutureDailyService } from 'src/app/shared';
 import { fixTradingViewTime } from 'src/app/utils';
-
 @Component({
   selector: 'cex-future-item-detail',
   templateUrl: 'cex-future-item-detail.component.html'

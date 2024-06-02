@@ -59,7 +59,8 @@
         <cex-future-item-detail [symbol]="cexFutureSymbolGetter(item)" [content]="cexFutureItemTemplate">
         </cex-future-item-detail>
         <ng-template #cexFutureItemTemplate>
-          <button nz-button nzType="primary" nzSize="small" nzShape="circle" title="查看CexFuture详情">
+          <button nz-button nzType="primary" nzSize="small" nzShape="circle"
+            [title]="'查看 ' + cexFutureSymbolGetter(item) + ' 详情'">
             <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
           </button>
         </ng-template>
