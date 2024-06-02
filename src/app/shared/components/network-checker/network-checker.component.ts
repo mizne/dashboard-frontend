@@ -19,6 +19,7 @@ export class NetworkCheckerComponent implements OnInit {
   tasks: Array<{
     id: string;
     name: string;
+    key: string;
     priority: number;
     progress: string;
     startAt: number;

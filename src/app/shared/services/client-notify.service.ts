@@ -29,6 +29,7 @@ interface ClientNotifyRunningTasksData {
     tasks: Array<{
       id: string;
       name: string;
+      key: string;
       priority: number;
       progress: string;
       startAt: number;

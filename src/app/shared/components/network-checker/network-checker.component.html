@@ -10,6 +10,7 @@
       <nz-list-header>
         <!-- <span style="width: 200px; display: inline-block;">ID</span> -->
         <span style="width: 300px; display: inline-block;">Name</span>
+        <span style="width: 100px; display: inline-block;">Key</span>
         <span style="width: 80px; display: inline-block;">Progress</span>
         <span style="width: 80px; display: inline-block;">Priority</span>
         <span style="width: 100px; display: inline-block;">Start At</span>
@@ -17,6 +18,7 @@
       <nz-list-item *ngFor="let item of tasks">
         <!-- <span style="width: 1; display: inline-block;">{{item.id}}</span> -->
         <span style="width: 300px; display: inline-block;">{{item.name}}</span>
+        <span style="width: 100px; display: inline-block;">{{item.key}}</span>
         <span style="width: 80px; display: inline-block;">{{item.progress}}</span>
         <span style="width: 80px; display: inline-block;">{{item.priority}}</span>
         <span style="width: 100px; display: inline-block;">
