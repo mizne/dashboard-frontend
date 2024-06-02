@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverNotAllow, NotifyObserverTypes, SharedService } from 'src/app/shared';
+import { CexFutureService, NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverNotAllow, NotifyObserverTypes, SharedService } from 'src/app/shared';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CreateNotifyObserverNotAllowService } from 'src/app/modules/create-notify-observer-not-allow';
 import { CreateNotifyObserverService } from 'src/app/modules/create-notify-observer';
@@ -19,6 +19,7 @@ export class NotifyHistoryItemComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly sharedService: SharedService,
     private readonly notifyHistoryService: NotifyHistoryService,
+    private readonly cexFutureService: CexFutureService,
     private readonly nzNotificationService: NzNotificationService,
     private readonly createNotifyObserverNotAllowService: CreateNotifyObserverNotAllowService,
     private readonly createNotifyObserverService: CreateNotifyObserverService,
@@ -97,6 +98,18 @@ export class NotifyHistoryItemComponent implements OnInit {
 
   showCreateTimerNotifyObserverGetter(item: TableItem): boolean {
     return (item.type === NotifyObserverTypes.GALXE || item.type === NotifyObserverTypes.QUEST3 || item.type === NotifyObserverTypes.TIMER)
+  }
+
+  showCexFutureDetailGetter(item: TableItem): boolean {
+    return item.type === NotifyObserverTypes.MARKET && item.title.toLowerCase().indexOf('cex future') >= 0
+  }
+
+  cexFutureSymbolGetter(item: TableItem): string {
+    const symbol = item.title.split('|')[1].trim();
+    if (!symbol) {
+      console.warn(`cexFutureSymbolGetter() not found cex future symbol from notify history item: `, item)
+    }
+    return symbol
   }
 
   cancelDelete(item: NotifyHistory) { }

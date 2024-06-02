@@ -55,6 +55,16 @@
         </button>
       </p>
 
+      <p style="display: flex; align-items: center;" *ngIf="showCexFutureDetailGetter(item)">
+        <cex-future-item-detail [symbol]="cexFutureSymbolGetter(item)" [content]="cexFutureItemTemplate">
+        </cex-future-item-detail>
+        <ng-template #cexFutureItemTemplate>
+          <button nz-button nzType="primary" nzSize="small" nzShape="circle" title="查看CexFuture详情">
+            <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
+          </button>
+        </ng-template>
+      </p>
+
       <ng-template #defaultLogo>
         <image-view [width]="32" [name]="item.logo"></image-view>
       </ng-template>

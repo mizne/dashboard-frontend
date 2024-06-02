@@ -4,6 +4,7 @@ import { NotifyHistoryItemComponent } from './notify-history-item.component'
 import { FollowedProjectSelectViewModule } from 'src/app/modules/followed-project-select-view'
 import { CreateNotifyObserverModule } from 'src/app/modules/create-notify-observer';
 import { CreateNotifyObserverNotAllowModule } from 'src/app/modules/create-notify-observer-not-allow';
+import { CexFutureItemDetailModule } from 'src/app/modules/cex-future-item-detail';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { CreateNotifyObserverNotAllowModule } from 'src/app/modules/create-notif
     FollowedProjectSelectViewModule,
     CreateNotifyObserverModule,
     CreateNotifyObserverNotAllowModule,
+    CexFutureItemDetailModule,
   ],
   exports: [NotifyHistoryItemComponent],
   declarations: [NotifyHistoryItemComponent],
