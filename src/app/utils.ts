@@ -39,6 +39,33 @@ export const removeKeys = (obj: { [key: string]: any }, keys: string[]) => {
   return result;
 };
 
+export function memorizeFn<T>(
+  fn: (...args: any[]) => T,
+  resolver?: (...args: any[]) => string,
+  cache?: {
+    set: (k: string, v: any) => void;
+    get: (k: string) => any;
+    has: (k: string) => boolean;
+  },
+  debug?: (key: string, hitCount: number) => void
+): (...args: any[]) => T {
+  const map = cache || new Map();
+  let hitCount = 0;
+  const memorizedFn = function (...args: any[]) {
+    const key = resolver ? resolver(...args) : JSON.stringify(args);
+    if (map.has(key)) {
+      hitCount += 1;
+      debug && debug(key, hitCount)
+      return map.get(key);
+    }
+    const res = fn.apply(null, args);
+    map.set(key, res);
+    return res;
+  };
+  memorizedFn.cache = map;
+  return memorizedFn;
+}
+
 export function isEmpty(v: any): boolean {
   return isNil(v) || v === '';
 }

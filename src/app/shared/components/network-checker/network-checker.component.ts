@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { ClientNotifyService, SharedService, TaskRecordService } from '../../services';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
-import { sleep } from 'src/app/utils';
-import { environment } from 'src/environments/environment';
+import { lastValueFrom } from 'rxjs';
+import { memorizeFn } from 'src/app/utils';
 
 @Component({
   selector: 'network-checker',
@@ -39,32 +38,17 @@ export class NetworkCheckerComponent implements OnInit {
         if (the) {
           the.progress = t.progress;
         } else {
-          // NotifyHistoryTimerTaskService 该任务 不计算平均任务时长
-          if (t.name === 'NotifyHistoryTimerTaskService') {
-            this.tasks.push({
-              id: t.id,
-              name: t.name,
-              key: t.key,
-              priority: t.priority,
-              progress: t.progress,
-              startAt: t.startAt,
+          this.tasks.push({
+            id: t.id,
+            name: t.name,
+            key: t.key,
+            priority: t.priority,
+            progress: t.progress,
+            startAt: t.startAt,
 
-              ignoreCompute: true,
-              avgCostTime: 0
-            })
-          } else {
-            this.tasks.push({
-              id: t.id,
-              name: t.name,
-              key: t.key,
-              priority: t.priority,
-              progress: t.progress,
-              startAt: t.startAt,
-
-              ignoreCompute: false,
-              avgCostTime: await this.computeAvgCostTime(t.name, t.key)
-            })
-          }
+            ignoreCompute: false,
+            avgCostTime: await this.avgCostTimeResolver(t.name, t.key)
+          })
         }
       }
 
@@ -72,6 +56,8 @@ export class NetworkCheckerComponent implements OnInit {
       this.tasks = this.tasks.filter(e => !!tasks.find(f => f.id === e.id))
     });
   }
+
+  private avgCostTimeResolver: (name: string, key: string) => Promise<number> = memorizeFn(this.computeAvgCostTime.bind(this))
 
   private async computeAvgCostTime(name: string, key: string): Promise<number> {
     const items = await lastValueFrom(this.taskRecordService.queryList({
