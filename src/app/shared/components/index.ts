@@ -21,6 +21,7 @@ import { StatisticsDefinitionsComponent } from './statistics-definitions/statist
 import { StackBarChartComponent } from './stack-bar-chart/stack-bar-chart.component';
 import { SystemTaskTimerSettingsComponent } from './system-task-timer-settings/system-task-timer-settings.component';
 import { CexFutureSearchInputComponent } from './cex-future-search-input/cex-future-search-input.component';
+import { CexTokenSearchInputComponent } from './cex-token-search-input/cex-token-search-input.component';
 
 export const components = [
   LinkableComponent,
@@ -46,6 +47,7 @@ export const components = [
   StackBarChartComponent,
   SystemTaskTimerSettingsComponent,
   CexFutureSearchInputComponent,
+  CexTokenSearchInputComponent,
 ];
 
 export {
@@ -72,6 +74,7 @@ export {
   StackBarChartComponent,
   SystemTaskTimerSettingsComponent,
   CexFutureSearchInputComponent,
+  CexTokenSearchInputComponent,
 };
 
 export * from './stack-bar-chart/stack-bar-chart.component'
