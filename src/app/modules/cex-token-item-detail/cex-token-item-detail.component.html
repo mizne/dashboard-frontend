@@ -34,9 +34,8 @@
               <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
                 交易量
               </div>
-              <small-chart [data]="volumes" [title]="symbol + ' volume'" type="bar" [width]="900" [height]="160"
-                [showAxis]="false" [interval]="interval" [time]="time">
-              </small-chart>
+              <tradingview-chart [series]="volumeSeries" [width]="900"
+                [options]="priceChartOptions"></tradingview-chart>
             </div>
           </div>
 

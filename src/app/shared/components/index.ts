@@ -78,3 +78,4 @@ export {
 };
 
 export * from './stack-bar-chart/stack-bar-chart.component'
+export * from './tradingview-chart/tradingview-chart.component'

@@ -5,7 +5,7 @@ import { Time, UTCTimestamp } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { concatMap, forkJoin, map, Observable } from 'rxjs';
-import { KlineIntervals, KlineIntervalService } from 'src/app/shared';
+import { KlineIntervals, KlineIntervalService, TradingViewChartTypes } from 'src/app/shared';
 import { fixTradingViewTime, removeEmpty } from 'src/app/utils';
 import { CexTokenTagAlert } from 'src/app/shared';
 import { CexTokenTag, tokenTagNameOfTotalMarket } from 'src/app/shared';
@@ -25,7 +25,7 @@ interface ChartOptions {
   isTotal: boolean;
   tagLabel: string;
   series: Array<{
-    type: string;
+    type: TradingViewChartTypes;
     color: string;
     data: Array<{
       time: Time;
@@ -162,7 +162,7 @@ export class CexTokenTagAlertComponent implements OnInit {
         tagLabel: totalMarketChartItem.tagLabel,
         series: selectedChartTypes.map(e => {
           return {
-            type: 'line',
+            type: TradingViewChartTypes.LINE,
             color: this.chartTypes.find(f => f.value === e)?.color || '#000000',
             data: this.resolveSeriesData(e, totalMarketChartItem.tagAlerts.sort((a, b) => a.time - b.time))
           }
@@ -177,7 +177,7 @@ export class CexTokenTagAlertComponent implements OnInit {
           tagLabel: charItem.tagLabel,
           series: selectedChartTypes.map(charType => {
             return {
-              type: 'line',
+              type: TradingViewChartTypes.LINE,
               color: this.chartTypes.find(f => f.value === charType)?.color || '#000000',
               data: this.resolveSeriesData(charType, charItem.tagAlerts.sort((a, b) => a.time - b.time))
             }

@@ -10,6 +10,11 @@ import * as uuid from 'uuid';
 import { DestroyService } from '../../services/destroy.service';
 import { createChart, IChartApi, ISeriesApi, SeriesType, Time } from 'lightweight-charts';
 
+export enum TradingViewChartTypes {
+  LINE = 'line',
+  HISTOGRAM = 'histogram'
+}
+
 // https://tradingview.github.io/lightweight-charts/docs
 // https://github.com/tradingview/lightweight-charts
 @Component({
@@ -21,7 +26,7 @@ export class TradingviewChartComponent implements OnInit, AfterViewInit, OnDestr
   chartID = 'tradingview-chart-wrapper-' + uuid.v4();
 
   @Input() series: Array<{
-    type: string;
+    type: TradingViewChartTypes;
     color: string;
     data: { time: Time; value: number }[];
   }> = [];
@@ -84,12 +89,20 @@ export class TradingviewChartComponent implements OnInit, AfterViewInit, OnDestr
       }
 
       for (const e of this.series) {
-        if (e.type === 'line') {
+        if (e.type === TradingViewChartTypes.LINE) {
           const lineSeries = chart.addLineSeries({
             color: e.color,
           });
           this.seriesList.push(lineSeries);
           lineSeries.setData(e.data);
+        } else if (e.type === TradingViewChartTypes.HISTOGRAM) {
+          const histogramSeries = chart.addHistogramSeries({
+            color: e.color,
+          });
+          this.seriesList.push(histogramSeries);
+          histogramSeries.setData(e.data);
+        } else {
+          console.log(`[TradingviewChartComponent] renderChart() known chart type: ${e.type}`)
         }
       }
 

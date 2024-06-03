@@ -2,7 +2,7 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Time } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CexFutureDaily, CexFutureDailyService } from 'src/app/shared';
+import { CexFutureDaily, CexFutureDailyService, TradingViewChartTypes } from 'src/app/shared';
 import { fixTradingViewTime } from 'src/app/utils';
 @Component({
   selector: 'cex-future-item-detail',
@@ -16,7 +16,7 @@ export class CexFutureItemDetailComponent implements OnInit {
 
   @Input() content: TemplateRef<any> | null = null;
 
-  @Input() symbol = ''
+  @Input() symbol = 'BTCUSDT'
 
   futureDetailModalVisible = false;
   futureDetailModalTitle = '';
@@ -57,22 +57,22 @@ export class CexFutureItemDetailComponent implements OnInit {
     },
   }
   priceSeries: Array<{
-    type: string;
+    type: TradingViewChartTypes;
     color: string;
     data: { time: Time; value: number }[];
   }> = []
   openInterestSeries: Array<{
-    type: string;
+    type: TradingViewChartTypes;
     color: string;
     data: { time: Time; value: number }[];
   }> = []
   fundingRateSeries: Array<{
-    type: string;
+    type: TradingViewChartTypes;
     color: string;
     data: { time: Time; value: number }[];
   }> = []
   longShortRatioSeries: Array<{
-    type: string;
+    type: TradingViewChartTypes;
     color: string;
     data: { time: Time; value: number }[];
   }> = []
@@ -110,7 +110,7 @@ export class CexFutureItemDetailComponent implements OnInit {
           this.loadingChart = false;
           this.priceSeries = [
             {
-              type: 'line',
+              type: TradingViewChartTypes.LINE,
               color: '#f6bf26',
               data: results
                 .sort((a, b) => a.time - b.time)
@@ -121,7 +121,7 @@ export class CexFutureItemDetailComponent implements OnInit {
 
           this.openInterestSeries = [
             {
-              type: 'line',
+              type: TradingViewChartTypes.LINE,
               color: '#f6bf26',
               data: results
                 .sort((a, b) => a.time - b.time)
@@ -132,7 +132,7 @@ export class CexFutureItemDetailComponent implements OnInit {
 
           this.fundingRateSeries = [
             {
-              type: 'line',
+              type: TradingViewChartTypes.LINE,
               color: '#f6bf26',
               data: results
                 .sort((a, b) => a.time - b.time)
@@ -143,7 +143,7 @@ export class CexFutureItemDetailComponent implements OnInit {
 
           this.longShortRatioSeries = [
             {
-              type: 'line',
+              type: TradingViewChartTypes.LINE,
               color: '#f6bf26',
               data: results
                 .sort((a, b) => a.time - b.time)

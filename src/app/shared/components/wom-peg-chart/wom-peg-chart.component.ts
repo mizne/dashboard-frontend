@@ -7,6 +7,7 @@ import { FormControl } from '@angular/forms';
 import { WomPeg } from '../../models';
 import { Time } from 'lightweight-charts';
 import { fixTradingViewTime } from 'src/app/utils';
+import { TradingViewChartTypes } from '../tradingview-chart/tradingview-chart.component';
 
 @Component({
   selector: 'wom-peg-chart',
@@ -38,7 +39,7 @@ export class WomPegChartComponent implements OnInit {
     },
   ]
   series: Array<{
-    type: string;
+    type: TradingViewChartTypes;
     color: string;
     data: { time: Time; value: number }[];
   }> = []
@@ -69,17 +70,17 @@ export class WomPegChartComponent implements OnInit {
             this.womPegs = v.sort((a, b) => a.createdAt - b.createdAt).filter(e => (e.mWom > 0) && (e.wmxWom > 0) && (e.qWom > 0));
             this.series = [
               {
-                type: 'line',
+                type: TradingViewChartTypes.LINE,
                 color: this.chartTypes[0].color,
                 data: this.womPegs.map(e => ({ time: fixTradingViewTime(e.createdAt), value: e.mWom }))
               },
               {
-                type: 'line',
+                type: TradingViewChartTypes.LINE,
                 color: this.chartTypes[1].color,
                 data: this.womPegs.map(e => ({ time: fixTradingViewTime(e.createdAt), value: e.wmxWom }))
               },
               {
-                type: 'line',
+                type: TradingViewChartTypes.LINE,
                 color: this.chartTypes[2].color,
                 data: this.womPegs.map(e => ({ time: fixTradingViewTime(e.createdAt), value: e.qWom }))
               }

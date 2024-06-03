@@ -4,7 +4,7 @@ import { da } from 'date-fns/locale';
 import { Time } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { startWith } from 'rxjs';
-import { GeneralTableService, MAX_GENERAL_TABLE_FIELD_COUNT } from 'src/app/shared';
+import { GeneralTableService, MAX_GENERAL_TABLE_FIELD_COUNT, TradingViewChartTypes } from 'src/app/shared';
 import { fixTradingViewTime, isNil } from 'src/app/utils';
 
 @Component({
@@ -37,7 +37,7 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
   charts: Array<{
     label: string;
     series: Array<{
-      type: string;
+      type: TradingViewChartTypes;
       color: string;
       data: { time: Time; value: number }[];
     }>
@@ -162,12 +162,12 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
 
       this.charts = fields.map(viewKey => {
         const series: Array<{
-          type: string;
+          type: TradingViewChartTypes;
           color: string;
           data: { time: Time; value: number }[];
         }> = [
             {
-              type: 'line',
+              type: TradingViewChartTypes.LINE,
               color: '#f6bf26',
               data: this.viewDataResults
                 .sort((a, b) => a.createdAt - b.createdAt)

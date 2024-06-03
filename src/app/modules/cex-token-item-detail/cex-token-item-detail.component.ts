@@ -2,7 +2,7 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Time } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CexTokenDaily, CexTokenDailyService, KlineIntervalService, KlineIntervals } from 'src/app/shared';
+import { CexTokenDaily, CexTokenDailyService, KlineIntervalService, KlineIntervals, TradingViewChartTypes } from 'src/app/shared';
 import { fixTradingViewTime } from 'src/app/utils';
 @Component({
   selector: 'cex-token-item-detail',
@@ -17,7 +17,7 @@ export class CexTokenItemDetailComponent implements OnInit {
 
   @Input() content: TemplateRef<any> | null = null;
 
-  @Input() symbol = ''
+  @Input() symbol = 'BTCUSDT'
 
   detailModalVisible = false;
   detailModalTitle = '';
@@ -39,15 +39,19 @@ export class CexTokenItemDetailComponent implements OnInit {
     },
   }
   priceSeries: Array<{
-    type: string;
+    type: TradingViewChartTypes;
     color: string;
     data: { time: Time; value: number }[];
   }> = []
 
-  volumes: number[] = []
+  volumeSeries: Array<{
+    type: TradingViewChartTypes;
+    color: string;
+    data: { time: Time; value: number }[];
+  }> = []
+
   interval = KlineIntervals.FOUR_HOURS;
   time = this.klineIntervalService.resolveFourHoursIntervalMills(1)
-
 
   searchCtrl = new FormControl('')
   loadingChart = false;
@@ -83,7 +87,7 @@ export class CexTokenItemDetailComponent implements OnInit {
           this.loadingChart = false;
           this.priceSeries = [
             {
-              type: 'line',
+              type: TradingViewChartTypes.LINE,
               color: '#f6bf26',
               data: results
                 .sort((a, b) => a.time - b.time)
@@ -92,9 +96,16 @@ export class CexTokenItemDetailComponent implements OnInit {
             }
           ]
 
-          this.volumes = results
-            .sort((a, b) => a.time - b.time)
-            .map(e => e.volume)
+          this.volumeSeries = [
+            {
+              type: TradingViewChartTypes.HISTOGRAM,
+              color: '#22ab94',
+              data: results
+                .sort((a, b) => a.time - b.time)
+                .map(e => ({ time: e.time, value: e.volume }))
+                .map(e => ({ time: fixTradingViewTime(e.time), value: e.value }))
+            }
+          ]
         },
         error: (err: Error) => {
           this.loadingChart = false;
