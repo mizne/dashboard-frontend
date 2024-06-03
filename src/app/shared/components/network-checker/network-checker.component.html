@@ -20,8 +20,8 @@
         <!-- <span style="width: 1; display: inline-block;">{{item.id}}</span> -->
         <span style="width: 240px; display: inline-block;">{{item.name}}</span>
         <span style="width: 240px; display: inline-block;">
-          <p nz-typography nzEllipsis [nzEllipsisRows]="1" nzCopyable [nzContent]="item.key"
-            style="width: 220px; margin-bottom: 0;">
+          <p nz-typography nzEllipsis [nzEllipsisRows]="1" nzCopyable [nzCopyTooltips]="[item.key, '复制成功']"
+            [nzContent]="item.key" style="width: 220px; margin-bottom: 0;">
           </p>
         </span>
         <span style="width: 80px; display: inline-block;">{{item.progress}}</span>
