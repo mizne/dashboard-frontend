@@ -146,7 +146,7 @@ export class SmallChartComponent implements OnInit, AfterViewInit, OnDestroy {
             value: e,
             time: format(
               this.time -
-              (this.data.length - i + 1) *
+              (this.data.length - i - 1) *
               this.resolveDuration(this.interval as KlineIntervals),
               'MM-dd HH:mm'
             ),
