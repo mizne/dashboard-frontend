@@ -109,6 +109,11 @@ export function paddingZero(s: string, length = 2): string {
   return s.length < length ? `${'0'.repeat(length - s.length)}${s}` : s;
 }
 
+// 追加空格
+export function appendBlank(s: string, length = 2): string {
+  return s.length < length ? `${s}${' '.repeat(length - s.length)}` : s;
+}
+
 export function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => {
     setTimeout(() => {

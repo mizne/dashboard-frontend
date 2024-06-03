@@ -35,7 +35,7 @@
                 开仓量
               </div>
               <tradingview-chart [series]="openInterestSeries" [width]="900"
-                [options]="chartOptions"></tradingview-chart>
+                [options]="openInterestChartOptions"></tradingview-chart>
             </div>
           </div>
 
@@ -45,7 +45,7 @@
                 资金费率
               </div>
               <tradingview-chart [series]="fundingRateSeries" [width]="900"
-                [options]="chartOptions"></tradingview-chart>
+                [options]="fundingRateChartOptions"></tradingview-chart>
             </div>
           </div>
 
@@ -55,7 +55,7 @@
                 多空比
               </div>
               <tradingview-chart [series]="longShortRatioSeries" [width]="900"
-                [options]="chartOptions"></tradingview-chart>
+                [options]="longShortRatioChartOptions"></tradingview-chart>
             </div>
           </div>
         </div>

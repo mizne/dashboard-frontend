@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Time } from 'lightweight-charts';
+import { Time, PriceScaleMode } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CexFutureDaily, CexFutureDailyService, TradingViewChartTypes } from 'src/app/shared';
 import { fixTradingViewTime } from 'src/app/utils';
@@ -20,7 +20,48 @@ export class CexFutureItemDetailComponent implements OnInit {
 
   futureDetailModalVisible = false;
   futureDetailModalTitle = '';
-  chartOptions = {
+  priceChartOptions = {
+    localization: {
+      priceFormatter: (n: number) => {
+        if (n >= 1e9) {
+          return `${(n / 1e9).toFixed(2)} B`
+        }
+        if (n >= 1e6) {
+          return `${(n / 1e6).toFixed(2)} M`
+        }
+        if (n >= 1e3) {
+          return `${(n / 1e3).toFixed(2)} K`
+        }
+        return `${(n).toFixed(2)}`
+      },
+    },
+    rightPriceScale: {
+      mode: PriceScaleMode.Logarithmic
+    }
+  }
+
+  openInterestChartOptions = {
+    localization: {
+      priceFormatter: (n: number) => {
+        if (n >= 1e9) {
+          return `${(n / 1e9).toFixed(2)} B`
+        }
+        if (n >= 1e6) {
+          return `${(n / 1e6).toFixed(2)} M`
+        }
+        if (n >= 1e3) {
+          return `${(n / 1e3).toFixed(2)} K`
+        }
+        return `${(n).toFixed(2)}`
+
+      },
+    },
+    rightPriceScale: {
+      mode: PriceScaleMode.Logarithmic
+    }
+  }
+
+  fundingRateChartOptions = {
     localization: {
       priceFormatter: (n: number) => {
         if (n >= 1e9) {
@@ -40,7 +81,7 @@ export class CexFutureItemDetailComponent implements OnInit {
     },
   }
 
-  priceChartOptions = {
+  longShortRatioChartOptions = {
     localization: {
       priceFormatter: (n: number) => {
         if (n >= 1e9) {
@@ -55,7 +96,12 @@ export class CexFutureItemDetailComponent implements OnInit {
         return `${(n).toFixed(2)}`
       },
     },
+    rightPriceScale: {
+      mode: PriceScaleMode.Logarithmic
+    }
   }
+
+
   priceSeries: Array<{
     type: TradingViewChartTypes;
     color: string;

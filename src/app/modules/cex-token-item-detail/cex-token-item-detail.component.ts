@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Time } from 'lightweight-charts';
+import { Time, PriceScaleMode } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CexTokenDaily, CexTokenDailyService, KlineIntervalService, KlineIntervals, TradingViewChartTypes } from 'src/app/shared';
 import { fixTradingViewTime } from 'src/app/utils';
@@ -23,6 +23,25 @@ export class CexTokenItemDetailComponent implements OnInit {
   detailModalTitle = '';
 
   priceChartOptions = {
+    localization: {
+      priceFormatter: (n: number) => {
+        if (n >= 1e9) {
+          return `${(n / 1e9).toFixed(2)} B`
+        }
+        if (n >= 1e6) {
+          return `${(n / 1e6).toFixed(2)} M`
+        }
+        if (n >= 1e3) {
+          return `${(n / 1e3).toFixed(2)} K`
+        }
+        return `${(n).toFixed(2)}`
+      },
+    },
+    rightPriceScale: {
+      mode: PriceScaleMode.Logarithmic
+    }
+  }
+  volumeChartOptions = {
     localization: {
       priceFormatter: (n: number) => {
         if (n >= 1e9) {
