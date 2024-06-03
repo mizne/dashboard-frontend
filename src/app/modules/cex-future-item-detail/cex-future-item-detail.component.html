@@ -7,48 +7,60 @@
   </ng-container>
 </div>
 
-<nz-modal [(nzVisible)]="futureDetailModalVisible" [nzTitle]="futureDetailModalTitle" [nzWidth]="1000"
+<ng-template #tplTitle>
+  <div style="display: flex; align-items: center;">
+    <app-cex-future-search-input style="width: 160px;" [formControl]="searchCtrl"></app-cex-future-search-input>
+    <span style="margin-left: 12px;">{{' 近 ' + days + ' 天数据'}}</span>
+  </div>
+</ng-template>
+
+<nz-modal [(nzVisible)]="futureDetailModalVisible" [nzTitle]="tplTitle" [nzWidth]="1000"
   (nzOnCancel)="futureDetailModalVisible=false" (nzOnOk)="futureDetailModalVisible=false">
   <ng-container *nzModalContent>
     <nz-card>
-      <div nz-row [nzGutter]="16">
-        <div nz-col class="gutter-row" [nzSpan]="24">
-          <div class="inner-box">
-            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
-              价格
+      <nz-spin [nzTip]="'获取 '+symbol+' 统计数据中...'" [nzSpinning]="loadingChart">
+        <div nz-row [nzGutter]="16">
+          <div nz-col class="gutter-row" [nzSpan]="24">
+            <div class="inner-box">
+              <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
+                价格
+              </div>
+              <tradingview-chart [series]="priceSeries" [width]="900" [options]="priceChartOptions"></tradingview-chart>
             </div>
-            <tradingview-chart [series]="priceSeries" [width]="900" [options]="priceChartOptions"></tradingview-chart>
           </div>
-        </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24">
-          <div class="inner-box">
-            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
-              开仓量
+          <div nz-col class="gutter-row" [nzSpan]="24">
+            <div class="inner-box">
+              <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
+                开仓量
+              </div>
+              <tradingview-chart [series]="openInterestSeries" [width]="900"
+                [options]="chartOptions"></tradingview-chart>
             </div>
-            <tradingview-chart [series]="openInterestSeries" [width]="900" [options]="chartOptions"></tradingview-chart>
           </div>
-        </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24">
-          <div class="inner-box">
-            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
-              资金费率
+          <div nz-col class="gutter-row" [nzSpan]="24">
+            <div class="inner-box">
+              <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
+                资金费率
+              </div>
+              <tradingview-chart [series]="fundingRateSeries" [width]="900"
+                [options]="chartOptions"></tradingview-chart>
             </div>
-            <tradingview-chart [series]="fundingRateSeries" [width]="900" [options]="chartOptions"></tradingview-chart>
           </div>
-        </div>
 
-        <div nz-col class="gutter-row" [nzSpan]="24">
-          <div class="inner-box">
-            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
-              多空比
+          <div nz-col class="gutter-row" [nzSpan]="24">
+            <div class="inner-box">
+              <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
+                多空比
+              </div>
+              <tradingview-chart [series]="longShortRatioSeries" [width]="900"
+                [options]="chartOptions"></tradingview-chart>
             </div>
-            <tradingview-chart [series]="longShortRatioSeries" [width]="900"
-              [options]="chartOptions"></tradingview-chart>
           </div>
         </div>
-      </div>
+      </nz-spin>
+
     </nz-card>
   </ng-container>
 </nz-modal>

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Time } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CexFutureDaily, CexFutureDailyService } from 'src/app/shared';
@@ -76,22 +77,37 @@ export class CexFutureItemDetailComponent implements OnInit {
     data: { time: Time; value: number }[];
   }> = []
 
-  ngOnInit() { }
+  searchCtrl = new FormControl('')
+  loadingChart = false;
+  days = 180;
+
+  ngOnInit() {
+    this.searchCtrl.valueChanges.subscribe((v) => {
+      this.symbol = v as string;
+      this.futureDetailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
+      this.fetchChartData();
+    })
+  }
 
   open() {
     if (!this.symbol) {
       this.notification.error(`查看详情失败`, `没有symbol`)
       return
     }
-    const days = 180;
+    this.searchCtrl.patchValue(this.symbol, { emitEvent: false })
+    this.futureDetailModalVisible = true;
+    this.futureDetailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
+    this.fetchChartData()
+  }
+
+  private fetchChartData() {
+    this.loadingChart = true;
     this.cexFutureDailyService.queryList({
       symbol: this.symbol,
-    }, { number: 1, size: days * 6 })
+    }, { number: 1, size: this.days * 6 })
       .subscribe({
         next: (results: CexFutureDaily[]) => {
-          this.futureDetailModalVisible = true;
-          this.futureDetailModalTitle = `${this.symbol} 近 ${days} 天数据`;
-
+          this.loadingChart = false;
           this.priceSeries = [
             {
               type: 'line',
@@ -137,6 +153,7 @@ export class CexFutureItemDetailComponent implements OnInit {
           ]
         },
         error: (err: Error) => {
+          this.loadingChart = false;
           this.notification.error(`获取${this.symbol}合约数据失败`, `${err.message}`)
         }
       })

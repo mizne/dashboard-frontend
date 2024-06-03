@@ -1,0 +1,12 @@
+<div class="cex-future-search-input-container">
+  <nz-select style="width: 100%;" nzShowSearch nzServerSearch nzPlaceHolder="input search text"
+    [formControl]="selectedInputCtrl" [nzShowArrow]="false" [nzFilterOption]="nzFilterOption"
+    (nzOnSearch)="search($event)" (nzScrollToBottom)="loadMore()" [nzDropdownRender]="renderTemplate">
+    <nz-option *ngFor="let o of listOfOption" [nzLabel]="o.symbol" [nzValue]="o.symbol"></nz-option>
+  </nz-select>
+
+  <ng-template #renderTemplate>
+    <nz-spin *ngIf="isLoading"></nz-spin>
+    <span *ngIf="completed">No More Data</span>
+  </ng-template>
+</div>
