@@ -112,6 +112,18 @@ export class NotifyHistoryItemComponent implements OnInit {
     return symbol
   }
 
+  showCexTokenDetailGetter(item: TableItem): boolean {
+    return item.type === NotifyObserverTypes.MARKET && item.title.toLowerCase().indexOf('cex token') >= 0
+  }
+
+  cexTokenSymbolGetter(item: TableItem): string {
+    const symbol = item.title.split('|')[1].trim();
+    if (!symbol) {
+      console.warn(`cexTokenSymbolGetter() not found cex token symbol from notify history item: `, item)
+    }
+    return symbol
+  }
+
   cancelDelete(item: NotifyHistory) { }
 
   confirmDelete(item: NotifyHistory) {

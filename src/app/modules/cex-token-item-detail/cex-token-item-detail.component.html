@@ -1,0 +1,48 @@
+<div class="cex-token-item-detail-container" (click)="open()">
+  <ng-container *ngIf="content" [ngTemplateOutlet]="content"></ng-container>
+  <ng-container *ngIf="!content">
+    <button nz-button nzType="primary" [title]="'查看详情'">
+      详情
+    </button>
+  </ng-container>
+</div>
+
+<ng-template #tplTitle>
+  <div style="display: flex; align-items: center;">
+    <app-cex-token-search-input style="width: 160px;" [formControl]="searchCtrl"></app-cex-token-search-input>
+    <span style="margin-left: 12px;">{{' 近 ' + days + ' 天数据'}}</span>
+  </div>
+</ng-template>
+
+<nz-modal [(nzVisible)]="detailModalVisible" [nzTitle]="tplTitle" [nzWidth]="1000"
+  (nzOnCancel)="detailModalVisible=false" (nzOnOk)="detailModalVisible=false">
+  <ng-container *nzModalContent>
+    <nz-card>
+      <nz-spin [nzTip]="'获取 '+symbol+' 现货数据中...'" [nzSpinning]="loadingChart">
+        <div nz-row [nzGutter]="16">
+          <div nz-col class="gutter-row" [nzSpan]="24">
+            <div class="inner-box">
+              <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
+                价格
+              </div>
+              <tradingview-chart [series]="priceSeries" [width]="900" [options]="priceChartOptions"></tradingview-chart>
+            </div>
+          </div>
+
+          <div nz-col class="gutter-row" [nzSpan]="24">
+            <div class="inner-box">
+              <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
+                交易量
+              </div>
+              <small-chart [data]="volumes" [title]="symbol + ' volume'" type="bar" [width]="900" [height]="160"
+                [showAxis]="false" [interval]="interval" [time]="time">
+              </small-chart>
+            </div>
+          </div>
+
+        </div>
+      </nz-spin>
+
+    </nz-card>
+  </ng-container>
+</nz-modal>

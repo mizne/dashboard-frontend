@@ -60,8 +60,19 @@
         </cex-future-item-detail>
         <ng-template #cexFutureItemTemplate>
           <button nz-button nzType="primary" nzSize="small" nzShape="circle"
-            [title]="'查看 ' + cexFutureSymbolGetter(item) + ' 详情'">
+            [title]="'查看 ' + cexFutureSymbolGetter(item) + ' 合约详情'">
             <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
+          </button>
+        </ng-template>
+      </p>
+
+      <p style="display: flex; align-items: center;" *ngIf="showCexTokenDetailGetter(item)">
+        <cex-token-item-detail [symbol]="cexTokenSymbolGetter(item)" [content]="cexTokenItemTemplate">
+        </cex-token-item-detail>
+        <ng-template #cexTokenItemTemplate>
+          <button nz-button nzType="primary" nzSize="small" nzShape="circle"
+            [title]="'查看 ' + cexTokenSymbolGetter(item) + ' 现货详情'">
+            <span nz-icon nzType="line-chart" nzTheme="outline"></span>
           </button>
         </ng-template>
       </p>

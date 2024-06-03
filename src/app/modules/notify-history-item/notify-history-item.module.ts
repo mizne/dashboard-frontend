@@ -5,6 +5,7 @@ import { FollowedProjectSelectViewModule } from 'src/app/modules/followed-projec
 import { CreateNotifyObserverModule } from 'src/app/modules/create-notify-observer';
 import { CreateNotifyObserverNotAllowModule } from 'src/app/modules/create-notify-observer-not-allow';
 import { CexFutureItemDetailModule } from 'src/app/modules/cex-future-item-detail';
+import { CexTokenItemDetailModule } from 'src/app/modules/cex-token-item-detail';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { CexFutureItemDetailModule } from 'src/app/modules/cex-future-item-detai
     CreateNotifyObserverModule,
     CreateNotifyObserverNotAllowModule,
     CexFutureItemDetailModule,
+    CexTokenItemDetailModule,
   ],
   exports: [NotifyHistoryItemComponent],
   declarations: [NotifyHistoryItemComponent],
