@@ -1,11 +1,12 @@
 <div class="btc-network-checker-container" style="position:fixed; bottom: 24px; right: 24px; z-index: 100">
-  <button nz-button nzType="primary" nzShape="circle" nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
-    [nzPlacement]="'bottomLeft'">
+  <button nz-button nzType="primary" nzShape="circle" nz-popover nzPopoverTitle="正在进行中的任务"
+    [(nzPopoverVisible)]="visible" nzPopoverTrigger="click" [nzPopoverContent]="contentTemplate"
+    [nzPopoverPlacement]="'leftBottom'">
     <i nz-icon [nzType]="'ordered-list'" nzTheme="outline"></i>
   </button>
   <nz-badge nzStandalone [nzCount]="tasks.length" style="position: fixed;right: 12px;bottom: 42px;"></nz-badge>
 
-  <nz-dropdown-menu #menu="nzDropdownMenu">
+  <ng-template #contentTemplate>
     <nz-list nzBordered nzSize="small" style="background: white; max-height: 800px; overflow: auto;">
       <nz-list-header>
         <!-- <span style="width: 200px; display: inline-block;">ID</span> -->
@@ -34,5 +35,5 @@
           '--')}}</span>
       </nz-list-item>
     </nz-list>
-  </nz-dropdown-menu>
+  </ng-template>
 </div>

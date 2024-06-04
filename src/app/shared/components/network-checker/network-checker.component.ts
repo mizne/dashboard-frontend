@@ -28,6 +28,8 @@ export class NetworkCheckerComponent implements OnInit {
     avgCostTime: number;
   }> = [];
 
+  visible = false
+
   ngOnInit() {
     this.clientNotifyService.listenRunningTasks().subscribe(async (data) => {
       const tasks = data.payload.tasks;
@@ -47,13 +49,18 @@ export class NetworkCheckerComponent implements OnInit {
             startAt: t.startAt,
 
             ignoreCompute: false,
-            avgCostTime: await this.avgCostTimeResolver(t.name, t.key)
+            avgCostTime: 0
           })
         }
       }
 
       // 移除已经结束的任务
       this.tasks = this.tasks.filter(e => !!tasks.find(f => f.id === e.id))
+
+      for (const t of this.tasks) {
+        const avgCostTime = await this.avgCostTimeResolver(t.name, t.key)
+        t.avgCostTime = avgCostTime
+      }
     });
   }
 
