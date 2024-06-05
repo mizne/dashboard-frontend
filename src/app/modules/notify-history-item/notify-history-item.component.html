@@ -4,30 +4,37 @@
     [nzExtra]="extraTemplate">
     <div style="position: relative;">
       <p [innerHtml]="item.desc"></p>
-      <p style="position: absolute; right: 12px;">
-        <span>添加时间：</span>
-        <created-at [createdAt]="item.createdAt"></created-at>
-        <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
-          (nzOnConfirm)="confirmDelete(item)" (nzOnCancel)="cancelDelete(item)" style="margin-left: 8px;">
-          <button nz-button nzType="primary" nzShape="circle" nzDanger><span nz-icon nzType="delete"></span></button>
-        </a>
-      </p>
-      <p style="display: flex; align-items: center;">
+      <p style="display: flex; align-items: center; justify-content: space-between;">
         <linkable [href]="item.link" [content]="defaultLogo">
         </linkable>
 
+        <ng-container *ngIf="item.notifyObserverID">
+          <button nz-button nzType="primary" nzSize="small" nzShape="circle" [title]="'修改通知源'"
+            (click)="confirmUpdateNotifyObserver(item)"><span nz-icon nzType="edit"></span></button>
+        </ng-container>
+
         <ng-container *ngIf="item.followedProjectIDCtrl">
           <image-view *ngIf="item.followedProjectLogo; else noLogo" [width]="32" [name]="item.followedProjectLogo"
-            style="cursor: pointer; margin-left: 36px" nz-popover nzPopoverTrigger="click"
+            style="cursor: pointer;" nz-popover nzPopoverTrigger="click"
             [nzPopoverContent]="contentTemplate"></image-view>
 
           <ng-template #noLogo>
-            <button nz-button nzType="primary" nzShape="circle" nz-popover nzPopoverTrigger="click"
-              [nzPopoverContent]="contentTemplate" style="margin-left: 36px">
+            <button nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popover nzPopoverTrigger="click"
+              [nzPopoverContent]="contentTemplate">
               <span nz-icon nzType="project" nzTheme="outline"></span>
             </button>
           </ng-template>
         </ng-container>
+
+        <span>
+          <created-at [createdAt]="item.createdAt"></created-at>
+          <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
+            (nzOnConfirm)="confirmDelete(item)" (nzOnCancel)="cancelDelete(item)" style="margin-left: 8px;">
+            <button nz-button nzType="primary" nzSize="small" nzShape="circle" nzDanger><span nz-icon
+                nzType="delete"></span></button>
+          </a>
+        </span>
+
         <ng-template #contentTemplate>
           <followed-project-select-view *ngIf="item.followedProjectIDCtrl"
             [formControl]="item.followedProjectIDCtrl"></followed-project-select-view>
@@ -61,7 +68,7 @@
         <ng-template #cexFutureItemTemplate>
           <button nz-button nzType="primary" nzSize="small" nzShape="circle"
             [title]="'查看 ' + cexFutureSymbolGetter(item) + ' 合约详情'">
-            <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
+            <span nz-icon nzType="line-chart" nzTheme="outline"></span>
           </button>
         </ng-template>
       </p>
@@ -72,7 +79,7 @@
         <ng-template #cexTokenItemTemplate>
           <button nz-button nzType="primary" nzSize="small" nzShape="circle"
             [title]="'查看 ' + cexTokenSymbolGetter(item) + ' 现货详情'">
-            <span nz-icon nzType="line-chart" nzTheme="outline"></span>
+            <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
           </button>
         </ng-template>
       </p>

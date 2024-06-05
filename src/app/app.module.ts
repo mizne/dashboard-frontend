@@ -15,6 +15,8 @@ import { NzConfig, NZ_CONFIG } from 'ng-zorro-antd/core/config';
 import { NotifyHistoryModule } from 'src/app/modules/notify-history';
 import { TimerNotifyObserverModalModule } from 'src/app/modules/timer-notify-observer';
 import { TaskRecordModalModule } from 'src/app/modules/task-record-modal';
+import { CexTokenItemDetailModule } from 'src/app/modules/cex-token-item-detail';
+import { CexFutureItemDetailModule } from 'src/app/modules/cex-future-item-detail';
 
 const ngZorroConfig: NzConfig = {
   notification: { nzPlacement: 'bottomLeft' }
@@ -34,6 +36,8 @@ registerLocaleData(zh);
     NotifyHistoryModule,
     TimerNotifyObserverModalModule,
     TaskRecordModalModule,
+    CexTokenItemDetailModule,
+    CexFutureItemDetailModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },

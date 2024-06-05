@@ -124,26 +124,23 @@ export class CexTokenSearchInputComponent implements ControlValueAccessor, OnDes
 
   ngOnDestroy(): void { }
 
-  writeValue(obj: any): void {
-    if (obj) {
+  writeValue(symbol: any): void {
+    if (symbol) {
       this.cexTokenService
         .queryList({
-          symbol: {
-            $regex: obj.trim(),
-            $options: 'i',
-          }
-        }, { number: this.pageNumber, size: this.pageSize })
+          symbol: symbol
+        }, { number: 1, size: this.pageSize })
         .subscribe({
           next: data => {
             this.isLoading = false;
             this.listOfOption = data;
             if (data.length > 0) {
-              this.selectedInputCtrl.patchValue(data[0].symbol)
+              this.selectedInputCtrl.patchValue(data[0].symbol, { emitEvent: false })
             }
           },
           error: (err) => {
             this.isLoading = false;
-            this.notification.error(`writeValue ${obj} Error`, `${err.message}`)
+            this.notification.error(`writeValue ${symbol} Error`, `${err.message}`)
           }
         });
     }

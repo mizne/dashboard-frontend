@@ -2,7 +2,7 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Time, PriceScaleMode } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CexFutureDaily, CexFutureDailyService, TradingViewChartTypes } from 'src/app/shared';
+import { CexFutureDaily, CexFutureDailyService, CexFutureService, TradingViewChartTypes } from 'src/app/shared';
 import { fixTradingViewTime } from 'src/app/utils';
 @Component({
   selector: 'cex-future-item-detail',
@@ -11,6 +11,7 @@ import { fixTradingViewTime } from 'src/app/utils';
 export class CexFutureItemDetailComponent implements OnInit {
   constructor(
     private readonly cexFutureDailyService: CexFutureDailyService,
+    private readonly cexFutureService: CexFutureService,
     private readonly notification: NzNotificationService,
   ) { }
 
@@ -127,12 +128,16 @@ export class CexFutureItemDetailComponent implements OnInit {
   loadingChart = false;
   days = 180;
 
+  markSymbols: string[] = []
+
   ngOnInit() {
     this.searchCtrl.valueChanges.subscribe((v) => {
       this.symbol = v as string;
       this.futureDetailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
       this.fetchChartData();
     })
+
+    this.fetchMarkSymbols()
   }
 
   open() {
@@ -144,6 +149,24 @@ export class CexFutureItemDetailComponent implements OnInit {
     this.futureDetailModalVisible = true;
     this.futureDetailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
     this.fetchChartData()
+  }
+
+  selectMarkSymbol(symbol: string) {
+    this.searchCtrl.patchValue(symbol, { emitEvent: false })
+    this.symbol = symbol;
+    this.futureDetailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
+    this.fetchChartData();
+  }
+
+  private fetchMarkSymbols() {
+    this.cexFutureService.queryList({
+      hasCollect: true
+    })
+      .subscribe({
+        next: (items) => {
+          this.markSymbols = items.map(e => e.symbol)
+        }
+      })
   }
 
   private fetchChartData() {

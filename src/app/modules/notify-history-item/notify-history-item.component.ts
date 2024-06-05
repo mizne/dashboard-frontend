@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { CexFutureService, NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverNotAllow, NotifyObserverTypes, SharedService } from 'src/app/shared';
+import { CexFutureService, NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverNotAllow, NotifyObserverService, NotifyObserverTypes, SharedService } from 'src/app/shared';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CreateNotifyObserverNotAllowService } from 'src/app/modules/create-notify-observer-not-allow';
-import { CreateNotifyObserverService } from 'src/app/modules/create-notify-observer';
+import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer';
 
 interface TableItem extends NotifyHistory {
   followedProjectIDCtrl?: FormControl;
@@ -19,6 +19,7 @@ export class NotifyHistoryItemComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly sharedService: SharedService,
     private readonly notifyHistoryService: NotifyHistoryService,
+    private readonly notifyObserverService: NotifyObserverService,
     private readonly cexFutureService: CexFutureService,
     private readonly nzNotificationService: NzNotificationService,
     private readonly createNotifyObserverNotAllowService: CreateNotifyObserverNotAllowService,
@@ -31,6 +32,42 @@ export class NotifyHistoryItemComponent implements OnInit {
   @Output() deleteSuccess = new EventEmitter<void>();
 
   ngOnInit() { }
+
+  confirmUpdateNotifyObserver(item: TableItem) {
+    if (!item.notifyObserverID) {
+      this.nzNotificationService.warning(`修改通知源 失败`, `该通知历史 没有通知源ID`);
+      return
+    }
+
+    this.notifyObserverService.queryList({
+      _id: item.notifyObserverID
+    }, { number: 1, size: 1 })
+      .subscribe({
+        next: (results) => {
+          if (results.length > 0) {
+            const theNotifyObserver = results[0];
+            const { success, error } = this.createNotifyObserverService.createModal(`修改通知源`, theNotifyObserver, NotifyObserverModalActions.UPDATE)
+            success.subscribe((v) => {
+              this.nzNotificationService.success(
+                `修改通知源 成功`,
+                `修改通知源 成功`
+              );
+            });
+            error.subscribe((e) => {
+              this.nzNotificationService.error(`修改通知源 失败`, `${e.message}`);
+            });
+          } else {
+            this.nzNotificationService.warning(`没有找到通知源`, `也许该通知源已经被删除`);
+          }
+        },
+        error: (err) => {
+          this.nzNotificationService.error(`查找通知源 失败`, `${err.message}`);
+        }
+      })
+
+
+
+  }
 
   createNotAllow(item: TableItem) {
     if (!this.showCreateNotAllowGetter(item)) {
