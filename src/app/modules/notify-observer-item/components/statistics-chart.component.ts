@@ -1,11 +1,10 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { da } from 'date-fns/locale';
-import { Time } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { startWith } from 'rxjs';
 import { GeneralTableService, MAX_GENERAL_TABLE_FIELD_COUNT, TradingViewChartTypes, TradingViewSeries } from 'src/app/shared';
-import { avgExcludeMaxMin, fixTradingViewTime, isNil } from 'src/app/utils';
+import { fixTradingViewTime, isNil } from 'src/app/utils';
+import { avgExcludeMaxMin } from 'handy-toolkit'
 
 @Component({
   selector: 'statistics-chart',

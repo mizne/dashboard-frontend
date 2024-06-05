@@ -3,7 +3,9 @@ import { FormControl } from '@angular/forms';
 import { Time, PriceScaleMode } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CexTokenDaily, CexTokenDailyService, KlineIntervalService, KlineIntervals, TradingViewChartTypes, TradingViewSeries } from 'src/app/shared';
-import { fixTradingViewTime, avgExcludeMaxMin } from 'src/app/utils';
+import { fixTradingViewTime } from 'src/app/utils';
+import { avgExcludeMaxMin } from 'handy-toolkit'
+
 @Component({
   selector: 'cex-token-item-detail',
   templateUrl: 'cex-token-item-detail.component.html'

@@ -3,7 +3,9 @@ import { FormControl } from '@angular/forms';
 import { Time, PriceScaleMode } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CexFutureDaily, CexFutureDailyService, CexFutureService, TradingViewChartTypes, TradingViewSeries } from 'src/app/shared';
-import { fixTradingViewTime, avgExcludeMaxMin } from 'src/app/utils';
+import { fixTradingViewTime } from 'src/app/utils';
+import { avgExcludeMaxMin } from 'handy-toolkit'
+
 @Component({
   selector: 'cex-future-item-detail',
   templateUrl: 'cex-future-item-detail.component.html'
