@@ -3531,10 +3531,10 @@
   "resolved" "https://registry.npmjs.org/handle-thing/-/handle-thing-2.0.1.tgz"
   "version" "2.0.1"
 
-"handy-toolkit@^0.0.2":
-  "integrity" "sha512-DAoWRr/cNdZNYFCOBuz7MKuyM4KcOAcOaF7Ylvc0J0GU60uCZYUelw2slIrFzMfUCYmm1cYA1CcLl0H4YMWlvw=="
-  "resolved" "https://registry.npmjs.org/handy-toolkit/-/handy-toolkit-0.0.2.tgz"
-  "version" "0.0.2"
+"handy-toolkit@^0.0.7":
+  "integrity" "sha512-i0S8sHAeaLGoaRyfI5D0KuyEocFhvqxUA6sK0Y5AvtoVKCnc6l2bQCerspkZ3L2LBDluTGYRpIVSRLJHotxlcw=="
+  "resolved" "https://registry.npmjs.org/handy-toolkit/-/handy-toolkit-0.0.7.tgz"
+  "version" "0.0.7"
 
 "has-flag@^3.0.0":
   "integrity" "sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw=="
