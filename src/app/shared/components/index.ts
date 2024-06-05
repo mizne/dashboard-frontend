@@ -22,6 +22,7 @@ import { StackBarChartComponent } from './stack-bar-chart/stack-bar-chart.compon
 import { SystemTaskTimerSettingsComponent } from './system-task-timer-settings/system-task-timer-settings.component';
 import { CexFutureSearchInputComponent } from './cex-future-search-input/cex-future-search-input.component';
 import { CexTokenSearchInputComponent } from './cex-token-search-input/cex-token-search-input.component';
+import { CollectInputComponent } from './collect-input/collect-input.component';
 
 export const components = [
   LinkableComponent,
@@ -48,6 +49,7 @@ export const components = [
   SystemTaskTimerSettingsComponent,
   CexFutureSearchInputComponent,
   CexTokenSearchInputComponent,
+  CollectInputComponent,
 ];
 
 export {
@@ -75,6 +77,7 @@ export {
   SystemTaskTimerSettingsComponent,
   CexFutureSearchInputComponent,
   CexTokenSearchInputComponent,
+  CollectInputComponent,
 };
 
 export * from './stack-bar-chart/stack-bar-chart.component'

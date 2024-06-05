@@ -2,9 +2,10 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Time, PriceScaleMode } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CexFutureDaily, CexFutureDailyService, CexFutureService, TradingViewChartTypes, TradingViewSeries } from 'src/app/shared';
+import { CexFuture, CexFutureDaily, CexFutureDailyService, CexFutureService, TradingViewChartTypes, TradingViewSeries } from 'src/app/shared';
 import { fixTradingViewTime } from 'src/app/utils';
 import { avgExcludeMaxMin } from 'handy-toolkit'
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'cex-future-item-detail',
@@ -110,6 +111,8 @@ export class CexFutureItemDetailComponent implements OnInit {
   fundingRateSeries: TradingViewSeries = []
   longShortRatioSeries: TradingViewSeries = []
 
+  hasCollectCtrl = new FormControl(false)
+
   searchCtrl = new FormControl('')
   loadingChart = false;
   days = 180;
@@ -122,10 +125,13 @@ export class CexFutureItemDetailComponent implements OnInit {
     this.searchCtrl.valueChanges.subscribe((v) => {
       this.symbol = v as string;
       this.futureDetailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
+
       this.fetchChartData();
+      this.patchHasCollectCtrl();
     })
 
     this.fetchMarkSymbols()
+    this.listenHasCollectCtrlChange();
   }
 
   open() {
@@ -137,6 +143,7 @@ export class CexFutureItemDetailComponent implements OnInit {
     this.futureDetailModalVisible = true;
     this.futureDetailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
     this.fetchChartData()
+    this.patchHasCollectCtrl();
   }
 
   selectMarkSymbol(symbol: string) {
@@ -144,6 +151,48 @@ export class CexFutureItemDetailComponent implements OnInit {
     this.symbol = symbol;
     this.futureDetailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
     this.fetchChartData();
+    this.patchHasCollectCtrl();
+  }
+
+  private async patchHasCollectCtrl() {
+    const item = await this.fetchCexFutureBySymbol();
+    if (item) {
+      this.hasCollectCtrl.patchValue(item.hasCollect, { emitEvent: false })
+    }
+  }
+
+  private listenHasCollectCtrlChange() {
+    this.hasCollectCtrl.valueChanges.subscribe(async (hasCollect) => {
+      const item = await this.fetchCexFutureBySymbol();
+      if (item) {
+        this.cexFutureService.update(item._id, { hasCollect: !!hasCollect })
+          .subscribe({
+            next: () => {
+              this.notification.success(`${hasCollect ? '标记' : '取消标记'} ${this.symbol} 成功`, `${hasCollect ? '标记' : '取消标记'} ${this.symbol} 成功`)
+              this.fetchMarkSymbols()
+            },
+            error: (err) => {
+              this.notification.error(`${hasCollect ? '标记' : '取消标记'} ${this.symbol} 失败`, `${err.message}`)
+              this.hasCollectCtrl.patchValue(!hasCollect, { emitEvent: false })
+            }
+          })
+      }
+    })
+  }
+
+  private async fetchCexFutureBySymbol(): Promise<CexFuture | null> {
+    const items = await lastValueFrom(this.cexFutureService.queryList({ symbol: this.symbol }))
+    if ((items).length === 1) {
+      return items[0]
+    } else if (items.length >= 2) {
+      console.log(`[CexFutureItemDetailComponent] found ${items.length} cex future items by symbol: ${this.symbol}`)
+      this.notification.warning(`获取${this.symbol} 多个CexFuture`, `有可疑数据`)
+      return items[0]
+    } else {
+      console.log(`[CexFutureItemDetailComponent] not found cex future item by symbol: ${this.symbol}`)
+      this.notification.error(`获取${this.symbol}详情失败`, `未找到`)
+      return null
+    }
   }
 
   private fetchMarkSymbols() {

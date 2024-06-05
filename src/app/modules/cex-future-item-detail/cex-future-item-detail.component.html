@@ -9,6 +9,7 @@
 
 <ng-template #tplTitle>
   <div style="display: flex; align-items: center;">
+    <app-collect-input [formControl]="hasCollectCtrl" style="margin-right: 8px;"></app-collect-input>
     <app-cex-future-search-input style="width: 160px;" [formControl]="searchCtrl"></app-cex-future-search-input>
     <span style="margin-left: 12px;">{{' 近 ' + days + ' 天合约数据'}}</span>
     <created-at style="margin-left: 12px;" [createdAt]="latestCreatedAt"></created-at>
@@ -28,7 +29,7 @@
     </div>
 
     <nz-card>
-      <nz-spin [nzTip]="'获取 '+symbol+' 统计数据中...'" [nzSpinning]="loadingChart">
+      <nz-spin [nzTip]="'获取 '+symbol+' 合约数据中...'" [nzSpinning]="loadingChart">
         <div nz-row [nzGutter]="16">
           <div nz-col class="gutter-row" [nzSpan]="24">
             <div class="inner-box">

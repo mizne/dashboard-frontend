@@ -51,8 +51,7 @@
           <tbody>
             <tr *ngFor="let data of items">
               <td style="display: flex; align-items: center; min-height: 65px;">
-                <nz-rate [ngModel]="!!data.hasCollect ? 1 : 0" [nzCount]="1" [title]="!!data.hasCollect?'取消标记':'标记'"
-                  (click)="changeCollet(data)" style="margin-right: 8px;"></nz-rate>
+                <app-collect-input [formControl]="data.hasCollectCtrl" style="margin-right: 8px;"></app-collect-input>
                 <cex-token-symbol-item [name]="data.baseAsset" [content]="symbolContent">
                 </cex-token-symbol-item>
 

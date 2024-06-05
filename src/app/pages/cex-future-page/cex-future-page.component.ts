@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { Subscription } from 'rxjs';
 import { CexFutureService, CexFuture, NotifyObserverTypes } from 'src/app/shared';
 import { removeNullOrUndefined } from 'src/app/utils';
+
+interface TableItem extends CexFuture {
+  hasCollectCtrl: FormControl;
+}
 
 @Component({
   selector: 'app-cex-future-page',
@@ -18,7 +23,7 @@ export class CexFuturePageComponent implements OnInit {
   ) { }
 
   total = 0;
-  items: CexFuture[] = [];
+  items: TableItem[] = [];
   loading = true;
   pageSize = 10;
   pageIndex = 1;
@@ -46,6 +51,7 @@ export class CexFuturePageComponent implements OnInit {
     }
   ]
   marketType = NotifyObserverTypes.MARKET
+  subscriptions: Subscription[] = [];
 
   submitForm(): void {
     this.query = removeNullOrUndefined(this.form.value);
@@ -64,21 +70,6 @@ export class CexFuturePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDataFromServer();
-  }
-
-  changeCollet(item: CexFuture) {
-    this.cexFutureService.update(item._id, { hasCollect: !item.hasCollect })
-      .subscribe({
-        next: () => {
-          const s = item.hasCollect ? '取消标记' : '标记'
-          this.notification.success(`${s}成功`, `${s}成功`)
-          this.loadDataFromServer();
-        },
-        error: (err: Error) => {
-          const s = item.hasCollect ? '取消标记' : '标记'
-          this.notification.error(`${s}失败`, `${err.message}`)
-        }
-      })
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
@@ -102,9 +93,12 @@ export class CexFuturePageComponent implements OnInit {
       )
       .subscribe((results) => {
         this.loading = false;
+        this.unsubscribeHasCollectCtrl()
         this.items = results.map(e => ({
           ...e,
+          hasCollectCtrl: new FormControl(e.hasCollect)
         }));
+        this.subscribeHasCollectCtrl()
       });
 
     this.cexFutureService
@@ -112,6 +106,38 @@ export class CexFuturePageComponent implements OnInit {
       .subscribe((count) => {
         this.total = count;
       });
+  }
+
+  private unsubscribeHasCollectCtrl() {
+    for (const e of this.subscriptions) {
+      e.unsubscribe();
+    }
+    this.subscriptions = [];
+  }
+
+  private subscribeHasCollectCtrl() {
+    for (const item of this.items) {
+      const sub = item.hasCollectCtrl.valueChanges.subscribe(hasCollect => {
+        this.handleHasCollectChange(item, hasCollect)
+      })
+      this.subscriptions.push(sub)
+    }
+  }
+
+  private handleHasCollectChange(item: TableItem, hasCollect: boolean) {
+    this.cexFutureService.update(item._id, { hasCollect: hasCollect })
+      .subscribe({
+        next: () => {
+          const s = item.hasCollect ? '取消标记' : '标记'
+          this.notification.success(`${s} ${item.symbol} 成功`, `${s} ${item.symbol} 成功`)
+          this.loadDataFromServer();
+        },
+        error: (err: Error) => {
+          const s = item.hasCollect ? '取消标记' : '标记'
+          this.notification.error(`${s} ${item.symbol} 失败`, `${err.message}`)
+          item.hasCollectCtrl.patchValue(!hasCollect, { emitEvent: false })
+        }
+      })
   }
 
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
