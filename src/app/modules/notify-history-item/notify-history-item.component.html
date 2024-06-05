@@ -8,11 +8,6 @@
         <linkable [href]="item.link" [content]="defaultLogo">
         </linkable>
 
-        <ng-container *ngIf="item.notifyObserverID">
-          <button nz-button nzType="primary" nzSize="small" nzShape="circle" [title]="'修改通知源'"
-            (click)="confirmUpdateNotifyObserver(item)"><span nz-icon nzType="edit"></span></button>
-        </ng-container>
-
         <ng-container *ngIf="item.followedProjectIDCtrl">
           <image-view *ngIf="item.followedProjectLogo; else noLogo" [width]="32" [name]="item.followedProjectLogo"
             style="cursor: pointer;" nz-popover nzPopoverTrigger="click"
@@ -24,6 +19,11 @@
               <span nz-icon nzType="project" nzTheme="outline"></span>
             </button>
           </ng-template>
+        </ng-container>
+
+        <ng-container *ngIf="item.notifyObserverID">
+          <button nz-button nzType="primary" nzSize="small" nzShape="circle" [title]="'修改通知源'"
+            (click)="confirmUpdateNotifyObserver(item)"><span nz-icon nzType="edit"></span></button>
         </ng-container>
 
         <span>
