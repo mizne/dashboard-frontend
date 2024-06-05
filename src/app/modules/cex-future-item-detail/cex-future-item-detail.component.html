@@ -11,6 +11,7 @@
   <div style="display: flex; align-items: center;">
     <app-cex-future-search-input style="width: 160px;" [formControl]="searchCtrl"></app-cex-future-search-input>
     <span style="margin-left: 12px;">{{' 近 ' + days + ' 天合约数据'}}</span>
+    <created-at style="margin-left: 12px;" [createdAt]="latestCreatedAt"></created-at>
   </div>
 </ng-template>
 

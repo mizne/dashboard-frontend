@@ -12,8 +12,18 @@ import { createChart, IChartApi, ISeriesApi, SeriesType, Time } from 'lightweigh
 
 export enum TradingViewChartTypes {
   LINE = 'line',
-  HISTOGRAM = 'histogram'
+  HISTOGRAM = 'histogram',
+  BASELINE = 'baseline'
 }
+
+interface TradingViewSeri {
+  type: TradingViewChartTypes;
+  baselineValue?: number;
+  color: string;
+  data: { time: Time; value: number }[];
+}
+
+export type TradingViewSeries = Array<TradingViewSeri>
 
 // https://tradingview.github.io/lightweight-charts/docs
 // https://github.com/tradingview/lightweight-charts
@@ -25,11 +35,7 @@ export enum TradingViewChartTypes {
 export class TradingviewChartComponent implements OnInit, AfterViewInit, OnDestroy {
   chartID = 'tradingview-chart-wrapper-' + uuid.v4();
 
-  @Input() series: Array<{
-    type: TradingViewChartTypes;
-    color: string;
-    data: { time: Time; value: number }[];
-  }> = [];
+  @Input() series: TradingViewSeries = [];
 
   @Input() width = 250;
   @Input() height = 200;
@@ -101,6 +107,10 @@ export class TradingviewChartComponent implements OnInit, AfterViewInit, OnDestr
           });
           this.seriesList.push(histogramSeries);
           histogramSeries.setData(e.data);
+        } else if (e.type === TradingViewChartTypes.BASELINE) {
+          const baselineSeries = chart.addBaselineSeries({ baseValue: { type: 'price', price: e.baselineValue || 0 }, topLineColor: 'rgba( 38, 166, 154, 1)', topFillColor1: 'rgba( 38, 166, 154, 0.28)', topFillColor2: 'rgba( 38, 166, 154, 0.05)', bottomLineColor: 'rgba( 239, 83, 80, 1)', bottomFillColor1: 'rgba( 239, 83, 80, 0.05)', bottomFillColor2: 'rgba( 239, 83, 80, 0.28)' });
+          this.seriesList.push(baselineSeries);
+          baselineSeries.setData(e.data);
         } else {
           console.log(`[TradingviewChartComponent] renderChart() known chart type: ${e.type}`)
         }

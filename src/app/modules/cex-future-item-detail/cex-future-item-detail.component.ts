@@ -2,8 +2,8 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Time, PriceScaleMode } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CexFutureDaily, CexFutureDailyService, CexFutureService, TradingViewChartTypes } from 'src/app/shared';
-import { fixTradingViewTime } from 'src/app/utils';
+import { CexFutureDaily, CexFutureDailyService, CexFutureService, TradingViewChartTypes, TradingViewSeries } from 'src/app/shared';
+import { fixTradingViewTime, avgExcludeMaxMin } from 'src/app/utils';
 @Component({
   selector: 'cex-future-item-detail',
   templateUrl: 'cex-future-item-detail.component.html'
@@ -103,32 +103,18 @@ export class CexFutureItemDetailComponent implements OnInit {
   }
 
 
-  priceSeries: Array<{
-    type: TradingViewChartTypes;
-    color: string;
-    data: { time: Time; value: number }[];
-  }> = []
-  openInterestSeries: Array<{
-    type: TradingViewChartTypes;
-    color: string;
-    data: { time: Time; value: number }[];
-  }> = []
-  fundingRateSeries: Array<{
-    type: TradingViewChartTypes;
-    color: string;
-    data: { time: Time; value: number }[];
-  }> = []
-  longShortRatioSeries: Array<{
-    type: TradingViewChartTypes;
-    color: string;
-    data: { time: Time; value: number }[];
-  }> = []
+  priceSeries: TradingViewSeries = []
+  openInterestSeries: TradingViewSeries = []
+  fundingRateSeries: TradingViewSeries = []
+  longShortRatioSeries: TradingViewSeries = []
 
   searchCtrl = new FormControl('')
   loadingChart = false;
   days = 180;
+  latestCreatedAt = 0;
 
   markSymbols: string[] = []
+
 
   ngOnInit() {
     this.searchCtrl.valueChanges.subscribe((v) => {
@@ -177,9 +163,14 @@ export class CexFutureItemDetailComponent implements OnInit {
       .subscribe({
         next: (results: CexFutureDaily[]) => {
           this.loadingChart = false;
+          if (results.length > 0) {
+            this.latestCreatedAt = results[0].time;
+          }
+
           this.priceSeries = [
             {
-              type: TradingViewChartTypes.LINE,
+              type: TradingViewChartTypes.BASELINE,
+              baselineValue: avgExcludeMaxMin(results.map(e => e.price)),
               color: '#f6bf26',
               data: results
                 .sort((a, b) => a.time - b.time)
@@ -190,7 +181,8 @@ export class CexFutureItemDetailComponent implements OnInit {
 
           this.openInterestSeries = [
             {
-              type: TradingViewChartTypes.LINE,
+              type: TradingViewChartTypes.BASELINE,
+              baselineValue: avgExcludeMaxMin(results.map(e => e.openInterest)),
               color: '#f6bf26',
               data: results
                 .sort((a, b) => a.time - b.time)
@@ -201,7 +193,8 @@ export class CexFutureItemDetailComponent implements OnInit {
 
           this.fundingRateSeries = [
             {
-              type: TradingViewChartTypes.LINE,
+              type: TradingViewChartTypes.BASELINE,
+              baselineValue: 0.0001,
               color: '#f6bf26',
               data: results
                 .sort((a, b) => a.time - b.time)
@@ -212,7 +205,8 @@ export class CexFutureItemDetailComponent implements OnInit {
 
           this.longShortRatioSeries = [
             {
-              type: TradingViewChartTypes.LINE,
+              type: TradingViewChartTypes.BASELINE,
+              baselineValue: 1,
               color: '#f6bf26',
               data: results
                 .sort((a, b) => a.time - b.time)

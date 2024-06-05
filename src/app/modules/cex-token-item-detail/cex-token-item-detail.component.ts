@@ -2,8 +2,8 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Time, PriceScaleMode } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CexTokenDaily, CexTokenDailyService, KlineIntervalService, KlineIntervals, TradingViewChartTypes } from 'src/app/shared';
-import { fixTradingViewTime } from 'src/app/utils';
+import { CexTokenDaily, CexTokenDailyService, KlineIntervalService, KlineIntervals, TradingViewChartTypes, TradingViewSeries } from 'src/app/shared';
+import { fixTradingViewTime, avgExcludeMaxMin } from 'src/app/utils';
 @Component({
   selector: 'cex-token-item-detail',
   templateUrl: 'cex-token-item-detail.component.html'
@@ -57,17 +57,9 @@ export class CexTokenItemDetailComponent implements OnInit {
       },
     },
   }
-  priceSeries: Array<{
-    type: TradingViewChartTypes;
-    color: string;
-    data: { time: Time; value: number }[];
-  }> = []
+  priceSeries: TradingViewSeries = []
 
-  volumeSeries: Array<{
-    type: TradingViewChartTypes;
-    color: string;
-    data: { time: Time; value: number }[];
-  }> = []
+  volumeSeries: TradingViewSeries = []
 
   interval = KlineIntervals.FOUR_HOURS;
   time = this.klineIntervalService.resolveFourHoursIntervalMills(1)
@@ -75,6 +67,7 @@ export class CexTokenItemDetailComponent implements OnInit {
   searchCtrl = new FormControl('')
   loadingChart = false;
   days = 180;
+  latestCreatedAt = 0;
 
   ngOnInit() {
     this.searchCtrl.valueChanges.subscribe((v) => {
@@ -103,10 +96,14 @@ export class CexTokenItemDetailComponent implements OnInit {
     }, { number: 1, size: this.days * 6 })
       .subscribe({
         next: (results: CexTokenDaily[]) => {
+          if (results.length > 0) {
+            this.latestCreatedAt = results[0].time;
+          }
           this.loadingChart = false;
           this.priceSeries = [
             {
-              type: TradingViewChartTypes.LINE,
+              type: TradingViewChartTypes.BASELINE,
+              baselineValue: avgExcludeMaxMin(results.map(e => e.price)),
               color: '#f6bf26',
               data: results
                 .sort((a, b) => a.time - b.time)

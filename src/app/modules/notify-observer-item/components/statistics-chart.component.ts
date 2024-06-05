@@ -4,8 +4,8 @@ import { da } from 'date-fns/locale';
 import { Time } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { startWith } from 'rxjs';
-import { GeneralTableService, MAX_GENERAL_TABLE_FIELD_COUNT, TradingViewChartTypes } from 'src/app/shared';
-import { fixTradingViewTime, isNil } from 'src/app/utils';
+import { GeneralTableService, MAX_GENERAL_TABLE_FIELD_COUNT, TradingViewChartTypes, TradingViewSeries } from 'src/app/shared';
+import { avgExcludeMaxMin, fixTradingViewTime, isNil } from 'src/app/utils';
 
 @Component({
   selector: 'statistics-chart',
@@ -36,11 +36,7 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
   viewDataResults: Array<any> = [];
   charts: Array<{
     label: string;
-    series: Array<{
-      type: TradingViewChartTypes;
-      color: string;
-      data: { time: Time; value: number }[];
-    }>
+    series: TradingViewSeries;
   }> = [];
   fetching = false;
 
@@ -161,20 +157,17 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
       const fields = theDefinition?.fields || [];
 
       this.charts = fields.map(viewKey => {
-        const series: Array<{
-          type: TradingViewChartTypes;
-          color: string;
-          data: { time: Time; value: number }[];
-        }> = [
-            {
-              type: TradingViewChartTypes.LINE,
-              color: '#f6bf26',
-              data: this.viewDataResults
-                .sort((a, b) => a.createdAt - b.createdAt)
-                .map(e => ({ createdAt: e.createdAt, value: e[viewKey] }))
-                .map(e => ({ time: fixTradingViewTime(e.createdAt), value: e.value }))
-            }
-          ]
+        const series: TradingViewSeries = [
+          {
+            type: TradingViewChartTypes.BASELINE,
+            baselineValue: avgExcludeMaxMin(this.viewDataResults.map(e => e[viewKey])),
+            color: '#f6bf26',
+            data: this.viewDataResults
+              .sort((a, b) => a.createdAt - b.createdAt)
+              .map(e => ({ createdAt: e.createdAt, value: e[viewKey] }))
+              .map(e => ({ time: fixTradingViewTime(e.createdAt), value: e.value }))
+          }
+        ]
         return {
           label: viewKey,
           series
