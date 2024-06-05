@@ -172,7 +172,7 @@ export class CexFutureItemDetailComponent implements OnInit {
           this.priceSeries = [
             {
               type: TradingViewChartTypes.BASELINE,
-              baselineValue: avgExcludeMaxMin(results.map(e => e.price)),
+              baselineValue: avgExcludeMaxMin(results.filter(e => typeof e.price === 'number').map(e => e.price)),
               color: '#f6bf26',
               data: results
                 .sort((a, b) => a.time - b.time)
