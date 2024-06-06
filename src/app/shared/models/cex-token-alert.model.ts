@@ -2,7 +2,8 @@ import { KlineIntervals } from "src/app/shared";
 
 export enum CexTokenAlertTypes {
   BIG_VOLUME = 'BIG_VOLUME',
-  TRENDING_CHANGE = 'TRENDING_CHANGE'
+  TRENDING_CHANGE = 'TRENDING_CHANGE',
+  VOLUME_ABOVE_BTCUSDT = 'VOLUME_ABOVE_BTCUSDT',
 }
 
 export interface CexTokenAlert {
