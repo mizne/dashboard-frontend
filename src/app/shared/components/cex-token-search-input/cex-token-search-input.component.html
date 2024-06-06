@@ -7,6 +7,10 @@
 
   <ng-template #renderTemplate>
     <nz-spin *ngIf="isLoading"></nz-spin>
-    <span *ngIf="completed">No More Data</span>
+    <span *ngIf="completed" style="margin: 0px 12px;
+    line-height: 22px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;">No More Data</span>
   </ng-template>
 </div>
