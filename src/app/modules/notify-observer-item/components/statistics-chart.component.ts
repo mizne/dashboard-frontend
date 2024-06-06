@@ -159,7 +159,7 @@ export class StatisticsChartComponent implements OnInit, OnChanges {
         const series: TradingViewSeries = [
           {
             type: TradingViewChartTypes.BASELINE,
-            baselineValue: avgExcludeMaxMin(this.viewDataResults.map(e => e[viewKey])),
+            baselineValue: avgExcludeMaxMin(this.viewDataResults.filter(e => typeof e[viewKey] === 'number').map(e => e[viewKey])),
             color: '#f6bf26',
             data: this.viewDataResults
               .sort((a, b) => a.createdAt - b.createdAt)
