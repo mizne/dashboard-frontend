@@ -120,18 +120,17 @@ export class CexFutureItemDetailComponent implements OnInit {
 
   markSymbols: string[] = []
 
+  cexFutureAlertSelectCtrl = new FormControl('')
 
   ngOnInit() {
-    this.searchCtrl.valueChanges.subscribe((v) => {
-      this.symbol = v as string;
-      this.futureDetailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
 
-      this.fetchChartData();
-      this.patchHasCollectCtrl();
-    })
 
     this.fetchMarkSymbols()
+
+    this.listenSearchChange();
     this.listenHasCollectCtrlChange();
+
+    this.listenCexFutureAlertSelectChange();
   }
 
   open() {
@@ -148,6 +147,7 @@ export class CexFutureItemDetailComponent implements OnInit {
 
   selectMarkSymbol(symbol: string) {
     this.searchCtrl.patchValue(symbol, { emitEvent: false })
+    this.cexFutureAlertSelectCtrl.patchValue(symbol, { emitEvent: false })
     this.symbol = symbol;
     this.futureDetailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
     this.fetchChartData();
@@ -159,6 +159,18 @@ export class CexFutureItemDetailComponent implements OnInit {
     if (item) {
       this.hasCollectCtrl.patchValue(item.hasCollect, { emitEvent: false })
     }
+  }
+
+  private listenSearchChange() {
+    this.searchCtrl.valueChanges.subscribe((symbol) => {
+      this.symbol = symbol as string;
+      this.futureDetailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
+
+      this.cexFutureAlertSelectCtrl.patchValue(this.symbol, { emitEvent: false })
+
+      this.fetchChartData();
+      this.patchHasCollectCtrl();
+    })
   }
 
   private listenHasCollectCtrlChange() {
@@ -177,6 +189,18 @@ export class CexFutureItemDetailComponent implements OnInit {
             }
           })
       }
+    })
+  }
+
+  private listenCexFutureAlertSelectChange() {
+    this.cexFutureAlertSelectCtrl.valueChanges.subscribe(symbol => {
+      this.symbol = symbol as string;
+      this.futureDetailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
+
+      this.searchCtrl.patchValue(this.symbol, { emitEvent: false })
+
+      this.fetchChartData();
+      this.patchHasCollectCtrl();
     })
   }
 

@@ -71,12 +71,11 @@ export class CexTokenItemDetailComponent implements OnInit {
   days = 180;
   latestCreatedAt = 0;
 
+  cexTokenAlertSelectCtrl = new FormControl('')
+
   ngOnInit() {
-    this.searchCtrl.valueChanges.subscribe((v) => {
-      this.symbol = v as string;
-      this.detailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
-      this.fetchChartData();
-    })
+    this.listenSearchChange();
+    this.listenCexTokenAlertSelectChange();
   }
 
   open() {
@@ -88,6 +87,26 @@ export class CexTokenItemDetailComponent implements OnInit {
     this.detailModalVisible = true;
     this.detailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
     this.fetchChartData()
+  }
+
+  private listenSearchChange() {
+    this.searchCtrl.valueChanges.subscribe((v) => {
+      this.symbol = v as string;
+      this.detailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
+
+      this.cexTokenAlertSelectCtrl.patchValue(v, { emitEvent: false })
+      this.fetchChartData();
+    })
+  }
+
+  private listenCexTokenAlertSelectChange() {
+    this.cexTokenAlertSelectCtrl.valueChanges.subscribe((v) => {
+      this.symbol = v as string;
+      this.detailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
+
+      this.searchCtrl.patchValue(v, { emitEvent: false })
+      this.fetchChartData();
+    })
   }
 
   private fetchChartData() {

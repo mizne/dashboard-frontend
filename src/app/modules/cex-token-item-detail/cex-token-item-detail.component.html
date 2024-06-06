@@ -18,7 +18,11 @@
 <nz-modal [(nzVisible)]="detailModalVisible" [nzTitle]="tplTitle" [nzWidth]="1000"
   (nzOnCancel)="detailModalVisible=false" (nzOnOk)="detailModalVisible=false">
   <ng-container *nzModalContent>
-    <nz-card>
+
+    <app-cex-token-alert-select [formControl]="cexTokenAlertSelectCtrl"></app-cex-token-alert-select>
+
+
+    <nz-card style="margin-top: 12px">
       <nz-spin [nzTip]="'获取 '+symbol+' 现货数据中...'" [nzSpinning]="loadingChart">
         <div nz-row [nzGutter]="16">
           <div nz-col class="gutter-row" [nzSpan]="24">

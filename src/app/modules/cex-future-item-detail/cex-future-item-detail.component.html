@@ -28,7 +28,9 @@
       </nz-tag>
     </div>
 
-    <nz-card>
+    <app-cex-future-alert-select [formControl]="cexFutureAlertSelectCtrl"></app-cex-future-alert-select>
+
+    <nz-card style="margin-top: 12px">
       <nz-spin [nzTip]="'获取 '+symbol+' 合约数据中...'" [nzSpinning]="loadingChart">
         <div nz-row [nzGutter]="16">
           <div nz-col class="gutter-row" [nzSpan]="24">

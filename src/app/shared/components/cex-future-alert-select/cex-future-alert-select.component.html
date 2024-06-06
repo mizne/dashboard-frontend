@@ -1,0 +1,17 @@
+<div class="cex-future-alert-select-container">
+  <nz-collapse>
+    <ng-container *ngFor="let panel of panels">
+      <nz-collapse-panel *ngIf="panel.cexFutureAlerts.length > 0" [nzHeader]="panel.name" [nzActive]="true"
+        [nzDisabled]="false">
+        <p style="margin:0;">
+          <nz-tag *ngFor="let item of panel.cexFutureAlerts" [title]="item.desc"
+            [nzColor]="selectedSymbol === item.symbol ? 'success' : 'default'" (click)="selectCexFutureAlert(item)"
+            style="cursor: pointer; margin-bottom: 4px;">
+            <span *ngIf="selectedSymbol === item.symbol" nz-icon nzType="check-circle"></span>
+            <span>{{item.symbol}}</span>
+          </nz-tag>
+        </p>
+      </nz-collapse-panel>
+    </ng-container>
+  </nz-collapse>
+</div>

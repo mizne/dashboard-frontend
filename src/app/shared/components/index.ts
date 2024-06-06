@@ -23,6 +23,8 @@ import { SystemTaskTimerSettingsComponent } from './system-task-timer-settings/s
 import { CexFutureSearchInputComponent } from './cex-future-search-input/cex-future-search-input.component';
 import { CexTokenSearchInputComponent } from './cex-token-search-input/cex-token-search-input.component';
 import { CollectInputComponent } from './collect-input/collect-input.component';
+import { CexFutureAlertSelectComponent } from './cex-future-alert-select/cex-future-alert-select.component';
+import { CexTokenAlertSelectComponent } from './cex-token-alert-select/cex-token-alert-select.component';
 
 export const components = [
   LinkableComponent,
@@ -50,6 +52,8 @@ export const components = [
   CexFutureSearchInputComponent,
   CexTokenSearchInputComponent,
   CollectInputComponent,
+  CexFutureAlertSelectComponent,
+  CexTokenAlertSelectComponent,
 ];
 
 export {
@@ -78,6 +82,8 @@ export {
   CexFutureSearchInputComponent,
   CexTokenSearchInputComponent,
   CollectInputComponent,
+  CexFutureAlertSelectComponent,
+  CexTokenAlertSelectComponent,
 };
 
 export * from './stack-bar-chart/stack-bar-chart.component'
