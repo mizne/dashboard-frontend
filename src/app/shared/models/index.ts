@@ -12,14 +12,16 @@ export * from './investor.model';
 export * from './wom-peg.model';
 export * from './general-table.model';
 export * from './cex-future.model';
+export * from './cex-future-alert.model';
 export * from './cex-future-daily.model';
 
+export * from './cex-token.model';
 export * from './cex-token-alert.model';
 export * from './cex-token-daily.model';
+
 export * from './cex-token-tag-alert.model';
 export * from './cex-token-tag-daily.model';
 export * from './cex-token-tag.model';
-export * from './cex-token.model';
 
 export * from './airdrop-job.model';
 export * from './airdrop-account.model';
