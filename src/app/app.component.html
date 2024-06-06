@@ -75,22 +75,24 @@
   </nz-layout>
 </nz-layout>
 
-<network-checker></network-checker>
 <!-- <btc-future-checker></btc-future-checker> -->
 <toolkit></toolkit>
 <notify-history-drawer></notify-history-drawer>
-<timer-notify-observer-modal></timer-notify-observer-modal>
+
+
 <task-record-modal [showChart]="true">
   <button nz-button nzType="primary" nzShape="circle"
     style="position:fixed; bottom: 120px; right: 24px; z-index: 100"><span nz-icon nzType="pie-chart"></span></button>
 </task-record-modal>
+<timer-notify-observer-modal></timer-notify-observer-modal>
+<network-checker></network-checker>
 
 
 <cex-token-item-detail [symbol]="'BTCUSDT'" [content]="cexTokenItemTemplate">
 </cex-token-item-detail>
 <ng-template #cexTokenItemTemplate>
   <button nz-button nzType="primary" nzSize="small" nzShape="circle" [title]="'查看 现货详情'"
-    style="position:fixed; bottom: 24px; right: 72px; z-index: 100">
+    style="position:fixed; top: 24px; right: 184px; z-index: 100">
     <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
   </button>
 </ng-template>
@@ -99,7 +101,7 @@
 </cex-future-item-detail>
 <ng-template #cexFutureItemTemplate>
   <button nz-button nzType="primary" nzSize="small" nzShape="circle" [title]="'查看 合约详情'"
-    style="position:fixed; bottom: 24px; right: 120px; z-index: 100">
+    style="position:fixed; top: 24px; right: 264px; z-index: 100">
     <span nz-icon nzType="line-chart" nzTheme="outline"></span>
   </button>
 </ng-template>
