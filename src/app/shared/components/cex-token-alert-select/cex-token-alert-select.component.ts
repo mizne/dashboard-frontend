@@ -80,6 +80,8 @@ export class CexTokenAlertSelectComponent implements ControlValueAccessor, OnDes
     } else {
       this.selectedSymbol = '';
     }
+
+    this.fetchCexTokenAlerts()
   }
 
   private fetchCexTokenAlerts() {

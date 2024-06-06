@@ -81,6 +81,8 @@ export class CexFutureAlertSelectComponent implements ControlValueAccessor, OnDe
     } else {
       this.selectedSymbol = '';
     }
+
+    this.fetchCexFutureAlerts()
   }
 
   private fetchCexFutureAlerts() {
