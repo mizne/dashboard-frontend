@@ -71,6 +71,15 @@
             <span nz-icon nzType="line-chart" nzTheme="outline"></span>
           </button>
         </ng-template>
+
+        <cex-token-symbol-item style="margin-left: 16px;" [name]="cexFutureNameGetter(item)"
+          [content]="cexFutureSymbolContent">
+        </cex-token-symbol-item>
+
+        <ng-template #cexFutureSymbolContent let-logoName="logoName">
+          <image-view [name]="logoName" style="margin-right: 8px;"></image-view>
+          <span class="symbol-item-custom-content">{{cexFutureNameGetter(item)}}</span>
+        </ng-template>
       </p>
 
       <p style="display: flex; align-items: center;" *ngIf="showCexTokenDetailGetter(item)">
@@ -81,6 +90,15 @@
             [title]="'查看 ' + cexTokenSymbolGetter(item) + ' 现货详情'">
             <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
           </button>
+        </ng-template>
+
+        <cex-token-symbol-item style="margin-left: 16px;" [name]="cexTokenNameGetter(item)"
+          [content]="cexTokenSymbolContent">
+        </cex-token-symbol-item>
+
+        <ng-template #cexTokenSymbolContent let-logoName="logoName">
+          <image-view [name]="logoName" style="margin-right: 8px;"></image-view>
+          <span class="symbol-item-custom-content">{{cexTokenNameGetter(item)}}</span>
         </ng-template>
       </p>
 

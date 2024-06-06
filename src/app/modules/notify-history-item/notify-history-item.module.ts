@@ -6,6 +6,7 @@ import { CreateNotifyObserverModule } from 'src/app/modules/create-notify-observ
 import { CreateNotifyObserverNotAllowModule } from 'src/app/modules/create-notify-observer-not-allow';
 import { CexFutureItemDetailModule } from 'src/app/modules/cex-future-item-detail';
 import { CexTokenItemDetailModule } from 'src/app/modules/cex-token-item-detail';
+import { CexTokenSymbolItemModule } from 'src/app/modules/cex-token-symbol-item';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { CexTokenItemDetailModule } from 'src/app/modules/cex-token-item-detail'
     CreateNotifyObserverNotAllowModule,
     CexFutureItemDetailModule,
     CexTokenItemDetailModule,
+    CexTokenSymbolItemModule,
   ],
   exports: [NotifyHistoryItemComponent],
   declarations: [NotifyHistoryItemComponent],
