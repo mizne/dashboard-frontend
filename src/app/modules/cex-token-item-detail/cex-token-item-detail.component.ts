@@ -84,6 +84,7 @@ export class CexTokenItemDetailComponent implements OnInit {
       return
     }
     this.searchCtrl.patchValue(this.symbol, { emitEvent: false })
+    this.cexTokenAlertSelectCtrl.patchValue(this.symbol, { emitEvent: false })
     this.detailModalVisible = true;
     this.detailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
     this.fetchChartData()

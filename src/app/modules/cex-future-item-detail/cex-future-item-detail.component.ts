@@ -139,6 +139,7 @@ export class CexFutureItemDetailComponent implements OnInit {
       return
     }
     this.searchCtrl.patchValue(this.symbol, { emitEvent: false })
+    this.cexFutureAlertSelectCtrl.patchValue(this.symbol, { emitEvent: false })
     this.futureDetailModalVisible = true;
     this.futureDetailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
     this.fetchChartData()
