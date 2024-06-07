@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormBuilder, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { debounceTime, merge, Subject, Subscription } from 'rxjs';
 import { isEmpty } from 'src/app/utils';
 import { CexFutureService, KlineIntervalService } from '../../services';
@@ -51,14 +51,36 @@ export class CexFutureAlertSelectComponent implements ControlValueAccessor, OnDe
         cexFutureAlerts: []
       }
     ];
+  loading = false;
+
 
   constructor(
     private readonly cexFutureAlertService: CexFutureAlertService,
     private readonly notification: NzNotificationService,
     private readonly klineIntervalService: KlineIntervalService,
+    private readonly fb: FormBuilder
   ) { }
 
+  initLatestIntervals = 1;
+  form = this.fb.group({
+    latestIntervals: [this.initLatestIntervals]
+  })
+
+  latestTime = this.klineIntervalService.resolveFourHoursIntervalMills(this.initLatestIntervals);
+
   ngOnInit(): void {
+    this.fetchCexFutureAlerts()
+    this.listenFormChange();
+  }
+
+  resetForm() {
+    this.form.patchValue({
+      latestIntervals: 1,
+    })
+    this.fetchCexFutureAlerts()
+  }
+
+  submitForm() {
     this.fetchCexFutureAlerts()
   }
 
@@ -85,15 +107,23 @@ export class CexFutureAlertSelectComponent implements ControlValueAccessor, OnDe
     this.fetchCexFutureAlerts()
   }
 
+  private listenFormChange() {
+    this.form.get('latestIntervals')?.valueChanges.subscribe(v => {
+      this.latestTime = this.klineIntervalService.resolveFourHoursIntervalMills(v as number)
+    })
+  }
+
   private fetchCexFutureAlerts() {
+    this.loading = true
     this.cexFutureAlertService.queryList({
-      time: this.klineIntervalService.resolveFourHoursIntervalMills(1),
+      time: this.klineIntervalService.resolveFourHoursIntervalMills(this.form.value.latestIntervals as number),
       interval: KlineIntervals.FOUR_HOURS
     })
       .subscribe((items) => {
         for (const panel of this.panels) {
           panel.cexFutureAlerts = items.filter(item => item.type === panel.type)
         }
+        this.loading = false;
       })
   }
 

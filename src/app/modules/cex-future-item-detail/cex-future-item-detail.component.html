@@ -9,8 +9,10 @@
 
 <ng-template #tplTitle>
   <div style="display: flex; align-items: center;">
-    <app-collect-input [formControl]="hasCollectCtrl" style="margin-right: 8px;"></app-collect-input>
-    <app-cex-future-search-input style="width: 160px;" [formControl]="searchCtrl"></app-cex-future-search-input>
+    <app-collect-input [formControl]="hasCollectCtrl"></app-collect-input>
+    <app-cex-future-search-input style="margin-left: 8px; width: 160px;"
+      [formControl]="searchCtrl"></app-cex-future-search-input>
+    <cex-token-symbol-item style="margin-left: 12px;" [symbol]="symbol"></cex-token-symbol-item>
     <span style="margin-left: 12px;">{{' 近 ' + days + ' 天合约数据'}}</span>
     <created-at style="margin-left: 12px;" [createdAt]="latestCreatedAt"></created-at>
   </div>
