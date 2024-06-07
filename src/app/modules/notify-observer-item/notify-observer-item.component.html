@@ -50,8 +50,8 @@
       [nzTwotoneColor]="'#eb2f96'" style="transform: rotate(90deg);"></span>
 
     <span>
-      <span nz-icon nzType="history" nzTheme="outline" [title]="'通知历史'" (click)="toShowNotifyHistory()"
-        style="cursor: pointer;"></span>
+      <notify-history-modal [title]="'通知历史 - ' + item.notifyShowTitle"
+        [condition]="{notifyObserverID: item._id}"></notify-history-modal>
 
       <span style="cursor: pointer; margin-left: 12px;">
         <task-record-modal [condition]="genTaskRecordCondition(item)">
@@ -91,83 +91,6 @@
 <linkable *ngIf="item && mode==='small'" [title]="item.notifyShowTitle" [href]=" resolveHref(item)"
   [content]="defaultLogo">
 </linkable>
-
-<nz-modal [(nzVisible)]="showModal" [nzWidth]="920" [nzFooter]="null" (nzOnCancel)="showModal=false"
-  [nzTitle]="'通知历史 - ' + item?.notifyShowTitle">
-  <ng-container *nzModalContent>
-
-    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
-
-      <nz-form-item>
-        <nz-form-label nzFor="title">标题</nz-form-label>
-        <nz-form-control>
-          <input nz-input class="ant-input" placeholder="请输入标题" formControlName="title" [attr.id]="'title'" />
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label nzFor="desc">内容</nz-form-label>
-        <nz-form-control>
-          <input nz-input class="ant-input" placeholder="请输入内容" formControlName="desc" [attr.id]="'desc'" />
-        </nz-form-control>
-      </nz-form-item>
-
-
-      <nz-form-item>
-        <nz-form-label nzFor="hasRead">状态</nz-form-label>
-        <nz-form-control>
-          <nz-radio-group formControlName="hasRead" nzButtonStyle="solid">
-            <label nz-radio-button *ngFor="let item of readStatuses" [nzValue]="item.value">{{item.label}}</label>
-          </nz-radio-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item class="register-area">
-        <nz-form-control>
-          <button nz-button [nzType]="'primary'">搜索</button>
-          <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
-        </nz-form-control>
-      </nz-form-item>
-    </form>
-
-    <nz-spin nzTip="Loading..." [nzSpinning]="loading">
-      <div style="display: flex; justify-content: center;align-items: center;">
-        <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
-          [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)" style="margin: 12px 0;">
-        </nz-pagination>
-
-        <button *ngIf="items.length > 0" nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popconfirm
-          nzPopconfirmTitle="确认全部标记已读?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="batchMarkRead()"
-          style="margin-left: 12px"><span nz-icon nzType="eye"></span></button>
-      </div>
-
-      <div nz-row [nzGutter]="16">
-        <div nz-col class="gutter-row" [nzSpan]="12" *ngFor="let item of items; trackBy:trackByID">
-          <notify-history-item [item]="item" (markReadSuccess)="markRead(item)" (deleteSuccess)="markRead(item)">
-          </notify-history-item>
-        </div>
-      </div>
-
-      <ng-container *ngIf="items.length === 0">
-        <nz-empty></nz-empty>
-      </ng-container>
-
-
-      <div style="display: flex; justify-content: center;align-items: center;">
-        <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
-          [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)" style="margin: 12px 0;">
-        </nz-pagination>
-
-        <button *ngIf="items.length > 0" nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popconfirm
-          nzPopconfirmTitle="确认全部标记已读?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="batchMarkRead()"
-          style="margin-left: 12px"><span nz-icon nzType="eye"></span></button>
-      </div>
-    </nz-spin>
-    <ng-template #rangeTemplate let-range="range" let-total>
-      {{ range[0] }}-{{ range[1] }} of {{ total }} items
-    </ng-template>
-  </ng-container>
-</nz-modal>
 
 
 <nz-modal [(nzVisible)]="showStatisticsModal" [nzWidth]="1200" [nzFooter]="null"

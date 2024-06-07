@@ -1,0 +1,83 @@
+<span class="notify-history-modal-container" (click)="open()">
+  <ng-container *ngIf="content" [ngTemplateOutlet]="content"></ng-container>
+  <ng-container *ngIf="!content">
+    <span nz-icon nzType="history" nzTheme="outline" [title]="title" style="cursor: pointer;"></span>
+  </ng-container>
+</span>
+
+<nz-modal [(nzVisible)]="showModal" [nzWidth]="920" [nzFooter]="null" (nzOnCancel)="showModal=false" [nzTitle]="title">
+  <ng-container *nzModalContent>
+
+    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
+
+      <nz-form-item>
+        <nz-form-label nzFor="title">标题</nz-form-label>
+        <nz-form-control>
+          <input nz-input class="ant-input" placeholder="请输入标题" formControlName="title" [attr.id]="'title'" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="desc">内容</nz-form-label>
+        <nz-form-control>
+          <input nz-input class="ant-input" placeholder="请输入内容" formControlName="desc" [attr.id]="'desc'" />
+        </nz-form-control>
+      </nz-form-item>
+
+
+      <nz-form-item>
+        <nz-form-label nzFor="hasRead">状态</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group formControlName="hasRead" nzButtonStyle="solid">
+            <label nz-radio-button *ngFor="let item of readStatuses" [nzValue]="item.value">{{item.label}}</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="register-area">
+        <nz-form-control>
+          <button nz-button [nzType]="'primary'">搜索</button>
+          <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+
+    <nz-spin nzTip="Loading..." [nzSpinning]="loading">
+      <div style="display: flex; justify-content: center;align-items: center;">
+        <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
+          [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)" style="margin: 12px 0;">
+        </nz-pagination>
+
+        <button *ngIf="items.length > 0" nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popconfirm
+          nzPopconfirmTitle="确认全部标记已读?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="batchMarkRead()"
+          style="margin-left: 12px"><span nz-icon nzType="eye"></span></button>
+      </div>
+
+      <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" [nzSpan]="12" *ngFor="let item of items; trackBy:trackByID">
+          <notify-history-item [item]="item" (markReadSuccess)="reloadNotifyHistoryItems(item)"
+            (deleteSuccess)="reloadNotifyHistoryItems(item)">
+          </notify-history-item>
+        </div>
+      </div>
+
+      <ng-container *ngIf="items.length === 0">
+        <nz-empty></nz-empty>
+      </ng-container>
+
+
+      <div style="display: flex; justify-content: center;align-items: center;">
+        <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalCount"
+          [nzShowTotal]="rangeTemplate" (nzPageIndexChange)="pageIndexChange($event)" style="margin: 12px 0;">
+        </nz-pagination>
+
+        <button *ngIf="items.length > 0" nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popconfirm
+          nzPopconfirmTitle="确认全部标记已读?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="batchMarkRead()"
+          style="margin-left: 12px"><span nz-icon nzType="eye"></span></button>
+      </div>
+    </nz-spin>
+    <ng-template #rangeTemplate let-range="range" let-total>
+      {{ range[0] }}-{{ range[1] }} of {{ total }} items
+    </ng-template>
+  </ng-container>
+</nz-modal>

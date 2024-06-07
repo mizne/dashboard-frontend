@@ -5,10 +5,11 @@
   </p>
 
   <div style="display: flex;justify-content: space-between;align-items: center;">
-    <span>
-      <span nz-icon nzType="eye" nzTheme="outline" [title]="'查看通知源'" (click)="toShowNotifyObservers()"
-        style="cursor: pointer;"></span>
-    </span>
+    <span nz-icon nzType="eye" nzTheme="outline" [title]="'查看通知源'" (click)="toShowNotifyObservers()"
+      style="cursor: pointer;"></span>
+
+    <notify-history-modal [title]="'通知历史 - ' + item.title"
+      [condition]="{notifyObserverID: {$in: item.notifyObserverIDs||[]}}"></notify-history-modal>
 
     <created-at [createdAt]="item.createdAt"></created-at>
   </div>
