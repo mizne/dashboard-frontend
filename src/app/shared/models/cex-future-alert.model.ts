@@ -6,9 +6,16 @@ export enum CexFutureAlertTypes {
   LONG_SHORT_RATIO_LIMIT = 'LONG_SHORT_RATIO_LIMIT',
 }
 
+export enum CexFutureAlertDirections {
+  LONG = 'LONG',
+  SHORT = 'SHORT',
+  SHOCK = 'SHOCK'
+}
+
 export interface CexFutureAlert {
   readonly _id: string;
   readonly type: CexFutureAlertTypes;
+  readonly direction: CexFutureAlertDirections;
 
   readonly symbol: string;
   readonly desc: string;

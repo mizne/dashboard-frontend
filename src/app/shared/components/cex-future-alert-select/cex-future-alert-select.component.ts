@@ -9,7 +9,7 @@ import { ControlValueAccessor, FormBuilder, FormControl, NG_VALUE_ACCESSOR } fro
 import { debounceTime, merge, Subject, Subscription } from 'rxjs';
 import { isEmpty } from 'src/app/utils';
 import { CexFutureService, KlineIntervalService } from '../../services';
-import { CexFuture, CexFutureAlert, CexFutureAlertTypes, KlineIntervals } from '../../models';
+import { CexFuture, CexFutureAlert, CexFutureAlertDirections, CexFutureAlertTypes, KlineIntervals } from '../../models';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CexFutureAlertService } from '../../services/cex-future-alert.service';
 
@@ -67,6 +67,19 @@ export class CexFutureAlertSelectComponent implements ControlValueAccessor, OnDe
   })
 
   latestTime = this.klineIntervalService.resolveFourHoursIntervalMills(this.initLatestIntervals);
+
+  cexFutureAlertColorGetter(item: CexFutureAlert) {
+    switch (item.direction) {
+      case CexFutureAlertDirections.LONG:
+        return `success`
+      case CexFutureAlertDirections.SHORT:
+        return `error`
+      case CexFutureAlertDirections.SHOCK:
+        return `warning`
+      default:
+        return `default`
+    }
+  }
 
   ngOnInit(): void {
     this.fetchCexFutureAlerts()
