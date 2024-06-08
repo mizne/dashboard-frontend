@@ -36,9 +36,8 @@
         <nz-collapse-panel *ngIf="panel.cexTokenAlerts.length > 0" [nzHeader]="panel.name" [nzActive]="true"
           [nzDisabled]="false">
           <p style="margin:0;">
-            <nz-tag *ngFor="let item of panel.cexTokenAlerts" [title]="item.desc"
-              [nzColor]="selectedSymbol === item.symbol ? 'success' : 'default'" (click)="selectCexTokenAlert(item)"
-              style="cursor: pointer; margin-bottom: 4px;">
+            <nz-tag *ngFor="let item of panel.cexTokenAlerts" [title]="item.desc" [nzColor]="'default'"
+              (click)="selectCexTokenAlert(item)" style="cursor: pointer; margin-bottom: 4px;">
               <span *ngIf="selectedSymbol === item.symbol" nz-icon nzType="check-circle"></span>
               <span>{{item.symbol}}</span>
             </nz-tag>

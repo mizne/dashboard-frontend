@@ -23,8 +23,8 @@
   <ng-container *nzModalContent>
 
     <div *ngIf="markSymbols.length > 0" style="margin-bottom: 12px">
-      <nz-tag *ngFor="let item of markSymbols" [nzColor]="searchCtrl.value === item ? 'success' : 'default'"
-        (click)="selectMarkSymbol(item)" style="cursor: pointer;">
+      <nz-tag *ngFor="let item of markSymbols" [nzColor]="'default'" (click)="selectMarkSymbol(item)"
+        style="cursor: pointer;">
         <span *ngIf="searchCtrl.value === item" nz-icon nzType="check-circle"></span>
         <span>{{item}}</span>
       </nz-tag>
