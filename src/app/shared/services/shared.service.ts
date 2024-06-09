@@ -120,6 +120,12 @@ export class SharedService {
     );
   }
 
+  relinkPM2(): Observable<ExecuteTaskResp> {
+    return this.httpClient.post<ExecuteTaskResp>(`${environment.baseURL}/app/run-script`, {
+      name: 'relink:pm2',
+    });
+  }
+
   fetchSocialLinks(website: string): Observable<SocialLink> {
     return this.httpClient.post(`${environment.baseURL}/app/social-links`, {
       url: website,

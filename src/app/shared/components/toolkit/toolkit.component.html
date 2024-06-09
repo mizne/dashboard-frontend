@@ -27,6 +27,13 @@
           <div *ngFor="let type of types" nz-col class="gutter-row" [nzSpan]="12" style="margin-bottom: 8px">
             <system-task-timer-settings [type]="type"></system-task-timer-settings>
           </div>
+
+          <div nz-col class="gutter-row" [nzSpan]="12" style="margin-bottom: 8px">
+            <button [nzLoading]="relinkPM2loading" nz-button nzType="primary" (click)="relinkPM2()"
+              [title]="'重新连接PM2看板'">
+              Relink PM2
+            </button>
+          </div>
         </div>
       </nz-card>
 

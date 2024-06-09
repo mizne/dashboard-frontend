@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ClientNotifyService } from '../../services';
+import { ClientNotifyService, SharedService } from '../../services';
 import { NotifyObserverTypes } from '../../models';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'toolkit',
@@ -8,7 +10,10 @@ import { NotifyObserverTypes } from '../../models';
 })
 export class ToolkitComponent implements OnInit {
   constructor(
-    private clientNotifyService: ClientNotifyService
+    private clientNotifyService: ClientNotifyService,
+    private sharedService: SharedService,
+    private nzNotificationService: NzNotificationService,
+    private message: NzMessageService
   ) { }
 
   visible = false;
@@ -31,6 +36,8 @@ export class ToolkitComponent implements OnInit {
     NotifyObserverTypes.XIAOYUZHOU,
   ]
 
+  relinkPM2loading = false
+
   ngOnInit() { }
 
   open(): void {
@@ -43,5 +50,27 @@ export class ToolkitComponent implements OnInit {
 
   markMainClient() {
     this.clientNotifyService.markIdentity()
+  }
+
+  relinkPM2() {
+    this.relinkPM2loading = true
+    const ref = this.message.loading(`执行脚本中...`, { nzDuration: 0 })
+    this.sharedService.relinkPM2()
+      .subscribe({
+        next: (res) => {
+          this.relinkPM2loading = false
+          this.message.remove(ref.messageId)
+          if (res.code === 0) {
+            this.nzNotificationService.success(`Relink PM2 成功`, `${res.result}`)
+          } else {
+            this.nzNotificationService.error(`Relink PM2 失败`, `${res.message}`)
+          }
+        },
+        error: (err) => {
+          this.relinkPM2loading = false
+          this.message.remove(ref.messageId)
+          this.nzNotificationService.error(`Relink PM2 失败`, `${err.message}`)
+        }
+      })
   }
 }
