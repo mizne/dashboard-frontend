@@ -42,7 +42,7 @@ export class AirdropJobComponent implements OnInit {
 
   form: FormGroup<any> = this.fb.group({
     title: [null],
-    status: [null],
+    status: [AirdropJobStatus.IN_PROGRESS],
     followedProjectID: [null],
   });
   statuses = [
