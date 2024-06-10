@@ -18,8 +18,12 @@ export class TimerService implements NotifyObserverTypeServiceInterface {
   }
 
   checkValidForm(obj: Partial<NotifyObserver>): { code: number; message?: string | undefined; } {
-    return (obj.notifyShowTitle && (Array.isArray(obj.timerHour)) && (obj.timerHour as Array<number>).length > 0 && (Array.isArray(obj.timerMinute)) && (obj.timerMinute as Array<number>).length > 0)
-      ? { code: 0 } : { code: -1, message: `通知标题必填，hour minute必填` }
+    if ((obj.notifyShowTitle && (Array.isArray(obj.timerHour)) && (obj.timerHour as Array<number>).length > 0 && (Array.isArray(obj.timerMinute)) && (obj.timerMinute as Array<number>).length > 0)) {
+      const inServiceMaintain = this.hasInServiceMaintainTime(obj.timerHour, obj.timerMinute)
+
+      return inServiceMaintain ? { code: -1, message: `03:02 和 15:02 为服务重启时间，不建议在临近时间设置定时任务` } : { code: 0 }
+    }
+    return { code: -1, message: `通知标题必填，hour minute必填` }
   }
 
   resolveExistedCondition(obj: Partial<NotifyObserver>): Partial<NotifyObserver> | null {
@@ -89,5 +93,11 @@ export class TimerService implements NotifyObserverTypeServiceInterface {
       '周日', '周一', '周二', '周三', '周四', '周五', '周六'
     ]
     return nums.map(e => strs[e] || '未知').join(',')
+  }
+
+  private hasInServiceMaintainTime(timerHour: number[], timerMinute: number[]): boolean {
+    const inHour = !![3, 15].find(e => timerHour.indexOf(e) >= 0)
+    const inMinute = !![2, 3, 4, 5, 6, 7, 8].find(e => timerMinute.indexOf(e) >= 0)
+    return inHour && inMinute
   }
 }

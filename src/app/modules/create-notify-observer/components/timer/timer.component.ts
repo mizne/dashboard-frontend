@@ -19,7 +19,7 @@ export class CreateTimerComponent implements OnInit, FormItemInterface {
     private notification: NzNotificationService,
   ) { }
 
-  timerMessage = '00:00 到 01:00 为服务维护时间，不建议在此时间段内设置定时任务'
+  timerMessage = '03:02 和 15:02 为服务重启时间，不建议在临近时间设置定时任务'
 
   editorOptions = { theme: 'vs-dark', tabSize: 2, language: 'typescript' };
 
