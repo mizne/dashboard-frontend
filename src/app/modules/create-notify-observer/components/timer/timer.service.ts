@@ -19,9 +19,10 @@ export class TimerService implements NotifyObserverTypeServiceInterface {
 
   checkValidForm(obj: Partial<NotifyObserver>): { code: number; message?: string | undefined; } {
     if ((obj.notifyShowTitle && (Array.isArray(obj.timerHour)) && (obj.timerHour as Array<number>).length > 0 && (Array.isArray(obj.timerMinute)) && (obj.timerMinute as Array<number>).length > 0)) {
-      const inServiceMaintain = this.hasInServiceMaintainTime(obj.timerHour, obj.timerMinute)
+      // const inServiceMaintain = this.hasInServiceMaintainTime(obj.timerHour, obj.timerMinute)
 
-      return inServiceMaintain ? { code: -1, message: `03:02 和 15:02 为服务重启时间，不建议在临近时间设置定时任务` } : { code: 0 }
+      // return inServiceMaintain ? { code: -1, message: `03:02 和 15:02 为服务重启时间，不建议在临近时间设置定时任务` } : { code: 0 }
+      return { code: 0 }
     }
     return { code: -1, message: `通知标题必填，hour minute必填` }
   }
