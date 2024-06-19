@@ -64,8 +64,42 @@ export class NotifyHistoryItemComponent implements OnInit {
           this.nzNotificationService.error(`查找通知源 失败`, `${err.message}`);
         }
       })
+  }
+
+  confirmDeleteNotifyObserver(item: TableItem) {
+    if (!item.notifyObserverID) {
+      this.nzNotificationService.warning(`删除通知源 失败`, `该通知历史 没有通知源ID`);
+      return
+    }
+
+    this.notifyObserverService.queryList({
+      _id: item.notifyObserverID
+    }, { number: 1, size: 1 })
+      .subscribe({
+        next: (results) => {
+          if (results.length > 0) {
+            this.notifyObserverService.deleteByID(item.notifyObserverID as string)
+              .subscribe({
+                next: () => {
+                  this.nzNotificationService.success(`删除通知源 成功`, `删除通知源 成功`);
+                },
+                error: (err) => {
+                  this.nzNotificationService.error(`删除通知源 失败`, `${err.message}`);
+                }
+              })
+          } else {
+            this.nzNotificationService.warning(`没有找到通知源`, `也许该通知源已经被删除`);
+          }
+        },
+        error: (err) => {
+          this.nzNotificationService.error(`查找通知源 失败`, `${err.message}`);
+        }
+      })
 
 
+  }
+
+  cancelDeleteNotifyObserver(item: TableItem) {
 
   }
 

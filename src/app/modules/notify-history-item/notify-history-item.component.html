@@ -1,104 +1,234 @@
-<nz-ribbon *ngIf="item" class="notify-history-item-container" [nzText]="item.hasRead ? '已读' : 'New'"
-  [nzColor]="item.hasRead ? '#eee' : 'pink'">
-  <nz-card [ngStyle]="{width: 'auto', marginBottom: '12px', color: item.hasRead ? '#eee' : ''}" [nzTitle]="item.title"
-    [nzExtra]="extraTemplate">
-    <div style="position: relative;">
+<nz-ribbon
+  *ngIf="item"
+  class="notify-history-item-container"
+  [nzText]="item.hasRead ? '已读' : 'New'"
+  [nzColor]="item.hasRead ? '#eee' : 'pink'"
+>
+  <nz-card
+    [ngStyle]="{
+      width: 'auto',
+      marginBottom: '12px',
+      color: item.hasRead ? '#eee' : ''
+    }"
+    [nzTitle]="item.title"
+    [nzExtra]="extraTemplate"
+  >
+    <div style="position: relative">
       <p [innerHtml]="item.desc"></p>
-      <p style="display: flex; align-items: center; justify-content: space-between;">
-        <linkable [href]="item.link" [content]="defaultLogo">
-        </linkable>
+      <p
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        "
+      >
+        <linkable [href]="item.link" [content]="defaultLogo"> </linkable>
 
         <ng-container *ngIf="item.followedProjectIDCtrl">
-          <image-view *ngIf="item.followedProjectLogo; else noLogo" [width]="32" [name]="item.followedProjectLogo"
-            style="cursor: pointer;" nz-popover nzPopoverTrigger="click"
-            [nzPopoverContent]="contentTemplate"></image-view>
+          <image-view
+            *ngIf="item.followedProjectLogo; else noLogo"
+            [width]="32"
+            [name]="item.followedProjectLogo"
+            style="cursor: pointer"
+            nz-popover
+            nzPopoverTrigger="click"
+            [nzPopoverContent]="contentTemplate"
+          ></image-view>
 
           <ng-template #noLogo>
-            <button nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popover nzPopoverTrigger="click"
-              [nzPopoverContent]="contentTemplate">
+            <button
+              nz-button
+              nzType="primary"
+              nzSize="small"
+              nzShape="circle"
+              nz-popover
+              nzPopoverTrigger="click"
+              [nzPopoverContent]="contentTemplate"
+            >
               <span nz-icon nzType="project" nzTheme="outline"></span>
             </button>
           </ng-template>
         </ng-container>
 
         <ng-container *ngIf="item.notifyObserverID">
-          <button nz-button nzType="primary" nzSize="small" nzShape="circle" [title]="'修改通知源'"
-            (click)="confirmUpdateNotifyObserver(item)"><span nz-icon nzType="edit"></span></button>
+          <button
+            nz-button
+            nzType="primary"
+            nzSize="small"
+            nzShape="circle"
+            [title]="'修改通知源'"
+            (click)="confirmUpdateNotifyObserver(item)"
+          >
+            <span nz-icon nzType="edit"></span>
+          </button>
+
+          <a
+            nz-popconfirm
+            nzPopconfirmTitle="确认删除通知源?"
+            nzPopconfirmPlacement="bottom"
+            (nzOnConfirm)="confirmDeleteNotifyObserver(item)"
+            (nzOnCancel)="cancelDeleteNotifyObserver(item)"
+            style="margin-left: 4px"
+          >
+            <button
+              nz-button
+              nzType="primary"
+              nzSize="small"
+              nzShape="circle"
+              nzDanger
+            >
+              <span nz-icon nzType="delete"></span>
+            </button>
+          </a>
         </ng-container>
 
         <span>
           <created-at [createdAt]="item.createdAt"></created-at>
-          <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
-            (nzOnConfirm)="confirmDelete(item)" (nzOnCancel)="cancelDelete(item)" style="margin-left: 8px;">
-            <button nz-button nzType="primary" nzSize="small" nzShape="circle" nzDanger><span nz-icon
-                nzType="delete"></span></button>
+          <a
+            nz-popconfirm
+            nzPopconfirmTitle="确认删除该条通知历史?"
+            nzPopconfirmPlacement="bottom"
+            (nzOnConfirm)="confirmDelete(item)"
+            (nzOnCancel)="cancelDelete(item)"
+            style="margin-left: 8px"
+          >
+            <button
+              nz-button
+              nzType="primary"
+              nzSize="small"
+              nzShape="circle"
+              nzDanger
+            >
+              <span nz-icon nzType="delete"></span>
+            </button>
           </a>
         </span>
 
         <ng-template #contentTemplate>
-          <followed-project-select-view *ngIf="item.followedProjectIDCtrl"
-            [formControl]="item.followedProjectIDCtrl"></followed-project-select-view>
+          <followed-project-select-view
+            *ngIf="item.followedProjectIDCtrl"
+            [formControl]="item.followedProjectIDCtrl"
+          ></followed-project-select-view>
         </ng-template>
       </p>
 
-      <p style="display: flex; align-items: center;" *ngIf="showCreateNotAllowGetter(item)">
-        <button nz-button nzType="primary" nzSize="small" nzShape="circle" title="添加到黑名单通知源"
-          (click)="createNotAllow(item)">
+      <p
+        style="display: flex; align-items: center"
+        *ngIf="showCreateNotAllowGetter(item)"
+      >
+        <button
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="circle"
+          title="添加到黑名单通知源"
+          (click)="createNotAllow(item)"
+        >
           <span nz-icon nzType="stop" nzTheme="outline"></span>
         </button>
       </p>
 
-      <p style="display: flex; align-items: center;" *ngIf="showCreateLink3TimerNotifyObserverGetter(item)">
-        <button nz-button nzType="primary" nzSize="small" nzShape="circle" title="添加到定时任务"
-          (click)="createLink3TimerNotifyObserver(item)">
+      <p
+        style="display: flex; align-items: center"
+        *ngIf="showCreateLink3TimerNotifyObserverGetter(item)"
+      >
+        <button
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="circle"
+          title="添加到定时任务"
+          (click)="createLink3TimerNotifyObserver(item)"
+        >
           <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
         </button>
       </p>
 
-      <p style="display: flex; align-items: center;" *ngIf="showCreateTimerNotifyObserverGetter(item)">
-        <button nz-button nzType="primary" nzSize="small" nzShape="circle" title="添加到定时任务"
-          (click)="createTimerNotifyObserver(item)">
+      <p
+        style="display: flex; align-items: center"
+        *ngIf="showCreateTimerNotifyObserverGetter(item)"
+      >
+        <button
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          nzShape="circle"
+          title="添加到定时任务"
+          (click)="createTimerNotifyObserver(item)"
+        >
           <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
         </button>
       </p>
 
-      <p style="display: flex; align-items: center;" *ngIf="showCexFutureDetailGetter(item)">
-        <cex-future-item-detail [symbol]="cexFutureSymbolGetter(item)" [content]="cexFutureItemTemplate">
+      <p
+        style="display: flex; align-items: center"
+        *ngIf="showCexFutureDetailGetter(item)"
+      >
+        <cex-future-item-detail
+          [symbol]="cexFutureSymbolGetter(item)"
+          [content]="cexFutureItemTemplate"
+        >
         </cex-future-item-detail>
         <ng-template #cexFutureItemTemplate>
-          <button nz-button nzType="primary" nzSize="small" nzShape="circle"
-            [title]="'查看 ' + cexFutureSymbolGetter(item) + ' 合约详情'">
+          <button
+            nz-button
+            nzType="primary"
+            nzSize="small"
+            nzShape="circle"
+            [title]="'查看 ' + cexFutureSymbolGetter(item) + ' 合约详情'"
+          >
             <span nz-icon nzType="line-chart" nzTheme="outline"></span>
           </button>
         </ng-template>
 
-        <cex-token-symbol-item style="margin-left: 16px;" [name]="cexFutureNameGetter(item)"
-          [content]="cexFutureSymbolContent">
+        <cex-token-symbol-item
+          style="margin-left: 16px"
+          [name]="cexFutureNameGetter(item)"
+          [content]="cexFutureSymbolContent"
+        >
         </cex-token-symbol-item>
 
         <ng-template #cexFutureSymbolContent let-logoName="logoName">
-          <image-view [name]="logoName" style="margin-right: 8px;"></image-view>
-          <span class="symbol-item-custom-content">{{cexFutureNameGetter(item)}}</span>
+          <image-view [name]="logoName" style="margin-right: 8px"></image-view>
+          <span class="symbol-item-custom-content">{{
+            cexFutureNameGetter(item)
+          }}</span>
         </ng-template>
       </p>
 
-      <p style="display: flex; align-items: center;" *ngIf="showCexTokenDetailGetter(item)">
-        <cex-token-item-detail [symbol]="cexTokenSymbolGetter(item)" [content]="cexTokenItemTemplate">
+      <p
+        style="display: flex; align-items: center"
+        *ngIf="showCexTokenDetailGetter(item)"
+      >
+        <cex-token-item-detail
+          [symbol]="cexTokenSymbolGetter(item)"
+          [content]="cexTokenItemTemplate"
+        >
         </cex-token-item-detail>
         <ng-template #cexTokenItemTemplate>
-          <button nz-button nzType="primary" nzSize="small" nzShape="circle"
-            [title]="'查看 ' + cexTokenSymbolGetter(item) + ' 现货详情'">
+          <button
+            nz-button
+            nzType="primary"
+            nzSize="small"
+            nzShape="circle"
+            [title]="'查看 ' + cexTokenSymbolGetter(item) + ' 现货详情'"
+          >
             <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
           </button>
         </ng-template>
 
-        <cex-token-symbol-item style="margin-left: 16px;" [name]="cexTokenNameGetter(item)"
-          [content]="cexTokenSymbolContent">
+        <cex-token-symbol-item
+          style="margin-left: 16px"
+          [name]="cexTokenNameGetter(item)"
+          [content]="cexTokenSymbolContent"
+        >
         </cex-token-symbol-item>
 
         <ng-template #cexTokenSymbolContent let-logoName="logoName">
-          <image-view [name]="logoName" style="margin-right: 8px;"></image-view>
-          <span class="symbol-item-custom-content">{{cexTokenNameGetter(item)}}</span>
+          <image-view [name]="logoName" style="margin-right: 8px"></image-view>
+          <span class="symbol-item-custom-content">{{
+            cexTokenNameGetter(item)
+          }}</span>
         </ng-template>
       </p>
 
@@ -108,9 +238,19 @@
     </div>
 
     <ng-template #extraTemplate>
-      <button *ngIf="!item.hasRead" nz-button nzType="primary" nzSize="small" nzShape="circle" nz-popconfirm
-        nzPopconfirmTitle="确认标记已读?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="markRead(item)"><span nz-icon
-          nzType="eye"></span></button>
+      <button
+        *ngIf="!item.hasRead"
+        nz-button
+        nzType="primary"
+        nzSize="small"
+        nzShape="circle"
+        nz-popconfirm
+        nzPopconfirmTitle="确认标记已读?"
+        nzPopconfirmPlacement="bottom"
+        (nzOnConfirm)="markRead(item)"
+      >
+        <span nz-icon nzType="eye"></span>
+      </button>
     </ng-template>
   </nz-card>
 </nz-ribbon>
