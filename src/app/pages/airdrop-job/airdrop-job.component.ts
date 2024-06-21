@@ -75,7 +75,6 @@ export class AirdropJobComponent implements OnInit {
 
 
   submitForm(): void {
-    this.query = removeNullOrUndefined(this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
     this.loadDataFromServer();
@@ -83,7 +82,6 @@ export class AirdropJobComponent implements OnInit {
 
   resetForm() {
     this.form.reset();
-    this.query = removeNullOrUndefined(this.form.value);
     this.pageIndex = 1;
     this.pageSize = 10;
     this.loadDataFromServer();
@@ -182,6 +180,7 @@ export class AirdropJobComponent implements OnInit {
 
   private loadDataFromServer(): void {
     this.loading = true;
+    this.query = removeNullOrUndefined(this.form.value);
     this.airdropJobService
       .queryList(
         this.adjustQuery(this.query),
