@@ -118,7 +118,7 @@ export class CexFuturePriceChartComponent implements OnInit {
   priceBetweenMinMaxRelative21Compare = (a: CexFutureDaily, b: CexFutureDaily) => a.priceBetweenMinMaxRelative21 - b.priceBetweenMinMaxRelative21
   priceBetweenMinMaxRelative55Compare = (a: CexFutureDaily, b: CexFutureDaily) => a.priceBetweenMinMaxRelative55 - b.priceBetweenMinMaxRelative55
   priceBetweenMinMaxRelative144Compare = (a: CexFutureDaily, b: CexFutureDaily) => a.priceBetweenMinMaxRelative144 - b.priceBetweenMinMaxRelative144
-  priceBetweenMinMaxRelative377Compare = (a: CexFutureDaily, b: CexFutureDaily) => a.priceBetweenMinMaxRelative377 - b.priceBetweenMinMaxRelative377
+  // priceBetweenMinMaxRelative377Compare = (a: CexFutureDaily, b: CexFutureDaily) => a.priceBetweenMinMaxRelative377 - b.priceBetweenMinMaxRelative377
   timeCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.time - b.time
   createdAtCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.createdAt - b.createdAt
 
@@ -286,8 +286,8 @@ export class CexFuturePriceChartComponent implements OnInit {
         return item.priceBetweenMinMaxRelative55;
       case 144:
         return item.priceBetweenMinMaxRelative144;
-      case 377:
-        return item.priceBetweenMinMaxRelative377;
+      // case 377:
+      //   return item.priceBetweenMinMaxRelative377;
 
       default:
         console.log(`[CexFuturePriceChartComponent] resolveRelativeDuration() unknown relativeCtrl value: ${this.relativeCtrl.value}`)

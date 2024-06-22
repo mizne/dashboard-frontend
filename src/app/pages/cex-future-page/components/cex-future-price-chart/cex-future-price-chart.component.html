@@ -197,14 +197,14 @@
                   >
                     144周期
                   </th>
-                  <th
+                  <!-- <th
                     nzColumnKey="priceBetweenMinMaxRelative377"
                     [nzSortFn]="priceBetweenMinMaxRelative377Compare"
                     title="价格 相对变动"
                     [nzSortDirections]="['descend', 'ascend', null]"
                   >
                     377周期
-                  </th>
+                  </th> -->
                   <th
                     nzColumnKey="time"
                     [nzSortFn]="timeCompare"
@@ -268,9 +268,9 @@
                   <td>
                     {{ data.priceBetweenMinMaxRelative144 | toFixed }}
                   </td>
-                  <td>
+                  <!-- <td>
                     {{ data.priceBetweenMinMaxRelative377 | toFixed }}
-                  </td>
+                  </td> -->
                   <td>
                     {{ data.time | date : "MM-dd HH:mm" }}
                   </td>
