@@ -5,22 +5,42 @@
         <cex-future-longshort-chart></cex-future-longshort-chart>
         <cex-future-fundingrate-chart></cex-future-fundingrate-chart>
         <cex-future-openinterest-chart></cex-future-openinterest-chart>
+        <cex-future-price-chart></cex-future-price-chart>
       </nz-card>
 
       <nz-card style="margin-top: 12px">
-        <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
+        <form
+          nz-form
+          [formGroup]="form"
+          (ngSubmit)="submitForm()"
+          [nzLayout]="'inline'"
+        >
           <nz-form-item>
             <nz-form-label nzFor="symbol">symbol</nz-form-label>
             <nz-form-control>
-              <input nz-input class="ant-input" placeholder="请输入symbol" formControlName="symbol" [attr.id]="'symbol'" />
+              <input
+                nz-input
+                class="ant-input"
+                placeholder="请输入symbol"
+                formControlName="symbol"
+                [attr.id]="'symbol'"
+              />
             </nz-form-control>
           </nz-form-item>
 
           <nz-form-item>
             <nz-form-label>是否标记</nz-form-label>
             <nz-form-control>
-              <nz-radio-group formControlName="hasCollect" nzButtonStyle="solid">
-                <label nz-radio-button *ngFor="let item of colletStatuses" [nzValue]="item.value">{{item.label}}</label>
+              <nz-radio-group
+                formControlName="hasCollect"
+                nzButtonStyle="solid"
+              >
+                <label
+                  nz-radio-button
+                  *ngFor="let item of colletStatuses"
+                  [nzValue]="item.value"
+                  >{{ item.label }}</label
+                >
               </nz-radio-group>
             </nz-form-control>
           </nz-form-item>
@@ -28,16 +48,31 @@
           <nz-form-item class="register-area">
             <nz-form-control>
               <button nz-button [nzType]="'primary'">搜索</button>
-              <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+              <button
+                nz-button
+                type="button"
+                (click)="resetForm()"
+                style="margin-left: 12px"
+              >
+                重置
+              </button>
             </nz-form-control>
           </nz-form-item>
         </form>
       </nz-card>
 
       <nz-card style="margin-top: 12px">
-        <nz-table nzShowSizeChanger [nzData]="items" [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total"
-          [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
-          (nzQueryParams)="onQueryParamsChange($event)">
+        <nz-table
+          nzShowSizeChanger
+          [nzData]="items"
+          [nzFrontPagination]="false"
+          [nzLoading]="loading"
+          [nzTotal]="total"
+          [nzShowTotal]="rangeTemplate"
+          [nzPageSize]="pageSize"
+          [nzPageIndex]="pageIndex"
+          (nzQueryParams)="onQueryParamsChange($event)"
+        >
           <thead>
             <tr>
               <th nzColumnKey="symbol">symbol</th>
@@ -45,19 +80,30 @@
               <th nzColumnKey="baseAsset">跟踪标的</th>
               <th nzColumnKey="contractType">合约类型</th>
               <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
-              <th nzColumnKey="Action" style="width: 200px;">操作</th>
+              <th nzColumnKey="Action" style="width: 200px">操作</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let data of items">
-              <td style="display: flex; align-items: center; min-height: 65px;">
-                <app-collect-input [formControl]="data.hasCollectCtrl" style="margin-right: 8px;"></app-collect-input>
-                <cex-token-symbol-item [name]="data.baseAsset" [content]="symbolContent">
+              <td style="display: flex; align-items: center; min-height: 65px">
+                <app-collect-input
+                  [formControl]="data.hasCollectCtrl"
+                  style="margin-right: 8px"
+                ></app-collect-input>
+                <cex-token-symbol-item
+                  [name]="data.baseAsset"
+                  [content]="symbolContent"
+                >
                 </cex-token-symbol-item>
 
                 <ng-template #symbolContent let-logoName="logoName">
-                  <image-view [name]="logoName" style="margin-right: 4px;"></image-view>
-                  <span class="symbol-item-custom-content">{{data.symbol}}</span>
+                  <image-view
+                    [name]="logoName"
+                    style="margin-right: 4px"
+                  ></image-view>
+                  <span class="symbol-item-custom-content">{{
+                    data.symbol
+                  }}</span>
                 </ng-template>
               </td>
               <td>
@@ -74,7 +120,9 @@
                 <created-at [createdAt]="data.createdAt"></created-at>
               </td>
               <td>
-                <cex-future-item-detail [symbol]="data.symbol"></cex-future-item-detail>
+                <cex-future-item-detail
+                  [symbol]="data.symbol"
+                ></cex-future-item-detail>
               </td>
             </tr>
           </tbody>

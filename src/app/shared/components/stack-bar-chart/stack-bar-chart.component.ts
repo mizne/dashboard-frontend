@@ -108,7 +108,7 @@ function resolveBracket(typeKey: string): string {
 }
 
 function percentNumber(n: number): string {
-  if (n < 0.1) {
+  if (n !== 0 && n < 0.1) {
     return `${n * 100}%`
   }
   return String(n)
