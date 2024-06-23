@@ -24,7 +24,6 @@ export class NetworkCheckerComponent implements OnInit {
     progress: string;
     startAt: number;
 
-    ignoreCompute: boolean;
     avgCostTime: number;
   }> = [];
 
@@ -48,7 +47,6 @@ export class NetworkCheckerComponent implements OnInit {
             progress: t.progress,
             startAt: t.startAt,
 
-            ignoreCompute: false,
             avgCostTime: 0
           })
         }
