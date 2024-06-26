@@ -36,6 +36,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
 
   visible = false;
   nowHour = '';
+  nowMinute = '';
 
   times: Array<Array<{
     hour: string;
@@ -77,7 +78,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
   })
 
   ngOnInit() {
-    this.subscribeNowHourChange();
+    this.subscribeNowChange();
     this.subscribeFormChange();
   }
 
@@ -89,6 +90,16 @@ export class TimerNotifyObserverModalComponent implements OnInit {
 
   tooltipGetter(hour: string, item: NotifyObserver) {
     return `${hour}:${(item.timerMinute || []).map(e => paddingZero(String(e))).join(',')} / 点击编辑`
+  }
+
+  hasExpired(hour: string, item: NotifyObserver): boolean {
+    if (Number(hour) < Number(this.nowHour)) {
+      return true
+    }
+    if (Number(hour) === Number(this.nowHour)) {
+      return (item.timerMinute || []).every(n => Number(n) <= Number(this.nowMinute))
+    }
+    return false
   }
 
   genTaskRecordCondition(item: NotifyObserver) {
@@ -190,7 +201,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
     });
   }
 
-  private subscribeNowHourChange() {
+  private subscribeNowChange() {
     this.timerService.interval(2)
       .pipe(
         takeUntil(this.destroyService),
@@ -198,6 +209,7 @@ export class TimerNotifyObserverModalComponent implements OnInit {
       )
       .subscribe(() => {
         this.nowHour = paddingZero(String(new Date().getHours()));
+        this.nowMinute = paddingZero(String(new Date().getMinutes()));
       })
   }
 

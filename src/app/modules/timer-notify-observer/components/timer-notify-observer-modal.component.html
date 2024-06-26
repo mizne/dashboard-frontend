@@ -1,22 +1,47 @@
-<div class="timer-notify-observer-modal-container" style="position:fixed; bottom: 72px; right: 24px; z-index: 100">
-  <button nz-button nzType="primary" nzShape="circle" (click)="open()"><span nz-icon nzType="calendar"></span></button>
+<div
+  class="timer-notify-observer-modal-container"
+  style="position: fixed; bottom: 72px; right: 24px; z-index: 100"
+>
+  <button nz-button nzType="primary" nzShape="circle" (click)="open()">
+    <span nz-icon nzType="calendar"></span>
+  </button>
 </div>
 
-<nz-modal [(nzVisible)]="visible" [nzWidth]="1200" [nzTitle]="'定时任务时刻表'" [nzFooter]="null" (nzOnCancel)="visible=false">
+<nz-modal
+  [(nzVisible)]="visible"
+  [nzWidth]="1200"
+  [nzTitle]="'定时任务时刻表'"
+  [nzFooter]="null"
+  (nzOnCancel)="visible = false"
+>
   <ng-container *nzModalContent>
-
     <form nz-form [formGroup]="form" [nzLayout]="'inline'">
-      <nz-form-item style="width: 300px;">
+      <nz-form-item style="width: 300px">
         <nz-form-label [nzSpan]="10" nzTooltipTitle="任务">
-          <button nz-button nzType="primary" nzSize="small" nzShape="circle" (click)="confirmCreate()">
+          <button
+            nz-button
+            nzType="primary"
+            nzSize="small"
+            nzShape="circle"
+            (click)="confirmCreate()"
+          >
             <span nz-icon nzType="plus" nzTheme="outline"></span>
           </button>
-          <span style="margin-left: 12px;">任务</span>
+          <span style="margin-left: 12px">任务</span>
         </nz-form-label>
         <nz-form-control [nzSpan]="14">
-          <nz-radio-group formControlName="taskType" nzSize="small" [nzButtonStyle]="'solid'">
-            <label *ngFor="let item of taskTypes" nz-radio-button [nzValue]="item.value"
-              [title]="item.title">{{item.label}}</label>
+          <nz-radio-group
+            formControlName="taskType"
+            nzSize="small"
+            [nzButtonStyle]="'solid'"
+          >
+            <label
+              *ngFor="let item of taskTypes"
+              nz-radio-button
+              [nzValue]="item.value"
+              [title]="item.title"
+              >{{ item.label }}</label
+            >
           </nz-radio-group>
         </nz-form-control>
       </nz-form-item>
@@ -24,7 +49,11 @@
       <nz-form-item>
         <nz-form-label>脚本</nz-form-label>
         <nz-form-control>
-          <nz-radio-group formControlName="timerEnableScript" nzSize="small" [nzButtonStyle]="'solid'">
+          <nz-radio-group
+            formControlName="timerEnableScript"
+            nzSize="small"
+            [nzButtonStyle]="'solid'"
+          >
             <label nz-radio-button [nzValue]="null">全部</label>
             <label nz-radio-button [nzValue]="true">有</label>
             <label nz-radio-button [nzValue]="false">无</label>
@@ -35,7 +64,11 @@
       <nz-form-item>
         <nz-form-label>统计数据</nz-form-label>
         <nz-form-control>
-          <nz-radio-group formControlName="timerEnableStatistics" nzSize="small" [nzButtonStyle]="'solid'">
+          <nz-radio-group
+            formControlName="timerEnableStatistics"
+            nzSize="small"
+            [nzButtonStyle]="'solid'"
+          >
             <label nz-radio-button [nzValue]="null">全部</label>
             <label nz-radio-button [nzValue]="true">有</label>
             <label nz-radio-button [nzValue]="false">无</label>
@@ -44,54 +77,129 @@
       </nz-form-item>
     </form>
 
-    <div nz-row [nzGutter]="16" *ngFor="let outerItem of times" style="margin: 12px 0;">
-      <div nz-col class="gutter-row" [nzSpan]="4" *ngFor="let innerItem of outerItem">
+    <div
+      nz-row
+      [nzGutter]="16"
+      *ngFor="let outerItem of times"
+      style="margin: 12px 0"
+    >
+      <div
+        nz-col
+        class="gutter-row"
+        [nzSpan]="4"
+        *ngFor="let innerItem of outerItem"
+      >
         <div class="inner-box">
-          <nz-list nzBordered nzSize="small" [ngStyle]="{
-            'border-color': nowHour === innerItem.hour ? '#28d328' : '',
-            'color': nowHour === innerItem.hour ? '#28d328' : ''
-          }">
-            <nz-list-header>{{innerItem.hour}}</nz-list-header>
+          <nz-list
+            nzBordered
+            nzSize="small"
+            [ngStyle]="{
+              'border-color': nowHour === innerItem.hour ? '#28d328' : '',
+              color: nowHour === innerItem.hour ? '#28d328' : ''
+            }"
+          >
+            <nz-list-header>{{ innerItem.hour }}</nz-list-header>
             <nz-list-item *ngFor="let item of innerItem.items">
-              <div style="display: flex; width: 100%; position: relative;">
-                <span (click)="confirmUpdate(item)" [title]="tooltipGetter(innerItem.hour, item)"
-                  style="cursor: pointer; width: 80%;">{{item.notifyShowTitle}}</span>
-                <span *ngIf="item.timerOnce" title="一次性通知" nz-icon nzType="minus-circle" [nzTheme]="'twotone'"
-                  [nzTwotoneColor]="'#eb2f96'" style="position: absolute; right: 30%; transform: rotate(90deg);"></span>
+              <div
+                style="display: flex; width: 100%; position: relative"
+                [ngStyle]="
+                  hasExpired(innerItem.hour, item) ? { color: '#e9e9e9' } : {}
+                "
+              >
+                <span
+                  (click)="confirmUpdate(item)"
+                  [title]="tooltipGetter(innerItem.hour, item)"
+                  style="cursor: pointer; width: 80%"
+                  >{{ item.notifyShowTitle }}</span
+                >
+                <span
+                  *ngIf="item.timerOnce"
+                  title="一次性通知"
+                  nz-icon
+                  nzType="minus-circle"
+                  [nzTheme]="'twotone'"
+                  [nzTwotoneColor]="'#eb2f96'"
+                  style="
+                    position: absolute;
+                    right: 30%;
+                    transform: rotate(90deg);
+                  "
+                ></span>
 
-
-                <button style="margin-left: 6px" nz-button nzType="primary" [nzSize]="'small'" nzShape="circle"
-                  nz-popover [nzPopoverContent]="contentTemplate" [nzPopoverTrigger]="'click'">
+                <button
+                  style="margin-left: 6px"
+                  nz-button
+                  nzType="primary"
+                  [nzSize]="'small'"
+                  nzShape="circle"
+                  nz-popover
+                  [nzPopoverContent]="contentTemplate"
+                  [nzPopoverTrigger]="'click'"
+                >
                   <span nz-icon nzType="more" nzTheme="outline"></span>
                 </button>
                 <ng-template #contentTemplate>
-                  <div style="display: flex;">
-                    <linkable [href]="item.timerNotifyShowUrl" [content]="LinkIcon">
+                  <div style="display: flex">
+                    <linkable
+                      [href]="item.timerNotifyShowUrl"
+                      [content]="LinkIcon"
+                    >
                     </linkable>
                     <ng-template #LinkIcon>
-                      <button nz-button nzType="primary" [nzSize]="'small'" nzShape="circle">
+                      <button
+                        nz-button
+                        nzType="primary"
+                        [nzSize]="'small'"
+                        nzShape="circle"
+                      >
                         <span nz-icon nzType="export" nzTheme="outline"></span>
                       </button>
                     </ng-template>
 
-                    <task-record-modal [condition]="genTaskRecordCondition(item)">
-                      <button style="margin-left: 12px" nz-button nzType="primary" [nzSize]="'small'" nzShape="circle">
-                        <span nz-icon nzType="pie-chart" [title]="'任务执行统计'"></span>
+                    <task-record-modal
+                      [condition]="genTaskRecordCondition(item)"
+                    >
+                      <button
+                        style="margin-left: 12px"
+                        nz-button
+                        nzType="primary"
+                        [nzSize]="'small'"
+                        nzShape="circle"
+                      >
+                        <span
+                          nz-icon
+                          nzType="pie-chart"
+                          [title]="'任务执行统计'"
+                        ></span>
                       </button>
                     </task-record-modal>
 
-                    <button style="margin-left: 12px" nz-button nzType="primary" [nzSize]="'small'" nzShape="circle"
-                      (click)="confirmUpdate(item)">
+                    <button
+                      style="margin-left: 12px"
+                      nz-button
+                      nzType="primary"
+                      [nzSize]="'small'"
+                      nzShape="circle"
+                      (click)="confirmUpdate(item)"
+                    >
                       <span nz-icon nzType="edit"></span>
                     </button>
-                    <button style="margin-left: 12px" nz-button nzType="primary" [nzSize]="'small'" nzDanger
-                      nzShape="circle" nz-popconfirm nzPopconfirmTitle="确认删除该通知源?" nzPopconfirmPlacement="bottom"
-                      (nzOnConfirm)="confirmDelete(item)">
+                    <button
+                      style="margin-left: 12px"
+                      nz-button
+                      nzType="primary"
+                      [nzSize]="'small'"
+                      nzDanger
+                      nzShape="circle"
+                      nz-popconfirm
+                      nzPopconfirmTitle="确认删除该通知源?"
+                      nzPopconfirmPlacement="bottom"
+                      (nzOnConfirm)="confirmDelete(item)"
+                    >
                       <span nz-icon nzType="delete"></span>
                     </button>
                   </div>
                 </ng-template>
-
               </div>
             </nz-list-item>
             <!-- <nz-list-footer>Footer</nz-list-footer> -->

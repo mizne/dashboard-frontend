@@ -84,6 +84,11 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
     this.showCreateRangeModal = true;
   }
 
+  removeAll() {
+    this.tags = [];
+    this.emitValue();
+  }
+
   ensureRange() {
     const min = this.rangeMinCtrl.value as number;
     const max = this.rangeMaxCtrl.value as number;

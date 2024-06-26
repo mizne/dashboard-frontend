@@ -1,34 +1,92 @@
-<nz-tag *ngFor="let tag of tags; let i = index" [nzMode]="'closeable'" (nzOnClose)="handleClose(tag, i)"
-  style="margin-bottom: 4px">
+<nz-tag
+  *ngFor="let tag of tags; let i = index"
+  [nzMode]="'closeable'"
+  (nzOnClose)="handleClose(tag, i)"
+  style="margin-bottom: 4px"
+>
   {{ tag }}
 </nz-tag>
-<nz-tag *ngIf="!inputVisible" class="editable-tag" nzNoAnimation (click)="showInput()">
+<nz-tag
+  *ngIf="!inputVisible"
+  class="editable-tag"
+  nzNoAnimation
+  (click)="showInput()"
+>
   <span nz-icon nzType="plus"></span>
   New
 </nz-tag>
-<nz-input-number #inputNumber *ngIf="type === 'number' && inputVisible" [(ngModel)]="inputValue" [nzMin]="min"
-  [nzMax]="max" [nzStep]="1" (nzBlur)="handleInputConfirm()" (keydown.enter)="handleInputConfirm()"
-  style="margin-right: 8px;"></nz-input-number>
+<nz-input-number
+  #inputNumber
+  *ngIf="type === 'number' && inputVisible"
+  [(ngModel)]="inputValue"
+  [nzMin]="min"
+  [nzMax]="max"
+  [nzStep]="1"
+  (nzBlur)="handleInputConfirm()"
+  (keydown.enter)="handleInputConfirm()"
+  style="margin-right: 8px"
+></nz-input-number>
 
-<button *ngIf="type === 'number'" nz-button [nzSize]="'small'" nzType="dashed" (click)="toCreateRange()">范围</button>
+<button
+  *ngIf="type === 'number'"
+  nz-button
+  [nzSize]="'small'"
+  nzType="dashed"
+  title="add more"
+  (click)="toCreateRange()"
+  style="margin-right: 8px"
+>
+  范围
+</button>
 
-<input #inputText nz-input *ngIf="type === 'string' && inputVisible" placeholder="please input"
-  (blur)="handleInputConfirm()" (keydown.enter)="handleInputConfirm()" [(ngModel)]="inputValue" />
+<button
+  *ngIf="tags.length >= 3"
+  nz-button
+  [nzSize]="'small'"
+  nzType="dashed"
+  title="remove all"
+  (click)="removeAll()"
+>
+  <span nz-icon nzType="close-circle"></span>
+</button>
 
-<nz-modal [(nzVisible)]="showCreateRangeModal" [nzWidth]="800" (nzOnOk)="ensureRange()"
-  (nzOnCancel)="showCreateRangeModal=false" nzTitle="添加number">
+<input
+  #inputText
+  nz-input
+  *ngIf="type === 'string' && inputVisible"
+  placeholder="please input"
+  (blur)="handleInputConfirm()"
+  (keydown.enter)="handleInputConfirm()"
+  [(ngModel)]="inputValue"
+/>
+
+<nz-modal
+  [(nzVisible)]="showCreateRangeModal"
+  [nzWidth]="800"
+  (nzOnOk)="ensureRange()"
+  (nzOnCancel)="showCreateRangeModal = false"
+  nzTitle="添加number"
+>
   <ng-container *nzModalContent>
     <nz-space>
       <nz-input-number-group *nzSpaceItem nzAddOnBefore="min">
-        <nz-input-number [formControl]="rangeMinCtrl" [nzStep]="1"></nz-input-number>
+        <nz-input-number
+          [formControl]="rangeMinCtrl"
+          [nzStep]="1"
+        ></nz-input-number>
       </nz-input-number-group>
       <nz-input-number-group *nzSpaceItem nzAddOnBefore="max">
-        <nz-input-number [formControl]="rangeMaxCtrl" [nzStep]="1"></nz-input-number>
+        <nz-input-number
+          [formControl]="rangeMaxCtrl"
+          [nzStep]="1"
+        ></nz-input-number>
       </nz-input-number-group>
       <nz-input-number-group *nzSpaceItem nzAddOnBefore="step">
-        <nz-input-number [formControl]="rangeStepCtrl" [nzStep]="1"></nz-input-number>
+        <nz-input-number
+          [formControl]="rangeStepCtrl"
+          [nzStep]="1"
+        ></nz-input-number>
       </nz-input-number-group>
     </nz-space>
-
   </ng-container>
 </nz-modal>
