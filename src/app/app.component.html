@@ -1,12 +1,23 @@
 <nz-layout class="app-layout">
-  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="225px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
-    [nzTrigger]="null">
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="225px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+  >
     <div class="sidebar-logo">
       <a routerLink="/">
-        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
       </a>
     </div>
-    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+    <ul
+      nz-menu
+      nzTheme="dark"
+      nzMode="inline"
+      [nzInlineCollapsed]="isCollapsed"
+    >
       <li nz-submenu nzOpen nzTitle="市场" nzIcon="dashboard">
         <ul>
           <li nz-menu-item nzMatchRouter>
@@ -59,11 +70,18 @@
       </li>
     </ul>
   </nz-sider>
-  <nz-layout class="right-layout" [ngStyle]="{marginLeft: isCollapsed ? '80px' : '225px'}">
+  <nz-layout
+    class="right-layout"
+    [ngStyle]="{ marginLeft: isCollapsed ? '80px' : '225px' }"
+  >
     <nz-header>
       <div class="app-header">
         <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-          <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+          <span
+            class="trigger"
+            nz-icon
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          ></span>
         </span>
       </div>
     </nz-header>
@@ -79,20 +97,29 @@
 <toolkit></toolkit>
 <notify-history-drawer></notify-history-drawer>
 
-
 <task-record-modal [showChart]="true">
-  <button nz-button nzType="primary" nzShape="circle"
-    style="position:fixed; bottom: 120px; right: 24px; z-index: 100"><span nz-icon nzType="pie-chart"></span></button>
+  <button
+    nz-button
+    nzType="primary"
+    nzShape="circle"
+    style="position: fixed; bottom: 120px; right: 24px; z-index: 100"
+  >
+    <span nz-icon nzType="pie-chart"></span>
+  </button>
 </task-record-modal>
 <timer-notify-observer-modal></timer-notify-observer-modal>
 <network-checker></network-checker>
 
-
 <cex-token-item-detail [symbol]="'BTCUSDT'" [content]="cexTokenItemTemplate">
 </cex-token-item-detail>
 <ng-template #cexTokenItemTemplate>
-  <button nz-button nzType="primary" nzShape="circle" [title]="'查看 现货详情'"
-    style="position:fixed; top: 24px; right: 184px; z-index: 100">
+  <button
+    nz-button
+    nzType="primary"
+    nzShape="circle"
+    [title]="'查看 现货详情'"
+    style="position: fixed; top: 24px; right: 184px; z-index: 100"
+  >
     <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
   </button>
 </ng-template>
@@ -100,8 +127,29 @@
 <cex-future-item-detail [symbol]="'BTCUSDT'" [content]="cexFutureItemTemplate">
 </cex-future-item-detail>
 <ng-template #cexFutureItemTemplate>
-  <button nz-button nzType="primary" nzShape="circle" [title]="'查看 合约详情'"
-    style="position:fixed; top: 24px; right: 264px; z-index: 100">
+  <button
+    nz-button
+    nzType="primary"
+    nzShape="circle"
+    [title]="'查看 合约详情'"
+    style="position: fixed; top: 24px; right: 264px; z-index: 100"
+  >
     <span nz-icon nzType="line-chart" nzTheme="outline"></span>
+  </button>
+</ng-template>
+
+<cex-token-price-change-statistics
+  [content]="cexTokenPriceChangeStatisticsTemplate"
+>
+</cex-token-price-change-statistics>
+<ng-template #cexTokenPriceChangeStatisticsTemplate>
+  <button
+    nz-button
+    nzType="primary"
+    nzShape="circle"
+    [title]="'查看 涨跌幅统计'"
+    style="position: fixed; top: 24px; right: 344px; z-index: 100"
+  >
+    <span nz-icon nzType="pie-chart" nzTheme="outline"></span>
   </button>
 </ng-template>

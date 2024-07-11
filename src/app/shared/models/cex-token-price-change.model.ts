@@ -15,7 +15,7 @@ export interface CexTokenPriceChange {
   readonly website?: string;
   readonly twitter?: string;
 
-  readonly inDays: number; // 多少天内 [3, 7, 15, 30, 60, 90, 180, 365];
+  readonly inDays: number; // 多少天内 [3, 7, 15, 30, 60, 90, 180, 360, 540];
   readonly currentPrice: number; // 当前价格
 
   readonly currentPriceRelative: number // 当前价格在 最低、最高之间的相对位置 [0, 1] 譬如0.3表示 0代表最低价格 1代表最高价格 0.3代表当前价格

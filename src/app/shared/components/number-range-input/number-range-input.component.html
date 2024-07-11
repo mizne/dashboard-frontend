@@ -1,0 +1,37 @@
+<span class="number-range-input-container">
+  <nz-select
+    [formControl]="leftSelectCtrl"
+    nzAllowClear
+    nzPlaceHolder="选择"
+    style="width: 100px"
+  >
+    <nz-option
+      *ngFor="let item of leftSelectOptions"
+      [nzValue]="item.value"
+      [nzLabel]="item.label"
+    ></nz-option>
+  </nz-select>
+  <nz-input-number
+    [formControl]="leftNumberCtrl"
+    [nzStep]="1"
+    style="margin-left: 4px; width: 70px"
+  ></nz-input-number>
+
+  <nz-select
+    [formControl]="rightSelectCtrl"
+    nzAllowClear
+    nzPlaceHolder="选择"
+    style="width: 100px; margin-left: 4px"
+  >
+    <nz-option
+      *ngFor="let item of rightSelectOptions"
+      [nzValue]="item.value"
+      [nzLabel]="item.label"
+    ></nz-option>
+  </nz-select>
+  <nz-input-number
+    [formControl]="rightNumberCtrl"
+    [nzStep]="1"
+    style="margin-left: 4px; width: 70px"
+  ></nz-input-number>
+</span>

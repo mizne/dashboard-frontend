@@ -17,6 +17,7 @@ import { TimerNotifyObserverModalModule } from 'src/app/modules/timer-notify-obs
 import { TaskRecordModalModule } from 'src/app/modules/task-record-modal';
 import { CexTokenItemDetailModule } from 'src/app/modules/cex-token-item-detail';
 import { CexFutureItemDetailModule } from 'src/app/modules/cex-future-item-detail';
+import { CexTokenPriceChangeStatisticsModule } from 'src/app/modules/cex-token-price-change-statistics';
 
 const ngZorroConfig: NzConfig = {
   notification: { nzPlacement: 'bottomLeft' }
@@ -38,6 +39,7 @@ registerLocaleData(zh);
     TaskRecordModalModule,
     CexTokenItemDetailModule,
     CexFutureItemDetailModule,
+    CexTokenPriceChangeStatisticsModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },

@@ -153,6 +153,7 @@ export class CexTokenAlertComponent implements OnInit {
       if (key === 'name') {
         Object.assign(o, {
           ['$or']: [
+            { name: { $regex: query['name'].trim(), $options: 'i' } },
             { symbol: { $regex: query['name'].trim(), $options: 'i' } },
           ],
         });

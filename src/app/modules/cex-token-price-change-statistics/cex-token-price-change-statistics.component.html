@@ -1,0 +1,247 @@
+<div class="cex-token-price-change-statistics-container" (click)="open()">
+  <ng-container *ngIf="content" [ngTemplateOutlet]="content"></ng-container>
+  <ng-container *ngIf="!content">
+    <button nz-button nzType="primary" [title]="'涨跌幅统计'">
+      涨跌幅统计
+    </button>
+  </ng-container>
+</div>
+
+<nz-modal
+  [(nzVisible)]="visible"
+  [nzWidth]="1200"
+  [nzTitle]="'涨跌幅统计'"
+  [nzFooter]="null"
+  (nzOnCancel)="visible = false"
+>
+  <ng-container *nzModalContent>
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="'涨跌幅分布'" [nzActive]="true">
+        <div
+          class="charts-container"
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+          "
+        >
+          <div *ngFor="let chartData of chartDataItems">
+            <bar-chart [data]="chartData.data" [width]="500"></bar-chart>
+            <p style="text-align: center">{{ chartData.title }}</p>
+          </div>
+        </div>
+      </nz-collapse-panel>
+
+      <nz-collapse-panel [nzHeader]="'当前价位分布'" [nzActive]="false">
+        <div
+          class="charts-container"
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+          "
+        >
+          <div *ngFor="let chartData of chartDataItems2">
+            <bar-chart [data]="chartData.data" [width]="500"></bar-chart>
+            <p style="text-align: center">{{ chartData.title }}</p>
+          </div>
+        </div>
+      </nz-collapse-panel>
+
+      <nz-collapse-panel [nzHeader]="'详细数据'" [nzActive]="false">
+        <form nz-form [formGroup]="form" [nzLayout]="'inline'">
+          <nz-form-item style="margin-bottom: 6px">
+            <nz-form-label nzFor="inDays">几天内</nz-form-label>
+            <nz-form-control>
+              <nz-radio-group formControlName="inDays" nzButtonStyle="solid">
+                <label
+                  nz-radio-button
+                  *ngFor="let item of inDayss"
+                  [nzValue]="item.name"
+                  >{{ item.name }}</label
+                >
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item style="margin-bottom: 6px">
+            <nz-form-label nzFor="symbol">symbol</nz-form-label>
+            <nz-form-control>
+              <input
+                nz-input
+                class="ant-input"
+                placeholder="请输入symbol"
+                formControlName="symbol"
+                [attr.id]="'symbol'"
+              />
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item style="margin-bottom: 6px">
+            <nz-form-label nzFor="priceChangePercent">涨跌幅</nz-form-label>
+            <nz-form-control>
+              <app-number-range-input
+                formControlName="priceChangePercent"
+              ></app-number-range-input>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item style="margin-bottom: 6px">
+            <nz-form-label nzFor="currentPriceRelative">当前价位</nz-form-label>
+            <nz-form-control>
+              <app-number-range-input
+                formControlName="currentPriceRelative"
+              ></app-number-range-input>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="register-area">
+            <nz-form-control>
+              <button
+                nz-button
+                [nzType]="'primary'"
+                type="button"
+                (click)="submitForm()"
+              >
+                搜索
+              </button>
+              <button
+                nz-button
+                type="button"
+                (click)="resetForm()"
+                style="margin-left: 6px"
+              >
+                重置
+              </button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+
+        <nz-card style="margin-top: 12px">
+          <nz-table
+            nzShowSizeChanger
+            [nzData]="items"
+            [nzFrontPagination]="false"
+            [nzLoading]="loading"
+            [nzTotal]="total"
+            [nzShowTotal]="rangeTemplate"
+            [nzPageSize]="pageSize"
+            [nzPageIndex]="pageIndex"
+            (nzQueryParams)="onQueryParamsChange($event)"
+          >
+            <thead>
+              <tr>
+                <th nzColumnKey="symbol">symbol</th>
+                <th
+                  nzColumnKey="priceChangePercent"
+                  [nzSortFn]="true"
+                  [nzSortDirections]="['descend', 'ascend', null]"
+                >
+                  涨跌幅
+                </th>
+                <th
+                  nzColumnKey="currentPriceRelative"
+                  [nzSortFn]="true"
+                  [nzSortDirections]="['descend', 'ascend', null]"
+                >
+                  当前价位
+                </th>
+                <th nzColumnKey="inDays">多少天内</th>
+                <th
+                  nzColumnKey="updatedAt"
+                  [nzSortFn]="true"
+                  [nzSortDirections]="['descend', 'ascend', null]"
+                >
+                  更新时间
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of items">
+                <td
+                  [title]="data.symbol"
+                  style="display: flex; align-items: center"
+                >
+                  <cex-token-symbol-item
+                    [symbol]="data.symbol"
+                    [content]="symbolContent"
+                  ></cex-token-symbol-item>
+                  <ng-template
+                    #symbolContent
+                    let-name="name"
+                    let-logoName="logoName"
+                  >
+                    <image-view
+                      [name]="logoName"
+                      style="margin-right: 4px"
+                    ></image-view>
+                    <span
+                      class="symbol-item-custom-content"
+                      style="font-weight: bold"
+                      >{{ name }}</span
+                    >
+                  </ng-template>
+
+                  <cex-token-item-detail
+                    [symbol]="data.symbol"
+                    [content]="cexTokenItemTemplate"
+                  >
+                  </cex-token-item-detail>
+                  <ng-template #cexTokenItemTemplate>
+                    <button
+                      nz-button
+                      nzType="default"
+                      nzShape="circle"
+                      [title]="'查看 现货详情'"
+                      style="margin-left: 8px"
+                    >
+                      <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
+                    </button>
+                  </ng-template>
+                  <cex-future-item-detail
+                    [symbol]="data.symbol"
+                    [content]="cexFutureItemTemplate"
+                  >
+                  </cex-future-item-detail>
+                  <ng-template #cexFutureItemTemplate>
+                    <button
+                      nz-button
+                      nzType="default"
+                      nzShape="circle"
+                      [title]="'查看 合约详情'"
+                      style="margin-left: 8px"
+                    >
+                      <span
+                        nz-icon
+                        nzType="line-chart"
+                        nzTheme="outline"
+                      ></span>
+                    </button>
+                  </ng-template>
+                </td>
+
+                <td [title]="data.priceChangePercent">
+                  {{ data.priceChangePercent | percent }}
+                </td>
+
+                <td>{{ data.currentPriceRelative }}</td>
+
+                <td>{{ data.inDays }}</td>
+
+                <td>
+                  <created-at [createdAt]="data.updatedAt || 0"></created-at>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+
+          <ng-template #rangeTemplate let-range="range" let-total>
+            {{ range[0] }}-{{ range[1] }} of {{ total }} items
+          </ng-template>
+        </nz-card>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </ng-container>
+</nz-modal>
