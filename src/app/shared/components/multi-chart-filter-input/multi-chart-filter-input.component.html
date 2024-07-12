@@ -1,0 +1,18 @@
+<div class="multi-chart-filter-input-container" style="display: flex">
+  <button nz-button nzType="primary" nzShape="circle" (click)="add()">+</button>
+
+  <div class="multi-chart-filter-input-wrapper" style="margin-left: 4px">
+    <div *ngFor="let ctrl of ctrls" style="display: flex; margin-bottom: 4px">
+      <app-chart-filter-input [formControl]="ctrl"></app-chart-filter-input>
+
+      <button
+        nz-button
+        nzType="default"
+        nzShape="circle"
+        (click)="remove(ctrl)"
+      >
+        -
+      </button>
+    </div>
+  </div>
+</div>

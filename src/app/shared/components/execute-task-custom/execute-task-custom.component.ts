@@ -37,6 +37,10 @@ export class ExecuteTaskCustomComponent implements OnInit {
       label: 'future',
       name: 'cex-future-daily',
     },
+    {
+      label: 'token:only-price-change',
+      name: 'cex-token-daily:only-price-change',
+    },
   ];
 
   intervals = [

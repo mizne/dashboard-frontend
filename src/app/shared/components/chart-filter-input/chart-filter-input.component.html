@@ -1,0 +1,29 @@
+<span class="chart-filter-input-container" style="display: flex">
+  <nz-form-item>
+    <nz-form-label nzFor="label">标题</nz-form-label>
+    <nz-form-control>
+      <input
+        nz-input
+        placeholder="标题"
+        [formControl]="labelCtrl"
+        style="width: 160px"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="filter">条件</nz-form-label>
+    <nz-form-control>
+      <app-number-range-input
+        [formControl]="filterCtrl"
+      ></app-number-range-input>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzFor="color">颜色</nz-form-label>
+    <nz-form-control>
+      <input type="color" [formControl]="colorCtrl" />
+    </nz-form-control>
+  </nz-form-item>
+</span>

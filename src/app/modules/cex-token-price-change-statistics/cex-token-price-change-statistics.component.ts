@@ -77,6 +77,7 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
     symbol: [''],
     priceChangePercent: [null],
     currentPriceRelative: [null],
+    // chartFilter: [[]]
   });
 
   submitForm(): void {
@@ -95,7 +96,9 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    // this.form.get('chartFilter')?.valueChanges.subscribe(v => {
+    //   console.log(`chartFilter: ${JSON.stringify(v, null, 2)}`)
+    // })
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {

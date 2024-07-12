@@ -18,6 +18,8 @@ import { GlobalSettingsComponent } from './global-settings/global-settings.compo
 import { TradingviewChartComponent } from './tradingview-chart/tradingview-chart.component';
 import { ObjectInputComponent } from './object-input/object-input.component';
 import { NumberRangeInputComponent } from './number-range-input/number-range-input.component';
+import { ChartFilterInputComponent } from './chart-filter-input/chart-filter-input.component';
+import { MultiChartFilterInputComponent } from './multi-chart-filter-input/multi-chart-filter-input.component';
 import { WomPegChartComponent } from './wom-peg-chart/wom-peg-chart.component';
 import { StatisticsDefinitionsComponent } from './statistics-definitions/statistics-definitions.component';
 import { StackBarChartComponent } from './stack-bar-chart/stack-bar-chart.component';
@@ -49,6 +51,8 @@ export const components = [
   TradingviewChartComponent,
   ObjectInputComponent,
   NumberRangeInputComponent,
+  ChartFilterInputComponent,
+  MultiChartFilterInputComponent,
   WomPegChartComponent,
   StatisticsDefinitionsComponent,
   StackBarChartComponent,
@@ -81,6 +85,8 @@ export {
   TradingviewChartComponent,
   ObjectInputComponent,
   NumberRangeInputComponent,
+  ChartFilterInputComponent,
+  MultiChartFilterInputComponent,
   WomPegChartComponent,
   StatisticsDefinitionsComponent,
   StackBarChartComponent,
