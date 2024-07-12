@@ -80,6 +80,8 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
     // chartFilter: [[]]
   });
 
+  tagCtrl = new FormControl(null)
+
   submitForm(): void {
     this.pageIndex = 1;
     this.pageSize = 10;
@@ -99,6 +101,12 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
     // this.form.get('chartFilter')?.valueChanges.subscribe(v => {
     //   console.log(`chartFilter: ${JSON.stringify(v, null, 2)}`)
     // })
+
+    this.tagCtrl.valueChanges.subscribe(() => {
+      this.pageIndex = 1;
+      this.pageSize = 10;
+      this.loadDataFromServer();
+    })
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
@@ -241,6 +249,7 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
     this.loading = true;
     this.query = {
       ...removeEmpty(this.form.value),
+      ...(this.tagCtrl.value ? { tags: this.tagCtrl.value } : {})
     };
     this.cexTokenPriceChangeService
       .queryList(

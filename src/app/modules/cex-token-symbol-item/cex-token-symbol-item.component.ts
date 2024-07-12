@@ -31,6 +31,7 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
   _fullname = '';
   _logoName = '';
   _marketCap = 0;
+  _createdAt = 0;
 
   _website = '';
   _twitter = '';
@@ -73,6 +74,8 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
           token.logoName || '';
         this.templateContext['marketCap'] = this._marketCap =
           token.marketCap || 0;
+        this.templateContext['createdAt'] = this._createdAt =
+          token.createdAt || 0;
 
         this.templateContext['website'] = this._website = token.website || '';
         this.templateContext['twitter'] = this._twitter = token.twitter || '';
