@@ -52,8 +52,7 @@ export class OverviewComponent implements OnInit {
     symbol: [''],
   });
 
-  tags: Array<{ label: string; name: string }> = [];
-  tagCtrl = new FormControl('');
+  tagCtrl = new FormControl(null);
 
   status: 'loading' | 'error' | 'success' | '' = '';
 
@@ -89,7 +88,6 @@ export class OverviewComponent implements OnInit {
       this.form.get('latestIntervals')?.patchValue(Number(latestIntervals));
     }
 
-    this.loadTags();
     this.loadDataFromServer();
 
     this.tagCtrl.valueChanges.subscribe(() => {
@@ -175,16 +173,6 @@ export class OverviewComponent implements OnInit {
   }
 
   cancelDelete(item: CexTokenDaily) { }
-
-  private loadTags() {
-    this.cexTokenTagService.queryList().subscribe((items) => {
-      this.tags = [{ label: '全部', name: '' }].concat(
-        items
-          .map((e) => ({ label: e.label, name: e.name }))
-          .filter((e) => e.name !== tokenTagNameOfTotalMarket)
-      );
-    });
-  }
 
   private loadDataFromServer(): void {
     this.loading = true;

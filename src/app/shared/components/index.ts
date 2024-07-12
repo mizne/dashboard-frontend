@@ -29,6 +29,7 @@ import { CexTokenSearchInputComponent } from './cex-token-search-input/cex-token
 import { CollectInputComponent } from './collect-input/collect-input.component';
 import { CexFutureAlertSelectComponent } from './cex-future-alert-select/cex-future-alert-select.component';
 import { CexTokenAlertSelectComponent } from './cex-token-alert-select/cex-token-alert-select.component';
+import { CexTokenTagSelectComponent } from './cex-token-tag-select/cex-token-tag-select.component';
 
 export const components = [
   LinkableComponent,
@@ -62,6 +63,7 @@ export const components = [
   CollectInputComponent,
   CexFutureAlertSelectComponent,
   CexTokenAlertSelectComponent,
+  CexTokenTagSelectComponent,
 ];
 
 export {
@@ -96,6 +98,7 @@ export {
   CollectInputComponent,
   CexFutureAlertSelectComponent,
   CexTokenAlertSelectComponent,
+  CexTokenTagSelectComponent,
 };
 
 export * from './stack-bar-chart/stack-bar-chart.component'

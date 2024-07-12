@@ -1,28 +1,55 @@
 <div class="cex-token-list-container">
-  <button nz-button nzType="primary" (click)="open()" [title]="'查看全部 cex token'">
+  <button
+    nz-button
+    nzType="primary"
+    (click)="open()"
+    [title]="'查看全部 cex token'"
+  >
     CEX Token
   </button>
 </div>
 
-<nz-modal [(nzVisible)]="visible" [nzWidth]="800" [nzTitle]="'全部 cex token'" [nzFooter]="null"
-  (nzOnCancel)="visible=false">
+<nz-modal
+  [(nzVisible)]="visible"
+  [nzWidth]="800"
+  [nzTitle]="'全部 cex token'"
+  [nzFooter]="null"
+  (nzOnCancel)="visible = false"
+>
   <ng-container *nzModalContent>
-
-    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
-
+    <form
+      nz-form
+      [formGroup]="form"
+      (ngSubmit)="submitForm()"
+      [nzLayout]="'inline'"
+    >
       <nz-form-item>
         <nz-form-label nzFor="name">名称</nz-form-label>
         <nz-form-control>
-          <input nz-input class="ant-input" placeholder="请输入名称" formControlName="name" [attr.id]="'name'"
-            style="width: 120px;" />
+          <input
+            nz-input
+            class="ant-input"
+            placeholder="请输入名称"
+            formControlName="name"
+            [attr.id]="'name'"
+            style="width: 120px"
+          />
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
         <nz-form-label nzFor="createdAt">添加时间</nz-form-label>
         <nz-form-control>
-          <nz-select formControlName="createdAt" [attr.id]="'createdAt'" style="width: 100px;">
-            <nz-option *ngFor="let item of createdAtOptions" [nzValue]="item.value" [nzLabel]="item.label"></nz-option>
+          <nz-select
+            formControlName="createdAt"
+            [attr.id]="'createdAt'"
+            style="width: 100px"
+          >
+            <nz-option
+              *ngFor="let item of createdAtOptions"
+              [nzValue]="item.value"
+              [nzLabel]="item.label"
+            ></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
@@ -30,7 +57,11 @@
       <nz-form-item>
         <nz-form-label nzFor="enableNotify">订阅通知</nz-form-label>
         <nz-form-control>
-          <nz-radio-group formControlName="enableNotify" nzSize="small" [nzButtonStyle]="'solid'">
+          <nz-radio-group
+            formControlName="enableNotify"
+            nzSize="small"
+            [nzButtonStyle]="'solid'"
+          >
             <label nz-radio-button [nzValue]="null">所有</label>
             <label nz-radio-button [nzValue]="true">已订阅</label>
             <label nz-radio-button [nzValue]="false">未订阅</label>
@@ -41,50 +72,101 @@
       <nz-form-item class="register-area">
         <nz-form-control>
           <button nz-button [nzType]="'primary'">搜索</button>
-          <button nz-button type="button" (click)="resetForm()" style="margin-left: 6px">重置</button>
+          <button
+            nz-button
+            type="button"
+            (click)="resetForm()"
+            style="margin-left: 6px"
+          >
+            重置
+          </button>
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item class="register-area" style="display: flex;align-items: center;justify-content: center;">
+      <nz-form-item
+        class="register-area"
+        style="display: flex; align-items: center; justify-content: center"
+      >
         <update-time [status]="status"></update-time>
       </nz-form-item>
     </form>
 
-    <div class="tags-container" style="margin-top: 12px;">
-      <nz-radio-group [formControl]="tagCtrl" nzButtonStyle="solid">
-        <label *ngFor="let tag of tags" [nzValue]="tag.name" nz-radio-button>{{tag.label}}</label>
-      </nz-radio-group>
-    </div>
+    <app-cex-token-tag-select
+      [formControl]="tagCtrl"
+      style="margin-top: 12px"
+    ></app-cex-token-tag-select>
 
     <nz-card style="margin-top: 12px">
-      <nz-table nzShowSizeChanger [nzData]="cexTokens" [nzFrontPagination]="false" [nzLoading]="loading"
-        [nzTotal]="total" [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
-        (nzQueryParams)="onQueryParamsChange($event)">
+      <nz-table
+        nzShowSizeChanger
+        [nzData]="cexTokens"
+        [nzFrontPagination]="false"
+        [nzLoading]="loading"
+        [nzTotal]="total"
+        [nzShowTotal]="rangeTemplate"
+        [nzPageSize]="pageSize"
+        [nzPageIndex]="pageIndex"
+        (nzQueryParams)="onQueryParamsChange($event)"
+      >
         <thead>
           <tr>
-            <th nzColumnKey="name">
-              名称
+            <th nzColumnKey="name">名称</th>
+            <th
+              nzColumnKey="marketCap"
+              [nzSortFn]="true"
+              [nzSortDirections]="['descend', 'ascend', null]"
+            >
+              市值
             </th>
-            <th nzColumnKey="marketCap" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">市值</th>
-            <th nzColumnKey="createdAtStr" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">添加时间</th>
+            <th
+              nzColumnKey="createdAtStr"
+              [nzSortFn]="true"
+              [nzSortDirections]="['descend', 'ascend', null]"
+            >
+              添加时间
+            </th>
             <th nzColumnKey="enableNotify">
               订阅通知
-              <span nz-icon nzType="question-circle" nzTheme="outline" title="开启后，该token发生大量或趋势转折时，会通知客户端"
-                style="margin-left: 6px; cursor: pointer;"></span>
+              <span
+                nz-icon
+                nzType="question-circle"
+                nzTheme="outline"
+                title="开启后，该token发生大量或趋势转折时，会通知客户端"
+                style="margin-left: 6px; cursor: pointer"
+              ></span>
             </th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of cexTokens">
-            <td [title]="data.symbol" style="display: flex; align-items: center;">
-              <cex-token-symbol-item [symbol]="data.symbol" [content]="symbolContent"></cex-token-symbol-item>
-              <ng-template #symbolContent let-name="name" let-logoName="logoName">
-                <image-view [name]="logoName" style="margin-right: 4px;"></image-view>
-                <span class="symbol-item-custom-content" style="font-weight: bold">{{name}}</span>
+            <td
+              [title]="data.symbol"
+              style="display: flex; align-items: center"
+            >
+              <cex-token-symbol-item
+                [symbol]="data.symbol"
+                [content]="symbolContent"
+              ></cex-token-symbol-item>
+              <ng-template
+                #symbolContent
+                let-name="name"
+                let-logoName="logoName"
+              >
+                <image-view
+                  [name]="logoName"
+                  style="margin-right: 4px"
+                ></image-view>
+                <span
+                  class="symbol-item-custom-content"
+                  style="font-weight: bold"
+                  >{{ name }}</span
+                >
               </ng-template>
             </td>
 
-            <td [title]="data.marketCap | currency">{{ data.marketCap | currency }}</td>
+            <td [title]="data.marketCap | currency">
+              {{ data.marketCap | currency }}
+            </td>
 
             <td>
               <created-at [createdAt]="data.createdAt"></created-at>

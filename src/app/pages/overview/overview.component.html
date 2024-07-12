@@ -6,13 +6,22 @@
   </nz-collapse>
 
   <nz-card style="margin-top: 12px">
-    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
-
+    <form
+      nz-form
+      [formGroup]="form"
+      (ngSubmit)="submitForm()"
+      [nzLayout]="'inline'"
+    >
       <nz-form-item>
         <nz-form-label nzFor="interval">周期</nz-form-label>
         <nz-form-control>
           <nz-radio-group formControlName="interval" nzButtonStyle="solid">
-            <label nz-radio-button *ngFor="let item of intervals" [nzValue]="item.name">{{item.name}}</label>
+            <label
+              nz-radio-button
+              *ngFor="let item of intervals"
+              [nzValue]="item.name"
+              >{{ item.name }}</label
+            >
           </nz-radio-group>
         </nz-form-control>
       </nz-form-item>
@@ -20,21 +29,38 @@
       <nz-form-item>
         <nz-form-label nzFor="name">名称</nz-form-label>
         <nz-form-control>
-          <input nz-input class="ant-input" placeholder="请输入名称" formControlName="name" [attr.id]="'name'" />
+          <input
+            nz-input
+            class="ant-input"
+            placeholder="请输入名称"
+            formControlName="name"
+            [attr.id]="'name'"
+          />
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzFor="lucky" [nzTooltipTitle]="'开启后，获取交易量放大且均线密集的标的'">运气不错</nz-form-label>
+        <nz-form-label
+          nzFor="lucky"
+          [nzTooltipTitle]="'开启后，获取交易量放大且均线密集的标的'"
+          >运气不错</nz-form-label
+        >
         <nz-form-control>
           <nz-switch formControlName="lucky" [attr.id]="'lucky'"></nz-switch>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzFor="latestIntervals" [nzTooltipTitle]="'填0表示所有'">最近周期数</nz-form-label>
+        <nz-form-label nzFor="latestIntervals" [nzTooltipTitle]="'填0表示所有'"
+          >最近周期数</nz-form-label
+        >
         <nz-form-control>
-          <nz-input-number formControlName="latestIntervals" [attr.id]="'latestIntervals'" [nzMin]="0" [nzStep]="1">
+          <nz-input-number
+            formControlName="latestIntervals"
+            [attr.id]="'latestIntervals'"
+            [nzMin]="0"
+            [nzStep]="1"
+          >
           </nz-input-number>
         </nz-form-control>
       </nz-form-item>
@@ -42,108 +68,224 @@
       <nz-form-item class="register-area">
         <nz-form-control>
           <button nz-button [nzType]="'primary'">搜索</button>
-          <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+          <button
+            nz-button
+            type="button"
+            (click)="resetForm()"
+            style="margin-left: 12px"
+          >
+            重置
+          </button>
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item class="register-area" style="display: flex;align-items: center;justify-content: center;">
+      <nz-form-item
+        class="register-area"
+        style="display: flex; align-items: center; justify-content: center"
+      >
         <update-time [status]="status"></update-time>
       </nz-form-item>
     </form>
   </nz-card>
 
-  <div class="tags-container" style="margin-top: 12px;">
-    <nz-radio-group [formControl]="tagCtrl" nzButtonStyle="solid">
-      <label *ngFor="let tag of tags" [nzValue]="tag.name" nz-radio-button>{{tag.label}}</label>
-    </nz-radio-group>
-  </div>
+  <app-cex-token-tag-select
+    [formControl]="tagCtrl"
+    style="margin-top: 12px"
+  ></app-cex-token-tag-select>
 
-  <div style="margin-top: 12px; display: flex;">
+  <div style="margin-top: 12px; display: flex">
     <cex-token-list></cex-token-list>
-    <cex-token-alert style="margin-left: 12px;"></cex-token-alert>
-    <cex-token-tag-alert style="margin-left: 12px;"></cex-token-tag-alert>
+    <cex-token-alert style="margin-left: 12px"></cex-token-alert>
+    <cex-token-tag-alert style="margin-left: 12px"></cex-token-tag-alert>
   </div>
 
   <nz-card style="margin-top: 12px">
-    <nz-table nzShowSizeChanger [nzData]="cexTokenDailies" [nzFrontPagination]="false" [nzLoading]="loading"
-      [nzTotal]="total" [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
-      (nzQueryParams)="onQueryParamsChange($event)">
+    <nz-table
+      nzShowSizeChanger
+      [nzData]="cexTokenDailies"
+      [nzFrontPagination]="false"
+      [nzLoading]="loading"
+      [nzTotal]="total"
+      [nzShowTotal]="rangeTemplate"
+      [nzPageSize]="pageSize"
+      [nzPageIndex]="pageIndex"
+      (nzQueryParams)="onQueryParamsChange($event)"
+    >
       <thead>
         <tr>
-          <th nzColumnKey="name">
-            名称
+          <th nzColumnKey="name">名称</th>
+          <th
+            nzColumnKey="marketCap"
+            [nzSortFn]="true"
+            [nzSortDirections]="['descend', 'ascend', null]"
+          >
+            市值
           </th>
-          <th nzColumnKey="marketCap" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">市值</th>
-          <th nzColumnKey="price" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">价格</th>
-          <th nzColumnKey="volume" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">交易量</th>
+          <th
+            nzColumnKey="price"
+            [nzSortFn]="true"
+            [nzSortDirections]="['descend', 'ascend', null]"
+          >
+            价格
+          </th>
+          <th
+            nzColumnKey="volume"
+            [nzSortFn]="true"
+            [nzSortDirections]="['descend', 'ascend', null]"
+          >
+            交易量
+          </th>
 
           <th nzColumnKey="priceChange">price delta 60</th>
-          <th nzColumnKey="volumeMultiple" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">volume
-            delta 60</th>
+          <th
+            nzColumnKey="volumeMultiple"
+            [nzSortFn]="true"
+            [nzSortDirections]="['descend', 'ascend', null]"
+          >
+            volume delta 60
+          </th>
 
-          <th nzColumnKey="emaCompressionRelative" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">
-            均线密集度</th>
+          <th
+            nzColumnKey="emaCompressionRelative"
+            [nzSortFn]="true"
+            [nzSortDirections]="['descend', 'ascend', null]"
+          >
+            均线密集度
+          </th>
           <th nzColumnKey="closeDeltaEma">C/S - S/M - M/L</th>
 
-          <th nzColumnKey="timeStr" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">周期时间</th>
-          <th nzColumnKey="createdAtStr" [nzSortFn]="true" [nzSortDirections]="['descend', 'ascend', null]">添加时间</th>
+          <th
+            nzColumnKey="timeStr"
+            [nzSortFn]="true"
+            [nzSortDirections]="['descend', 'ascend', null]"
+          >
+            周期时间
+          </th>
+          <th
+            nzColumnKey="createdAtStr"
+            [nzSortFn]="true"
+            [nzSortDirections]="['descend', 'ascend', null]"
+          >
+            添加时间
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of cexTokenDailies">
-          <td [title]="data.symbol + ' - ' + data.fullname" style="display: flex; align-items: center; height: 80px;">
-            <cex-token-symbol-item [symbol]="data.symbol" [content]="symbolContent"></cex-token-symbol-item>
+          <td
+            [title]="data.symbol + ' - ' + data.fullname"
+            style="display: flex; align-items: center; height: 80px"
+          >
+            <cex-token-symbol-item
+              [symbol]="data.symbol"
+              [content]="symbolContent"
+            ></cex-token-symbol-item>
             <ng-template #symbolContent let-name="name" let-logoName="logoName">
-              <image-view [name]="logoName" style="margin-right: 4px;"></image-view>
-              <span class="symbol-item-custom-content" style="font-weight: bold">{{name}}</span>
+              <image-view
+                [name]="logoName"
+                style="margin-right: 4px"
+              ></image-view>
+              <span
+                class="symbol-item-custom-content"
+                style="font-weight: bold"
+                >{{ name }}</span
+              >
             </ng-template>
           </td>
-          <td [title]="data.marketCap | currency">{{ data.marketCap | currency }}</td>
+          <td [title]="data.marketCap | currency">
+            {{ data.marketCap | currency }}
+          </td>
           <td [title]="data.price | currency">{{ data.price | currency }}</td>
           <td [title]="data.volume | currency">{{ data.volume | currency }}</td>
 
           <td [ngStyle]="genTdStyle()">
-            <small-chart [priceMode]="true" [data]="data.prices60Interval" [title]="data.symbol + ' price'"
-              [interval]="data.interval" [time]="data.time"></small-chart>
+            <small-chart
+              [priceMode]="true"
+              [data]="data.prices60Interval"
+              [title]="data.symbol + ' price'"
+              [interval]="data.interval"
+              [time]="data.time"
+            ></small-chart>
           </td>
 
           <td style="position: relative">
-            <small-chart [data]="data.volumes60Interval" [title]="data.symbol + ' volume'" type="bar"
-              [interval]="data.interval" [time]="data.time">
+            <small-chart
+              [data]="data.volumes60Interval"
+              [title]="data.symbol + ' volume'"
+              type="bar"
+              [interval]="data.interval"
+              [time]="data.time"
+            >
             </small-chart>
-            <nz-tag *ngIf="data.volumeMultiple >= 3; else normalVolume" nzColor="error" nz-tooltip
-              [nzTooltipTitle]="'相对于' + data.volumeIntervals + '周期平均交易量倍数'" style="position: absolute;
-              top: 10px;">{{data.volumeMultiple |
-              percent}}</nz-tag>
+            <nz-tag
+              *ngIf="data.volumeMultiple >= 3; else normalVolume"
+              nzColor="error"
+              nz-tooltip
+              [nzTooltipTitle]="
+                '相对于' + data.volumeIntervals + '周期平均交易量倍数'
+              "
+              style="position: absolute; top: 10px"
+              >{{ data.volumeMultiple | percent }}</nz-tag
+            >
 
             <ng-template #normalVolume>
-              <nz-tag nzColor="default" nz-tooltip [nzTooltipTitle]="'相对于' + data.volumeIntervals + '周期平均交易量倍数'" style="position: absolute;
-              top: 10px;">
-                {{data.volumeMultiple | percent}}</nz-tag>
+              <nz-tag
+                nzColor="default"
+                nz-tooltip
+                [nzTooltipTitle]="
+                  '相对于' + data.volumeIntervals + '周期平均交易量倍数'
+                "
+                style="position: absolute; top: 10px"
+              >
+                {{ data.volumeMultiple | percent }}</nz-tag
+              >
             </ng-template>
           </td>
 
-
           <td>
-            <nz-tag *ngIf="data.emaCompressionRelative >= 0.9; else normalEmaCompressionRelative" nzColor="error"
-              nz-tooltip [nzTooltipTitle]="'越大表示越密集; 一般认为90%以上表示密集'">{{(data.emaCompressionRelative) |
-              percent}}</nz-tag>
+            <nz-tag
+              *ngIf="
+                data.emaCompressionRelative >= 0.9;
+                else normalEmaCompressionRelative
+              "
+              nzColor="error"
+              nz-tooltip
+              [nzTooltipTitle]="'越大表示越密集; 一般认为90%以上表示密集'"
+              >{{ data.emaCompressionRelative | percent }}</nz-tag
+            >
 
             <ng-template #normalEmaCompressionRelative>
-              <nz-tag nzColor="default" nz-tooltip [nzTooltipTitle]="'越大表示越密集; 一般认为90%以上表示密集'">
-                {{(data.emaCompressionRelative) | percent}}</nz-tag>
+              <nz-tag
+                nzColor="default"
+                nz-tooltip
+                [nzTooltipTitle]="'越大表示越密集; 一般认为90%以上表示密集'"
+              >
+                {{ data.emaCompressionRelative | percent }}</nz-tag
+              >
             </ng-template>
           </td>
 
           <td [ngStyle]="genTdStyle()">
-            <div style="display: flex; justify-content: center; align-items: center">
-              <div [ngStyle]="genDataStyle(data.closeDeltaEma21)">{{data.closeDeltaEma21 | percent}}</div>
-              <div [ngStyle]="genDataStyle(data.ema21DeltaEma55)">{{data.ema21DeltaEma55 | percent}}</div>
-              <div [ngStyle]="genDataStyle(data.ema55DeltaEma144)">{{data.ema55DeltaEma144 | percent}}</div>
+            <div
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <div [ngStyle]="genDataStyle(data.closeDeltaEma21)">
+                {{ data.closeDeltaEma21 | percent }}
+              </div>
+              <div [ngStyle]="genDataStyle(data.ema21DeltaEma55)">
+                {{ data.ema21DeltaEma55 | percent }}
+              </div>
+              <div [ngStyle]="genDataStyle(data.ema55DeltaEma144)">
+                {{ data.ema55DeltaEma144 | percent }}
+              </div>
             </div>
           </td>
 
-          <td>{{data.time | date:'MM/dd HH:mm'}}</td>
+          <td>{{ data.time | date : "MM/dd HH:mm" }}</td>
 
           <td>
             <created-at [createdAt]="data.createdAt"></created-at>

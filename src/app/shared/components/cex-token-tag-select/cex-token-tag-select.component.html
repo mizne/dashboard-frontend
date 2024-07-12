@@ -1,0 +1,7 @@
+<div class="cex-token-tag-select-container">
+  <nz-radio-group [formControl]="tagCtrl" nzButtonStyle="solid">
+    <label *ngFor="let tag of tags" [nzValue]="tag.name" nz-radio-button>{{
+      tag.label
+    }}</label>
+  </nz-radio-group>
+</div>

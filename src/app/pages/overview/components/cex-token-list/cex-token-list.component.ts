@@ -65,8 +65,7 @@ export class CexTokenListComponent implements OnInit {
     },
   ];
 
-  tags: Array<{ label: string; name: string }> = [];
-  tagCtrl = new FormControl('');
+  tagCtrl = new FormControl(null);
 
   status: 'loading' | 'error' | 'success' | '' = '';
 
@@ -120,16 +119,6 @@ export class CexTokenListComponent implements OnInit {
   }
 
   cancelDelete(item: TableItem) { }
-
-  private loadTags() {
-    this.cexTokenTagService.queryList().subscribe((items) => {
-      this.tags = [{ label: '全部', name: '' }].concat(
-        items
-          .map((e) => ({ label: e.label, name: e.name }))
-          .filter((e) => e.name !== tokenTagNameOfTotalMarket)
-      );
-    });
-  }
 
   private loadDataFromServer(): void {
     this.loading = true;
@@ -250,7 +239,6 @@ export class CexTokenListComponent implements OnInit {
 
   open(): void {
     this.visible = true;
-    this.loadTags();
     this.loadDataFromServer();
   }
 
