@@ -75,16 +75,6 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
     },
   ];
 
-  chartDataItems: Array<{
-    title: string;
-    data: Array<{ label: string; value: number; color: string; }>
-  }> = []
-
-  chartDataItems2: Array<{
-    title: string;
-    data: Array<{ label: string; value: number; color: string; }>
-  }> = []
-
   form = this.fb.group({
     inDays: [this.inDayss[3].name],
     symbol: [''],
@@ -148,115 +138,6 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
 
   cancelDelete(item: CexTokenPriceChange) { }
 
-  private async loadChartData() {
-    const chartDataItems: Array<{
-      title: string;
-      data: Array<{ label: string; value: number; color: string; }>
-    }> = [];
-
-    for (const inDays of this.inDayss) {
-      const items = await lastValueFrom(this.cexTokenPriceChangeService.queryList({ inDays: inDays.name }))
-      const chartData = {
-        title: `${inDays.name} 天`,
-        data: [
-          {
-            label: '跌 >=90%',
-            value: items.filter(e => e.priceChangePercent <= -0.9).length,
-            color: '#7C0902'
-          },
-          {
-            label: '跌 [50%,90%)',
-            value: items.filter(e => e.priceChangePercent > -0.9 && e.priceChangePercent <= -0.5).length,
-            color: '#AB274F'
-          },
-          {
-            label: '跌 [20%,50%)',
-            value: items.filter(e => e.priceChangePercent > -0.5 && e.priceChangePercent <= -0.2).length,
-            color: '#FE6F5E'
-          },
-          {
-            label: '跌 [0,20%)',
-            value: items.filter(e => e.priceChangePercent > -0.2 && e.priceChangePercent <= 0).length,
-            color: '#FDBCB4'
-          },
-          {
-            label: '涨 (0,100%]',
-            value: items.filter(e => e.priceChangePercent > 0 && e.priceChangePercent <= 1.0).length,
-            color: '#ACE1AF'
-          },
-          {
-            label: '涨 (100%,500%]',
-            value: items.filter(e => e.priceChangePercent > 1.0 && e.priceChangePercent <= 5.0).length,
-            color: '#50C878'
-          },
-          {
-            label: '涨 (500%,1000%]',
-            value: items.filter(e => e.priceChangePercent > 5.0 && e.priceChangePercent <= 10.0).length,
-            color: '#177245'
-          },
-          {
-            label: '涨 >1000%',
-            value: items.filter(e => e.priceChangePercent > 10.0).length,
-            color: '#013220'
-          }
-        ].filter(e => e.value > 0)
-      }
-
-      if (chartData.data.length > 0) {
-        chartDataItems.push(chartData)
-      }
-    }
-
-    this.chartDataItems = chartDataItems;
-  }
-
-  private async loadChartData2() {
-    const chartDataItems: Array<{
-      title: string;
-      data: Array<{ label: string; value: number; color: string; }>
-    }> = [];
-
-    for (const inDays of this.inDayss) {
-      const items = await lastValueFrom(this.cexTokenPriceChangeService.queryList({ inDays: inDays.name }))
-      const chartData = {
-        title: `${inDays.name} 天`,
-        data: [
-          {
-            label: '[0, 0.2)',
-            value: items.filter(e => e.currentPriceRelative >= 0 && e.currentPriceRelative < 0.2).length,
-            color: '#7C0902'
-          },
-          {
-            label: '[0.2, 0.4)',
-            value: items.filter(e => e.currentPriceRelative >= 0.2 && e.currentPriceRelative < 0.4).length,
-            color: '#AB274F'
-          },
-
-          {
-            label: '[0.4, 0.6)',
-            value: items.filter(e => e.currentPriceRelative >= 0.4 && e.currentPriceRelative < 0.6).length,
-            color: '#50C878'
-          },
-          {
-            label: '[0.6, 0.8)',
-            value: items.filter(e => e.currentPriceRelative >= 0.6 && e.currentPriceRelative < 0.8).length,
-            color: '#177245'
-          },
-          {
-            label: '[0.8, 1.0]',
-            value: items.filter(e => e.currentPriceRelative >= 0.8 && e.currentPriceRelative <= 1).length,
-            color: '#013220'
-          }
-        ].filter(e => e.value > 0)
-      }
-
-      if (chartData.data.length > 0) {
-        chartDataItems.push(chartData)
-      }
-    }
-
-    this.chartDataItems2 = chartDataItems;
-  }
 
   private loadDataFromServer(): void {
     this.loading = true;
@@ -335,9 +216,6 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
   open(): void {
     this.visible = true;
     this.loadDataFromServer();
-
-    this.loadChartData()
-    this.loadChartData2()
   }
 
   close(): void {

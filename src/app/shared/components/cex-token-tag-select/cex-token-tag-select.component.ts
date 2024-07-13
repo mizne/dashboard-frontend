@@ -26,6 +26,7 @@ export class CexTokenTagSelectComponent implements ControlValueAccessor, OnDestr
 
   tags: Array<{ label: string; name: string }> = [];
   tagCtrl = new FormControl('');
+  loading = false;
 
   constructor(
     private readonly cexTokenTagService: CexTokenTagService,
@@ -57,7 +58,9 @@ export class CexTokenTagSelectComponent implements ControlValueAccessor, OnDestr
   }
 
   private loadTags() {
+    this.loading = true
     this.cexTokenTagService.queryList().subscribe((items) => {
+      this.loading = false;
       this.tags = [{ label: '全部', name: '' }].concat(
         items
           .map((e) => ({ label: e.label, name: e.name }))

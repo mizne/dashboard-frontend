@@ -17,37 +17,11 @@
   <ng-container *nzModalContent>
     <nz-collapse>
       <nz-collapse-panel [nzHeader]="'涨跌幅分布'" [nzActive]="true">
-        <div
-          class="charts-container"
-          style="
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-          "
-        >
-          <div *ngFor="let chartData of chartDataItems">
-            <bar-chart [data]="chartData.data" [width]="500"></bar-chart>
-            <p style="text-align: center">{{ chartData.title }}</p>
-          </div>
-        </div>
+        <price-change-chart></price-change-chart>
       </nz-collapse-panel>
 
       <nz-collapse-panel [nzHeader]="'当前价位分布'" [nzActive]="false">
-        <div
-          class="charts-container"
-          style="
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-          "
-        >
-          <div *ngFor="let chartData of chartDataItems2">
-            <bar-chart [data]="chartData.data" [width]="500"></bar-chart>
-            <p style="text-align: center">{{ chartData.title }}</p>
-          </div>
-        </div>
+        <price-relative-chart></price-relative-chart>
       </nz-collapse-panel>
 
       <nz-collapse-panel [nzHeader]="'详细数据'" [nzActive]="false">

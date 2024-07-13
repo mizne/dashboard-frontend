@@ -5,6 +5,8 @@ import { CexTokenSymbolItemModule } from 'src/app/modules/cex-token-symbol-item'
 import { CexTokenItemDetailModule } from 'src/app/modules/cex-token-item-detail'
 import { CexFutureItemDetailModule } from 'src/app/modules/cex-future-item-detail'
 
+import { components } from './components/index'
+
 @NgModule({
   imports: [
     SharedModule,
@@ -13,7 +15,7 @@ import { CexFutureItemDetailModule } from 'src/app/modules/cex-future-item-detai
     CexFutureItemDetailModule
   ],
   exports: [CexTokenPriceChangeStatisticsComponent],
-  declarations: [CexTokenPriceChangeStatisticsComponent],
+  declarations: [CexTokenPriceChangeStatisticsComponent, ...components],
   providers: [],
 })
 export class CexTokenPriceChangeStatisticsModule { }
