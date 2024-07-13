@@ -35,6 +35,7 @@ export class HookService implements NotifyObserverTypeServiceInterface {
   resolveDesc(item: NotifyObserver): string {
     const infos = [
       item.hookNotifyShowDesc || '',
+      item.hookType
     ]
     return infos.filter(e => !!e).join(' ')
   }
