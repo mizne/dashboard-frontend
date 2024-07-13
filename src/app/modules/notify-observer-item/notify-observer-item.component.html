@@ -1,29 +1,59 @@
-<nz-card *ngIf="item && mode==='default'" class="notify-observer-item-container" [ngStyle]="{width: width+'px'}"
-  [nzTitle]="item.notifyShowTitle || '【默认通知标题】'" [nzExtra]="extraTemplate">
-  <p style="display: flex; align-items: center; justify-content: space-between;">
-
+<nz-card
+  *ngIf="item && mode === 'default'"
+  class="notify-observer-item-container"
+  [ngStyle]="{ width: width + 'px' }"
+  [nzTitle]="item.notifyShowTitle || '【默认通知标题】'"
+  [nzExtra]="extraTemplate"
+>
+  <p style="display: flex; align-items: center; justify-content: space-between">
     <ng-container *ngIf="item.followedProjectIDCtrl">
-      <image-view *ngIf="item.followedProjectLogo; else noLogo" [width]="32" [name]="item.followedProjectLogo"
-        style="cursor: pointer" nz-popover nzPopoverTrigger="click" [nzPopoverContent]="contentTemplate"></image-view>
+      <image-view
+        *ngIf="item.followedProjectLogo; else noLogo"
+        [width]="32"
+        [name]="item.followedProjectLogo"
+        style="cursor: pointer"
+        nz-popover
+        nzPopoverTrigger="click"
+        [nzPopoverContent]="contentTemplate"
+      ></image-view>
 
       <ng-template #noLogo>
-        <button nz-button nzType="primary" nzShape="circle" nz-popover nzPopoverTrigger="click"
-          [nzPopoverContent]="contentTemplate">
+        <button
+          nz-button
+          nzType="primary"
+          nzShape="circle"
+          nz-popover
+          nzPopoverTrigger="click"
+          [nzPopoverContent]="contentTemplate"
+        >
           <span nz-icon nzType="project" nzTheme="outline"></span>
         </button>
       </ng-template>
     </ng-container>
 
-    <button *ngIf="item.followedProjectID" nz-button nzSize="small" nzType="primary" nzShape="circle"
-      style="margin-left: 8px" (click)="toSearch()" title="搜索该项目通知源">
+    <button
+      *ngIf="item.followedProjectID"
+      nz-button
+      nzSize="small"
+      nzType="primary"
+      nzShape="circle"
+      style="margin-left: 8px"
+      (click)="toSearch()"
+      title="搜索该项目通知源"
+    >
       <span nz-icon nzType="search" nzTheme="outline"></span>
     </button>
     <ng-template #contentTemplate>
-      <followed-project-select-view *ngIf="item.followedProjectIDCtrl"
-        [formControl]="item.followedProjectIDCtrl"></followed-project-select-view>
+      <followed-project-select-view
+        *ngIf="item.followedProjectIDCtrl"
+        [formControl]="item.followedProjectIDCtrl"
+      ></followed-project-select-view>
     </ng-template>
 
-    <nz-tag *ngIf="item.enableTracking; else disableTrackingTpl" nzColor="success">
+    <nz-tag
+      *ngIf="item.enableTracking; else disableTrackingTpl"
+      nzColor="success"
+    >
       <i nz-icon nzType="check-circle"></i>
       <span>已开启</span>
     </nz-tag>
@@ -36,66 +66,140 @@
 
     <nz-switch [formControl]="item.enableTrackingCtrl"></nz-switch>
 
-    <span *ngIf="item.enableTelegram" title="通知到telegram" nz-icon nzType="send" nzTheme="outline"
-      style="color: #1890ff;transform: rotate(310deg) scale(1.2);"></span>
+    <span
+      *ngIf="item.enableTelegram"
+      title="通知到telegram"
+      nz-icon
+      nzType="send"
+      nzTheme="outline"
+      style="color: #1890ff; transform: rotate(310deg) scale(1.2)"
+    ></span>
   </p>
 
-  <p nz-typography nzEllipsis [nzEllipsisRows]="2" nzCopyable [nzContent]="resolveDesc(item)">
-  </p>
+  <p
+    nz-typography
+    nzEllipsis
+    [nzEllipsisRows]="2"
+    nzCopyable
+    [nzContent]="resolveDesc(item)"
+  ></p>
 
-  <div style="display: flex;justify-content: space-between;align-items: center;">
-    <linkable [href]="resolveHref(item)" [content]="defaultLogo">
-    </linkable>
-    <span *ngIf="item.timerOnce" title="一次性通知" nz-icon nzType="minus-circle" [nzTheme]="'twotone'"
-      [nzTwotoneColor]="'#eb2f96'" style="transform: rotate(90deg);"></span>
+  <div
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <linkable [href]="resolveHref(item)" [content]="defaultLogo"> </linkable>
+    <span
+      *ngIf="item.timerOnce || item.hookOnce"
+      title="一次性通知"
+      nz-icon
+      nzType="minus-circle"
+      [nzTheme]="'twotone'"
+      [nzTwotoneColor]="'#eb2f96'"
+      style="transform: rotate(90deg)"
+    ></span>
 
     <span>
-      <notify-history-modal [title]="'通知历史 - ' + item.notifyShowTitle"
-        [condition]="{notifyObserverID: item._id}"></notify-history-modal>
+      <notify-history-modal
+        [title]="'通知历史 - ' + item.notifyShowTitle"
+        [condition]="{ notifyObserverID: item._id }"
+      ></notify-history-modal>
 
-      <span style="cursor: pointer; margin-left: 12px;">
+      <span style="cursor: pointer; margin-left: 12px">
         <task-record-modal [condition]="genTaskRecordCondition(item)">
-          <span nz-icon nzType="pie-chart" nzTheme="outline" [title]="'任务执行统计'">
+          <span
+            nz-icon
+            nzType="pie-chart"
+            nzTheme="outline"
+            [title]="'任务执行统计'"
+          >
           </span>
         </task-record-modal>
       </span>
 
-      <span *ngIf="!!item.timerEnableScript && !!item.timerEnableStatistics" nz-icon nzType="line-chart"
-        nzTheme="outline" [title]="'统计数据'" (click)="toShowStatistics()"
-        style="cursor: pointer; margin-left: 12px;"></span>
+      <span
+        *ngIf="showStatisticsIconGetter()"
+        nz-icon
+        nzType="line-chart"
+        nzTheme="outline"
+        [title]="'统计数据'"
+        (click)="toShowStatistics()"
+        style="cursor: pointer; margin-left: 12px"
+      ></span>
 
-      <span *ngIf="!!item.timerEnableScript && !!item.timerEnableStatistics" nz-icon nzType="play-circle"
-        nzTheme="outline" [title]="'立即执行'" nz-popconfirm nzPopconfirmTitle="确认立即执行?" nzPopconfirmPlacement="bottom"
-        (nzOnConfirm)="confirmTimerExecute()" style="cursor: pointer; margin-left: 12px;"></span>
+      <span
+        *ngIf="showExecuteIconGetter()"
+        nz-icon
+        nzType="play-circle"
+        nzTheme="outline"
+        [title]="'立即执行'"
+        nz-popconfirm
+        nzPopconfirmTitle="确认立即执行?"
+        nzPopconfirmPlacement="bottom"
+        (nzOnConfirm)="confirmTimerExecute()"
+        style="cursor: pointer; margin-left: 12px"
+      ></span>
     </span>
 
     <created-at [createdAt]="item.createdAt"></created-at>
   </div>
-
 </nz-card>
 <ng-template #extraTemplate>
-  <button *ngIf="enableCopy" nz-button nzType="primary" nzShape="circle" (click)="confirmCopy()"><span nz-icon
-      nzType="copy"></span></button>
+  <button
+    *ngIf="enableCopy"
+    nz-button
+    nzType="primary"
+    nzShape="circle"
+    (click)="confirmCopy()"
+  >
+    <span nz-icon nzType="copy"></span>
+  </button>
 
-  <button *ngIf="enableEdit" style="margin-left: 6px" nz-button nzType="primary" nzShape="circle"
-    (click)="confirmUpdate()"><span nz-icon nzType="edit"></span></button>
+  <button
+    *ngIf="enableEdit"
+    style="margin-left: 6px"
+    nz-button
+    nzType="primary"
+    nzShape="circle"
+    (click)="confirmUpdate()"
+  >
+    <span nz-icon nzType="edit"></span>
+  </button>
 
-  <button *ngIf="enableDelete" style="margin-left: 6px" nz-button nzType="primary" nzDanger nzShape="circle"
-    nz-popconfirm nzPopconfirmTitle="确认删除该通知源?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="confirmDelete()"><span
-      nz-icon nzType="delete"></span></button>
+  <button
+    *ngIf="enableDelete"
+    style="margin-left: 6px"
+    nz-button
+    nzType="primary"
+    nzDanger
+    nzShape="circle"
+    nz-popconfirm
+    nzPopconfirmTitle="确认删除该通知源?"
+    nzPopconfirmPlacement="bottom"
+    (nzOnConfirm)="confirmDelete()"
+  >
+    <span nz-icon nzType="delete"></span>
+  </button>
 </ng-template>
 <ng-template #defaultLogo>
   <image-view [width]="32" [name]="item?.logo"></image-view>
 </ng-template>
 
-<linkable *ngIf="item && mode==='small'" [title]="item.notifyShowTitle" [href]=" resolveHref(item)"
-  [content]="defaultLogo">
+<linkable
+  *ngIf="item && mode === 'small'"
+  [title]="item.notifyShowTitle"
+  [href]="resolveHref(item)"
+  [content]="defaultLogo"
+>
 </linkable>
 
-
-<nz-modal [(nzVisible)]="showStatisticsModal" [nzWidth]="1200" [nzFooter]="null"
-  (nzOnCancel)="showStatisticsModal=false" [nzTitle]="'统计数据 - ' + item?.notifyShowTitle">
+<nz-modal
+  [(nzVisible)]="showStatisticsModal"
+  [nzWidth]="1200"
+  [nzFooter]="null"
+  (nzOnCancel)="showStatisticsModal = false"
+  [nzTitle]="'统计数据 - ' + item?.notifyShowTitle"
+>
   <ng-container *nzModalContent>
-    <statistics-chart [definitions]="item?.timerStatisticsDefinitions || []"></statistics-chart>
+    <statistics-chart [definitions]="definitionsGetter()"></statistics-chart>
   </ng-container>
 </nz-modal>

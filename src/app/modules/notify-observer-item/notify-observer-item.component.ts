@@ -55,6 +55,16 @@ export class NotifyObserverItemComponent implements OnInit {
     return this.notifyObserverTypeService.resolveDesc(item)
   }
 
+  showStatisticsIconGetter() {
+    return (this.item?.type === NotifyObserverTypes.TIMER && !!this.item?.timerEnableScript && !!this.item?.timerEnableStatistics) ||
+      (this.item?.type === NotifyObserverTypes.HOOK && !!this.item?.hookEnableScript && !!this.item?.hookEnableStatistics)
+  }
+
+  showExecuteIconGetter() {
+    return this.item?.type === NotifyObserverTypes.TIMER && !!this.item?.timerEnableScript && !!this.item?.timerEnableStatistics
+
+  }
+
   genTaskRecordCondition(item: TableItem): any {
     const cond = genTaskRecordCondition(item.type)
     if (item.type === NotifyObserverTypes.TIMER) {
@@ -97,14 +107,24 @@ export class NotifyObserverItemComponent implements OnInit {
     this.search.emit();
   }
 
-
-
-
   toShowStatistics() {
-    if (this.item?.timerStatisticsDefinitions && this.item.timerStatisticsDefinitions.length > 0) {
+    if (
+      (this.item?.timerStatisticsDefinitions && this.item.timerStatisticsDefinitions.length > 0)
+      || this.item?.hookStatisticsDefinitions && this.item.hookStatisticsDefinitions.length > 0
+    ) {
       this.showStatisticsModal = true;
     } else {
       this.nzNotificationService.warning(`还没有统计表定义`, `还没有统计表定义`)
     }
+  }
+
+  definitionsGetter() {
+    if (this.item?.type === NotifyObserverTypes.TIMER) {
+      return this.item?.timerStatisticsDefinitions || []
+    }
+    if (this.item?.type === NotifyObserverTypes.HOOK) {
+      return this.item?.hookStatisticsDefinitions || []
+    }
+    return []
   }
 }

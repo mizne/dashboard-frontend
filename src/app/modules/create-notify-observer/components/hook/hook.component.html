@@ -1,0 +1,229 @@
+<div class="create-hook-notify-observer-container">
+  <form nz-form [formGroup]="data">
+    <nz-form-item>
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="hookType"
+        nzTooltipTitle="钩子类型"
+      >
+        <span>钩子类型</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-radio-group formControlName="hookType" nzButtonStyle="solid">
+          <label
+            nz-radio-button
+            *ngFor="let item of hookTypes"
+            [nzValue]="item.value"
+            >{{ item.label }}</label
+          >
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzTooltipTitle="开启后，使用脚本获取通知内容"
+      >
+        <span>开启脚本</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-switch formControlName="hookEnableScript"></nz-switch>
+
+        <button
+          *ngIf="!!data.get('hookEnableScript')?.value"
+          style="margin-left: 12px"
+          [title]="'复制Blog脚本模板'"
+          nz-button
+          nzType="default"
+          nzShape="circle"
+          ngxClipboard
+          [cbContent]="scriptTemplate"
+          (cbOnSuccess)="copyScriptTemplateSucces($event)"
+          (cbOnError)="copyScriptTemplateError($event)"
+        >
+          <span nz-icon nzType="copy"></span>
+        </button>
+
+        <button
+          *ngIf="!!data.get('hookEnableScript')?.value"
+          style="margin-left: 12px"
+          [title]="'复制Gitbook脚本模板'"
+          nz-button
+          nzType="default"
+          nzShape="circle"
+          ngxClipboard
+          [cbContent]="scriptTemplateGitbook"
+          (cbOnSuccess)="copyScriptTemplateSucces($event)"
+          (cbOnError)="copyScriptTemplateError($event)"
+        >
+          <span nz-icon nzType="copy"></span>
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="data.get('hookEnableScript')?.value">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzTooltipTitle="开启后，数据也会写入统计表"
+      >
+        <span>开启统计数据</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-switch formControlName="hookEnableStatistics"></nz-switch>
+
+        <button
+          *ngIf="!!data.get('hookEnableStatistics')?.value"
+          style="margin-left: 12px"
+          [title]="'复制脚本模板'"
+          nz-button
+          nzType="default"
+          nzShape="circle"
+          ngxClipboard
+          [cbContent]="scriptTemplateWithEnableStatistics"
+          (cbOnSuccess)="copyScriptTemplateSucces($event)"
+          (cbOnError)="copyScriptTemplateError($event)"
+        >
+          <span nz-icon nzType="copy"></span>
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="data.get('hookEnableStatistics')?.value">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        [nzTooltipTitle]="'统计表定义 最多 ' + maxFieldsCount + '个 字段'"
+      >
+        <span>统计表定义</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-statistics-definitions
+          formControlName="hookStatisticsDefinitions"
+        ></app-statistics-definitions>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="data.get('hookEnableScript')?.value">
+      <nz-form-label [nzSpan]="4" nzFor="hookScript" nzTooltipTitle="script">
+        <span>script</span>
+      </nz-form-label>
+      <nz-form-control [nzSpan]="20">
+        <ngx-monaco-editor
+          style="height: 400px"
+          [options]="editorOptions"
+          formControlName="hookScript"
+        ></ngx-monaco-editor>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="data.get('hookEnableScript')?.value">
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="testing">
+        <span>testing</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <div style="display: flex; justify-content: center">
+          <button
+            nz-button
+            nzType="primary"
+            [nzLoading]="testing"
+            (click)="tester()"
+          >
+            Test
+          </button>
+        </div>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="!data.get('hookEnableScript')?.value">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="hookNotifyShowDesc"
+        nzTooltipTitle="通知显示详情"
+      >
+        <span>通知显示详情</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea
+          nz-input
+          class="ant-input"
+          id="hookNotifyShowDesc"
+          formControlName="hookNotifyShowDesc"
+        ></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="!data.get('hookEnableScript')?.value">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="hookNotifyShowUrl"
+        nzTooltipTitle="通知跳转链接"
+      >
+        <span>通知跳转链接</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea
+          nz-input
+          class="ant-input"
+          id="hookNotifyShowUrl"
+          formControlName="hookNotifyShowUrl"
+        ></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzTooltipTitle="开启后，通知完毕则删除通知源"
+      >
+        <span>一次性通知</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-switch formControlName="hookOnce"></nz-switch>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="hook custom logo">
+        <span>hook logo</span>
+      </nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Please input your hook custom logo!"
+      >
+        <upload-file formControlName="hookLogo"></upload-file>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+
+<nz-modal
+  [(nzVisible)]="showModal"
+  [nzWidth]="800"
+  [nzFooter]="null"
+  (nzOnCancel)="showModal = false"
+  nzTitle="脚本获取到的内容"
+>
+  <ng-container *nzModalContent>
+    <pre>{{ obj | json }}</pre>
+
+    <nz-list
+      nzBordered
+      nzSize="small"
+      style="margin-top: 12px; max-height: 400px; overflow: auto"
+    >
+      <nz-list-header>Log</nz-list-header>
+      <nz-list-item *ngFor="let item of logs">
+        <span>{{ item.type }}</span>
+        <pre>{{ item.content }}</pre>
+      </nz-list-item>
+    </nz-list>
+  </ng-container>
+</nz-modal>

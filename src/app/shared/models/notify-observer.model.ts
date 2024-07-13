@@ -29,7 +29,8 @@ export enum NotifyObserverTypes {
   TOKEN_TRANSFER = 'TOKEN_TRANSFER',
   MARKET = 'MARKET',
   GHOST = 'GHOST',
-  BLOG = 'BLOG'
+  BLOG = 'BLOG',
+  HOOK = 'HOOK'
 }
 
 export function genTaskRecordCondition(type: NotifyObserverTypes): any {
@@ -188,6 +189,22 @@ export interface NotifyObserver {
 
   blogURL?: string;
   blogScript?: string;
+
+  hookType: string;
+
+  hookNotifyShowDesc?: string;
+  hookNotifyShowUrl?: string;
+  hookOnce?: boolean;
+
+  hookEnableScript?: boolean;
+  hookScript?: string;
+  hookEnableStatistics?: boolean;
+  hookStatisticsDefinitions?: Array<{
+    name: string;
+    version: number;
+    fields: string[];
+  }>
+  hookLogo?: string;
 
   readonly createdAt: number;
   readonly createdAtStr: string;

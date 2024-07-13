@@ -46,6 +46,9 @@ import { MediumService } from './medium/medium.service'
 import { CreateBlogComponent } from './blog/blog.component'
 import { BlogService } from './blog/blog.service'
 
+import { CreateHookComponent } from './hook/hook.component'
+import { HookService } from './hook/hook.service'
+
 
 export const directives = [
   FormHostDirective
@@ -68,6 +71,7 @@ export const components = [
   CreateMirrorComponent,
   CreateMediumComponent,
   CreateBlogComponent,
+  CreateHookComponent,
 ]
 
 
@@ -87,5 +91,6 @@ export const services = [
   MirrorService,
   MediumService,
   BlogService,
+  HookService,
 ]
 
