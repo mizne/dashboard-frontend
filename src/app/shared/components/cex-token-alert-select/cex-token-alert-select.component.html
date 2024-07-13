@@ -1,12 +1,25 @@
 <div class="cex-token-alert-select-container">
-  <div class="cex-token-alert-select-options" style="margin-bottom: 8px;">
-    <form nz-form [formGroup]="form" [nzLayout]="'inline'">
+  <div class="cex-token-alert-select-options" style="margin-bottom: 8px">
+    <form
+      nz-form
+      [formGroup]="form"
+      [nzLayout]="'inline'"
+      (ngSubmit)="submitForm()"
+    >
       <nz-form-item>
         <nz-form-label nzFor="latestIntervals">最近周期数</nz-form-label>
         <nz-form-control>
-          <nz-input-number formControlName="latestIntervals" [attr.id]="'latestIntervals'" [nzMin]="1" [nzStep]="1">
+          <nz-input-number
+            formControlName="latestIntervals"
+            [attr.id]="'latestIntervals'"
+            [nzMin]="1"
+            [nzStep]="1"
+          >
           </nz-input-number>
-          <created-at style="margin-left: 6px" [createdAt]="latestTime"></created-at>
+          <created-at
+            style="margin-left: 6px"
+            [createdAt]="latestTime"
+          ></created-at>
         </nz-form-control>
       </nz-form-item>
 
@@ -14,32 +27,54 @@
         <nz-form-label nzFor="interval">周期</nz-form-label>
         <nz-form-control>
           <nz-radio-group formControlName="interval" nzButtonStyle="solid">
-            <label nz-radio-button *ngFor="let item of intervals" [nzValue]="item.value">{{item.label}}</label>
+            <label
+              nz-radio-button
+              *ngFor="let item of intervals"
+              [nzValue]="item.value"
+              >{{ item.label }}</label
+            >
           </nz-radio-group>
         </nz-form-control>
       </nz-form-item>
 
-
-
       <nz-form-item class="register-area">
         <nz-form-control>
-          <button nz-button [nzType]="'primary'" type="button" (click)="submitForm()">搜索</button>
-          <button nz-button type="button" (click)="resetForm()" style="margin-left: 6px">重置</button>
+          <button nz-button [nzType]="'primary'">搜索</button>
+          <button
+            nz-button
+            type="button"
+            (click)="resetForm()"
+            style="margin-left: 6px"
+          >
+            重置
+          </button>
         </nz-form-control>
       </nz-form-item>
     </form>
   </div>
   <nz-spin [nzSpinning]="loading">
-
     <nz-collapse>
       <ng-container *ngFor="let panel of panels">
-        <nz-collapse-panel *ngIf="panel.cexTokenAlerts.length > 0" [nzHeader]="panel.name" [nzActive]="true"
-          [nzDisabled]="false">
-          <p style="margin:0;">
-            <nz-tag *ngFor="let item of panel.cexTokenAlerts" [title]="item.desc" [nzColor]="'default'"
-              (click)="selectCexTokenAlert(item)" style="cursor: pointer; margin-bottom: 4px;">
-              <span *ngIf="selectedSymbol === item.symbol" nz-icon nzType="check-circle"></span>
-              <span>{{item.symbol}}</span>
+        <nz-collapse-panel
+          *ngIf="panel.cexTokenAlerts.length > 0"
+          [nzHeader]="panel.name"
+          [nzActive]="true"
+          [nzDisabled]="false"
+        >
+          <p style="margin: 0">
+            <nz-tag
+              *ngFor="let item of panel.cexTokenAlerts"
+              [title]="item.desc"
+              [nzColor]="'default'"
+              (click)="selectCexTokenAlert(item)"
+              style="cursor: pointer; margin-bottom: 4px"
+            >
+              <span
+                *ngIf="selectedSymbol === item.symbol"
+                nz-icon
+                nzType="check-circle"
+              ></span>
+              <span>{{ item.symbol }}</span>
             </nz-tag>
           </p>
         </nz-collapse-panel>

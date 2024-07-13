@@ -51,7 +51,12 @@
       </nz-collapse-panel>
 
       <nz-collapse-panel [nzHeader]="'详细数据'" [nzActive]="false">
-        <form nz-form [formGroup]="form" [nzLayout]="'inline'">
+        <form
+          nz-form
+          [formGroup]="form"
+          [nzLayout]="'inline'"
+          (ngSubmit)="submitForm()"
+        >
           <nz-form-item style="margin-bottom: 6px">
             <nz-form-label nzFor="inDays">几天内</nz-form-label>
             <nz-form-control>
@@ -60,7 +65,7 @@
                   nz-radio-button
                   *ngFor="let item of inDayss"
                   [nzValue]="item.name"
-                  >{{ item.name }}</label
+                  >{{ item.label }}</label
                 >
               </nz-radio-group>
             </nz-form-control>
@@ -108,14 +113,7 @@
 
           <nz-form-item class="register-area">
             <nz-form-control>
-              <button
-                nz-button
-                [nzType]="'primary'"
-                type="button"
-                (click)="submitForm()"
-              >
-                搜索
-              </button>
+              <button nz-button [nzType]="'primary'">搜索</button>
               <button
                 nz-button
                 type="button"

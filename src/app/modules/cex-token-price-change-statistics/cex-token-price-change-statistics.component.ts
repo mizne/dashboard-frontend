@@ -34,30 +34,43 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
   // [3, 7, 15, 30, 60, 90, 180, 360, 540];
   inDayss = [
     {
+      label: '全部',
+      name: ''
+    },
+    {
+      label: '3',
       name: 3,
     },
     {
+      label: '7',
       name: 7,
     },
     {
+      label: '15',
       name: 15,
     },
     {
+      label: '30',
       name: 30,
     },
     {
+      label: '60',
       name: 60,
     },
     {
+      label: '90',
       name: 90,
     },
     {
+      label: '180',
       name: 180,
     },
     {
+      label: '360',
       name: 360,
     },
     {
+      label: '540',
       name: 540,
     },
   ];

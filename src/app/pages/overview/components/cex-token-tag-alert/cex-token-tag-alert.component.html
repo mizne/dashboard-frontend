@@ -4,16 +4,30 @@
   </button>
 </div>
 
-<nz-modal [(nzVisible)]="visible" [nzWidth]="1200" [nzTitle]="'板块趋势'" [nzFooter]="null" (nzOnCancel)="visible=false">
+<nz-modal
+  [(nzVisible)]="visible"
+  [nzWidth]="1200"
+  [nzTitle]="'板块趋势'"
+  [nzFooter]="null"
+  (nzOnCancel)="visible = false"
+>
   <ng-container *nzModalContent>
-
-    <form nz-form [formGroup]="form" [nzLayout]="'inline'">
-
+    <form
+      nz-form
+      [formGroup]="form"
+      [nzLayout]="'inline'"
+      (ngSubmit)="submitForm()"
+    >
       <nz-form-item>
         <nz-form-label nzFor="interval">周期</nz-form-label>
         <nz-form-control>
           <nz-radio-group formControlName="interval" nzButtonStyle="solid">
-            <label nz-radio-button *ngFor="let item of intervals" [nzValue]="item.name">{{item.name}}</label>
+            <label
+              nz-radio-button
+              *ngFor="let item of intervals"
+              [nzValue]="item.name"
+              >{{ item.name }}</label
+            >
           </nz-radio-group>
         </nz-form-control>
       </nz-form-item>
@@ -21,12 +35,29 @@
       <nz-form-item>
         <nz-form-label nzFor="chartType">曲线</nz-form-label>
         <nz-form-control>
-          <nz-select nzMode="multiple" nzPlaceHolder="Please select" formControlName="chartType"
-            [nzCustomTemplate]="multipleTemplate" style="width: 560px;">
-            <nz-option nzCustomContent *ngFor="let item of chartTypes" [nzLabel]="item.label" [nzValue]="item.value">
-              <div style="display: flex; align-items: center;">
-                <div [ngStyle]="{backgroundColor: item.color, width: '16px', height: '16px', marginRight: '8px'}"></div>
-                <div>{{item.label}}</div>
+          <nz-select
+            nzMode="multiple"
+            nzPlaceHolder="Please select"
+            formControlName="chartType"
+            [nzCustomTemplate]="multipleTemplate"
+            style="width: 560px"
+          >
+            <nz-option
+              nzCustomContent
+              *ngFor="let item of chartTypes"
+              [nzLabel]="item.label"
+              [nzValue]="item.value"
+            >
+              <div style="display: flex; align-items: center">
+                <div
+                  [ngStyle]="{
+                    backgroundColor: item.color,
+                    width: '16px',
+                    height: '16px',
+                    marginRight: '8px'
+                  }"
+                ></div>
+                <div>{{ item.label }}</div>
               </div>
             </nz-option>
           </nz-select>
@@ -35,41 +66,70 @@
 
       <ng-template #multipleTemplate let-selected>
         <div class="ant-select-selection-item-content">
-          <div style="display: flex; align-items: center;">
+          <div style="display: flex; align-items: center">
             <div
-              [ngStyle]="{backgroundColor: getColor(selected.nzValue), width: '16px', height: '16px', marginRight: '8px'}">
-            </div>
-            <div>{{selected.nzLabel}}</div>
+              [ngStyle]="{
+                backgroundColor: getColor(selected.nzValue),
+                width: '16px',
+                height: '16px',
+                marginRight: '8px'
+              }"
+            ></div>
+            <div>{{ selected.nzLabel }}</div>
           </div>
         </div>
       </ng-template>
 
       <nz-form-item class="register-area">
         <nz-form-control>
-          <button nz-button [nzType]="'primary'" type="button" (click)="submitForm()">搜索</button>
-          <button nz-button type="button" (click)="resetForm()" style="margin-left: 6px">重置</button>
+          <button nz-button [nzType]="'primary'">搜索</button>
+          <button
+            nz-button
+            type="button"
+            (click)="resetForm()"
+            style="margin-left: 6px"
+          >
+            重置
+          </button>
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item class="register-area" style="display: flex;align-items: center;justify-content: center;">
+      <nz-form-item
+        class="register-area"
+        style="display: flex; align-items: center; justify-content: center"
+      >
         <update-time [status]="status"></update-time>
       </nz-form-item>
     </form>
 
-
     <nz-spin nzTip="获取中..." [nzSpinning]="loading">
       <nz-card style="margin-top: 12px">
         <div nz-row [nzGutter]="16">
-          <div nz-col class="gutter-row" [nzSpan]="item.isTotal ? 24 : 6" *ngFor="let item of charts">
+          <div
+            nz-col
+            class="gutter-row"
+            [nzSpan]="item.isTotal ? 24 : 6"
+            *ngFor="let item of charts"
+          >
             <div class="inner-box">
-              <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
-                {{item.tagLabel}}</div>
-              <tradingview-chart [series]="item.series" [width]="item.isTotal ? 1000 : 250"></tradingview-chart>
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  font-weight: bold;
+                  font-size: 18px;
+                "
+              >
+                {{ item.tagLabel }}
+              </div>
+              <tradingview-chart
+                [series]="item.series"
+                [width]="item.isTotal ? 1000 : 250"
+              ></tradingview-chart>
             </div>
           </div>
         </div>
       </nz-card>
     </nz-spin>
-
   </ng-container>
 </nz-modal>

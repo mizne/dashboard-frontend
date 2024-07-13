@@ -1,19 +1,39 @@
 <div class="cex-future-alert-select-container">
-  <div class="cex-future-alert-select-options" style="margin-bottom: 8px;">
-    <form nz-form [formGroup]="form" [nzLayout]="'inline'">
+  <div class="cex-future-alert-select-options" style="margin-bottom: 8px">
+    <form
+      nz-form
+      [formGroup]="form"
+      [nzLayout]="'inline'"
+      (ngSubmit)="submitForm()"
+    >
       <nz-form-item>
         <nz-form-label nzFor="latestIntervals">最近周期数</nz-form-label>
         <nz-form-control>
-          <nz-input-number formControlName="latestIntervals" [attr.id]="'latestIntervals'" [nzMin]="1" [nzStep]="1">
+          <nz-input-number
+            formControlName="latestIntervals"
+            [attr.id]="'latestIntervals'"
+            [nzMin]="1"
+            [nzStep]="1"
+          >
           </nz-input-number>
-          <created-at style="margin-left: 6px" [createdAt]="latestTime"></created-at>
+          <created-at
+            style="margin-left: 6px"
+            [createdAt]="latestTime"
+          ></created-at>
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item class="register-area">
         <nz-form-control>
-          <button nz-button [nzType]="'primary'" type="button" (click)="submitForm()">搜索</button>
-          <button nz-button type="button" (click)="resetForm()" style="margin-left: 6px">重置</button>
+          <button nz-button [nzType]="'primary'">搜索</button>
+          <button
+            nz-button
+            type="button"
+            (click)="resetForm()"
+            style="margin-left: 6px"
+          >
+            重置
+          </button>
         </nz-form-control>
       </nz-form-item>
     </form>
@@ -21,19 +41,30 @@
   <nz-spin [nzSpinning]="loading">
     <nz-collapse>
       <ng-container *ngFor="let panel of panels">
-        <nz-collapse-panel *ngIf="panel.cexFutureAlerts.length > 0" [nzHeader]="panel.name" [nzActive]="true"
-          [nzDisabled]="false">
-          <p style="margin:0;">
-            <nz-tag *ngFor="let item of panel.cexFutureAlerts" [title]="item.desc"
-              [nzColor]="cexFutureAlertColorGetter(item)" (click)="selectCexFutureAlert(item)"
-              style="cursor: pointer; margin-bottom: 4px;">
-              <span *ngIf="selectedSymbol === item.symbol" nz-icon nzType="check-circle"></span>
-              <span>{{item.symbol}}</span>
+        <nz-collapse-panel
+          *ngIf="panel.cexFutureAlerts.length > 0"
+          [nzHeader]="panel.name"
+          [nzActive]="true"
+          [nzDisabled]="false"
+        >
+          <p style="margin: 0">
+            <nz-tag
+              *ngFor="let item of panel.cexFutureAlerts"
+              [title]="item.desc"
+              [nzColor]="cexFutureAlertColorGetter(item)"
+              (click)="selectCexFutureAlert(item)"
+              style="cursor: pointer; margin-bottom: 4px"
+            >
+              <span
+                *ngIf="selectedSymbol === item.symbol"
+                nz-icon
+                nzType="check-circle"
+              ></span>
+              <span>{{ item.symbol }}</span>
             </nz-tag>
           </p>
         </nz-collapse-panel>
       </ng-container>
     </nz-collapse>
   </nz-spin>
-
 </div>
