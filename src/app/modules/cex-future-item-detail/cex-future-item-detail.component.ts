@@ -243,13 +243,14 @@ export class CexFutureItemDetailComponent implements OnInit {
             this.latestCreatedAt = results[0].time;
           }
 
+          const validResults = this.markInvalidResults(results)
+
           this.priceSeries = [
             {
               type: TradingViewChartTypes.BASELINE,
-              baselineValue: avgExcludeMaxMin(results.filter(e => typeof e.price === 'number').map(e => e.price)),
+              baselineValue: avgExcludeMaxMin(validResults.map(e => e.price)),
               color: '#f6bf26',
-              data: results
-                .sort((a, b) => a.time - b.time)
+              data: validResults
                 .map(e => ({ time: e.time, value: e.price }))
                 .map(e => ({ time: fixTradingViewTime(e.time), value: e.value }))
             }
@@ -258,10 +259,9 @@ export class CexFutureItemDetailComponent implements OnInit {
           this.openInterestSeries = [
             {
               type: TradingViewChartTypes.BASELINE,
-              baselineValue: avgExcludeMaxMin(results.map(e => e.openInterest)),
+              baselineValue: avgExcludeMaxMin(validResults.map(e => e.openInterest)),
               color: '#f6bf26',
-              data: results
-                .sort((a, b) => a.time - b.time)
+              data: validResults
                 .map(e => ({ time: e.time, value: e.openInterest }))
                 .map(e => ({ time: fixTradingViewTime(e.time), value: e.value }))
             }
@@ -272,8 +272,7 @@ export class CexFutureItemDetailComponent implements OnInit {
               type: TradingViewChartTypes.BASELINE,
               baselineValue: 0.0001,
               color: '#f6bf26',
-              data: results
-                .sort((a, b) => a.time - b.time)
+              data: validResults
                 .map(e => ({ time: e.time, value: e.fundingRate }))
                 .map(e => ({ time: fixTradingViewTime(e.time), value: e.value }))
             }
@@ -284,17 +283,39 @@ export class CexFutureItemDetailComponent implements OnInit {
               type: TradingViewChartTypes.BASELINE,
               baselineValue: 1,
               color: '#f6bf26',
-              data: results
-                .sort((a, b) => a.time - b.time)
+              data: validResults
                 .map(e => ({ time: e.time, value: e.longShortRatio }))
                 .map(e => ({ time: fixTradingViewTime(e.time), value: e.value }))
             }
           ]
+
         },
         error: (err: Error) => {
           this.loadingChart = false;
           this.notification.error(`获取${this.symbol}合约数据失败`, `${err.message}`)
         }
       })
+  }
+
+  private markInvalidResults(results: CexFutureDaily[]): CexFutureDaily[] {
+    const validResults = results.filter(e => typeof e.price === 'number' && typeof e.fundingRate === 'number' && typeof e.openInterest === 'number' && typeof e.longShortRatio === 'number')
+
+    if (validResults.length < results.length) {
+      console.log(`markInvalidResults() ${results[0].symbol} 'price' 'fundingRate' 'openInterest' 'longShortRatio' must be number, invalid results count: ${results.length - validResults.length}`)
+    }
+
+    const res: CexFutureDaily[] = []
+
+    for (const e of validResults.sort((a, b) => a.time - b.time)) {
+      const the = res.find(f => f.time === e.time);
+      if (!the) {
+        res.push(e)
+      } else {
+        console.log(`markInvalidResults() find same time cex future daily, `, e, the)
+        continue
+      }
+    }
+
+    return res;
   }
 }

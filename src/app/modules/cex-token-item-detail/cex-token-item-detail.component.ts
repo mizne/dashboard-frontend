@@ -122,13 +122,13 @@ export class CexTokenItemDetailComponent implements OnInit {
             this.latestCreatedAt = results[0].time;
           }
           this.loadingChart = false;
+          const validResults = this.markInvalidResults(results)
           this.priceSeries = [
             {
               type: TradingViewChartTypes.BASELINE,
-              baselineValue: avgExcludeMaxMin(results.map(e => e.price)),
+              baselineValue: avgExcludeMaxMin(validResults.map(e => e.price)),
               color: '#f6bf26',
-              data: results
-                .sort((a, b) => a.time - b.time)
+              data: validResults
                 .map(e => ({ time: e.time, value: e.price }))
                 .map(e => ({ time: fixTradingViewTime(e.time), value: e.value }))
             }
@@ -138,8 +138,7 @@ export class CexTokenItemDetailComponent implements OnInit {
             {
               type: TradingViewChartTypes.HISTOGRAM,
               color: '#22ab94',
-              data: results
-                .sort((a, b) => a.time - b.time)
+              data: validResults
                 .map(e => ({ time: e.time, value: e.volume }))
                 .map(e => ({ time: fixTradingViewTime(e.time), value: e.value }))
             }
@@ -150,5 +149,27 @@ export class CexTokenItemDetailComponent implements OnInit {
           this.notification.error(`获取${this.symbol}现货数据失败`, `${err.message}`)
         }
       })
+  }
+
+  private markInvalidResults(results: CexTokenDaily[]): CexTokenDaily[] {
+    const validResults = results.filter(e => typeof e.price === 'number' && typeof e.volume === 'number')
+
+    if (validResults.length < results.length) {
+      console.log(`markInvalidResults() ${results[0].symbol} 'price' 'volume' must be number, invalid results count: ${results.length - validResults.length}`)
+    }
+
+    const res: CexTokenDaily[] = []
+
+    for (const e of validResults.sort((a, b) => a.time - b.time)) {
+      const the = res.find(f => f.time === e.time);
+      if (!the) {
+        res.push(e)
+      } else {
+        console.log(`markInvalidResults() ${results[0].symbol} find same time cex token daily, `, e, the)
+        continue
+      }
+    }
+
+    return res;
   }
 }
