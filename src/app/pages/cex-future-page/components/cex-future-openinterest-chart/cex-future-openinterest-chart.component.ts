@@ -4,6 +4,7 @@ import { Observable, lastValueFrom, map, merge, startWith } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { format } from 'date-fns';
 import { FormBuilder, FormControl } from '@angular/forms';
+import { sleep } from 'src/app/utils';
 
 @Component({
   selector: 'cex-future-openinterest-chart',
@@ -25,6 +26,7 @@ export class CexFutureOpeninterestChartComponent implements OnInit {
     value: number;
   }> = [];
   colors: string[] = []
+  chartDataItems: CexFutureDaily[] = []
 
   relativeCtrl = new FormControl(21)
   relatives = [
@@ -112,9 +114,14 @@ export class CexFutureOpeninterestChartComponent implements OnInit {
 
 
   ngOnInit() {
-    this.relativeCtrl.valueChanges.pipe(startWith(42)).subscribe(() => {
-      this.fetchChartData()
+    this.relativeCtrl.valueChanges.subscribe(async () => {
+      this.loading = true;
+      await sleep(2e2)
+      this.data = this.convertData(this.chartDataItems);
+      this.loading = false;
     })
+
+    this.fetchChartData()
   }
 
   private fetchChartData() {
@@ -125,6 +132,7 @@ export class CexFutureOpeninterestChartComponent implements OnInit {
     this.fetchDataByTime(startTime, endTime)
       .subscribe({
         next: (items: CexFutureDaily[]) => {
+          this.chartDataItems = items;
           this.loading = false;
           this.data = this.convertData(items);
           this.colors = this.legends.map(e => e.color);
