@@ -75,7 +75,7 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
     },
   ];
 
-  form = this.fb.group({
+  form = this.fb.group<any>({
     inDays: [this.inDayss[3].name],
     symbol: [''],
     priceChangePercent: [null],
@@ -93,7 +93,7 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
 
   resetForm() {
     this.form.reset({
-      inDays: this.inDayss[3].name,
+      inDays: this.form.get('inDays')?.value
     });
     this.pageIndex = 1;
     this.pageSize = 10;
@@ -137,6 +137,28 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
   }
 
   cancelDelete(item: CexTokenPriceChange) { }
+
+  filterPerformanceUp(item: CexTokenPriceChange) {
+    this.form.reset({
+      priceChangePercent: { $gte: item.priceChangePercent },
+      currentPriceRelative: { $gte: item.currentPriceRelative },
+      inDays: this.form.get('inDays')?.value
+    });
+    this.pageIndex = 1;
+    this.pageSize = 10;
+    this.loadDataFromServer();
+  }
+
+  filterPerformanceDown(item: CexTokenPriceChange) {
+    this.form.reset({
+      priceChangePercent: { $lte: item.priceChangePercent },
+      currentPriceRelative: { $lte: item.currentPriceRelative },
+      inDays: this.form.get('inDays')?.value
+    });
+    this.pageIndex = 1;
+    this.pageSize = 10;
+    this.loadDataFromServer();
+  }
 
 
   private loadDataFromServer(): void {

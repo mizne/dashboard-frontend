@@ -141,7 +141,13 @@
                 >
                   当前价位
                 </th>
-                <th nzColumnKey="inDays">多少天内</th>
+                <th
+                  nzColumnKey="inDays"
+                  [nzSortFn]="true"
+                  [nzSortDirections]="['descend', 'ascend', null]"
+                >
+                  多少天内
+                </th>
                 <th
                   nzColumnKey="updatedAt"
                   [nzSortFn]="true"
@@ -149,6 +155,8 @@
                 >
                   更新时间
                 </th>
+
+                <th nzColumnKey="Action" style="width: 100px">操作</th>
               </tr>
             </thead>
             <tbody>
@@ -229,6 +237,38 @@
 
                 <td>
                   <created-at [createdAt]="data.updatedAt || 0"></created-at>
+                </td>
+
+                <td>
+                  <button
+                    nz-button
+                    (click)="filterPerformanceUp(data)"
+                    nzType="primary"
+                    nzShape="circle"
+                    nzSize="small"
+                    nz-tooltip
+                    [nzTooltipTitle]="
+                      '筛选表现比它好的，即涨幅高，回撤小的标的'
+                    "
+                    style="margin-right: 4px"
+                  >
+                    <span nz-icon nzType="arrow-up" nzTheme="outline"></span>
+                  </button>
+
+                  <button
+                    nz-button
+                    (click)="filterPerformanceDown(data)"
+                    nzType="primary"
+                    [nzDanger]="true"
+                    nzShape="circle"
+                    nzSize="small"
+                    nz-tooltip
+                    [nzTooltipTitle]="
+                      '筛选表现比它差的，即涨幅低，回撤大的标的'
+                    "
+                  >
+                    <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
+                  </button>
                 </td>
               </tr>
             </tbody>
