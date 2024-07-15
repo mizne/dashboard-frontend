@@ -227,7 +227,13 @@
                   {{ data.marketCap | currency }}
                 </td>
 
-                <td [title]="data.priceChangePercent">
+                <td
+                  [title]="
+                    data.maxPriceAt > data.minPriceAt
+                      ? data.minPrice + ' -> ' + data.maxPrice
+                      : data.maxPrice + ' -> ' + data.minPrice
+                  "
+                >
                   {{ data.priceChangePercent | percent }}
                 </td>
 
