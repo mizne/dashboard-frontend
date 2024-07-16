@@ -156,7 +156,7 @@
                   更新时间
                 </th>
 
-                <th nzColumnKey="Action" style="width: 100px">操作</th>
+                <th nzColumnKey="Action" style="width: 140px">操作</th>
               </tr>
             </thead>
             <tbody>
@@ -272,8 +272,21 @@
                     [nzTooltipTitle]="
                       '筛选表现比它差的，即涨幅低，回撤大的标的'
                     "
+                    style="margin-right: 4px"
                   >
                     <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
+                  </button>
+
+                  <button
+                    nz-button
+                    (click)="compareWithOthers(data)"
+                    nzType="primary"
+                    nzShape="circle"
+                    nzSize="small"
+                    nz-tooltip
+                    [nzTooltipTitle]="'和btc/eth/bnb/sol等对比表现'"
+                  >
+                    <span nz-icon nzType="api" nzTheme="outline"></span>
                   </button>
                 </td>
               </tr>
@@ -286,5 +299,72 @@
         </nz-card>
       </nz-collapse-panel>
     </nz-collapse>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="compareWithOthersModalVisible"
+  [nzWidth]="900"
+  [nzTitle]="'对比btc/eth/bnb/sol表现'"
+  [nzFooter]="null"
+  (nzOnCancel)="compareWithOthersModalVisible = false"
+>
+  <ng-container *nzModalContent>
+    <nz-spin [nzSpinning]="compareWithOthersModalLoading">
+      <ng-container *ngFor="let compareItem of compareItems">
+        <p>{{ compareItem.title }}</p>
+
+        <nz-list
+          nzBordered
+          nzSize="small"
+          style="
+            background: white;
+            max-height: 800px;
+            overflow: auto;
+            margin-bottom: 12px;
+          "
+        >
+          <nz-list-header style="display: flex; justify-content: space-between">
+            <!-- <span style="width: 200px; display: inline-block;">ID</span> -->
+            <span style="width: 240px; display: inline-block">symbol</span>
+            <span style="width: 240px; display: inline-block">涨跌幅</span>
+            <span style="width: 80px; display: inline-block">当前价位</span>
+            <span style="width: 80px; display: inline-block">多少天内</span>
+          </nz-list-header>
+          <nz-list-item *ngFor="let data of compareItem.data">
+            <span style="width: 240px; display: inline-block">
+              <cex-token-symbol-item
+                [symbol]="data.symbol"
+                [content]="symbolContent"
+              ></cex-token-symbol-item>
+              <ng-template
+                #symbolContent
+                let-name="name"
+                let-logoName="logoName"
+              >
+                <image-view
+                  [name]="logoName"
+                  style="margin-right: 4px"
+                ></image-view>
+                <span
+                  class="symbol-item-custom-content"
+                  style="font-weight: bold"
+                  >{{ name }}</span
+                >
+              </ng-template>
+            </span>
+            <span style="width: 240px; display: inline-block">
+              {{ data.priceChangePercent | percent }}
+            </span>
+            <span style="width: 80px; display: inline-block">
+              {{ data.currentPriceRelative | toFixed : 3 }}
+            </span>
+            <span style="width: 80px; display: inline-block">
+              {{ data.inDays }}
+            </span>
+          </nz-list-item>
+        </nz-list>
+      </ng-container>
+    </nz-spin>
   </ng-container>
 </nz-modal>

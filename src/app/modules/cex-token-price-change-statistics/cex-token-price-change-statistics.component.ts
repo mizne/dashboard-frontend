@@ -85,6 +85,13 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
 
   tagCtrl = new FormControl(null)
 
+  compareWithOthersModalVisible = false
+  compareWithOthersModalLoading = false
+  compareItems: Array<{
+    title: string;
+    data: CexTokenPriceChange[]
+  }> = []
+
   submitForm(): void {
     this.pageIndex = 1;
     this.pageSize = 10;
@@ -160,6 +167,26 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
     this.loadDataFromServer();
   }
 
+  compareWithOthers(item: CexTokenPriceChange) {
+    this.compareWithOthersModalVisible = true;
+
+    const symbols = Array.from(new Set([item.symbol, 'BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'SOLUSDT']));
+    this.fetchCompareWithDataItems(symbols)
+  }
+
+  private async fetchCompareWithDataItems(symbols: string[]) {
+    this.compareWithOthersModalLoading = true
+    this.compareItems = [];
+    const days = this.inDayss.filter(e => !!e.name);
+    for (const day of days) {
+      const items = await lastValueFrom(this.cexTokenPriceChangeService.queryList({ symbol: { $in: symbols }, inDays: day.name }))
+      this.compareItems.push({
+        title: day.name + ' 天',
+        data: symbols.map(e => items.find(f => f.symbol === e)).filter(e => !!e) as CexTokenPriceChange[]
+      })
+    }
+    this.compareWithOthersModalLoading = false
+  }
 
   private loadDataFromServer(): void {
     this.loading = true;
