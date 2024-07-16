@@ -1,10 +1,12 @@
 import {
   AfterViewInit,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import * as uuid from 'uuid';
@@ -24,6 +26,8 @@ export class BarChartComponent
   @Input() data: Array<{ label: string; value: number; color?: string }> = [];
   @Input() height = 240;
   @Input() width = 420;
+
+  @Output() barClick = new EventEmitter<any>()
 
   private _chart: Chart | null = null;
 
@@ -51,6 +55,13 @@ export class BarChartComponent
       autoFit: true,
       width: this.width,
       height: this.height,
+    });
+
+    this._chart.on('element:click', (ev: any) => {
+      const { data } = ev;
+      console.log('Clicked Bar:', ev);
+      // 这里可以执行你想要的操作，例如弹出详细信息框等
+      this.barClick.emit(ev)
     });
   }
 
