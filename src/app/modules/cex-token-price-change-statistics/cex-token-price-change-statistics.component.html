@@ -230,8 +230,20 @@
                 <td
                   [title]="
                     data.maxPriceAt > data.minPriceAt
-                      ? data.minPrice + ' -> ' + data.maxPrice
-                      : data.maxPrice + ' -> ' + data.minPrice
+                      ? data.minPrice +
+                        ' -> ' +
+                        data.maxPrice +
+                        ' / ' +
+                        (data.minPriceAt | date : 'yyyy-MM-dd HH:mm') +
+                        ' -> ' +
+                        (data.maxPriceAt | date : 'yyyy-MM-dd HH:mm')
+                      : data.maxPrice +
+                        ' -> ' +
+                        data.minPrice +
+                        ' / ' +
+                        (data.maxPriceAt | date : 'yyyy-MM-dd HH:mm') +
+                        ' -> ' +
+                        (data.minPriceAt | date : 'yyyy-MM-dd HH:mm')
                   "
                 >
                   {{ data.priceChangePercent | percent }}
