@@ -46,6 +46,26 @@
         ><created-at [createdAt]="_createdAt"></created-at
       ></span>
     </div>
+
+    <div
+      *ngIf="_circulatingSupply > 0 && _totalSupply > 0"
+      class="symbol-item-tags"
+      style="margin-bottom: 12px"
+    >
+      <span class="amount-label" style="margin-right: 6px">流通率：</span>
+      <span
+        class="amount-value"
+        [title]="
+          (_circulatingSupply | volume) + ' / ' + (_totalSupply | volume)
+        "
+      >
+        <nz-progress
+          [nzPercent]="_supplyPercent"
+          nzStatus="active"
+        ></nz-progress>
+      </span>
+    </div>
+
     <token-actions
       [symbol]="_symbol"
       [slug]="_slug"

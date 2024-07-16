@@ -26,6 +26,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzRateModule } from 'ng-zorro-antd/rate';
 import { NzSelectModule } from 'ng-zorro-antd/select';
@@ -75,6 +76,7 @@ const nzModules = [
   NzPaginationModule,
   NzPopconfirmModule,
   NzPopoverModule,
+  NzProgressModule,
   NzRadioModule,
   NzRateModule,
   NzSelectModule,

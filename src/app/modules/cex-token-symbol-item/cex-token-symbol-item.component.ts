@@ -36,6 +36,10 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
   _website = '';
   _twitter = '';
 
+  _circulatingSupply = 0;
+  _totalSupply = 0;
+  _supplyPercent = 0;
+
   _tagLabels: string[] = [];
 
   templateContext: { [key: string]: any } = {};
@@ -79,6 +83,12 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
 
         this.templateContext['website'] = this._website = token.website || '';
         this.templateContext['twitter'] = this._twitter = token.twitter || '';
+
+        this.templateContext['circulatingSupply'] = this._circulatingSupply = token.circulatingSupply || 0;
+        this.templateContext['totalSupply'] = this._totalSupply = token.totalSupply || 0;
+        if (this._circulatingSupply > 0 && this._totalSupply > 0) {
+          this._supplyPercent = Number(((this._circulatingSupply * 100) / this._totalSupply).toFixed(1))
+        }
 
         if (token.tags && token.tags.length > 0) {
           Promise.all(token.tags.map((e) => this.resolveTagLabel(e))).then(

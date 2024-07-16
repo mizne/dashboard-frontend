@@ -16,6 +16,9 @@ export interface CexToken {
   readonly twitter?: string;
   enableNotify?: boolean;
 
+  readonly circulatingSupply?: number;
+  readonly totalSupply?: number;
+
   readonly createdAt: number;
   readonly createdAtStr: string;
 }
