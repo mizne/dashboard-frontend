@@ -11,6 +11,7 @@ export interface CexToken {
   readonly tags: Array<string>;
 
   readonly marketCap: number;
+  readonly marketCapRanking?: number;
 
   readonly website?: string;
   readonly twitter?: string;
