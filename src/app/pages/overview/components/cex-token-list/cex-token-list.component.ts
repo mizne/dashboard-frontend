@@ -10,7 +10,6 @@ import { CexTokenTagService } from 'src/app/shared';
 import { CexTokenService } from 'src/app/shared';
 
 interface TableItem extends CexToken {
-  enableNotifyCtrl: FormControl;
 }
 
 @Component({
@@ -40,7 +39,6 @@ export class CexTokenListComponent implements OnInit {
   form = this.fb.group({
     name: [''],
     createdAt: [0],
-    enableNotify: [null]
   });
   createdAtOptions = [
     {
@@ -140,7 +138,6 @@ export class CexTokenListComponent implements OnInit {
           this.status = 'success';
           this.cexTokens = results.map(e => ({
             ...e,
-            enableNotifyCtrl: new FormControl(!!e.enableNotify)
           }));
 
           this.subscribeUpdateEnableTrackingCtrls();
@@ -167,23 +164,7 @@ export class CexTokenListComponent implements OnInit {
   }
 
   private subscribeUpdateEnableTrackingCtrls() {
-    this.cexTokens.forEach((e) => {
-      const sub = e.enableNotifyCtrl.valueChanges.subscribe((v) => {
-        this.cexTokenService
-          .update(e._id, { enableNotify: !!v })
-          .subscribe({
-            next: () => {
-              this.loadDataFromServer();
-            },
-            error: (err: Error) => {
-              this.notification.error(`修改 ${e.name} 订阅通知失败`, `${err.message}`)
-              this.loadDataFromServer();
-            }
-          });
-      });
 
-      this.subscriptions.push(sub);
-    });
   }
 
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
@@ -206,14 +187,6 @@ export class CexTokenListComponent implements OnInit {
             }
             : {}
         );
-      } else if (key === 'enableNotify') {
-        Object.assign(o, query['enableNotify'] ? {
-          enableNotify: true
-        } : {
-          enableNotify: {
-            $in: [null, false]
-          }
-        })
       } else {
         Object.assign(o, { [key]: query[key] });
       }

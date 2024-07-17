@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Observable, of, tap, map, catchError, filter } from 'rxjs';
+import { Observable, of, tap, map, catchError, filter, take } from 'rxjs';
 import { TimerService } from 'src/app/shared';
 import { CexTokenTag } from '../models/cex-token-tag.model';
 import { CexTokenTagService } from './cex-token-tag.service';
@@ -25,7 +25,8 @@ export class CexTokenTagCacheService {
     if (this.loading) {
       return this.timerService.interval(1).pipe(
         filter(() => this.loading === false),
-        map(() => this.allTokenTags.find((e) => e.name === name))
+        map(() => this.allTokenTags.find((e) => e.name === name)),
+        take(1)
       );
     }
 

@@ -54,21 +54,6 @@
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item>
-        <nz-form-label nzFor="enableNotify">订阅通知</nz-form-label>
-        <nz-form-control>
-          <nz-radio-group
-            formControlName="enableNotify"
-            nzSize="small"
-            [nzButtonStyle]="'solid'"
-          >
-            <label nz-radio-button [nzValue]="null">所有</label>
-            <label nz-radio-button [nzValue]="true">已订阅</label>
-            <label nz-radio-button [nzValue]="false">未订阅</label>
-          </nz-radio-group>
-        </nz-form-control>
-      </nz-form-item>
-
       <nz-form-item class="register-area">
         <nz-form-control>
           <button nz-button [nzType]="'primary'">搜索</button>
@@ -125,16 +110,6 @@
             >
               添加时间
             </th>
-            <th nzColumnKey="enableNotify">
-              订阅通知
-              <span
-                nz-icon
-                nzType="question-circle"
-                nzTheme="outline"
-                title="开启后，该token发生大量或趋势转折时，会通知客户端"
-                style="margin-left: 6px; cursor: pointer"
-              ></span>
-            </th>
 
             <th nzColumnKey="Action" style="width: 80px">操作</th>
           </tr>
@@ -172,9 +147,6 @@
 
             <td>
               <created-at [createdAt]="data.createdAt"></created-at>
-            </td>
-            <td>
-              <nz-switch [formControl]="data.enableNotifyCtrl"></nz-switch>
             </td>
 
             <td>

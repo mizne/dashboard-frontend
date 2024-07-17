@@ -19,7 +19,8 @@
 <ng-template #titleTemplate>
   <div style="display: flex; align-items: center">
     <image-view [name]="_logoName"></image-view>
-    <span style="margin-left: 6px">{{ _name + " - " + _fullname }}</span>
+    <span style="margin: 0 6px">{{ _name + " - " + _fullname }}</span>
+    <app-collect-input [formControl]="hasCollectCtrl"></app-collect-input>
   </div>
 </ng-template>
 <ng-template #contentTemplate>

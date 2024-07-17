@@ -6,8 +6,10 @@ import {
   SimpleChanges,
   TemplateRef,
 } from '@angular/core';
-import { map, firstValueFrom } from 'rxjs';
-import { CexTokenCacheService } from 'src/app/shared';
+import { FormControl } from '@angular/forms';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { map, firstValueFrom, lastValueFrom } from 'rxjs';
+import { CexTokenCacheService, CexTokenService } from 'src/app/shared';
 import { CexTokenTagCacheService } from 'src/app/shared';
 
 @Component({
@@ -17,7 +19,9 @@ import { CexTokenTagCacheService } from 'src/app/shared';
 export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
   constructor(
     private readonly cexTokenCacheService: CexTokenCacheService,
-    private readonly cexTokenTagCacheService: CexTokenTagCacheService
+    private readonly cexTokenService: CexTokenService,
+    private readonly cexTokenTagCacheService: CexTokenTagCacheService,
+    private readonly nzNotificationService: NzNotificationService,
   ) { }
 
   @Input() symbol = '';
@@ -25,6 +29,7 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
 
   @Input() content: TemplateRef<any> | null = null;
 
+  _cexTokenID = ''
   _symbol = '';
   _slug = '';
   _name = '';
@@ -43,9 +48,15 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
 
   _tagLabels: string[] = [];
 
+  hasCollectCtrl = new FormControl(false)
+
   templateContext: { [key: string]: any } = {};
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.hasCollectCtrl.valueChanges.subscribe(v => {
+      this.updateHasCollect(!!v)
+    })
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     const symbol = changes['symbol'] && changes['symbol'].currentValue;
@@ -70,6 +81,7 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
   private fetchToken(symbol?: string, name?: string) {
     (symbol ? this.cexTokenCacheService.queryBySymbol(symbol) : this.cexTokenCacheService.queryByName(name as string)).subscribe((token) => {
       if (token) {
+        this.templateContext['id'] = this._cexTokenID = token._id;
         this.templateContext['symbol'] = this._symbol = token.symbol || '';
         this.templateContext['slug'] = this._slug = token.slug || '';
         this.templateContext['name'] = this._name = token.name || '';
@@ -100,6 +112,8 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
             }
           );
         }
+
+        this.hasCollectCtrl.patchValue(!!token.hasCollect, { emitEvent: false })
       } else {
         this._symbol = symbol || name || '';
         console.warn(`[CexTokenSymbolItemComponent.ts] not found token by name: ${name} symbol: ${symbol}`);
@@ -108,10 +122,27 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
   }
 
   private resolveTagLabel(tagName: string): Promise<string> {
-    return firstValueFrom(
+    return lastValueFrom(
       this.cexTokenTagCacheService
         .queryByName(tagName)
         .pipe(map((tag) => (tag ? tag.label : '')))
     );
+  }
+
+  private updateHasCollect(hasCollect: boolean) {
+    if (this._cexTokenID) {
+
+      this.cexTokenService.update(this._cexTokenID, { hasCollect: !!hasCollect })
+        .subscribe({
+          next: () => {
+            this.nzNotificationService.success(`${hasCollect ? '收藏' : '取消收藏'} ${this._symbol} 成功`, `${hasCollect ? '收藏' : '取消收藏'} ${this._symbol} 成功`)
+            this.cexTokenCacheService.markRefreshCache()
+          },
+          error: (err) => {
+            this.nzNotificationService.error(`${hasCollect ? '收藏' : '取消收藏'} ${this._symbol} 失败`, `${err.message}`)
+            this.hasCollectCtrl.patchValue(!hasCollect, { emitEvent: false })
+          }
+        })
+    }
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Observable, of, tap, map, catchError, filter } from 'rxjs';
+import { Observable, of, tap, map, catchError, filter, take } from 'rxjs';
 import { TimerService } from 'src/app/shared';
 import { CexToken } from '../models/cex-token.model';
 import { CexTokenService } from './cex-token.service';
@@ -25,7 +25,8 @@ export class CexTokenCacheService {
     if (this.loading) {
       return this.timerService.interval(1).pipe(
         filter(() => this.loading === false),
-        map(() => this.allTokens.find((e) => e.symbol === symbol))
+        map(() => this.allTokens.find((e) => e.symbol === symbol)),
+        take(1)
       );
     }
 
@@ -49,7 +50,8 @@ export class CexTokenCacheService {
     if (this.loading) {
       return this.timerService.interval(1).pipe(
         filter(() => this.loading === false),
-        map(() => this.allTokens.find((e) => e.name === name))
+        map(() => this.allTokens.find((e) => e.name === name)),
+        take(1)
       );
     }
 
@@ -62,6 +64,12 @@ export class CexTokenCacheService {
         return tokens.find((e) => e.name === name);
       })
     );
+  }
+
+  markRefreshCache() {
+    this.queryList().subscribe((items) => {
+      this.allTokens = items;
+    })
   }
 
   private queryList(): Observable<CexToken[]> {

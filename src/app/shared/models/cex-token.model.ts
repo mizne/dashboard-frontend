@@ -15,10 +15,11 @@ export interface CexToken {
 
   readonly website?: string;
   readonly twitter?: string;
-  enableNotify?: boolean;
 
   readonly circulatingSupply?: number;
   readonly totalSupply?: number;
+
+  readonly hasCollect?: boolean;
 
   readonly createdAt: number;
   readonly createdAtStr: string;
