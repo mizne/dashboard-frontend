@@ -157,7 +157,7 @@ return {
 
     this.testing = true;
 
-    this.sharedService.fetchTimerTester(this.data.value.hookScript, 'hook-tester')
+    this.sharedService.fetchHookTester(this.data.value.hookScript, this.data.value.hookType, 'hook-tester')
       .subscribe({
         next: (v) => {
           this.showModal = true;

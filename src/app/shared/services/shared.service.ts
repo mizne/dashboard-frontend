@@ -172,6 +172,30 @@ export class SharedService {
     }>(`${environment.baseURL}/app/timer-tester`, { script, tag });
   }
 
+  fetchHookTester(script: string, hookValue: string, tag?: string): Observable<{
+    result: {
+      title: string;
+      infos: string[];
+      link: string;
+    };
+    logs: {
+      debugs: string[];
+      errors: string[];
+    }
+  }> {
+    return this.httpClient.post<{
+      result: {
+        title: string;
+        infos: string[];
+        link: string;
+      };
+      logs: {
+        debugs: string[];
+        errors: string[];
+      }
+    }>(`${environment.baseURL}/app/hook-tester`, { script, tag, hookValue });
+  }
+
   fetchLink3ActivityDetail(url?: string): Observable<{
     code: number;
     message: string;

@@ -2,7 +2,7 @@
   *ngIf="item && mode === 'default'"
   class="notify-observer-item-container"
   [ngStyle]="{ width: width + 'px' }"
-  [nzTitle]="item.notifyShowTitle || '【默认通知标题】'"
+  [nzTitle]="titleTemplate"
   [nzExtra]="extraTemplate"
 >
   <p style="display: flex; align-items: center; justify-content: space-between">
@@ -143,6 +143,14 @@
     <created-at [createdAt]="item.createdAt"></created-at>
   </div>
 </nz-card>
+
+<ng-template #titleTemplate>
+  <span
+    class="notify-observer-item-title"
+    [title]="item?.notifyShowTitle || '【默认通知标题】'"
+    >{{ item?.notifyShowTitle || "【默认通知标题】" }}</span
+  >
+</ng-template>
 <ng-template #extraTemplate>
   <button
     *ngIf="enableCopy"
