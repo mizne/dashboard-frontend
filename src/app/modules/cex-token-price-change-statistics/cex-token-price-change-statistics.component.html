@@ -249,7 +249,18 @@
                   {{ data.priceChangePercent | percent }}
                 </td>
 
-                <td>{{ data.currentPriceRelative | toFixed : 3 }}</td>
+                <td
+                  [title]="
+                    data.minPrice +
+                    '(min) ' +
+                    data.currentPrice +
+                    '(current) ' +
+                    data.maxPrice +
+                    '(max)'
+                  "
+                >
+                  {{ data.currentPriceRelative | toFixed : 3 }}
+                </td>
 
                 <td>{{ data.inDays }}</td>
 
