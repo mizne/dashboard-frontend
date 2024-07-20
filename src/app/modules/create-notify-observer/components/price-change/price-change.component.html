@@ -1,0 +1,47 @@
+<div class="create-price-change-notify-observer-container">
+  <form nz-form [formGroup]="data">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="标的symbol">
+        <span>标的symbol</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-cex-token-search-input
+          formControlName="priceChangeCexTokenSymbol"
+        ></app-cex-token-search-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="priceChangeType"
+        nzTooltipTitle="价格类型"
+      >
+        <span>价格类型</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-radio-group formControlName="priceChangeType" nzButtonStyle="solid">
+          <label
+            nz-radio-button
+            *ngFor="let item of priceChangeTypes"
+            [nzValue]="item.value"
+            >{{ item.label }}</label
+          >
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="价格数值">
+        <span>价格数值</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-input-number
+          formControlName="priceChangeToValue"
+          [nzStep]="1"
+        ></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

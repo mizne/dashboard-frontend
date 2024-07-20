@@ -49,6 +49,9 @@ import { BlogService } from './blog/blog.service'
 import { CreateHookComponent } from './hook/hook.component'
 import { HookService } from './hook/hook.service'
 
+import { CreatePriceChangeComponent } from './price-change/price-change.component'
+import { PriceChangeService } from './price-change/price-change.service'
+
 
 export const directives = [
   FormHostDirective
@@ -72,6 +75,7 @@ export const components = [
   CreateMediumComponent,
   CreateBlogComponent,
   CreateHookComponent,
+  CreatePriceChangeComponent,
 ]
 
 
@@ -92,5 +96,6 @@ export const services = [
   MediumService,
   BlogService,
   HookService,
+  PriceChangeService,
 ]
 

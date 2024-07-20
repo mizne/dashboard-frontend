@@ -30,7 +30,8 @@ export enum NotifyObserverTypes {
   MARKET = 'MARKET',
   GHOST = 'GHOST',
   BLOG = 'BLOG',
-  HOOK = 'HOOK'
+  HOOK = 'HOOK',
+  PRICE_CHANGE = 'PRICE_CHANGE',
 }
 
 export function genTaskRecordCondition(type: NotifyObserverTypes): any {
@@ -205,6 +206,11 @@ export interface NotifyObserver {
     fields: string[];
   }>
   hookLogo?: string;
+
+
+  priceChangeCexTokenSymbol: string;
+  priceChangeType: string;
+  priceChangeToValue: number;
 
   readonly createdAt: number;
   readonly createdAtStr: string;
