@@ -224,7 +224,16 @@
                 </td>
 
                 <td [title]="data.marketCap | currency">
-                  {{ data.marketCap | currency }}
+                  <span class="marketcap-value">{{
+                    data.marketCap | currency
+                  }}</span>
+                  <span
+                    *ngIf="data.marketCapRanking"
+                    class="marketcap-value"
+                    [title]="'市值排行 ' + data.marketCapRanking"
+                    style="margin-left: 12px; font-weight: bold"
+                    >{{ "# " + data.marketCapRanking }}</span
+                  >
                 </td>
 
                 <td
