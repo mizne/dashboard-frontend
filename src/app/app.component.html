@@ -153,3 +153,27 @@
     <span nz-icon nzType="pie-chart" nzTheme="outline"></span>
   </button>
 </ng-template>
+
+<cex-token-list [content]="cexTokenListTemplate"> </cex-token-list>
+<ng-template #cexTokenListTemplate>
+  <button
+    nz-button
+    nzType="primary"
+    [title]="'查看全部 cex token'"
+    style="position: fixed; top: 24px; right: 424px; z-index: 100"
+  >
+    CEX Token
+  </button>
+</ng-template>
+
+<cex-future-list [content]="cexTokenFutureTemplate"> </cex-future-list>
+<ng-template #cexTokenFutureTemplate>
+  <button
+    nz-button
+    nzType="primary"
+    [title]="'查看全部 cex future'"
+    style="position: fixed; top: 24px; right: 564px; z-index: 100"
+  >
+    CEX Future
+  </button>
+</ng-template>

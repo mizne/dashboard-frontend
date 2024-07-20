@@ -123,10 +123,6 @@ export class CexFutureItemDetailComponent implements OnInit {
   cexFutureAlertSelectCtrl = new FormControl('')
 
   ngOnInit() {
-
-
-    this.fetchMarkSymbols()
-
     this.listenSearchChange();
     this.listenHasCollectCtrlChange();
 
@@ -142,6 +138,7 @@ export class CexFutureItemDetailComponent implements OnInit {
     this.cexFutureAlertSelectCtrl.patchValue(this.symbol, { emitEvent: false })
     this.futureDetailModalVisible = true;
     this.futureDetailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
+    this.fetchMarkSymbols()
     this.fetchChartData()
     this.patchHasCollectCtrl();
   }

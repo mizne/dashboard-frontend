@@ -18,6 +18,8 @@ import { TaskRecordModalModule } from 'src/app/modules/task-record-modal';
 import { CexTokenItemDetailModule } from 'src/app/modules/cex-token-item-detail';
 import { CexFutureItemDetailModule } from 'src/app/modules/cex-future-item-detail';
 import { CexTokenPriceChangeStatisticsModule } from 'src/app/modules/cex-token-price-change-statistics';
+import { CexTokenListModule } from 'src/app/modules/cex-token-list';
+import { CexFutureListModule } from 'src/app/modules/cex-future-list';
 
 const ngZorroConfig: NzConfig = {
   notification: { nzPlacement: 'bottomLeft' }
@@ -40,6 +42,8 @@ registerLocaleData(zh);
     CexTokenItemDetailModule,
     CexFutureItemDetailModule,
     CexTokenPriceChangeStatisticsModule,
+    CexTokenListModule,
+    CexFutureListModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },

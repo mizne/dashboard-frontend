@@ -1,17 +1,15 @@
-<div class="cex-token-list-container">
-  <button
-    nz-button
-    nzType="primary"
-    (click)="open()"
-    [title]="'查看全部 cex token'"
-  >
-    CEX Token
-  </button>
+<div class="cex-token-list-module-container" (click)="open()">
+  <ng-container *ngIf="content" [ngTemplateOutlet]="content"></ng-container>
+  <ng-container *ngIf="!content">
+    <button nz-button nzType="primary" [title]="'查看全部 cex token'">
+      CEX Token
+    </button>
+  </ng-container>
 </div>
 
 <nz-modal
   [(nzVisible)]="visible"
-  [nzWidth]="800"
+  [nzWidth]="1200"
   [nzTitle]="'全部 cex token'"
   [nzFooter]="null"
   (nzOnCancel)="visible = false"
@@ -34,6 +32,20 @@
             [attr.id]="'name'"
             style="width: 120px"
           />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label>是否标记</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group formControlName="hasCollect" nzButtonStyle="solid">
+            <label
+              nz-radio-button
+              *ngFor="let item of colletStatuses"
+              [nzValue]="item.value"
+              >{{ item.label }}</label
+            >
+          </nz-radio-group>
         </nz-form-control>
       </nz-form-item>
 
@@ -111,7 +123,7 @@
               添加时间
             </th>
 
-            <th nzColumnKey="Action" style="width: 80px">操作</th>
+            <th nzColumnKey="Action" style="width: 200px">操作</th>
           </tr>
         </thead>
         <tbody>
@@ -142,7 +154,16 @@
             </td>
 
             <td [title]="data.marketCap | currency">
-              {{ data.marketCap | currency }}
+              <span class="marketcap-value">{{
+                data.marketCap | currency
+              }}</span>
+              <span
+                *ngIf="data.marketCapRanking"
+                class="marketcap-value"
+                [title]="'市值排行 ' + data.marketCapRanking"
+                style="margin-left: 12px; font-weight: bold"
+                >{{ "# " + data.marketCapRanking }}</span
+              >
             </td>
 
             <td>
@@ -150,25 +171,32 @@
             </td>
 
             <td>
-              <a
-                nz-popconfirm
-                nzPopconfirmTitle="确认删除该条数据?"
-                nzPopconfirmPlacement="bottom"
-                (nzOnConfirm)="confirmDelete(data)"
-                (nzOnCancel)="cancelDelete(data)"
-              >
-                <button
-                  nz-button
-                  nzType="primary"
-                  nzDanger
-                  nzShape="circle"
-                  nzSize="small"
-                  nz-tooltip
-                  [nzTooltipTitle]="'删除'"
+              <div style="display: flex; align-items: center">
+                <cex-token-item-detail
+                  [symbol]="data.symbol"
+                ></cex-token-item-detail>
+
+                <a
+                  nz-popconfirm
+                  nzPopconfirmTitle="确认删除该条数据?"
+                  nzPopconfirmPlacement="bottom"
+                  (nzOnConfirm)="confirmDelete(data)"
+                  (nzOnCancel)="cancelDelete(data)"
+                  style="margin-left: 4px"
                 >
-                  <i nz-icon nzType="delete" nzTheme="outline"></i>
-                </button>
-              </a>
+                  <button
+                    nz-button
+                    nzType="primary"
+                    nzDanger
+                    nzShape="circle"
+                    nzSize="small"
+                    nz-tooltip
+                    [nzTooltipTitle]="'删除'"
+                  >
+                    <i nz-icon nzType="delete" nzTheme="outline"></i>
+                  </button>
+                </a>
+              </div>
             </td>
           </tr>
         </tbody>

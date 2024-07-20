@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
@@ -24,6 +24,8 @@ export class CexTokenListComponent implements OnInit {
     private fb: FormBuilder
   ) { }
 
+  @Input() content: TemplateRef<any> | null = null;
+
   visible = false;
 
   total = 0;
@@ -38,8 +40,23 @@ export class CexTokenListComponent implements OnInit {
 
   form = this.fb.group({
     name: [''],
+    hasCollect: [null],
     createdAt: [0],
   });
+  colletStatuses = [
+    {
+      label: '所有',
+      value: null
+    },
+    {
+      label: '已标记',
+      value: true
+    },
+    {
+      label: '未标记',
+      value: false
+    }
+  ]
   createdAtOptions = [
     {
       label: '最近 1 天',
@@ -177,6 +194,10 @@ export class CexTokenListComponent implements OnInit {
             { name: { $regex: query['name'].trim(), $options: 'i' } },
             { symbol: { $regex: query['name'].trim(), $options: 'i' } },
           ],
+        });
+      } else if (key === 'hasCollect') {
+        Object.assign(o, {
+          ['hasCollect']: !!query['hasCollect'] ? true : { $in: [false, null, undefined] },
         });
       } else if (key === 'createdAt') {
         Object.assign(

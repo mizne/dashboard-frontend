@@ -1,0 +1,191 @@
+<div class="cex-future-list-module-container" (click)="open()">
+  <ng-container *ngIf="content" [ngTemplateOutlet]="content"></ng-container>
+  <ng-container *ngIf="!content">
+    <button nz-button nzType="primary" [title]="'查看全部 cex future'">
+      CEX Future
+    </button>
+  </ng-container>
+</div>
+
+<nz-modal
+  [(nzVisible)]="visible"
+  [nzWidth]="1200"
+  [nzTitle]="'全部 cex future'"
+  [nzFooter]="null"
+  (nzOnCancel)="visible = false"
+>
+  <ng-container *nzModalContent>
+    <form
+      nz-form
+      [formGroup]="form"
+      (ngSubmit)="submitForm()"
+      [nzLayout]="'inline'"
+    >
+      <nz-form-item>
+        <nz-form-label nzFor="symbol">symbol</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            class="ant-input"
+            placeholder="请输入symbol"
+            formControlName="symbol"
+            [attr.id]="'symbol'"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label>是否标记</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group formControlName="hasCollect" nzButtonStyle="solid">
+            <label
+              nz-radio-button
+              *ngFor="let item of colletStatuses"
+              [nzValue]="item.value"
+              >{{ item.label }}</label
+            >
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="createdAt">添加时间</nz-form-label>
+        <nz-form-control>
+          <nz-select
+            formControlName="createdAt"
+            [attr.id]="'createdAt'"
+            style="width: 100px"
+          >
+            <nz-option
+              *ngFor="let item of createdAtOptions"
+              [nzValue]="item.value"
+              [nzLabel]="item.label"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="register-area">
+        <nz-form-control>
+          <button nz-button [nzType]="'primary'">搜索</button>
+          <button
+            nz-button
+            type="button"
+            (click)="resetForm()"
+            style="margin-left: 6px"
+          >
+            重置
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item
+        class="register-area"
+        style="display: flex; align-items: center; justify-content: center"
+      >
+        <update-time [status]="status"></update-time>
+      </nz-form-item>
+    </form>
+
+    <nz-card style="margin-top: 12px">
+      <nz-table
+        nzShowSizeChanger
+        [nzData]="items"
+        [nzFrontPagination]="false"
+        [nzLoading]="loading"
+        [nzTotal]="total"
+        [nzShowTotal]="rangeTemplate"
+        [nzPageSize]="pageSize"
+        [nzPageIndex]="pageIndex"
+        (nzQueryParams)="onQueryParamsChange($event)"
+      >
+        <thead>
+          <tr>
+            <th nzColumnKey="symbol">symbol</th>
+            <th nzColumnKey="pair">pair</th>
+            <th nzColumnKey="baseAsset">跟踪标的</th>
+            <th nzColumnKey="contractType">合约类型</th>
+            <th
+              nzColumnKey="createdAt"
+              [nzSortFn]="true"
+              [nzSortDirections]="['descend', 'ascend', null]"
+            >
+              添加时间
+            </th>
+            <th nzColumnKey="Action" style="width: 200px">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of items">
+            <td style="display: flex; align-items: center; min-height: 65px">
+              <app-collect-input
+                [formControl]="data.hasCollectCtrl"
+                style="margin-right: 8px"
+              ></app-collect-input>
+              <cex-token-symbol-item
+                [name]="data.baseAsset"
+                [content]="symbolContent"
+              >
+              </cex-token-symbol-item>
+
+              <ng-template #symbolContent let-logoName="logoName">
+                <image-view
+                  [name]="logoName"
+                  style="margin-right: 4px"
+                ></image-view>
+                <span class="symbol-item-custom-content">{{
+                  data.symbol
+                }}</span>
+              </ng-template>
+            </td>
+            <td>
+              <span>{{ data.pair }}</span>
+            </td>
+            <td>
+              <span>{{ data.baseAsset }}</span>
+            </td>
+            <td>
+              <span>{{ data.contractType }}</span>
+            </td>
+
+            <td>
+              <created-at [createdAt]="data.createdAt"></created-at>
+            </td>
+            <td>
+              <div style="display: flex; align-items: center">
+                <cex-future-item-detail
+                  [symbol]="data.symbol"
+                ></cex-future-item-detail>
+
+                <a
+                  nz-popconfirm
+                  nzPopconfirmTitle="确认删除该条数据?"
+                  nzPopconfirmPlacement="bottom"
+                  (nzOnConfirm)="confirmDelete(data)"
+                  (nzOnCancel)="cancelDelete(data)"
+                  style="margin-left: 4px"
+                >
+                  <button
+                    nz-button
+                    nzType="primary"
+                    nzDanger
+                    nzShape="circle"
+                    nzSize="small"
+                    nz-tooltip
+                    [nzTooltipTitle]="'删除'"
+                  >
+                    <i nz-icon nzType="delete" nzTheme="outline"></i>
+                  </button>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+      <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} of {{ total }} items
+      </ng-template>
+    </nz-card>
+  </ng-container>
+</nz-modal>
