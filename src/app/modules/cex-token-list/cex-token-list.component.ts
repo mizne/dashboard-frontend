@@ -58,10 +58,10 @@ export class CexTokenListComponent implements OnInit {
     }
   ]
   createdAtOptions = [
-    {
-      label: '最近 1 天',
-      value: 24 * 60 * 60 * 1e3,
-    },
+    // {
+    //   label: '最近 1 天',
+    //   value: 24 * 60 * 60 * 1e3,
+    // },
     {
       label: '最近 3 天',
       value: 3 * 24 * 60 * 60 * 1e3,
@@ -73,6 +73,18 @@ export class CexTokenListComponent implements OnInit {
     {
       label: '最近 30 天',
       value: 30 * 24 * 60 * 60 * 1e3,
+    },
+    {
+      label: '最近 90 天',
+      value: 90 * 24 * 60 * 60 * 1e3,
+    },
+    {
+      label: '最近 180 天',
+      value: 180 * 24 * 60 * 60 * 1e3,
+    },
+    {
+      label: '最近 360 天',
+      value: 360 * 24 * 60 * 60 * 1e3,
     },
     {
       label: '全部',
