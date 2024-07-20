@@ -6,8 +6,6 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { removeEmpty } from 'src/app/utils';
 import { ActivatedRoute } from '@angular/router';
-import { tokenTagNameOfTotalMarket } from 'src/app/shared';
-import { CexTokenTagService } from 'src/app/shared';
 import { KlineIntervals, KlineIntervalService } from 'src/app/shared';
 
 @Component({
@@ -18,7 +16,6 @@ import { KlineIntervals, KlineIntervalService } from 'src/app/shared';
 export class OverviewComponent implements OnInit {
   constructor(
     private readonly cexTokenDailyService: CexTokenDailyService,
-    private readonly cexTokenTagService: CexTokenTagService,
     private readonly klineIntervalService: KlineIntervalService,
     private readonly notification: NzNotificationService,
     private readonly fb: FormBuilder,
