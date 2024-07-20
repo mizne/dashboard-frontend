@@ -174,7 +174,20 @@
               <div style="display: flex; align-items: center">
                 <cex-token-item-detail
                   [symbol]="data.symbol"
+                  [content]="cexTokenContentTemplate"
                 ></cex-token-item-detail>
+
+                <ng-template #cexTokenContentTemplate>
+                  <button
+                    nz-button
+                    nzType="primary"
+                    nzShape="circle"
+                    nzSize="small"
+                    [title]="'查看 现货详情'"
+                  >
+                    <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
+                  </button>
+                </ng-template>
 
                 <a
                   nz-popconfirm
@@ -182,7 +195,7 @@
                   nzPopconfirmPlacement="bottom"
                   (nzOnConfirm)="confirmDelete(data)"
                   (nzOnCancel)="cancelDelete(data)"
-                  style="margin-left: 4px"
+                  style="margin-left: 12px"
                 >
                   <button
                     nz-button

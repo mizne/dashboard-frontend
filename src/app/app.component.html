@@ -110,9 +110,8 @@
 <timer-notify-observer-modal></timer-notify-observer-modal>
 <network-checker></network-checker>
 
-<cex-token-item-detail [symbol]="'BTCUSDT'" [content]="cexTokenItemTemplate">
-</cex-token-item-detail>
-<ng-template #cexTokenItemTemplate>
+<cex-token-list [content]="cexTokenListTemplate"> </cex-token-list>
+<ng-template #cexTokenListTemplate>
   <button
     nz-button
     nzType="primary"
@@ -120,13 +119,12 @@
     [title]="'查看 现货详情'"
     style="position: fixed; top: 24px; right: 184px; z-index: 100"
   >
-    <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
+    <span>T</span>
   </button>
 </ng-template>
 
-<cex-future-item-detail [symbol]="'BTCUSDT'" [content]="cexFutureItemTemplate">
-</cex-future-item-detail>
-<ng-template #cexFutureItemTemplate>
+<cex-future-list [content]="cexFutureListTemplate"> </cex-future-list>
+<ng-template #cexFutureListTemplate>
   <button
     nz-button
     nzType="primary"
@@ -134,7 +132,7 @@
     [title]="'查看 合约详情'"
     style="position: fixed; top: 24px; right: 264px; z-index: 100"
   >
-    <span nz-icon nzType="line-chart" nzTheme="outline"></span>
+    <span>F</span>
   </button>
 </ng-template>
 
@@ -151,29 +149,5 @@
     style="position: fixed; top: 24px; right: 344px; z-index: 100"
   >
     <span nz-icon nzType="pie-chart" nzTheme="outline"></span>
-  </button>
-</ng-template>
-
-<cex-token-list [content]="cexTokenListTemplate"> </cex-token-list>
-<ng-template #cexTokenListTemplate>
-  <button
-    nz-button
-    nzType="primary"
-    [title]="'查看全部 cex token'"
-    style="position: fixed; top: 24px; right: 424px; z-index: 100"
-  >
-    CEX Token
-  </button>
-</ng-template>
-
-<cex-future-list [content]="cexTokenFutureTemplate"> </cex-future-list>
-<ng-template #cexTokenFutureTemplate>
-  <button
-    nz-button
-    nzType="primary"
-    [title]="'查看全部 cex future'"
-    style="position: fixed; top: 24px; right: 564px; z-index: 100"
-  >
-    CEX Future
   </button>
 </ng-template>

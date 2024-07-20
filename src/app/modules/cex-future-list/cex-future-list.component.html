@@ -155,7 +155,20 @@
               <div style="display: flex; align-items: center">
                 <cex-future-item-detail
                   [symbol]="data.symbol"
+                  [content]="cexFutureContentTemplate"
                 ></cex-future-item-detail>
+
+                <ng-template #cexFutureContentTemplate>
+                  <button
+                    nz-button
+                    nzType="primary"
+                    nzShape="circle"
+                    nzSize="small"
+                    [title]="'查看 合约详情'"
+                  >
+                    <span nz-icon nzType="line-chart" nzTheme="outline"></span>
+                  </button>
+                </ng-template>
 
                 <a
                   nz-popconfirm
@@ -163,7 +176,7 @@
                   nzPopconfirmPlacement="bottom"
                   (nzOnConfirm)="confirmDelete(data)"
                   (nzOnCancel)="cancelDelete(data)"
-                  style="margin-left: 4px"
+                  style="margin-left: 12px"
                 >
                   <button
                     nz-button
