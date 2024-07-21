@@ -1,9 +1,10 @@
 <span
   class="cex-token-symbol-item-container"
   nz-popover
+  nzPopoverTrigger="click"
   [nzPopoverTitle]="titleTemplate"
   [nzPopoverContent]="contentTemplate"
-  style="display: flex; align-items: center"
+  style="display: flex; align-items: center; cursor: pointer"
 >
   <ng-container
     *ngIf="content"
@@ -71,6 +72,69 @@
           [nzPercent]="_supplyPercent"
           nzStatus="active"
         ></nz-progress>
+      </span>
+    </div>
+
+    <div class="symbol-item-tags" style="margin-bottom: 24px">
+      <span class="notify-label" style="margin-right: 6px">价格通知：</span>
+      <span class="notify-add" style="margin-right: 6px">
+        <button
+          nz-button
+          (click)="confirmAdd()"
+          nzType="primary"
+          nzShape="circle"
+          nzSize="small"
+          nz-tooltip
+          [nzTooltipTitle]="'添加价格通知'"
+          style="margin-right: 12px"
+        >
+          <i nz-icon nzType="plus" nzTheme="outline"></i>
+        </button>
+      </span>
+      <span class="notify-value">
+        <div
+          class="notify-item"
+          *ngFor="let item of notifyObservers"
+          style="margin-bottom: 8px"
+        >
+          <span
+            [title]="item.priceChangeType + ' ' + item.priceChangeToValue"
+            style="margin-right: 36px"
+            >{{ item.notifyShowTitle }}</span
+          >
+          <button
+            nz-button
+            (click)="confirmUpdate(item)"
+            nzType="primary"
+            nzShape="circle"
+            nzSize="small"
+            nz-tooltip
+            [nzTooltipTitle]="'修改'"
+            style="margin-right: 12px"
+          >
+            <i nz-icon nzType="edit" nzTheme="outline"></i>
+          </button>
+
+          <a
+            nz-popconfirm
+            nzPopconfirmTitle="确认删除该条数据?"
+            nzPopconfirmPlacement="bottom"
+            (nzOnConfirm)="confirmDelete(item)"
+            (nzOnCancel)="cancelDelete(item)"
+          >
+            <button
+              nz-button
+              nzType="primary"
+              nzDanger
+              nzShape="circle"
+              nzSize="small"
+              nz-tooltip
+              [nzTooltipTitle]="'删除'"
+            >
+              <i nz-icon nzType="delete" nzTheme="outline"></i>
+            </button>
+          </a>
+        </div>
       </span>
     </div>
 

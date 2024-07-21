@@ -9,8 +9,9 @@ import {
 import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { map, firstValueFrom, lastValueFrom } from 'rxjs';
-import { CexTokenCacheService, CexTokenService } from 'src/app/shared';
+import { CexTokenCacheService, CexTokenService, NotifyObserver, NotifyObserverService, NotifyObserverTypes } from 'src/app/shared';
 import { CexTokenTagCacheService } from 'src/app/shared';
+import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer'
 
 @Component({
   selector: 'cex-token-symbol-item',
@@ -20,8 +21,10 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
   constructor(
     private readonly cexTokenCacheService: CexTokenCacheService,
     private readonly cexTokenService: CexTokenService,
+    private readonly notifyObserverService: NotifyObserverService,
     private readonly cexTokenTagCacheService: CexTokenTagCacheService,
     private readonly nzNotificationService: NzNotificationService,
+    private readonly createNotifyObserverService: CreateNotifyObserverService,
   ) { }
 
   @Input() symbol = '';
@@ -51,6 +54,8 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
   hasCollectCtrl = new FormControl(false)
 
   templateContext: { [key: string]: any } = {};
+
+  notifyObservers: NotifyObserver[] = []
 
   ngOnInit() {
     this.hasCollectCtrl.valueChanges.subscribe(v => {
@@ -113,7 +118,9 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
           );
         }
 
-        this.hasCollectCtrl.patchValue(!!token.hasCollect, { emitEvent: false })
+        this.hasCollectCtrl.patchValue(!!token.hasCollect, { emitEvent: false });
+
+        this.fetchPriceChangeNotifyObservers()
       } else {
         this._symbol = symbol || name || '';
         console.warn(`[CexTokenSymbolItemComponent.ts] not found token by name: ${name} symbol: ${symbol}`);
@@ -145,4 +152,59 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
         })
     }
   }
+
+  private async fetchPriceChangeNotifyObservers() {
+    if (this._symbol) {
+      const notifyObservers = await lastValueFrom(this.notifyObserverService.queryList({
+        type: NotifyObserverTypes.PRICE_CHANGE,
+        priceChangeCexTokenSymbol: this._symbol
+      }))
+
+      this.notifyObservers = notifyObservers
+    }
+  }
+
+  confirmAdd() {
+    const { success, error } = this.createNotifyObserverService.createModal(`添加通知源`, {
+      type: NotifyObserverTypes.PRICE_CHANGE,
+      priceChangeCexTokenSymbol: this._symbol
+    }, NotifyObserverModalActions.CREATE)
+    success.subscribe((v) => {
+      this.nzNotificationService.success(
+        `添加通知源 成功`,
+        `添加通知源 成功`
+      );
+      this.fetchPriceChangeNotifyObservers()
+    });
+    error.subscribe((e) => {
+      this.nzNotificationService.error(`添加通知源 失败`, `${e.message}`);
+    });
+  }
+
+  confirmUpdate(item: NotifyObserver) {
+    const { success, error } = this.createNotifyObserverService.createModal(`修改通知源`, item, NotifyObserverModalActions.UPDATE)
+    success.subscribe((v) => {
+      this.nzNotificationService.success(
+        `修改通知源 成功`,
+        `修改通知源 成功`
+      );
+      this.fetchPriceChangeNotifyObservers()
+    });
+    error.subscribe((e) => {
+      this.nzNotificationService.error(`修改通知源 失败`, `${e.message}`);
+    });
+  }
+  confirmDelete(item: NotifyObserver) {
+    this.notifyObserverService.deleteByID(item._id as string)
+      .subscribe({
+        next: () => {
+          this.nzNotificationService.success(`删除通知源 成功`, `删除通知源 成功`);
+          this.fetchPriceChangeNotifyObservers()
+        },
+        error: (err) => {
+          this.nzNotificationService.error(`删除通知源 失败`, `${err.message}`);
+        }
+      })
+  }
+  cancelDelete(item: NotifyObserver) { }
 }
