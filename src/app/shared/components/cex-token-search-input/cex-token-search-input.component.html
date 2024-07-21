@@ -1,16 +1,35 @@
 <div class="cex-token-search-input-container">
-  <nz-select style="width: 100%;" nzShowSearch nzServerSearch nzPlaceHolder="input search text"
-    [formControl]="selectedInputCtrl" [nzShowArrow]="false" [nzFilterOption]="nzFilterOption"
-    (nzOnSearch)="search($event)" (nzScrollToBottom)="loadMore()" [nzDropdownRender]="renderTemplate">
-    <nz-option *ngFor="let o of listOfOption" [nzLabel]="o.symbol" [nzValue]="o.symbol"></nz-option>
+  <nz-select
+    style="width: 100%"
+    nzShowSearch
+    nzServerSearch
+    nzPlaceHolder="选择标的"
+    [formControl]="selectedInputCtrl"
+    [nzShowArrow]="false"
+    [nzFilterOption]="nzFilterOption"
+    (nzOnSearch)="search($event)"
+    (nzScrollToBottom)="loadMore()"
+    [nzDropdownRender]="renderTemplate"
+  >
+    <nz-option
+      *ngFor="let o of listOfOption"
+      [nzLabel]="o.symbol"
+      [nzValue]="o.symbol"
+    ></nz-option>
   </nz-select>
 
   <ng-template #renderTemplate>
     <nz-spin *ngIf="isLoading"></nz-spin>
-    <span *ngIf="completed" style="margin: 0px 12px;
-    line-height: 22px;
-    min-height: 32px;
-    display: flex;
-    align-items: center;">No More Data</span>
+    <span
+      *ngIf="completed"
+      style="
+        margin: 0px 12px;
+        line-height: 22px;
+        min-height: 32px;
+        display: flex;
+        align-items: center;
+      "
+      >No More Data</span
+    >
   </ng-template>
 </div>
