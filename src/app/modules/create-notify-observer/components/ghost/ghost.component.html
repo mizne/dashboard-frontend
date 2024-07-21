@@ -1,20 +1,40 @@
 <div class="create-ghost-notify-observer-container">
   <form nz-form [formGroup]="data">
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="ghostHomeLink" nzTooltipTitle="ghost 主页链接">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="ghostHomeLink"
+        nzRequired
+        nzTooltipTitle="ghost 主页链接"
+      >
         <span>ghost 主页链接</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input class="ant-input" id="ghostHomeLink" formControlName="ghostHomeLink" />
+        <input
+          nz-input
+          class="ant-input"
+          id="ghostHomeLink"
+          formControlName="ghostHomeLink"
+        />
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="ghostTitleKey" nzTooltipTitle="如填写，则匹配该关键字">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="ghostTitleKey"
+        nzTooltipTitle="如填写，则匹配该关键字"
+      >
         <span>标题关键字</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <app-multi-input type="string" mode="string" formControlName="ghostTitleKey"></app-multi-input>
+        <app-multi-input
+          type="string"
+          mode="string"
+          formControlName="ghostTitleKey"
+        ></app-multi-input>
       </nz-form-control>
     </nz-form-item>
   </form>

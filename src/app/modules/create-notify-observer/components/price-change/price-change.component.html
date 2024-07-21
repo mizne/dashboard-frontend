@@ -1,7 +1,12 @@
 <div class="create-price-change-notify-observer-container">
   <form nz-form [formGroup]="data">
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="标的symbol">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzRequired
+        nzTooltipTitle="标的symbol"
+      >
         <span>标的symbol</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -15,6 +20,7 @@
       <nz-form-label
         [nzSm]="6"
         [nzXs]="24"
+        nzRequired
         nzFor="priceChangeType"
         nzTooltipTitle="价格类型"
       >
@@ -33,7 +39,12 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="价格数值">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzRequired
+        nzTooltipTitle="价格数值"
+      >
         <span>价格数值</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">

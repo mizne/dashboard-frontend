@@ -1,25 +1,49 @@
 <div class="create-twitter-notify-observer-container">
   <form nz-form [formGroup]="data">
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="twitterHomeLink" nzTooltipTitle="twitter 主页链接">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="twitterHomeLink"
+        nzRequired
+        nzTooltipTitle="twitter 主页链接"
+      >
         <span>twitter 主页链接</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input class="ant-input" id="twitterHomeLink" formControlName="twitterHomeLink" />
+        <input
+          nz-input
+          class="ant-input"
+          id="twitterHomeLink"
+          formControlName="twitterHomeLink"
+        />
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="twitterTitleKey" nzTooltipTitle="如填写，则匹配该关键字">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="twitterTitleKey"
+        nzTooltipTitle="如填写，则匹配该关键字"
+      >
         <span>文章关键字</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <app-multi-input type="string" mode="string" formControlName="twitterTitleKey"></app-multi-input>
+        <app-multi-input
+          type="string"
+          mode="string"
+          formControlName="twitterTitleKey"
+        ></app-multi-input>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，使用全局默认关键字">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzTooltipTitle="开启后，使用全局默认关键字"
+      >
         <span>全局默认关键字</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -28,7 +52,11 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，追踪twitter reply">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzTooltipTitle="开启后，追踪twitter reply"
+      >
         <span>追踪 回复推文</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -37,7 +65,11 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，追踪twitter like">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzTooltipTitle="开启后，追踪twitter like"
+      >
         <span>追踪 点赞推文</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -46,7 +78,11 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，追踪twitter 关注列表变化">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzTooltipTitle="开启后，追踪twitter 关注列表变化"
+      >
         <span>追踪 关注列表变化</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">

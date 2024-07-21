@@ -1,20 +1,40 @@
 <div class="create-snapshot-notify-observer-container">
   <form nz-form [formGroup]="data">
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="snapshotHomeLink" nzTooltipTitle="snapshot 主页链接">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="snapshotHomeLink"
+        nzRequired
+        nzTooltipTitle="snapshot 主页链接"
+      >
         <span>snapshot 主页链接</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input class="ant-input" id="snapshotHomeLink" formControlName="snapshotHomeLink" />
+        <input
+          nz-input
+          class="ant-input"
+          id="snapshotHomeLink"
+          formControlName="snapshotHomeLink"
+        />
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="snapshotTitleKey" nzTooltipTitle="如填写，则匹配该关键字">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="snapshotTitleKey"
+        nzTooltipTitle="如填写，则匹配该关键字"
+      >
         <span>标题关键字</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <app-multi-input type="string" mode="string" formControlName="snapshotTitleKey"></app-multi-input>
+        <app-multi-input
+          type="string"
+          mode="string"
+          formControlName="snapshotTitleKey"
+        ></app-multi-input>
       </nz-form-control>
     </nz-form-item>
   </form>

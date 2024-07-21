@@ -1,20 +1,40 @@
 <div class="create-soquest-notify-observer-container">
   <form nz-form [formGroup]="data">
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="soQuestHomeLink" nzTooltipTitle="soquest 主页链接">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="soQuestHomeLink"
+        nzRequired
+        nzTooltipTitle="soquest 主页链接"
+      >
         <span>soquest 主页链接</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input class="ant-input" id="soQuestHomeLink" formControlName="soQuestHomeLink" />
+        <input
+          nz-input
+          class="ant-input"
+          id="soQuestHomeLink"
+          formControlName="soQuestHomeLink"
+        />
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="soQuestTitleKey" nzTooltipTitle="如填写，则匹配该关键字">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="soQuestTitleKey"
+        nzTooltipTitle="如填写，则匹配该关键字"
+      >
         <span>标题关键字</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <app-multi-input type="string" mode="string" formControlName="soQuestTitleKey"></app-multi-input>
+        <app-multi-input
+          type="string"
+          mode="string"
+          formControlName="soQuestTitleKey"
+        ></app-multi-input>
       </nz-form-control>
     </nz-form-item>
   </form>

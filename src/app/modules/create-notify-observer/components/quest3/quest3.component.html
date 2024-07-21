@@ -1,20 +1,40 @@
 <div class="create-quest3-notify-observer-container">
   <form nz-form [formGroup]="data">
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="quest3HomeLink" nzTooltipTitle="quest3 主页链接">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="quest3HomeLink"
+        nzRequired
+        nzTooltipTitle="quest3 主页链接"
+      >
         <span>quest3 主页链接</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input class="ant-input" id="quest3HomeLink" formControlName="quest3HomeLink" />
+        <input
+          nz-input
+          class="ant-input"
+          id="quest3HomeLink"
+          formControlName="quest3HomeLink"
+        />
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="quest3TitleKey" nzTooltipTitle="如填写，则匹配该关键字">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="quest3TitleKey"
+        nzTooltipTitle="如填写，则匹配该关键字"
+      >
         <span>标题关键字</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <app-multi-input type="string" mode="string" formControlName="quest3TitleKey"></app-multi-input>
+        <app-multi-input
+          type="string"
+          mode="string"
+          formControlName="quest3TitleKey"
+        ></app-multi-input>
       </nz-form-control>
     </nz-form-item>
   </form>
