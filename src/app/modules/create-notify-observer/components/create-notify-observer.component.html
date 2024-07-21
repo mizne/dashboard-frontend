@@ -1,19 +1,41 @@
 <div class="create-notify-observer-container">
   <form nz-form [formGroup]="baseForm">
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="sourceType" nzRequired nzTooltipTitle="来源类型">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="sourceType"
+        nzRequired
+        nzTooltipTitle="来源类型"
+      >
         <span>来源类型</span>
       </nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your 来源类型!">
-        <nz-select [attr.id]="'sourceType'" formControlName="type" [nzDisabled]="disabledType">
-          <nz-option *ngFor="let item of types" [nzValue]="item.value" [nzLabel]="item.label">
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Please input your 来源类型!"
+      >
+        <nz-select
+          [attr.id]="'sourceType'"
+          formControlName="type"
+          [nzDisabled]="disabledType"
+        >
+          <nz-option
+            *ngFor="let item of types"
+            [nzValue]="item.value"
+            [nzLabel]="item.label"
+          >
           </nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，定时追踪最新通知">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzTooltipTitle="开启后，定时追踪最新通知"
+      >
         <span>开启追踪</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -22,7 +44,11 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzTooltipTitle="开启后，通知到telegram客户端">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzTooltipTitle="开启后，通知到telegram客户端"
+      >
         <span>通知到telegram</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -35,7 +61,9 @@
         <span>关注项目</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <followed-project-select formControlName="followedProjectID"></followed-project-select>
+        <followed-project-select
+          formControlName="followedProjectID"
+        ></followed-project-select>
       </nz-form-control>
     </nz-form-item>
 
@@ -49,15 +77,25 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="notifyShowTitle" nzTooltipTitle="通知标题，支持占位符{title}、{time}">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="notifyShowTitle"
+        nzRequired
+        nzTooltipTitle="通知标题，支持占位符{title}、{time}"
+      >
         <span>通知标题</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input class="ant-input" id="notifyShowTitle" formControlName="notifyShowTitle" />
+        <input
+          nz-input
+          class="ant-input"
+          id="notifyShowTitle"
+          formControlName="notifyShowTitle"
+        />
       </nz-form-control>
     </nz-form-item>
   </form>
-
 
   <ng-template formHost></ng-template>
 </div>
