@@ -167,6 +167,8 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
   confirmAdd() {
     const { success, error } = this.createNotifyObserverService.createModal(`添加通知源`, {
       type: NotifyObserverTypes.PRICE_CHANGE,
+      notifyShowTitle: `${this._symbol} 价格通知`,
+      enableTelegram: true,
       priceChangeCexTokenSymbol: this._symbol
     }, NotifyObserverModalActions.CREATE)
     success.subscribe((v) => {
