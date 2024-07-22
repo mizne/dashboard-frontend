@@ -11,7 +11,6 @@ import {
 import {
   NotifyObserver,
   NotifyObserverService,
-  NotifyObserverTypes,
   SharedService,
 } from 'src/app/shared';
 import { removeEmpty } from 'src/app/utils';
@@ -57,8 +56,8 @@ export class MyNotificationComponent implements OnInit {
     enableTracking: [null],
     enableTelegram: [null],
     followedProjectID: [null],
-    timerEnableScript: [null],
-    timerEnableStatistics: [null],
+    enableScript: [null],
+    enableStatistics: [null],
     scriptText: [null],
   });
 
@@ -255,31 +254,74 @@ export class MyNotificationComponent implements OnInit {
   }
 
   private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
-    // name website 支持正则查询
-    const o: { [key: string]: any } = {};
+    // 支持正则查询
+    const o: { [key: string]: any } = {
+      $and: []
+    };
     Object.keys(query).forEach((key) => {
       if (key === 'notifyShowTitle') {
-        Object.assign(o, {
+        o['$and'].push({
           ['notifyShowTitle']: {
             $regex: query['notifyShowTitle'].trim(),
             $options: 'i',
           },
-        });
+        })
       } else if (key === 'scriptText') {
-        Object.assign(o, {
+        o['$and'].push({
           ['$or']: [
             { blogScript: { $regex: query['scriptText'].trim(), $options: 'i' } },
             { timerScript: { $regex: query['scriptText'].trim(), $options: 'i' } },
+            { hookScript: { $regex: query['scriptText'].trim(), $options: 'i' } },
           ],
-        });
+        })
+      } else if (key === 'enableScript') {
+        o['$and'].push({
+          ['$or']: [
+            ...(!!query['enableScript'] ? [
+              {
+                timerEnableScript: true,
+              },
+              {
+                hookEnableScript: true,
+              }
+            ] : [
+              {
+                timerEnableScript: { $in: [false, null, undefined] },
+                hookEnableScript: { $in: [false, null, undefined] },
+              }
+            ])
+          ],
+        })
+      } else if (key === 'enableStatistics') {
+        o['$and'].push({
+          ['$or']: [
+            ...(!!query['enableStatistics'] ? [
+              {
+                timerEnableStatistics: true,
+              },
+              {
+                hookEnableStatistics: true,
+              }
+            ] : [
+              {
+                timerEnableStatistics: { $in: [false, null, undefined] },
+                hookEnableStatistics: { $in: [false, null, undefined] },
+              }
+            ])
+          ],
+        })
       } else if (key === 'enableTelegram') {
-        Object.assign(o, {
+        o['$and'].push({
           ['enableTelegram']: query['enableTelegram'] ? true : { $in: [false, null, undefined] }
         })
       } else {
-        Object.assign(o, { [key]: query[key] });
+        o['$and'].push({ [key]: query[key] })
       }
     });
+
+    if (o['$and'].length === 0) {
+      return {}
+    }
     return o;
   }
 }

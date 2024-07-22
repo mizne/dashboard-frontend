@@ -4,19 +4,32 @@
       <div nz-row [nzGutter]="24">
         <div nz-col [nzSpan]="6">
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="notifyShowTitle">通知标题</nz-form-label>
+            <nz-form-label [nzSpan]="10" nzFor="notifyShowTitle"
+              >通知标题</nz-form-label
+            >
             <nz-form-control [nzSpan]="14">
-              <input nz-input class="ant-input" placeholder="请输入通知标题" formControlName="notifyShowTitle"
-                [attr.id]="'notifyShowTitle'" />
+              <input
+                nz-input
+                class="ant-input"
+                placeholder="请输入通知标题"
+                formControlName="notifyShowTitle"
+                [attr.id]="'notifyShowTitle'"
+              />
             </nz-form-control>
           </nz-form-item>
         </div>
 
         <div nz-col [nzSpan]="6">
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="enableTracking">是否追踪</nz-form-label>
+            <nz-form-label [nzSpan]="10" nzFor="enableTracking"
+              >是否追踪</nz-form-label
+            >
             <nz-form-control [nzSpan]="14">
-              <nz-radio-group formControlName="enableTracking" nzSize="small" [nzButtonStyle]="'solid'">
+              <nz-radio-group
+                formControlName="enableTracking"
+                nzSize="small"
+                [nzButtonStyle]="'solid'"
+              >
                 <label nz-radio-button [nzValue]="null">所有</label>
                 <label nz-radio-button [nzValue]="true">已追踪</label>
                 <label nz-radio-button [nzValue]="false">未追踪</label>
@@ -27,9 +40,15 @@
 
         <div nz-col [nzSpan]="6">
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="enableTelegram">是否通知telegram</nz-form-label>
+            <nz-form-label [nzSpan]="10" nzFor="enableTelegram"
+              >是否通知telegram</nz-form-label
+            >
             <nz-form-control [nzSpan]="14">
-              <nz-radio-group formControlName="enableTelegram" nzSize="small" [nzButtonStyle]="'solid'">
+              <nz-radio-group
+                formControlName="enableTelegram"
+                nzSize="small"
+                [nzButtonStyle]="'solid'"
+              >
                 <label nz-radio-button [nzValue]="null">所有</label>
                 <label nz-radio-button [nzValue]="true">通知</label>
                 <label nz-radio-button [nzValue]="false">不通知</label>
@@ -40,23 +59,33 @@
 
         <div nz-col [nzSpan]="6">
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="sourceType">来源类型</nz-form-label>
+            <nz-form-label [nzSpan]="10" nzFor="sourceType"
+              >来源类型</nz-form-label
+            >
             <nz-form-control [nzSpan]="14">
               <nz-select [attr.id]="'sourceType'" formControlName="type">
-                <nz-option *ngFor="let item of types" [nzValue]="item.value" [nzLabel]="item.label">
+                <nz-option
+                  *ngFor="let item of types"
+                  [nzValue]="item.value"
+                  [nzLabel]="item.label"
+                >
                 </nz-option>
               </nz-select>
             </nz-form-control>
           </nz-form-item>
         </div>
 
-
-
         <div nz-col [nzSpan]="6">
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="timerEnableScript">脚本</nz-form-label>
+            <nz-form-label [nzSpan]="10" nzFor="enableScript"
+              >脚本</nz-form-label
+            >
             <nz-form-control [nzSpan]="14">
-              <nz-radio-group formControlName="timerEnableScript" nzSize="small" [nzButtonStyle]="'solid'">
+              <nz-radio-group
+                formControlName="enableScript"
+                nzSize="small"
+                [nzButtonStyle]="'solid'"
+              >
                 <label nz-radio-button [nzValue]="null">所有</label>
                 <label nz-radio-button [nzValue]="true">开启</label>
                 <label nz-radio-button [nzValue]="false">关闭</label>
@@ -67,9 +96,15 @@
 
         <div nz-col [nzSpan]="6">
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="timerEnableStatistics">统计数据</nz-form-label>
+            <nz-form-label [nzSpan]="10" nzFor="enableStatistics"
+              >统计数据</nz-form-label
+            >
             <nz-form-control [nzSpan]="14">
-              <nz-radio-group formControlName="timerEnableStatistics" nzSize="small" [nzButtonStyle]="'solid'">
+              <nz-radio-group
+                formControlName="enableStatistics"
+                nzSize="small"
+                [nzButtonStyle]="'solid'"
+              >
                 <label nz-radio-button [nzValue]="null">所有</label>
                 <label nz-radio-button [nzValue]="true">开启</label>
                 <label nz-radio-button [nzValue]="false">关闭</label>
@@ -80,10 +115,17 @@
 
         <div nz-col [nzSpan]="6">
           <nz-form-item>
-            <nz-form-label [nzSpan]="10" nzFor="scriptText">脚本内容</nz-form-label>
+            <nz-form-label [nzSpan]="10" nzFor="scriptText"
+              >脚本内容</nz-form-label
+            >
             <nz-form-control [nzSpan]="14">
-              <input nz-input class="ant-input" placeholder="请输入脚本内容" formControlName="scriptText"
-                [attr.id]="'scriptText'" />
+              <input
+                nz-input
+                class="ant-input"
+                placeholder="请输入脚本内容"
+                formControlName="scriptText"
+                [attr.id]="'scriptText'"
+              />
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -92,20 +134,28 @@
           <nz-form-item>
             <nz-form-label [nzSpan]="10">关注项目</nz-form-label>
             <nz-form-control [nzSpan]="14">
-              <followed-project-select mode="simple" formControlName="followedProjectID"></followed-project-select>
+              <followed-project-select
+                mode="simple"
+                formControlName="followedProjectID"
+              ></followed-project-select>
             </nz-form-control>
           </nz-form-item>
         </div>
-
       </div>
-
 
       <div nz-row [nzGutter]="24">
         <div nz-col [nzSpan]="24">
           <nz-form-item nz-row class="register-area">
             <nz-form-control [nzSpan]="14" [nzOffset]="6">
               <button nz-button [nzType]="'primary'">搜索</button>
-              <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+              <button
+                nz-button
+                type="button"
+                (click)="resetForm()"
+                style="margin-left: 12px"
+              >
+                重置
+              </button>
             </nz-form-control>
           </nz-form-item>
         </div>
@@ -113,49 +163,87 @@
     </form>
   </nz-card>
 
-  <div style="margin-top: 12px; display: flex;">
-    <button nz-button [nzType]="'primary'" (click)="showCreateModal()" nz-dropdown [nzDropdownMenu]="menu">
+  <div style="margin-top: 12px; display: flex">
+    <button
+      nz-button
+      [nzType]="'primary'"
+      (click)="showCreateModal()"
+      nz-dropdown
+      [nzDropdownMenu]="menu"
+    >
       添加通知源
     </button>
     <nz-dropdown-menu #menu="nzDropdownMenu">
       <ul nz-menu>
-        <li nz-menu-item (click)="showCreateLink3ActivityModal()">快速添加Link3活动通知</li>
+        <li nz-menu-item (click)="showCreateLink3ActivityModal()">
+          快速添加Link3活动通知
+        </li>
       </ul>
     </nz-dropdown-menu>
-    <nz-modal [(nzVisible)]="link3ActivityInputModalVisible" nzTitle="快速添加Link3活动通知"
-      (nzOnOk)="ensureLink3ActivityInput()" (nzOnCancel)="cancelLink3ActivityInput()">
+    <nz-modal
+      [(nzVisible)]="link3ActivityInputModalVisible"
+      nzTitle="快速添加Link3活动通知"
+      (nzOnOk)="ensureLink3ActivityInput()"
+      (nzOnCancel)="cancelLink3ActivityInput()"
+    >
       <ng-container *nzModalContent>
-        <input nz-input placeholder="Link3活动主页链接" [formControl]="link3ActivityInputCtrl" />
+        <input
+          nz-input
+          placeholder="Link3活动主页链接"
+          [formControl]="link3ActivityInputCtrl"
+        />
       </ng-container>
     </nz-modal>
 
-    <app-notify-observer-not-allow-list-modal style="margin-left: 24px;"></app-notify-observer-not-allow-list-modal>
-
+    <app-notify-observer-not-allow-list-modal
+      style="margin-left: 24px"
+    ></app-notify-observer-not-allow-list-modal>
   </div>
 
   <nz-spin [nzSpinning]="loading">
     <nz-card style="margin-top: 12px">
       <div style="display: flex; justify-content: center; margin-bottom: 12px">
-        <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="total" [nzShowTotal]="rangeTemplate"
-          (nzPageIndexChange)="pageIndexChange($event)">
+        <nz-pagination
+          [nzPageIndex]="pageIndex"
+          [nzPageSize]="pageSize"
+          [nzTotal]="total"
+          [nzShowTotal]="rangeTemplate"
+          (nzPageIndexChange)="pageIndexChange($event)"
+        >
         </nz-pagination>
       </div>
       <div nz-row [nzGutter]="16">
-        <div *ngFor="let item of items" nz-col nzLg="8" nzXl="6" style="margin-bottom: 12px">
-          <notify-observer-item [item]="item" (copy)="confirmCopy(item)" (update)="confirmUpdate(item)"
-            (delete)="confirmDelete(item)" (search)="toSearchByNotifyObserver(item)"></notify-observer-item>
+        <div
+          *ngFor="let item of items"
+          nz-col
+          nzLg="8"
+          nzXl="6"
+          style="margin-bottom: 12px"
+        >
+          <notify-observer-item
+            [item]="item"
+            (copy)="confirmCopy(item)"
+            (update)="confirmUpdate(item)"
+            (delete)="confirmDelete(item)"
+            (search)="toSearchByNotifyObserver(item)"
+          ></notify-observer-item>
         </div>
 
         <ng-container *ngIf="items.length === 0">
-          <div style="width: 100%; display: flex; justify-content: center;">
+          <div style="width: 100%; display: flex; justify-content: center">
             <nz-empty></nz-empty>
           </div>
         </ng-container>
       </div>
 
-      <div style="display: flex; justify-content: center;">
-        <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="total" [nzShowTotal]="rangeTemplate"
-          (nzPageIndexChange)="pageIndexChange($event)">
+      <div style="display: flex; justify-content: center">
+        <nz-pagination
+          [nzPageIndex]="pageIndex"
+          [nzPageSize]="pageSize"
+          [nzTotal]="total"
+          [nzShowTotal]="rangeTemplate"
+          (nzPageIndexChange)="pageIndexChange($event)"
+        >
         </nz-pagination>
       </div>
       <ng-template #rangeTemplate let-range="range" let-total>
