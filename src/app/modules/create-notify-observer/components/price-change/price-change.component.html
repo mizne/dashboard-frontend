@@ -1,5 +1,11 @@
 <div class="create-price-change-notify-observer-container">
   <form nz-form [formGroup]="data">
+    <nz-alert
+      nzType="warning"
+      [nzMessage]="alertMessage"
+      style="margin: 12px 0"
+    ></nz-alert>
+
     <nz-form-item>
       <nz-form-label
         [nzSm]="6"

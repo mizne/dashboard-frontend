@@ -13,6 +13,8 @@ export class CreatePriceChangeComponent implements OnInit, FormItemInterface {
   @Input() data: FormGroup = this.fb.group({});
   @Input() action: NotifyObserverModalActions = NotifyObserverModalActions.CREATE
 
+  alertMessage = '每隔4小时执行价格判断'
+
   constructor(
     private fb: FormBuilder,
     private sharedService: SharedService,
