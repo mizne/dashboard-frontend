@@ -91,6 +91,7 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
     title: string;
     data: CexTokenPriceChange[]
   }> = []
+  compareSymbolsCtrl: FormControl<any> = new FormControl([])
 
   submitForm(): void {
     this.pageIndex = 1;
@@ -116,6 +117,11 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
       this.pageIndex = 1;
       this.pageSize = 10;
       this.loadDataFromServer();
+    })
+
+    this.compareSymbolsCtrl.valueChanges.subscribe(symbols => {
+      const notDuplicateSymbols: string[] = Array.from(new Set(symbols));
+      this.fetchCompareWithDataItems(notDuplicateSymbols)
     })
   }
 
@@ -171,6 +177,7 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
     this.compareWithOthersModalVisible = true;
 
     const symbols = Array.from(new Set([item.symbol, 'BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'SOLUSDT']));
+    this.compareSymbolsCtrl.patchValue(symbols)
     this.fetchCompareWithDataItems(symbols)
   }
 

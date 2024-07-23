@@ -316,7 +316,7 @@
                     nzShape="circle"
                     nzSize="small"
                     nz-tooltip
-                    [nzTooltipTitle]="'和btc/eth/bnb/sol等对比表现'"
+                    [nzTooltipTitle]="'与不同标的对比表现'"
                   >
                     <span nz-icon nzType="api" nzTheme="outline"></span>
                   </button>
@@ -337,12 +337,18 @@
 <nz-modal
   [(nzVisible)]="compareWithOthersModalVisible"
   [nzWidth]="900"
-  [nzTitle]="'对比btc/eth/bnb/sol表现'"
+  [nzTitle]="'与不同标的对比表现'"
   [nzFooter]="null"
   (nzOnCancel)="compareWithOthersModalVisible = false"
 >
   <ng-container *nzModalContent>
-    <nz-spin [nzSpinning]="compareWithOthersModalLoading">
+    <app-cex-token-search-multi-input
+      [formControl]="compareSymbolsCtrl"
+    ></app-cex-token-search-multi-input>
+    <nz-spin
+      [nzSpinning]="compareWithOthersModalLoading"
+      style="margin-top: 12px"
+    >
       <ng-container *ngFor="let compareItem of compareItems">
         <p>{{ compareItem.title }}</p>
 
