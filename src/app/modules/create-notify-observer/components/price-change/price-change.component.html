@@ -42,15 +42,31 @@
       <nz-form-label
         [nzSm]="6"
         [nzXs]="24"
-        nzRequired
-        nzTooltipTitle="价格数值"
+        nzTooltipTitle="价格涨到/跌到的数值"
       >
-        <span>价格数值</span>
+        <span>价格涨到/跌到的数值</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <nz-input-number
           formControlName="priceChangeToValue"
           [nzStep]="1"
+        ></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzTooltipTitle="多少天内价格涨到新高/跌到新低"
+      >
+        <span>新高/新低的周期天数</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-input-number
+          formControlName="priceChangeInDays"
+          [nzStep]="1"
+          [nzMin]="1"
         ></nz-input-number>
       </nz-form-control>
     </nz-form-item>

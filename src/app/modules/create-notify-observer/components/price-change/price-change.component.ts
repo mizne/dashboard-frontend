@@ -24,6 +24,11 @@ export class CreatePriceChangeComponent implements OnInit, FormItemInterface {
 
   ngOnInit(): void {
     this.loadPriceChangeTypes()
+
+    this.data.get('priceChangeType')?.valueChanges.subscribe(v => {
+      this.data.get('priceChangeInDays')?.patchValue(null, { emitEvent: false })
+      this.data.get('priceChangeToValue')?.patchValue(null, { emitEvent: false })
+    })
   }
 
 

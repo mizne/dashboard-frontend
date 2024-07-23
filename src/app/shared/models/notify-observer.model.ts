@@ -210,7 +210,8 @@ export interface NotifyObserver {
 
   priceChangeCexTokenSymbol: string;
   priceChangeType: string;
-  priceChangeToValue: number;
+  priceChangeToValue?: number;
+  priceChangeInDays?: number;
 
   readonly createdAt: number;
   readonly createdAtStr: string;

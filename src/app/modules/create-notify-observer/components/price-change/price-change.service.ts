@@ -18,10 +18,10 @@ export class PriceChangeService implements NotifyObserverTypeServiceInterface {
   }
 
   checkValidForm(obj: Partial<NotifyObserver>): { code: number; message?: string | undefined; } {
-    if (obj.notifyShowTitle && obj.priceChangeType && obj.priceChangeCexTokenSymbol && (typeof obj.priceChangeToValue === 'number')) {
+    if (obj.notifyShowTitle && obj.priceChangeType && obj.priceChangeCexTokenSymbol && ((typeof obj.priceChangeToValue === 'number') || (typeof obj.priceChangeInDays === 'number'))) {
       return { code: 0 }
     }
-    return { code: -1, message: `通知标题, 价格类型, 标的symbol, 价格数值必填` }
+    return { code: -1, message: `通知标题, 价格类型, 标的symbol必填, 价格数值/周期天数相对应价格类型有一个必填` }
   }
 
   resolveExistedCondition(obj: Partial<NotifyObserver>): Partial<NotifyObserver> | null {
@@ -30,6 +30,7 @@ export class PriceChangeService implements NotifyObserverTypeServiceInterface {
       priceChangeType: obj.priceChangeType,
       priceChangeCexTokenSymbol: obj.priceChangeCexTokenSymbol,
       priceChangeToValue: obj.priceChangeToValue,
+      priceChangeInDays: obj.priceChangeInDays,
     }
   }
 
@@ -38,7 +39,13 @@ export class PriceChangeService implements NotifyObserverTypeServiceInterface {
   }
 
   resolveDesc(item: NotifyObserver): string {
-    return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType} ${item.priceChangeToValue}`
+    if (typeof item.priceChangeToValue === 'number') {
+      return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType} ${item.priceChangeToValue}`
+    }
+    if (typeof item.priceChangeInDays === 'number') {
+      return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType} ${item.priceChangeInDays}`
+    }
+    return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType}`
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {
@@ -46,6 +53,7 @@ export class PriceChangeService implements NotifyObserverTypeServiceInterface {
       priceChangeType: [obj.priceChangeType],
       priceChangeCexTokenSymbol: [obj.priceChangeCexTokenSymbol],
       priceChangeToValue: [obj.priceChangeToValue],
+      priceChangeInDays: [obj.priceChangeInDays],
     }
   }
 }
