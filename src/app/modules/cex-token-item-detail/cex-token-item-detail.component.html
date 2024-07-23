@@ -1,53 +1,104 @@
 <div class="cex-token-item-detail-container" (click)="open()">
   <ng-container *ngIf="content" [ngTemplateOutlet]="content"></ng-container>
   <ng-container *ngIf="!content">
-    <button nz-button nzType="primary" [title]="'查看详情'">
-      详情
-    </button>
+    <button nz-button nzType="primary" [title]="'查看详情'">详情</button>
   </ng-container>
 </div>
 
 <ng-template #tplTitle>
-  <div style="display: flex; align-items: center;">
-    <app-cex-token-search-input style="width: 160px;" [formControl]="searchCtrl"></app-cex-token-search-input>
-    <cex-token-symbol-item style="margin-left: 12px;" [symbol]="symbol"></cex-token-symbol-item>
-    <span style="margin-left: 12px;">{{' 近 ' + days + ' 天现货数据'}}</span>
-    <created-at style="margin-left: 12px;" [createdAt]="latestCreatedAt"></created-at>
+  <div style="display: flex; align-items: center">
+    <app-collect-input [formControl]="hasCollectCtrl"></app-collect-input>
+    <app-cex-token-search-input
+      style="margin-left: 8px; width: 160px"
+      [formControl]="searchCtrl"
+    ></app-cex-token-search-input>
+    <cex-token-symbol-item
+      style="margin-left: 12px"
+      [symbol]="symbol"
+    ></cex-token-symbol-item>
+    <span style="margin-left: 12px">{{ " 近 " + days + " 天现货数据" }}</span>
+    <created-at
+      style="margin-left: 12px"
+      [createdAt]="latestCreatedAt"
+    ></created-at>
   </div>
 </ng-template>
 
-<nz-modal [(nzVisible)]="detailModalVisible" [nzTitle]="tplTitle" [nzWidth]="1000"
-  (nzOnCancel)="detailModalVisible=false" (nzOnOk)="detailModalVisible=false">
+<nz-modal
+  [(nzVisible)]="detailModalVisible"
+  [nzTitle]="tplTitle"
+  [nzWidth]="1000"
+  (nzOnCancel)="detailModalVisible = false"
+  (nzOnOk)="detailModalVisible = false"
+>
   <ng-container *nzModalContent>
+    <div *ngIf="markSymbols.length > 0" style="margin-bottom: 12px">
+      <nz-tag
+        *ngFor="let item of markSymbols"
+        [nzColor]="'default'"
+        (click)="selectMarkSymbol(item)"
+        style="cursor: pointer"
+      >
+        <span
+          *ngIf="searchCtrl.value === item"
+          nz-icon
+          nzType="check-circle"
+        ></span>
+        <span>{{ item }}</span>
+      </nz-tag>
+    </div>
 
-    <app-cex-token-alert-select [formControl]="cexTokenAlertSelectCtrl"></app-cex-token-alert-select>
-
+    <app-cex-token-alert-select
+      [formControl]="cexTokenAlertSelectCtrl"
+    ></app-cex-token-alert-select>
 
     <nz-card style="margin-top: 12px">
-      <nz-spin [nzTip]="'获取 '+symbol+' 现货数据中...'" [nzSpinning]="loadingChart">
+      <nz-spin
+        [nzTip]="'获取 ' + symbol + ' 现货数据中...'"
+        [nzSpinning]="loadingChart"
+      >
         <div nz-row [nzGutter]="16">
           <div nz-col class="gutter-row" [nzSpan]="24">
             <div class="inner-box">
-              <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  font-weight: bold;
+                  font-size: 18px;
+                "
+              >
                 价格
               </div>
-              <tradingview-chart [series]="priceSeries" [width]="900" [options]="priceChartOptions"></tradingview-chart>
+              <tradingview-chart
+                [series]="priceSeries"
+                [width]="900"
+                [options]="priceChartOptions"
+              ></tradingview-chart>
             </div>
           </div>
 
           <div nz-col class="gutter-row" [nzSpan]="24">
             <div class="inner-box">
-              <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  font-weight: bold;
+                  font-size: 18px;
+                "
+              >
                 交易量
               </div>
-              <tradingview-chart [series]="volumeSeries" [width]="900"
-                [options]="volumeChartOptions"></tradingview-chart>
+              <tradingview-chart
+                [series]="volumeSeries"
+                [width]="900"
+                [options]="volumeChartOptions"
+              ></tradingview-chart>
             </div>
           </div>
-
         </div>
       </nz-spin>
-
     </nz-card>
   </ng-container>
 </nz-modal>

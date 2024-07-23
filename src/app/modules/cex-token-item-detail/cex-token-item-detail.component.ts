@@ -2,9 +2,10 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Time, PriceScaleMode } from 'lightweight-charts';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CexTokenDaily, CexTokenDailyService, KlineIntervalService, KlineIntervals, TradingViewChartTypes, TradingViewSeries } from 'src/app/shared';
+import { CexToken, CexTokenDaily, CexTokenDailyService, CexTokenService, KlineIntervalService, KlineIntervals, TradingViewChartTypes, TradingViewSeries } from 'src/app/shared';
 import { fixTradingViewTime } from 'src/app/utils';
 import { avgExcludeMaxMin } from 'handy-toolkit'
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'cex-token-item-detail',
@@ -13,6 +14,7 @@ import { avgExcludeMaxMin } from 'handy-toolkit'
 export class CexTokenItemDetailComponent implements OnInit {
   constructor(
     private readonly cexTokenDailyService: CexTokenDailyService,
+    private readonly cexTokenService: CexTokenService,
     private readonly notification: NzNotificationService,
     private readonly klineIntervalService: KlineIntervalService,
   ) { }
@@ -66,15 +68,20 @@ export class CexTokenItemDetailComponent implements OnInit {
   interval = KlineIntervals.FOUR_HOURS;
   time = this.klineIntervalService.resolveFourHoursIntervalMills(1)
 
+  hasCollectCtrl = new FormControl(false)
+
   searchCtrl = new FormControl('')
   loadingChart = false;
   days = 180;
   latestCreatedAt = 0;
 
+  markSymbols: string[] = []
+
   cexTokenAlertSelectCtrl = new FormControl('')
 
   ngOnInit() {
     this.listenSearchChange();
+    this.listenHasCollectCtrlChange();
     this.listenCexTokenAlertSelectChange();
   }
 
@@ -87,7 +94,25 @@ export class CexTokenItemDetailComponent implements OnInit {
     this.cexTokenAlertSelectCtrl.patchValue(this.symbol, { emitEvent: false })
     this.detailModalVisible = true;
     this.detailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
+    this.fetchMarkSymbols()
     this.fetchChartData()
+    this.patchHasCollectCtrl();
+  }
+
+  selectMarkSymbol(symbol: string) {
+    this.searchCtrl.patchValue(symbol, { emitEvent: false })
+    this.cexTokenAlertSelectCtrl.patchValue(symbol, { emitEvent: false })
+    this.symbol = symbol;
+    this.detailModalTitle = `${this.symbol} 近 ${this.days} 天数据`;
+    this.fetchChartData();
+    this.patchHasCollectCtrl();
+  }
+
+  private async patchHasCollectCtrl() {
+    const item = await this.fetchCexTokenBySymbol();
+    if (item) {
+      this.hasCollectCtrl.patchValue(!!item.hasCollect, { emitEvent: false })
+    }
   }
 
   private listenSearchChange() {
@@ -97,6 +122,26 @@ export class CexTokenItemDetailComponent implements OnInit {
 
       this.cexTokenAlertSelectCtrl.patchValue(v, { emitEvent: false })
       this.fetchChartData();
+      this.patchHasCollectCtrl();
+    })
+  }
+
+  private listenHasCollectCtrlChange() {
+    this.hasCollectCtrl.valueChanges.subscribe(async (hasCollect) => {
+      const item = await this.fetchCexTokenBySymbol();
+      if (item) {
+        this.cexTokenService.update(item._id, { hasCollect: !!hasCollect })
+          .subscribe({
+            next: () => {
+              this.notification.success(`${hasCollect ? '标记' : '取消标记'} ${this.symbol} 成功`, `${hasCollect ? '标记' : '取消标记'} ${this.symbol} 成功`)
+              this.fetchMarkSymbols()
+            },
+            error: (err) => {
+              this.notification.error(`${hasCollect ? '标记' : '取消标记'} ${this.symbol} 失败`, `${err.message}`)
+              this.hasCollectCtrl.patchValue(!hasCollect, { emitEvent: false })
+            }
+          })
+      }
     })
   }
 
@@ -107,7 +152,34 @@ export class CexTokenItemDetailComponent implements OnInit {
 
       this.searchCtrl.patchValue(v, { emitEvent: false })
       this.fetchChartData();
+      this.patchHasCollectCtrl();
     })
+  }
+
+  private async fetchCexTokenBySymbol(): Promise<CexToken | null> {
+    const items = await lastValueFrom(this.cexTokenService.queryList({ symbol: this.symbol }))
+    if ((items).length === 1) {
+      return items[0]
+    } else if (items.length >= 2) {
+      console.log(`[CexTokenItemDetailComponent] found ${items.length} cex token items by symbol: ${this.symbol}`)
+      this.notification.warning(`获取${this.symbol} 多个CexToken`, `有可疑数据`)
+      return items[0]
+    } else {
+      console.log(`[CexTokenItemDetailComponent] not found cex token item by symbol: ${this.symbol}`)
+      this.notification.error(`获取${this.symbol}详情失败`, `未找到`)
+      return null
+    }
+  }
+
+  private fetchMarkSymbols() {
+    this.cexTokenService.queryList({
+      hasCollect: true
+    })
+      .subscribe({
+        next: (items) => {
+          this.markSymbols = items.map(e => e.symbol)
+        }
+      })
   }
 
   private fetchChartData() {
