@@ -8,7 +8,7 @@ import { TimerService } from '../services';
   name: 'createdAt',
 })
 export class CreatedAtPipe implements PipeTransform {
-  constructor(private timerService: TimerService) {}
+  constructor(private timerService: TimerService) { }
   transform(n: number | Date): Observable<string> {
     const ms = new Date(n).getTime();
     return this.timerService.interval(1).pipe(
@@ -22,8 +22,8 @@ export class CreatedAtPipe implements PipeTransform {
           const isSameYear =
             new Date(now).getFullYear() === new Date(ms).getFullYear();
           return isSameYear
-            ? format(ms, 'MM-dd HH:mm:ss')
-            : format(ms, 'yyyy-MM-dd HH:mm:ss');
+            ? format(ms, 'MM-dd HH:mm')
+            : format(ms, 'yyyy-MM-dd HH:mm');
         }
         return stringifyMills(delta) + ' ago';
       })
