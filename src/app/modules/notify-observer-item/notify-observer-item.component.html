@@ -37,8 +37,8 @@
       nzSize="small"
       nzType="primary"
       nzShape="circle"
-      style="margin-left: 8px"
-      (click)="toSearch()"
+      style="margin-left: 4px"
+      (click)="toSearchWithFollowedProject()"
       title="搜索该项目通知源"
     >
       <span nz-icon nzType="search" nzTheme="outline"></span>
@@ -87,7 +87,25 @@
   <div
     style="display: flex; justify-content: space-between; align-items: center"
   >
-    <linkable [href]="resolveHref(item)" [content]="defaultLogo"> </linkable>
+    <div
+      class="notify-observer-link"
+      style="display: flex; justify-content: space-between; align-items: center"
+    >
+      <linkable [href]="resolveHref(item)" [content]="defaultLogo"> </linkable>
+
+      <button
+        nz-button
+        nzSize="small"
+        nzType="primary"
+        nzShape="circle"
+        style="margin-left: 4px"
+        (click)="toSearchWithType()"
+        title="搜索该类型通知源"
+      >
+        <span nz-icon nzType="search" nzTheme="outline"></span>
+      </button>
+    </div>
+
     <span
       *ngIf="item.timerOnce || item.hookOnce"
       title="一次性通知"

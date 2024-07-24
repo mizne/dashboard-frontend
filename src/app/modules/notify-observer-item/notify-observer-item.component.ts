@@ -41,7 +41,7 @@ export class NotifyObserverItemComponent implements OnInit {
   @Output() copy = new EventEmitter<void>();
   @Output() update = new EventEmitter<void>();
   @Output() delete = new EventEmitter<void>();
-  @Output() search = new EventEmitter<void>();
+  @Output() search = new EventEmitter<any>();
 
   showStatisticsModal = false;
 
@@ -103,8 +103,17 @@ export class NotifyObserverItemComponent implements OnInit {
     });
   }
 
-  toSearch() {
-    this.search.emit();
+  toSearchWithFollowedProject() {
+    if (this.item?.followedProjectID) {
+      this.search.emit({ followedProjectID: this.item?.followedProjectID });
+    }
+
+  }
+
+  toSearchWithType() {
+    if (this.item?.type) {
+      this.search.emit({ type: this.item.type });
+    }
   }
 
   toShowStatistics() {

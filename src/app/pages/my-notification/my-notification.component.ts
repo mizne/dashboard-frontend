@@ -195,8 +195,8 @@ export class MyNotificationComponent implements OnInit {
     });
   }
 
-  toSearchByNotifyObserver(item: TableItem) {
-    this.form.patchValue({ followedProjectID: item.followedProjectID });
+  toSearchByNotifyObserver(item: TableItem, ev: any) {
+    this.form.patchValue(ev);
     this.submitForm();
   }
 
