@@ -37,6 +37,7 @@ export class NotifyObserverItemComponent implements OnInit {
   @Input() enableCopy = true;
   @Input() enableEdit = true;
   @Input() enableDelete = true;
+  @Input() enableSearch = false;
 
   @Output() copy = new EventEmitter<void>();
   @Output() update = new EventEmitter<void>();

@@ -32,7 +32,7 @@
     </ng-container>
 
     <button
-      *ngIf="item.followedProjectID"
+      *ngIf="item.followedProjectID && enableSearch"
       nz-button
       nzSize="small"
       nzType="primary"
@@ -94,6 +94,7 @@
       <linkable [href]="resolveHref(item)" [content]="defaultLogo"> </linkable>
 
       <button
+        *ngIf="enableSearch"
         nz-button
         nzSize="small"
         nzType="primary"
