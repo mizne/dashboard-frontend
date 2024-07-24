@@ -1,0 +1,305 @@
+<div class="custom-date-range-container" (click)="open()">
+  <ng-container *ngIf="content" [ngTemplateOutlet]="content"></ng-container>
+  <ng-container *ngIf="!content">
+    <button nz-button nzType="primary" [title]="'自定义周期涨跌幅统计'">
+      自定义周期涨跌幅统计
+    </button>
+  </ng-container>
+</div>
+
+<nz-modal
+  [(nzVisible)]="visible"
+  [nzWidth]="1200"
+  [nzTitle]="'自定义周期涨跌幅统计'"
+  [nzFooter]="null"
+  (nzOnCancel)="visible = false"
+>
+  <ng-container *nzModalContent>
+    <form
+      nz-form
+      [formGroup]="form"
+      [nzLayout]="'inline'"
+      (ngSubmit)="submitForm()"
+    >
+      <nz-form-item style="margin-bottom: 6px">
+        <nz-form-label nzFor="dateRange">日期</nz-form-label>
+        <nz-form-control>
+          <nz-range-picker formControlName="dateRange"></nz-range-picker>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item style="margin-bottom: 6px">
+        <nz-form-label nzFor="symbol">symbol</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            class="ant-input"
+            placeholder="请输入symbol"
+            formControlName="symbol"
+            [attr.id]="'symbol'"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item style="margin-bottom: 6px">
+        <nz-form-label nzFor="priceChangePercent">涨跌幅</nz-form-label>
+        <nz-form-control>
+          <app-number-range-input
+            formControlName="priceChangePercent"
+          ></app-number-range-input>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item style="margin-bottom: 6px">
+        <nz-form-label nzFor="currentPriceRelative">当前价位</nz-form-label>
+        <nz-form-control>
+          <app-number-range-input
+            formControlName="currentPriceRelative"
+          ></app-number-range-input>
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- <nz-form-item style="margin-bottom: 6px">
+            <nz-form-label nzFor="chartFilter">Chart Filter</nz-form-label>
+            <nz-form-control>
+              <app-multi-chart-filter-input
+                formControlName="chartFilter"
+              ></app-multi-chart-filter-input>
+            </nz-form-control>
+          </nz-form-item> -->
+
+      <nz-form-item class="register-area">
+        <nz-form-control>
+          <button nz-button [nzType]="'primary'">搜索</button>
+          <button
+            nz-button
+            type="button"
+            (click)="resetForm()"
+            style="margin-left: 6px"
+          >
+            重置
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+
+    <nz-spin [nzSpinning]="loading">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          margin-top: 12px;
+        "
+      >
+        <div *ngFor="let chartData of chartDataItems">
+          <bar-chart [data]="chartData.data" [width]="500"></bar-chart>
+          <p style="text-align: center">{{ chartData.title }}</p>
+        </div>
+      </div>
+    </nz-spin>
+
+    <nz-card style="margin-top: 12px">
+      <nz-table
+        #rowSelectionTable
+        nzShowSizeChanger
+        [nzData]="items"
+        [nzShowTotal]="rangeTemplate"
+        [nzFrontPagination]="true"
+        [nzLoading]="loading"
+      >
+        <thead>
+          <tr>
+            <th nzColumnKey="symbol">symbol</th>
+            <th
+              nzColumnKey="marketCap"
+              [nzSortFn]="marketCapSortFn"
+              [nzSortDirections]="['descend', 'ascend', null]"
+            >
+              市值
+            </th>
+            <th
+              nzColumnKey="priceChangePercent"
+              [nzSortFn]="priceChangePercentSortFn"
+              [nzSortDirections]="['descend', 'ascend', null]"
+            >
+              涨跌幅
+            </th>
+            <th
+              nzColumnKey="currentPriceRelative"
+              [nzSortFn]="currentPriceRelativeSortFn"
+              [nzSortDirections]="['descend', 'ascend', null]"
+            >
+              当前价位
+            </th>
+            <th
+              nzColumnKey="inDays"
+              [nzSortFn]="inDaysSortFn"
+              [nzSortDirections]="['descend', 'ascend', null]"
+            >
+              多少天内
+            </th>
+            <th
+              nzColumnKey="updatedAt"
+              [nzSortFn]="updatedAtSortFn"
+              [nzSortDirections]="['descend', 'ascend', null]"
+            >
+              更新时间
+            </th>
+
+            <th nzColumnKey="Action" style="width: 140px">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of rowSelectionTable.data">
+            <td
+              [title]="data.symbol"
+              style="display: flex; align-items: center"
+            >
+              <cex-token-symbol-item
+                [symbol]="data.symbol"
+                [content]="symbolContent"
+              ></cex-token-symbol-item>
+              <ng-template
+                #symbolContent
+                let-name="name"
+                let-logoName="logoName"
+              >
+                <image-view
+                  [name]="logoName"
+                  style="margin-right: 4px"
+                ></image-view>
+                <span
+                  class="symbol-item-custom-content"
+                  style="font-weight: bold"
+                  >{{ name }}</span
+                >
+              </ng-template>
+
+              <cex-token-item-detail
+                [symbol]="data.symbol"
+                [content]="cexTokenItemTemplate"
+              >
+              </cex-token-item-detail>
+              <ng-template #cexTokenItemTemplate>
+                <button
+                  nz-button
+                  nzType="default"
+                  nzShape="circle"
+                  [title]="'查看 现货详情'"
+                  style="margin-left: 8px"
+                >
+                  <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
+                </button>
+              </ng-template>
+              <cex-future-item-detail
+                [symbol]="data.symbol"
+                [content]="cexFutureItemTemplate"
+              >
+              </cex-future-item-detail>
+              <ng-template #cexFutureItemTemplate>
+                <button
+                  nz-button
+                  nzType="default"
+                  nzShape="circle"
+                  [title]="'查看 合约详情'"
+                  style="margin-left: 8px"
+                >
+                  <span nz-icon nzType="line-chart" nzTheme="outline"></span>
+                </button>
+              </ng-template>
+            </td>
+
+            <td [title]="data.marketCap | currency">
+              <span class="marketcap-value">{{
+                data.marketCap | currency
+              }}</span>
+              <span
+                *ngIf="data.marketCapRanking"
+                class="marketcap-value"
+                [title]="'市值排行 ' + data.marketCapRanking"
+                style="margin-left: 12px; font-weight: bold"
+                >{{ "# " + data.marketCapRanking }}</span
+              >
+            </td>
+
+            <td
+              [title]="
+                data.maxPriceAt > data.minPriceAt
+                  ? data.minPrice +
+                    ' -> ' +
+                    data.maxPrice +
+                    ' / ' +
+                    (data.minPriceAt | date : 'yyyy-MM-dd HH:mm') +
+                    ' -> ' +
+                    (data.maxPriceAt | date : 'yyyy-MM-dd HH:mm')
+                  : data.maxPrice +
+                    ' -> ' +
+                    data.minPrice +
+                    ' / ' +
+                    (data.maxPriceAt | date : 'yyyy-MM-dd HH:mm') +
+                    ' -> ' +
+                    (data.minPriceAt | date : 'yyyy-MM-dd HH:mm')
+              "
+            >
+              {{ data.priceChangePercent | percent }}
+            </td>
+
+            <td
+              [title]="
+                data.minPrice +
+                '(min) ' +
+                data.currentPrice +
+                '(current) ' +
+                data.maxPrice +
+                '(max)'
+              "
+            >
+              {{ data.currentPriceRelative | toFixed : 3 }}
+            </td>
+
+            <td>{{ data.inDays }}</td>
+
+            <td>
+              <created-at [createdAt]="data.updatedAt || 0"></created-at>
+            </td>
+
+            <td>
+              <button
+                nz-button
+                (click)="filterPerformanceUp(data)"
+                nzType="primary"
+                nzShape="circle"
+                nzSize="small"
+                nz-tooltip
+                [nzTooltipTitle]="'筛选表现比它好的，即涨幅高，回撤小的标的'"
+                style="margin-right: 4px"
+              >
+                <span nz-icon nzType="arrow-up" nzTheme="outline"></span>
+              </button>
+
+              <button
+                nz-button
+                (click)="filterPerformanceDown(data)"
+                nzType="primary"
+                [nzDanger]="true"
+                nzShape="circle"
+                nzSize="small"
+                nz-tooltip
+                [nzTooltipTitle]="'筛选表现比它差的，即涨幅低，回撤大的标的'"
+                style="margin-right: 4px"
+              >
+                <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+      <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} of {{ total }} items
+      </ng-template>
+    </nz-card>
+  </ng-container>
+</nz-modal>

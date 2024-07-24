@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CexTokenPriceChange } from '../models/cex-token-price-change.model';
+import { CexTokenPriceChange, CustomDateRangeCexTokenPriceChange } from '../models/cex-token-price-change.model';
 import { FilterQuery } from 'src/app/shared';
+import { memorizeFn } from 'src/app/utils';
 
 @Injectable({ providedIn: 'root' })
 export class CexTokenPriceChangeService {
@@ -50,5 +51,18 @@ export class CexTokenPriceChangeService {
 
   deleteByID(id: string): Observable<any> {
     return this.httpClient.delete<any>(`${this.baseURL}/cex-token-price-change/${id}`);
+  }
+
+  queryListCustomDateRange(
+    dateRangeStart: number,
+    dateRangeEnd: number
+  ): Observable<CustomDateRangeCexTokenPriceChange[]> {
+    return this.httpClient.post<CustomDateRangeCexTokenPriceChange[]>(
+      `${this.baseURL}/cex-token-price-change/queryListCustomDateRange`,
+      {
+        dateRangeStart,
+        dateRangeEnd,
+      }
+    );
   }
 }

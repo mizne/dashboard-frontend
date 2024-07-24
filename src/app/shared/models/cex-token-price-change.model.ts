@@ -33,3 +33,8 @@ export interface CexTokenPriceChange {
   readonly createdAtStr: string;
 }
 
+export interface CustomDateRangeCexTokenPriceChange extends CexTokenPriceChange {
+  dateRangeStart: number;
+  dateRangeEnd: number;
+}
+
