@@ -151,3 +151,19 @@
     <span nz-icon nzType="pie-chart" nzTheme="outline"></span>
   </button>
 </ng-template>
+
+<cmc-token-price-change-statistics
+  [content]="cmcTokenPriceChangeStatisticsTemplate"
+>
+</cmc-token-price-change-statistics>
+<ng-template #cmcTokenPriceChangeStatisticsTemplate>
+  <button
+    nz-button
+    nzType="primary"
+    nzShape="circle"
+    [title]="'查看 CMC Token 涨跌幅统计'"
+    style="position: fixed; top: 24px; right: 424px; z-index: 100"
+  >
+    <span nz-icon nzType="line-chart" nzTheme="outline"></span>
+  </button>
+</ng-template>

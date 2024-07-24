@@ -31,3 +31,7 @@ export * from './airdrop-interaction-record.model';
 
 export * from './system-task-timer-settings.model';
 export * from './task-record.model';
+
+export * from './cmc-token.model';
+export * from './cmc-token-daily.model';
+export * from './cmc-token-price-change.model';

@@ -1,0 +1,270 @@
+<div class="cmc-token-price-change-statistics-container" (click)="open()">
+  <ng-container *ngIf="content" [ngTemplateOutlet]="content"></ng-container>
+  <ng-container *ngIf="!content">
+    <button nz-button nzType="primary" [title]="'CMC Token 涨跌幅统计'">
+      CMC Token 涨跌幅统计
+    </button>
+  </ng-container>
+</div>
+
+<nz-modal
+  [(nzVisible)]="visible"
+  [nzWidth]="1200"
+  [nzTitle]="'涨跌幅统计'"
+  [nzFooter]="null"
+  (nzOnCancel)="visible = false"
+>
+  <ng-container *nzModalContent>
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="'涨跌幅分布'" [nzActive]="true">
+        <price-change-chart></price-change-chart>
+      </nz-collapse-panel>
+
+      <nz-collapse-panel [nzHeader]="'当前价位分布'" [nzActive]="false">
+        <price-relative-chart></price-relative-chart>
+      </nz-collapse-panel>
+
+      <nz-collapse-panel [nzHeader]="'详细数据'" [nzActive]="false">
+        <form
+          nz-form
+          [formGroup]="form"
+          [nzLayout]="'inline'"
+          (ngSubmit)="submitForm()"
+        >
+          <nz-form-item style="margin-bottom: 6px">
+            <nz-form-label nzFor="inDays">几天内</nz-form-label>
+            <nz-form-control>
+              <nz-radio-group formControlName="inDays" nzButtonStyle="solid">
+                <label
+                  nz-radio-button
+                  *ngFor="let item of inDayss"
+                  [nzValue]="item.name"
+                  >{{ item.label }}</label
+                >
+              </nz-radio-group>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item style="margin-bottom: 6px">
+            <nz-form-label nzFor="symbol">symbol</nz-form-label>
+            <nz-form-control>
+              <input
+                nz-input
+                class="ant-input"
+                placeholder="请输入symbol"
+                formControlName="symbol"
+                [attr.id]="'symbol'"
+              />
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item style="margin-bottom: 6px">
+            <nz-form-label nzFor="priceChangePercent">涨跌幅</nz-form-label>
+            <nz-form-control>
+              <app-number-range-input
+                formControlName="priceChangePercent"
+              ></app-number-range-input>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item style="margin-bottom: 6px">
+            <nz-form-label nzFor="currentPriceRelative">当前价位</nz-form-label>
+            <nz-form-control>
+              <app-number-range-input
+                formControlName="currentPriceRelative"
+              ></app-number-range-input>
+            </nz-form-control>
+          </nz-form-item>
+
+          <!-- <nz-form-item style="margin-bottom: 6px">
+            <nz-form-label nzFor="chartFilter">Chart Filter</nz-form-label>
+            <nz-form-control>
+              <app-multi-chart-filter-input
+                formControlName="chartFilter"
+              ></app-multi-chart-filter-input>
+            </nz-form-control>
+          </nz-form-item> -->
+
+          <nz-form-item class="register-area">
+            <nz-form-control>
+              <button nz-button [nzType]="'primary'">搜索</button>
+              <button
+                nz-button
+                type="button"
+                (click)="resetForm()"
+                style="margin-left: 6px"
+              >
+                重置
+              </button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+
+        <nz-card style="margin-top: 12px">
+          <nz-table
+            nzShowSizeChanger
+            [nzData]="items"
+            [nzFrontPagination]="false"
+            [nzLoading]="loading"
+            [nzTotal]="total"
+            [nzShowTotal]="rangeTemplate"
+            [nzPageSize]="pageSize"
+            [nzPageIndex]="pageIndex"
+            (nzQueryParams)="onQueryParamsChange($event)"
+          >
+            <thead>
+              <tr>
+                <th nzColumnKey="symbol">symbol</th>
+                <th
+                  nzColumnKey="marketCap"
+                  [nzSortFn]="true"
+                  [nzSortDirections]="['descend', 'ascend', null]"
+                >
+                  市值
+                </th>
+                <th
+                  nzColumnKey="priceChangePercent"
+                  [nzSortFn]="true"
+                  [nzSortDirections]="['descend', 'ascend', null]"
+                >
+                  涨跌幅
+                </th>
+                <th
+                  nzColumnKey="currentPriceRelative"
+                  [nzSortFn]="true"
+                  [nzSortDirections]="['descend', 'ascend', null]"
+                >
+                  当前价位
+                </th>
+                <th
+                  nzColumnKey="inDays"
+                  [nzSortFn]="true"
+                  [nzSortDirections]="['descend', 'ascend', null]"
+                >
+                  多少天内
+                </th>
+                <th
+                  nzColumnKey="updatedAt"
+                  [nzSortFn]="true"
+                  [nzSortDirections]="['descend', 'ascend', null]"
+                >
+                  更新时间
+                </th>
+
+                <th nzColumnKey="Action" style="width: 140px">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of items">
+                <td
+                  [title]="data.symbol"
+                  style="display: flex; align-items: center"
+                >
+                  {{ data.slug }}
+                  <linkable
+                    [title]="'CMC ' + data.slug"
+                    icon="copyright-circle"
+                    [href]="'https://coinmarketcap.com/currencies/' + data.slug"
+                    style="margin-left: 6px"
+                  >
+                  </linkable>
+                </td>
+
+                <td [title]="data.marketCap | currency">
+                  <span class="marketcap-value">{{
+                    data.marketCap | currency
+                  }}</span>
+                  <span
+                    *ngIf="data.marketCapRanking"
+                    class="marketcap-value"
+                    [title]="'市值排行 ' + data.marketCapRanking"
+                    style="margin-left: 12px; font-weight: bold"
+                    >{{ "# " + data.marketCapRanking }}</span
+                  >
+                </td>
+
+                <td
+                  [title]="
+                    data.maxPriceAt > data.minPriceAt
+                      ? data.minPrice +
+                        ' -> ' +
+                        data.maxPrice +
+                        ' / ' +
+                        (data.minPriceAt | date : 'yyyy-MM-dd HH:mm') +
+                        ' -> ' +
+                        (data.maxPriceAt | date : 'yyyy-MM-dd HH:mm')
+                      : data.maxPrice +
+                        ' -> ' +
+                        data.minPrice +
+                        ' / ' +
+                        (data.maxPriceAt | date : 'yyyy-MM-dd HH:mm') +
+                        ' -> ' +
+                        (data.minPriceAt | date : 'yyyy-MM-dd HH:mm')
+                  "
+                >
+                  {{ data.priceChangePercent | percent }}
+                </td>
+
+                <td
+                  [title]="
+                    data.minPrice +
+                    '(min) ' +
+                    data.currentPrice +
+                    '(current) ' +
+                    data.maxPrice +
+                    '(max)'
+                  "
+                >
+                  {{ data.currentPriceRelative | toFixed : 3 }}
+                </td>
+
+                <td>{{ data.inDays }}</td>
+
+                <td>
+                  <created-at [createdAt]="data.updatedAt || 0"></created-at>
+                </td>
+
+                <td>
+                  <button
+                    nz-button
+                    (click)="filterPerformanceUp(data)"
+                    nzType="primary"
+                    nzShape="circle"
+                    nzSize="small"
+                    nz-tooltip
+                    [nzTooltipTitle]="
+                      '筛选表现比它好的，即涨幅高，回撤小的标的'
+                    "
+                    style="margin-right: 4px"
+                  >
+                    <span nz-icon nzType="arrow-up" nzTheme="outline"></span>
+                  </button>
+
+                  <button
+                    nz-button
+                    (click)="filterPerformanceDown(data)"
+                    nzType="primary"
+                    [nzDanger]="true"
+                    nzShape="circle"
+                    nzSize="small"
+                    nz-tooltip
+                    [nzTooltipTitle]="
+                      '筛选表现比它差的，即涨幅低，回撤大的标的'
+                    "
+                    style="margin-right: 4px"
+                  >
+                    <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+
+          <ng-template #rangeTemplate let-range="range" let-total>
+            {{ range[0] }}-{{ range[1] }} of {{ total }} items
+          </ng-template>
+        </nz-card>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </ng-container>
+</nz-modal>

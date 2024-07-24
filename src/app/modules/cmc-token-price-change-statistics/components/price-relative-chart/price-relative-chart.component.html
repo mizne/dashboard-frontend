@@ -1,0 +1,46 @@
+<div class="price-relative-chart-container">
+  <form nz-form [formGroup]="form" (ngSubmit)="submitForm()">
+    <nz-form-item style="margin-bottom: 6px">
+      <nz-form-label nzFor="marketCap">市值</nz-form-label>
+      <nz-form-control>
+        <nz-radio-group formControlName="marketCap" nzButtonStyle="solid">
+          <label
+            nz-radio-button
+            *ngFor="let item of marketCaps"
+            [nzValue]="item.name"
+            >{{ item.label }}</label
+          >
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item class="register-area">
+      <nz-form-control>
+        <button nz-button [nzType]="'primary'">搜索</button>
+        <button
+          nz-button
+          type="button"
+          (click)="resetForm()"
+          style="margin-left: 6px"
+        >
+          重置
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <nz-spin [nzSpinning]="loading">
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      "
+    >
+      <div *ngFor="let chartData of chartDataItems">
+        <bar-chart [data]="chartData.data" [width]="300"></bar-chart>
+        <p style="text-align: center">{{ chartData.title }}</p>
+      </div>
+    </div>
+  </nz-spin>
+</div>

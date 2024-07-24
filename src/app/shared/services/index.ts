@@ -36,3 +36,7 @@ export * from './airdrop-interaction-record.service'
 
 export * from './system-task-timer-settings.service'
 export * from './task-record.service'
+
+export * from './cmc-token.service'
+export * from './cmc-token-daily.service'
+export * from './cmc-token-price-change.service'
