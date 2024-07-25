@@ -50,15 +50,15 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label nzFor="createdAt">添加时间</nz-form-label>
+        <nz-form-label nzFor="listingTime">上市时间</nz-form-label>
         <nz-form-control>
           <nz-select
-            formControlName="createdAt"
-            [attr.id]="'createdAt'"
+            formControlName="listingTime"
+            [attr.id]="'listingTime'"
             style="width: 100px"
           >
             <nz-option
-              *ngFor="let item of createdAtOptions"
+              *ngFor="let item of listingTimeOptions"
               [nzValue]="item.value"
               [nzLabel]="item.label"
             ></nz-option>
@@ -116,11 +116,11 @@
               市值
             </th>
             <th
-              nzColumnKey="createdAtStr"
+              nzColumnKey="listingTime"
               [nzSortFn]="true"
               [nzSortDirections]="['descend', 'ascend', null]"
             >
-              添加时间
+              上市时间
             </th>
 
             <th nzColumnKey="Action" style="width: 200px">操作</th>
@@ -167,7 +167,7 @@
             </td>
 
             <td>
-              <created-at [createdAt]="data.createdAt"></created-at>
+              <created-at [createdAt]="data.listingTime"></created-at>
             </td>
 
             <td>

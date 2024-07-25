@@ -40,7 +40,7 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
   _logoName = '';
   _marketCap = 0;
   _marketCapRanking = 0;
-  _createdAt = 0;
+  _listingTime = 0;
 
   _website = '';
   _twitter = '';
@@ -98,8 +98,8 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
           token.marketCap || 0;
         this.templateContext['marketCapRanking'] = this._marketCapRanking =
           token.marketCapRanking || 0;
-        this.templateContext['createdAt'] = this._createdAt =
-          token.createdAt || 0;
+        this.templateContext['listingTime'] = this._listingTime =
+          token.listingTime || 0;
 
         this.templateContext['website'] = this._website = token.website || '';
         this.templateContext['twitter'] = this._twitter = token.twitter || '';

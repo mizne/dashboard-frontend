@@ -35,13 +35,13 @@ export class CexTokenListComponent implements OnInit {
   pageIndex = 1;
   query: { [key: string]: any } = {};
   sort: any = {
-    createdAt: -1,
+    listingTime: -1,
   };
 
   form = this.fb.group({
     name: [''],
     hasCollect: [null],
-    createdAt: [0],
+    listingTime: [0],
   });
   colletStatuses = [
     {
@@ -57,7 +57,7 @@ export class CexTokenListComponent implements OnInit {
       value: false
     }
   ]
-  createdAtOptions = [
+  listingTimeOptions = [
     // {
     //   label: '最近 1 天',
     //   value: 24 * 60 * 60 * 1e3,
@@ -106,7 +106,7 @@ export class CexTokenListComponent implements OnInit {
 
   resetForm() {
     this.form.reset({
-      createdAt: 0,
+      listingTime: 0,
     });
     this.pageIndex = 1;
     this.pageSize = 10;
@@ -211,12 +211,12 @@ export class CexTokenListComponent implements OnInit {
         Object.assign(o, {
           ['hasCollect']: !!query['hasCollect'] ? true : { $in: [false, null, undefined] },
         });
-      } else if (key === 'createdAt') {
+      } else if (key === 'listingTime') {
         Object.assign(
           o,
-          query['createdAt']
+          query['listingTime']
             ? {
-              createdAt: { $gte: new Date().getTime() - query['createdAt'] },
+              listingTime: { $gte: new Date().getTime() - query['listingTime'] },
             }
             : {}
         );
