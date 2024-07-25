@@ -93,6 +93,23 @@
       style="margin-top: 12px"
     ></app-cex-token-tag-select>
 
+    <nz-spin [nzSpinning]="chartLoading">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          margin-top: 12px;
+        "
+      >
+        <div *ngFor="let chartData of chartDataItems">
+          <bar-chart [data]="chartData.data" [width]="500"></bar-chart>
+          <p style="text-align: center">{{ chartData.title }}</p>
+        </div>
+      </div>
+    </nz-spin>
+
     <nz-card style="margin-top: 12px">
       <nz-table
         nzShowSizeChanger

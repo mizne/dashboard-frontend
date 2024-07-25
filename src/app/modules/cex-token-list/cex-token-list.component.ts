@@ -2,7 +2,7 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { Subscription } from 'rxjs';
+import { lastValueFrom, Subscription } from 'rxjs';
 import { removeEmpty } from 'src/app/utils';
 import { tokenTagNameOfTotalMarket } from 'src/app/shared';
 import { CexToken } from 'src/app/shared';
@@ -98,6 +98,12 @@ export class CexTokenListComponent implements OnInit {
 
   subscriptions: Subscription[] = [];
 
+  chartLoading = false
+  chartDataItems: Array<{
+    title: string;
+    data: Array<{ label: string; value: number; color?: string; }>
+  }> = []
+
   submitForm(): void {
     this.pageIndex = 1;
     this.pageSize = 10;
@@ -119,6 +125,8 @@ export class CexTokenListComponent implements OnInit {
       this.pageSize = 10;
       this.loadDataFromServer();
     });
+
+
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
@@ -246,9 +254,125 @@ export class CexTokenListComponent implements OnInit {
   open(): void {
     this.visible = true;
     this.loadDataFromServer();
+    this.fetchChartDataItems()
   }
 
   close(): void {
     this.visible = false;
+  }
+
+  private async fetchChartDataItems() {
+    this.chartLoading = true
+    this.chartDataItems = [];
+    const chartDataItem1 = await this.fetchListingTimeChartDataItems()
+    const chartDataItem2 = await this.fetchMarketCapChartDataItems()
+
+    this.chartDataItems.push(chartDataItem1)
+    this.chartDataItems.push(chartDataItem2)
+    this.chartLoading = false
+  }
+
+  private async fetchListingTimeChartDataItems() {
+    const ONE_MONTH_MILLS = 30 * 24 * 60 * 60 * 1e3;
+    const now = new Date().getTime();
+    const conditions = [
+      {
+        label: '最近一个月',
+        query: {
+          listingTime: { $gte: now - ONE_MONTH_MILLS, $lt: now }
+        },
+      },
+      {
+        label: '最近三个月',
+        query: {
+          listingTime: { $gte: now - 3 * ONE_MONTH_MILLS, $lt: now - ONE_MONTH_MILLS }
+        },
+      },
+      {
+        label: '最近半年',
+        query: {
+          listingTime: { $gte: now - 6 * ONE_MONTH_MILLS, $lt: now - 3 * ONE_MONTH_MILLS }
+        },
+      },
+      {
+        label: '最近一年',
+        query: {
+          listingTime: { $gte: now - 12 * ONE_MONTH_MILLS, $lt: now - 6 * ONE_MONTH_MILLS }
+        },
+      },
+      {
+        label: '更早',
+        query: {
+          listingTime: { $lt: now - 12 * ONE_MONTH_MILLS }
+        },
+      }
+    ];
+
+    const chartData = [];
+    for (const cond of conditions) {
+      const count = await lastValueFrom(this.cexTokenService.queryCount(cond.query))
+      chartData.push({
+        label: cond.label,
+        value: count
+      })
+    }
+    return {
+      title: '上市时间分布',
+      data: chartData
+    }
+  }
+
+  private async fetchMarketCapChartDataItems() {
+    const conditions = [
+      {
+        label: '<= 50M',
+        query: {
+          marketCap: { $lte: 50 * 1e6 }
+        },
+      },
+      {
+        label: '(50M,100M]',
+        query: {
+          marketCap: { $gt: 50 * 1e6, $lte: 100 * 1e6 }
+        },
+      },
+      {
+        label: '(100M,1B]',
+        query: {
+          marketCap: { $gt: 100 * 1e6, $lte: 1 * 1e9 }
+        },
+      },
+      {
+        label: '(1B,10B]',
+        query: {
+          marketCap: { $gt: 1 * 1e9, $lte: 10 * 1e9 }
+        },
+      },
+      {
+        label: '(10B,100B]',
+        query: {
+          marketCap: { $gt: 10 * 1e9, $lte: 100 * 1e9 }
+        },
+      },
+      {
+        label: '> 100B',
+        query: {
+          marketCap: { $gt: 100 * 1e9 }
+        },
+      },
+    ];
+
+    const chartData = [];
+    for (const cond of conditions) {
+      const count = await lastValueFrom(this.cexTokenService.queryCount(cond.query))
+      chartData.push({
+        label: cond.label,
+        value: count
+      })
+    }
+    return {
+      title: '市值分布',
+      data: chartData
+    }
   }
 }
