@@ -37,13 +37,21 @@ export class CustomDateRangeComponent implements OnInit {
     symbol: [''],
     priceChangePercent: [null],
     currentPriceRelative: [null],
+    listingTimeDateRange: [null],
   });
+  listingTimeRanges = {
+    '最近一个月': [new Date(new Date().getTime() - 1 * 30 * 24 * 60 * 60 * 1e3), new Date()],
+    '最近三个月': [new Date(new Date().getTime() - 3 * 30 * 24 * 60 * 60 * 1e3), new Date()],
+    '最近半年': [new Date(new Date().getTime() - 6 * 30 * 24 * 60 * 60 * 1e3), new Date()],
+    '最近一年': [new Date(new Date().getTime() - 12 * 30 * 24 * 60 * 60 * 1e3), new Date()],
+  }
 
   marketCapSortFn = (a: CustomDateRangeCexTokenPriceChange, b: CustomDateRangeCexTokenPriceChange) => a.marketCap - b.marketCap
   priceChangePercentSortFn = (a: CustomDateRangeCexTokenPriceChange, b: CustomDateRangeCexTokenPriceChange) => a.priceChangePercent - b.priceChangePercent
   currentPriceRelativeSortFn = (a: CustomDateRangeCexTokenPriceChange, b: CustomDateRangeCexTokenPriceChange) => a.currentPriceRelative - b.currentPriceRelative
   inDaysSortFn = (a: CustomDateRangeCexTokenPriceChange, b: CustomDateRangeCexTokenPriceChange) => a.inDays - b.inDays
   updatedAtSortFn = (a: CustomDateRangeCexTokenPriceChange, b: CustomDateRangeCexTokenPriceChange) => (a.updatedAt || 0) - (b.updatedAt || 0)
+  listingTimeSortFn = (a: CustomDateRangeCexTokenPriceChange, b: CustomDateRangeCexTokenPriceChange) => (a.listingTime || 0) - (b.listingTime || 0)
 
   chartDataItems: Array<{
     title: string;
@@ -123,16 +131,22 @@ export class CustomDateRangeComponent implements OnInit {
 
   private loadDataFromServer(): void {
     const dateRange = this.form.get('dateRange')?.value as Array<Date>
+    if (!dateRange || !Array.isArray(dateRange) || dateRange.length !== 2) {
+      this.notification.warning(`没有设置时间周期`, `没有设置时间周期`)
+      return
+    }
     if (dateRange && dateRange[1] && dateRange[1].getTime() > new Date().getTime()) {
       this.notification.warning(`时间周期错误`, `今天还没有到8点, 没有当天价格数据`)
       return
     }
 
-
     this.loading = true;
     this.query = {
       ...removeEmpty(this.form.value),
     };
+
+    console.log(`loadDataFromServer(), query: `, this.query)
+
     this.cexTokenPriceChangeService
       .queryListCustomDateRange(
         this.query['dateRange'][0].getTime(),
@@ -157,6 +171,15 @@ export class CustomDateRangeComponent implements OnInit {
   private filterResults(results: CustomDateRangeCexTokenPriceChange[]): CustomDateRangeCexTokenPriceChange[] {
     if (this.query['symbol']) {
       results = results.filter(e => e.symbol.toLowerCase().indexOf(this.query['symbol'].toLowerCase()) >= 0)
+    }
+
+    if (this.query['listingTimeDateRange'] && Array.isArray(this.query['listingTimeDateRange']) && this.query['listingTimeDateRange'].length === 2) {
+      results = results.filter(e => {
+        if (typeof e.listingTime === 'number') {
+          return e.listingTime >= this.query['listingTimeDateRange'][0].getTime() && e.listingTime <= this.query['listingTimeDateRange'][1].getTime()
+        }
+        return true
+      })
     }
 
     if (this.query['priceChangePercent']) {

@@ -59,6 +59,16 @@
         </nz-form-control>
       </nz-form-item>
 
+      <nz-form-item style="margin-bottom: 6px">
+        <nz-form-label nzFor="listingTimeDateRange">上市日期</nz-form-label>
+        <nz-form-control>
+          <nz-range-picker
+            [nzRanges]="listingTimeRanges"
+            formControlName="listingTimeDateRange"
+          ></nz-range-picker>
+        </nz-form-control>
+      </nz-form-item>
+
       <!-- <nz-form-item style="margin-bottom: 6px">
             <nz-form-label nzFor="chartFilter">Chart Filter</nz-form-label>
             <nz-form-control>
@@ -141,11 +151,11 @@
               多少天内
             </th>
             <th
-              nzColumnKey="updatedAt"
-              [nzSortFn]="updatedAtSortFn"
+              nzColumnKey="listingTime"
+              [nzSortFn]="listingTimeSortFn"
               [nzSortDirections]="['descend', 'ascend', null]"
             >
-              更新时间
+              上市时间
             </th>
 
             <th nzColumnKey="Action" style="width: 140px">操作</th>
@@ -262,7 +272,7 @@
             <td>{{ data.inDays }}</td>
 
             <td>
-              <created-at [createdAt]="data.updatedAt || 0"></created-at>
+              <created-at [createdAt]="data.listingTime || 0"></created-at>
             </td>
 
             <td>

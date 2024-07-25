@@ -80,8 +80,14 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
     symbol: [''],
     priceChangePercent: [null],
     currentPriceRelative: [null],
-    // chartFilter: [[]]
+    listingTimeDateRange: [null],
   });
+  listingTimeRanges = {
+    '最近一个月': [new Date(new Date().getTime() - 1 * 30 * 24 * 60 * 60 * 1e3), new Date()],
+    '最近三个月': [new Date(new Date().getTime() - 3 * 30 * 24 * 60 * 60 * 1e3), new Date()],
+    '最近半年': [new Date(new Date().getTime() - 6 * 30 * 24 * 60 * 60 * 1e3), new Date()],
+    '最近一年': [new Date(new Date().getTime() - 12 * 30 * 24 * 60 * 60 * 1e3), new Date()],
+  }
 
   tagCtrl = new FormControl(null)
 
@@ -233,6 +239,17 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
         Object.assign(o, {
           ['symbol']: { $regex: query['symbol'].trim(), $options: 'i' }
         });
+      } else if (key === 'listingTimeDateRange') {
+
+        if (Array.isArray(query['listingTimeDateRange']) && query['listingTimeDateRange'].length === 2) {
+          Object.assign(o, {
+            ['listingTime']: {
+              $gte: query['listingTimeDateRange'][0].getTime(),
+              $lte: query['listingTimeDateRange'][1].getTime(),
+            }
+          });
+        }
+
       } else {
         Object.assign(o, { [key]: query[key] });
       }

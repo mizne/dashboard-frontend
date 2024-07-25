@@ -12,6 +12,7 @@ export interface CexTokenPriceChange {
 
   readonly marketCap: number;
   readonly marketCapRanking?: number;
+  readonly listingTime: number;
 
   readonly website?: string;
   readonly twitter?: string;
