@@ -16,12 +16,12 @@
 >
   <ng-container *nzModalContent>
     <nz-collapse>
-      <nz-collapse-panel [nzHeader]="'涨跌幅分布'" [nzActive]="true">
-        <price-change-chart></price-change-chart>
+      <nz-collapse-panel [nzHeader]="'当前价位分布'" [nzActive]="true">
+        <price-relative-chart></price-relative-chart>
       </nz-collapse-panel>
 
-      <nz-collapse-panel [nzHeader]="'当前价位分布'" [nzActive]="false">
-        <price-relative-chart></price-relative-chart>
+      <nz-collapse-panel [nzHeader]="'涨跌幅分布'" [nzActive]="false">
+        <price-change-chart></price-change-chart>
       </nz-collapse-panel>
 
       <nz-collapse-panel [nzHeader]="'详细数据'" [nzActive]="false">
