@@ -7,6 +7,7 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { removeEmpty } from 'src/app/utils';
 import { ActivatedRoute } from '@angular/router';
 import { KlineIntervals, KlineIntervalService } from 'src/app/shared';
+import { format, parse } from 'date-fns';
 
 @Component({
   selector: 'app-overview',
@@ -45,7 +46,7 @@ export class OverviewComponent implements OnInit {
     interval: [this.intervals[0].name],
     name: [''],
     lucky: [false],
-    latestIntervals: [1],
+    intervalDateRange: [],
     symbol: [''],
   });
 
@@ -62,7 +63,6 @@ export class OverviewComponent implements OnInit {
   resetForm() {
     this.form.reset({
       interval: this.intervals[0].name,
-      latestIntervals: 1,
       lucky: false,
     });
     this.pageIndex = 1;
@@ -78,13 +78,6 @@ export class OverviewComponent implements OnInit {
       this.form.get('symbol')?.patchValue(symbol);
     }
 
-    if (this.route.snapshot.queryParams['latestIntervals']) {
-      const latestIntervals = decodeURIComponent(
-        this.route.snapshot.queryParams['latestIntervals']
-      );
-      this.form.get('latestIntervals')?.patchValue(Number(latestIntervals));
-    }
-
     this.loadDataFromServer();
 
     this.tagCtrl.valueChanges.subscribe(() => {
@@ -96,7 +89,7 @@ export class OverviewComponent implements OnInit {
 
   resolveMoreHref(symbol: string): string {
     return `${location.protocol}//${location.host
-      }/overview?symbol=${encodeURIComponent(symbol)}&latestIntervals=0`;
+      }/overview?symbol=${encodeURIComponent(symbol)}`;
   }
 
   genTdStyle() {
@@ -215,11 +208,17 @@ export class OverviewComponent implements OnInit {
             { symbol: { $regex: query['name'].trim(), $options: 'i' } },
           ],
         });
-      } else if (key === 'latestIntervals') {
-        Object.assign(
-          o,
-          this.resolveLatestIntervals(query[key], query['interval'])
-        );
+      } else if (key === 'intervalDateRange') {
+        if (query['intervalDateRange'] && Array.isArray(query['intervalDateRange']) && query['intervalDateRange'].length === 2) {
+          Object.assign(o, {
+            time: {
+              $gte: parse(format(query['intervalDateRange'][0], 'yyyy-MM-dd') + ' 08:00:00', 'yyyy-MM-dd HH:mm:ss', new Date()).getTime(),
+              $lte: parse(format(query['intervalDateRange'][1], 'yyyy-MM-dd') + ' 08:00:00', 'yyyy-MM-dd HH:mm:ss', new Date()).getTime(),
+            }
+          })
+        }
+
+
       } else if (key === 'lucky') {
         Object.assign(
           o,
@@ -238,42 +237,7 @@ export class OverviewComponent implements OnInit {
     return o;
   }
 
-  private resolveLatestIntervals(
-    latestIntervals: number,
-    interval: KlineIntervals
-  ): { [key: string]: any } {
-    if (latestIntervals <= 0) {
-      return {};
-    }
 
-    switch (interval) {
-      case KlineIntervals.FOUR_HOURS:
-        return {
-          time: {
-            $gte: this.klineIntervalService.resolveFourHoursIntervalMills(
-              latestIntervals
-            ),
-          },
-        };
-      case KlineIntervals.ONE_DAY:
-        return {
-          time: {
-            $gte: this.klineIntervalService.resolveOneDayIntervalMills(
-              latestIntervals
-            ),
-          },
-        };
-      default:
-        console.warn(`resolveLatestIntervals() unknown interval: ${interval}`);
-        return {
-          time: {
-            $gte: this.klineIntervalService.resolveFourHoursIntervalMills(
-              latestIntervals
-            ),
-          },
-        };
-    }
-  }
 
   private resolveVolumeLimit(interval: KlineIntervals): number {
     switch (interval) {
