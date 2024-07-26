@@ -7,3 +7,7 @@ export const components = [
   PriceRelativeChartComponent,
   CustomDateRangeComponent
 ]
+
+export {
+  CustomDateRangeComponent
+}

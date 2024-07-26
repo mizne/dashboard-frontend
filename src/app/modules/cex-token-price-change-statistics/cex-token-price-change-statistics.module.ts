@@ -5,7 +5,7 @@ import { CexTokenSymbolItemModule } from 'src/app/modules/cex-token-symbol-item'
 import { CexTokenItemDetailModule } from 'src/app/modules/cex-token-item-detail'
 import { CexFutureItemDetailModule } from 'src/app/modules/cex-future-item-detail'
 
-import { components } from './components/index'
+import { components, CustomDateRangeComponent } from './components/index'
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { components } from './components/index'
     CexTokenItemDetailModule,
     CexFutureItemDetailModule
   ],
-  exports: [CexTokenPriceChangeStatisticsComponent],
+  exports: [CexTokenPriceChangeStatisticsComponent, CustomDateRangeComponent],
   declarations: [CexTokenPriceChangeStatisticsComponent, ...components],
   providers: [],
 })
