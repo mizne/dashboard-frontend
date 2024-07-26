@@ -46,7 +46,9 @@ export class OverviewComponent implements OnInit {
     interval: [this.intervals[0].name],
     name: [''],
     lucky: [false],
-    intervalDateRange: [],
+    intervalDateRange: [
+      this.resolveDefaultIntervalDateRange()
+    ],
     symbol: [''],
   });
 
@@ -63,11 +65,20 @@ export class OverviewComponent implements OnInit {
   resetForm() {
     this.form.reset({
       interval: this.intervals[0].name,
+      intervalDateRange: this.resolveDefaultIntervalDateRange(),
       lucky: false,
     });
     this.pageIndex = 1;
     this.pageSize = 10;
     this.loadDataFromServer();
+  }
+
+  private resolveDefaultIntervalDateRange(): Array<Date> {
+    const today = parse(format(new Date(), 'yyyy-MM-dd') + ' 08:00:00', 'yyyy-MM-dd HH:mm:ss', new Date())
+    return [
+      new Date(today.getTime() - 1 * 24 * 60 * 60 * 1e3),
+      today
+    ]
   }
 
   ngOnInit(): void {
