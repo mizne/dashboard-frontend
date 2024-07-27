@@ -4,6 +4,7 @@
   nzPopoverTrigger="click"
   [nzPopoverTitle]="titleTemplate"
   [nzPopoverContent]="contentTemplate"
+  (nzPopoverVisibleChange)="popoverVisibleChange($event)"
   style="display: flex; align-items: center; cursor: pointer"
 >
   <ng-container
@@ -25,7 +26,7 @@
   </div>
 </ng-template>
 <ng-template #contentTemplate>
-  <div class="symbol-item-content">
+  <div class="symbol-item-content" style="max-width: 600px">
     <div class="symbol-item-tags" style="margin-bottom: 12px">
       <span class="tags-label" style="margin-right: 6px">分类：</span>
       <ng-container *ngIf="_tagLabels.length > 0; else noTags">
@@ -74,6 +75,19 @@
         ></nz-progress>
       </span>
     </div>
+    <nz-spin [nzSpinning]="fetchCexTokenPriceChangeTags">
+      <div class="symbol-item-tags" style="margin-bottom: 12px">
+        <span class="tag-label" style="margin-right: 6px">涨跌幅统计：</span>
+        <span class="tag-value" style="margin-right: 6px">
+          <nz-tag
+            *ngFor="let item of cexTokenPriceChangeTags"
+            [nzColor]="item.color"
+            style="margin-bottom: 6px"
+            >{{ item.label + " " + item.value }}</nz-tag
+          >
+        </span>
+      </div></nz-spin
+    >
 
     <div class="symbol-item-tags" style="margin-bottom: 24px">
       <span class="notify-label" style="margin-right: 6px">价格通知：</span>

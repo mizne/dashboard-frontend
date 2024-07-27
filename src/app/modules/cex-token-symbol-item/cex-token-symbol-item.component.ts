@@ -9,7 +9,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { map, firstValueFrom, lastValueFrom } from 'rxjs';
-import { CexTokenCacheService, CexTokenService, NotifyObserver, NotifyObserverService, NotifyObserverTypes } from 'src/app/shared';
+import { CexTokenCacheService, CexTokenPriceChangeService, CexTokenService, NotifyObserver, NotifyObserverService, NotifyObserverTypes } from 'src/app/shared';
 import { CexTokenTagCacheService } from 'src/app/shared';
 import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer'
 
@@ -21,6 +21,7 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
   constructor(
     private readonly cexTokenCacheService: CexTokenCacheService,
     private readonly cexTokenService: CexTokenService,
+    private readonly cexTokenPriceChangeService: CexTokenPriceChangeService,
     private readonly notifyObserverService: NotifyObserverService,
     private readonly cexTokenTagCacheService: CexTokenTagCacheService,
     private readonly nzNotificationService: NzNotificationService,
@@ -57,6 +58,13 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
 
   notifyObservers: NotifyObserver[] = []
 
+  cexTokenPriceChangeTags: Array<{
+    label: string;
+    value: string;
+    color: string;
+  }> = []
+  fetchCexTokenPriceChangeTags = false
+
   ngOnInit() {
     this.hasCollectCtrl.valueChanges.subscribe(v => {
       this.updateHasCollect(!!v)
@@ -80,6 +88,53 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
       };
       this._name = name;
       this.fetchToken('', name)
+    }
+  }
+
+  popoverVisibleChange(visible: boolean) {
+    console.log(`popoverVisibleChange: `, visible);
+
+    if (visible && this._symbol) {
+      this.fetchCexTokenPriceChange()
+    }
+  }
+
+  private async fetchCexTokenPriceChange() {
+    this.fetchCexTokenPriceChangeTags = true
+    const days = [3, 7, 15, 30, 60, 90, 180, 360, 540];
+    const results = []
+    for (const day of days) {
+      const items = await (lastValueFrom(this.cexTokenPriceChangeService.queryList({ symbol: this._symbol, inDays: day }, { number: 1, size: 1 })))
+      if (items.length === 1) {
+        results.push({
+          label: `${day} 天`,
+          value: `${(items[0].priceChangePercent * 100).toFixed(1)} %`,
+          color: this.resolvePriceChangeColor(items[0].priceChangePercent)
+        })
+      }
+    }
+
+    this.cexTokenPriceChangeTags = results
+    this.fetchCexTokenPriceChangeTags = false
+  }
+
+  private resolvePriceChangeColor(priceChangePercent: number): string {
+    if (priceChangePercent <= -0.9) {
+      return '#7C0902'
+    } else if (priceChangePercent > -0.9 && priceChangePercent <= -0.5) {
+      return '#AB274F'
+    } else if (priceChangePercent > -0.5 && priceChangePercent <= -0.2) {
+      return '#FE6F5E'
+    } else if (priceChangePercent > -0.2 && priceChangePercent <= 0) {
+      return '#FDBCB4'
+    } else if (priceChangePercent > 0 && priceChangePercent <= 1.0) {
+      return '#ACE1AF'
+    } else if (priceChangePercent > 1.0 && priceChangePercent <= 5.0) {
+      return '#50C878'
+    } else if (priceChangePercent > 5.0 && priceChangePercent <= 10.0) {
+      return '#177245'
+    } else {
+      return '#013220'
     }
   }
 
