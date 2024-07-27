@@ -39,6 +39,7 @@ export class BarChartComponent
   }
 
   ngOnDestroy(): void {
+    // console.log('ngOnDestroy() ' + this.chartID)
     this.destroyChart();
   }
 
@@ -50,6 +51,7 @@ export class BarChartComponent
     if (this._chart) {
       return;
     }
+    // console.log('initChart() ' + this.chartID)
     this._chart = new Chart({
       container: this.chartID,
       autoFit: true,

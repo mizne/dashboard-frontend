@@ -130,6 +130,7 @@ export class CustomDateRangeComponent implements OnInit {
   }
 
   private loadDataFromServer(): void {
+    this.chartDataItems = [];
     const dateRange = this.form.get('dateRange')?.value as Array<Date>
     if (!dateRange || !Array.isArray(dateRange) || dateRange.length !== 2) {
       this.notification.warning(`没有设置时间周期`, `没有设置时间周期`)
