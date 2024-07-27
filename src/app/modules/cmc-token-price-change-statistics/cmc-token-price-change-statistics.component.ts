@@ -1,10 +1,11 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CMCTokenPriceChange, CMCTokenPriceChangeService } from 'src/app/shared';
+import { CMCTokenDailyService, CMCTokenPriceChange, CMCTokenPriceChangeService } from 'src/app/shared';
 import { removeEmpty } from 'src/app/utils';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { lastValueFrom } from 'rxjs';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'cmc-token-price-change-statistics',
@@ -13,6 +14,7 @@ import { lastValueFrom } from 'rxjs';
 export class CMCTokenPriceChangeStatisticsComponent implements OnInit {
   constructor(
     private readonly cmcTokenPriceChangeService: CMCTokenPriceChangeService,
+    private readonly cmcTokenDailyService: CMCTokenDailyService,
     private readonly notification: NzNotificationService,
     private fb: FormBuilder
   ) { }
@@ -20,6 +22,7 @@ export class CMCTokenPriceChangeStatisticsComponent implements OnInit {
   @Input() content: TemplateRef<any> | null = null;
 
   visible = false;
+  modalTitle = '涨跌幅统计'
 
   total = 0;
   items: CMCTokenPriceChange[] = [];
@@ -103,7 +106,7 @@ export class CMCTokenPriceChangeStatisticsComponent implements OnInit {
     //   console.log(`chartFilter: ${JSON.stringify(v, null, 2)}`)
     // })
 
-
+    this.resolveModalTitle()
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
@@ -154,7 +157,18 @@ export class CMCTokenPriceChangeStatisticsComponent implements OnInit {
     this.loadDataFromServer();
   }
 
+  private async resolveModalTitle() {
+    const startTimeItems = await lastValueFrom(this.cmcTokenDailyService.queryList({}, { number: 1, size: 1 }, { time: 1 }))
+    const endTimeItems = await lastValueFrom(this.cmcTokenDailyService.queryList({}, { number: 1, size: 1 }, { time: -1 }))
 
+    if (startTimeItems.length === 1 && endTimeItems.length === 1) {
+      const startTimeStr = format(startTimeItems[0].time, 'yyyy-MM-dd HH:mm:ss')
+      const endTimeStr = format(endTimeItems[0].time, 'yyyy-MM-dd HH:mm:ss')
+
+      this.modalTitle = `涨跌幅统计 数据统计时间 ${startTimeStr} ~ ${endTimeStr}`
+    }
+
+  }
 
 
 
@@ -234,6 +248,7 @@ export class CMCTokenPriceChangeStatisticsComponent implements OnInit {
   open(): void {
     this.visible = true;
     this.loadDataFromServer();
+    this.resolveModalTitle()
   }
 
   close(): void {
