@@ -38,7 +38,7 @@ export class CexTokenSearchMultiInputComponent implements ControlValueAccessor, 
 
   private readonly searchSubject = new Subject<string>()
   private readonly searchObs = this.searchSubject.asObservable().pipe(
-    debounceTime(2e3)
+    debounceTime(1.5 * 1e3)
   )
 
   constructor(
@@ -148,6 +148,8 @@ export class CexTokenSearchMultiInputComponent implements ControlValueAccessor, 
             }
           });
       }
+    } else {
+      this.selectedInputCtrl.patchValue([], { emitEvent: false })
     }
   }
 

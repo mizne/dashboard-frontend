@@ -31,13 +31,16 @@
       <nz-form-item style="margin-bottom: 6px">
         <nz-form-label nzFor="symbol">symbol</nz-form-label>
         <nz-form-control>
-          <input
+          <!-- <input
             nz-input
             class="ant-input"
             placeholder="请输入symbol"
             formControlName="symbol"
             [attr.id]="'symbol'"
-          />
+          /> -->
+          <app-cex-token-search-multi-input
+            formControlName="symbol"
+          ></app-cex-token-search-multi-input>
         </nz-form-control>
       </nz-form-item>
 

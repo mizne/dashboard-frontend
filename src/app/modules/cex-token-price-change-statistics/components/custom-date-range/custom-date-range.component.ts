@@ -34,7 +34,7 @@ export class CustomDateRangeComponent implements OnInit {
 
   form = this.fb.group<any>({
     dateRange: [null],
-    symbol: [''],
+    symbol: [null],
     priceChangePercent: [null],
     currentPriceRelative: [null],
     listingTimeDateRange: [null],
@@ -67,7 +67,7 @@ export class CustomDateRangeComponent implements OnInit {
   resetForm() {
     const { start, end } = this.resolveDefaultDateRange()
     this.form.reset({
-      dateRange: [new Date(start), new Date(end)]
+      dateRange: [new Date(start), new Date(end)],
     });
     this.pageIndex = 1;
     this.pageSize = 10;
@@ -171,7 +171,8 @@ export class CustomDateRangeComponent implements OnInit {
 
   private filterResults(results: CustomDateRangeCexTokenPriceChange[]): CustomDateRangeCexTokenPriceChange[] {
     if (this.query['symbol']) {
-      results = results.filter(e => e.symbol.toLowerCase().indexOf(this.query['symbol'].toLowerCase()) >= 0)
+      // results = results.filter(e => e.symbol.toLowerCase().indexOf(this.query['symbol'].toLowerCase()) >= 0)
+      results = results.filter(e => this.query['symbol'].indexOf(e.symbol) >= 0)
     }
 
     if (this.query['listingTimeDateRange'] && Array.isArray(this.query['listingTimeDateRange']) && this.query['listingTimeDateRange'].length === 2) {
