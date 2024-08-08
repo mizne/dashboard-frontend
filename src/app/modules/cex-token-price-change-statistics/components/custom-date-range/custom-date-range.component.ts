@@ -5,6 +5,7 @@ import { CexTokenPriceChange, CexTokenPriceChangeService, CustomDateRangeCexToke
 import { removeEmpty, stringifyNumber } from 'src/app/utils';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { format, parse } from 'date-fns';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'custom-date-range',
@@ -98,6 +99,8 @@ export class CustomDateRangeComponent implements OnInit {
       fill: val > 0 ? '#50C878' : '#FE6F5E'
     };
   }
+  annotation = ''
+  animateDuration = 2e3
 
   submitForm(): void {
     this.pageIndex = 1;
@@ -353,10 +356,82 @@ export class CustomDateRangeComponent implements OnInit {
     ]
   }
 
+  private async loadAnimateBubbleChartData() {
+    console.log(`loadAnimateBubbleChartData()`)
+    const firstDate = parse('2024-03-01 08:00:00', 'yyyy-MM-dd HH:mm:ss', new Date()).getTime();
+    const inDays = 30;
+    const count = 131;
+    const ONE_DAY = 24 * 60 * 60 * 1e3
+
+    const chartDatas: Array<{
+      startDate: number;
+      endDate: number;
+      data: CustomDateRangeCexTokenPriceChange[]
+    }> = []
+
+    for (const [index, n] of Array.from({ length: count }).entries()) {
+      const startDate = firstDate + index * ONE_DAY;
+      const endDate = startDate + inDays * ONE_DAY;
+      this.annotation = this.resolveAnnotationText(startDate, endDate)
+      const data = await (lastValueFrom(this.cexTokenPriceChangeService
+        .queryListCustomDateRange(
+          startDate,
+          endDate,
+        )))
+
+      chartDatas.push({
+        startDate,
+        endDate,
+        data
+      })
+    }
+
+
+    let timer: any = 0;
+    let timerCount = 0;
+    const timerInterval = 2e3
+    this.animateDuration = timerInterval
+
+    timer = setInterval(() => {
+
+      if (timerCount >= chartDatas.length) {
+        clearInterval(timer as number)
+        timer = 0;
+        return
+      }
+
+      console.log(`timer bubble chart data, start date: ${format(chartDatas[timerCount].startDate, 'yyyy-MM-dd')}`)
+
+      this.annotation = this.resolveAnnotationText(chartDatas[timerCount].startDate, chartDatas[timerCount].endDate)
+      this.bubbleChartData = chartDatas[timerCount].data.map(e => {
+        return {
+          label: e.symbol,
+          value1: e.priceChangePercent,
+          value2: e.currentPriceRelative,
+          value3: e.marketCap
+        }
+      })
+
+      timerCount += 1;
+    }, timerInterval)
+
+  }
+
+  private resolveAnnotationText(startDate: number, endDate: number): string {
+    const startYear = new Date(startDate).getFullYear()
+    const endYear = new Date(endDate).getFullYear()
+
+    if (startYear === endYear) {
+      return `${format(startDate, 'yyyy-MM-dd')} ~ ${format(endDate, 'MM-dd')}`
+    }
+    return `${format(startDate, 'yyyy-MM-dd')} ~ ${format(endDate, 'yyyy-MM-dd')}`
+  }
+
 
   open(): void {
     this.visible = true;
     this.loadDataFromServer();
+    // this.loadAnimateBubbleChartData()
   }
 
   close(): void {

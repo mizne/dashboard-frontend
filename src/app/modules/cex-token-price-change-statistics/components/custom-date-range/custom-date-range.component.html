@@ -114,6 +114,8 @@
           [formatter]="formatter"
           [styleKey]="styleKey"
           [styleCallback]="styleCallback"
+          [annotation]="annotation"
+          [animateDuration]="animateDuration"
         ></bubble-chart>
         <div *ngFor="let chartData of chartDataItems" style="margin-top: 12px">
           <bar-chart [data]="chartData.data" [width]="500"></bar-chart>

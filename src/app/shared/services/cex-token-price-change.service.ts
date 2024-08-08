@@ -4,19 +4,24 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CexTokenPriceChange, CustomDateRangeCexTokenPriceChange } from '../models/cex-token-price-change.model';
 import { FilterQuery } from 'src/app/shared';
-import { memorizeFn } from 'src/app/utils';
+import { KlineIntervalService } from './kline-interval.service';
 
 @Injectable({ providedIn: 'root' })
 export class CexTokenPriceChangeService {
   private readonly baseURL = environment.baseURL;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private readonly klineIntervalService: KlineIntervalService) { }
 
   queryList(
     query?: FilterQuery<CexTokenPriceChange>,
     page?: { number: number; size: number },
     sort?: any
   ): Observable<CexTokenPriceChange[]> {
+    query = query || {}
+    if (!query.time) {
+      Object.assign(query, { time: this.klineIntervalService.resolveOneDayIntervalMills(1) })
+    }
+
     return this.httpClient.post<CexTokenPriceChange[]>(
       `${this.baseURL}/cex-token-price-change/queryList`,
       {
@@ -28,6 +33,10 @@ export class CexTokenPriceChangeService {
   }
 
   queryCount(query?: FilterQuery<CexTokenPriceChange>): Observable<number> {
+    query = query || {}
+    if (!query.time) {
+      Object.assign(query, { time: this.klineIntervalService.resolveOneDayIntervalMills(1) })
+    }
     return this.httpClient.post<number>(
       `${this.baseURL}/cex-token-price-change/queryCount`,
       {

@@ -46,12 +46,15 @@ export class BubbleChartComponent
 
   @Input() styleKey: string | null = null
   @Input() styleCallback: Function | null = null
+  @Input() annotation: string | null = null
+  @Input() animateDuration = 1e3
 
   @Input() height = 240;
   @Input() width = 420;
 
 
   private _chart: Chart | null = null;
+  private rendered = false
 
   ngOnInit() { }
 
@@ -86,59 +89,104 @@ export class BubbleChartComponent
     if (!this._chart) {
       return;
     }
-    const chart = this._chart;
-    const data = this.data
 
-    const alias = this.alias
-    const formatter = this.formatter
-    let geo = null
+    if (!this.rendered) {
+      const chart = this._chart;
+      const data = this.data
 
-    chart.data(data);
-    // 为各个字段设置别名
-    chart.scale({
-      label: {
-        alias: alias.label,
-        ...(formatter.label ? { formatter: formatter.label } : {})
-      },
-      value1: {
-        alias: alias.value1,
-        nice: true,
-        ...(formatter.value1 ? { formatter: formatter.value1 } : {})
-      },
-      value2: {
-        alias: alias.value2,
-        nice: true,
-        ...(formatter.value2 ? { formatter: formatter.value2 } : {})
-      },
-      value3: {
-        type: 'pow',
-        alias: alias.value3,
-        ...(formatter.value3 ? { formatter: formatter.value3 } : {})
-      },
-    });
-    chart.axis('value1', {
-      label: {
-        formatter(value) {
-          return value
-        } // 格式化坐标轴的显示
+      const alias = this.alias
+      const formatter = this.formatter
+      let geo = null
+
+      chart.data(data);
+      // 为各个字段设置别名
+      chart.scale({
+        label: {
+          alias: alias.label,
+          key: true,
+          ...(formatter.label ? { formatter: formatter.label } : {})
+        },
+        value1: {
+          alias: alias.value1,
+          nice: true,
+          ...(formatter.value1 ? { formatter: formatter.value1 } : {})
+        },
+        value2: {
+          alias: alias.value2,
+          nice: true,
+          ...(formatter.value2 ? { formatter: formatter.value2 } : {})
+        },
+        value3: {
+          type: 'pow',
+          alias: alias.value3,
+          ...(formatter.value3 ? { formatter: formatter.value3 } : {})
+        },
+      });
+      chart.axis('value1', {
+        label: {
+          formatter(value) {
+            return value
+          } // 格式化坐标轴的显示
+        }
+      });
+      chart.tooltip({
+        showTitle: false,
+        showMarkers: false,
+      });
+      chart.legend('value3', false);
+      geo = chart.point().position('value1*value2')
+        .size('value3', [4, 65])
+        .shape('circle')
+        .tooltip('label*value3*value1*value2')
+        .animate({
+          update: {
+            duration: this.animateDuration,
+            easing: 'easeLinear'
+          }
+        })
+
+      if (this.styleKey && this.styleCallback) {
+        geo = geo.style(this.styleKey, this.styleCallback as any);
       }
-    });
-    chart.tooltip({
-      showTitle: false,
-      showMarkers: false,
-    });
-    chart.legend('value3', false);
-    geo = chart.point().position('value1*value2')
-      .size('value3', [4, 65])
-      .shape('circle')
-      .tooltip('label*value3*value1*value2')
 
-    if (this.styleKey && this.styleCallback) {
-      geo = geo.style(this.styleKey, this.styleCallback as any);
+      if (this.annotation) {
+        chart.annotation().text({
+          position: ['50%', '50%'],
+          content: this.annotation,
+          style: {
+            fontSize: 100,
+            fill: '#999',
+            textAlign: 'center',
+            fillOpacity: 0.3
+          },
+          top: false,
+          animate: false,
+        });
+      }
+
+      chart.interaction('element-active');
+      chart.render();
+      this.rendered = true
+    } else {
+      const chart = this._chart;
+      chart.annotation().clear(true);
+      if (this.annotation) {
+        chart.annotation().text({
+          position: ['50%', '50%'],
+          content: this.annotation,
+          style: {
+            fontSize: 100,
+            fill: '#999',
+            textAlign: 'center',
+            fillOpacity: 0.3
+          },
+          top: false,
+          animate: false,
+
+        });
+      }
+      chart.changeData(this.data)
     }
-
-    chart.interaction('element-active');
-    chart.render();
   }
 
 

@@ -30,6 +30,9 @@ export interface CexTokenPriceChange {
   readonly updatedAt?: number;
   readonly updatedAtStr?: string;
 
+  readonly time: number;
+  readonly timeStr: string;
+
   readonly createdAt: number;
   readonly createdAtStr: string;
 }
