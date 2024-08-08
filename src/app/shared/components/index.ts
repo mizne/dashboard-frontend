@@ -2,6 +2,7 @@ import { LinkableComponent } from './linkable/linkable.component';
 import { SmallChartComponent } from './small-chart/small-chart.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { BubbleChartComponent } from './bubble-chart/bubble-chart.component';
 import { NetworkCheckerComponent } from './network-checker/network-checker.component';
 import { BtcFutureCheckerComponent } from './btc-future-checker/btc-future-checker.component';
 import { UpdateTimeComponent } from './update-time/update-time.component';
@@ -37,6 +38,7 @@ export const components = [
   SmallChartComponent,
   PieChartComponent,
   BarChartComponent,
+  BubbleChartComponent,
   NetworkCheckerComponent,
   BtcFutureCheckerComponent,
   UpdateTimeComponent,
@@ -73,6 +75,7 @@ export {
   SmallChartComponent,
   PieChartComponent,
   BarChartComponent,
+  BubbleChartComponent,
   NetworkCheckerComponent,
   BtcFutureCheckerComponent,
   UpdateTimeComponent,

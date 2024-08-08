@@ -106,7 +106,16 @@
           margin-top: 12px;
         "
       >
-        <div *ngFor="let chartData of chartDataItems">
+        <bubble-chart
+          [width]="1120"
+          [height]="600"
+          [data]="bubbleChartData"
+          [alias]="alias"
+          [formatter]="formatter"
+          [styleKey]="styleKey"
+          [styleCallback]="styleCallback"
+        ></bubble-chart>
+        <div *ngFor="let chartData of chartDataItems" style="margin-top: 12px">
           <bar-chart [data]="chartData.data" [width]="500"></bar-chart>
           <p style="text-align: center">{{ chartData.title }}</p>
         </div>

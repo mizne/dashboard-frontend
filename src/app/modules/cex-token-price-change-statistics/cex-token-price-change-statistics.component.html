@@ -16,7 +16,11 @@
 >
   <ng-container *nzModalContent>
     <nz-collapse>
-      <nz-collapse-panel [nzHeader]="'当前价位分布'" [nzActive]="true">
+      <nz-collapse-panel [nzHeader]="'市场概览'" [nzActive]="true">
+        <market-overview-chart></market-overview-chart>
+      </nz-collapse-panel>
+
+      <nz-collapse-panel [nzHeader]="'当前价位分布'" [nzActive]="false">
         <price-relative-chart></price-relative-chart>
       </nz-collapse-panel>
 

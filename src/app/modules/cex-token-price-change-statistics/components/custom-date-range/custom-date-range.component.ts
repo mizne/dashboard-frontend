@@ -2,7 +2,7 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CexTokenPriceChange, CexTokenPriceChangeService, CustomDateRangeCexTokenPriceChange } from 'src/app/shared';
-import { removeEmpty } from 'src/app/utils';
+import { removeEmpty, stringifyNumber } from 'src/app/utils';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { format, parse } from 'date-fns';
 
@@ -57,6 +57,47 @@ export class CustomDateRangeComponent implements OnInit {
     title: string;
     data: Array<{ label: string; value: number; color: string; }>
   }> = []
+
+  bubbleChartData: Array<{
+    label: string;
+    value1: number;
+    value2: number;
+    value3: number;
+  }> = [];
+
+  alias = {
+    label: 'Symbol',
+    value1: '涨跌幅',
+    value2: '当前价位',
+    value3: '市值'
+  }
+
+
+  formatter = {
+    label: (value: number) => {
+      return value
+    },
+    value1: (value: number) => {
+      return `${(value * 100).toFixed(3)}%`
+    },
+    value2: (value: number) => {
+      return `${(value).toFixed(3)}`
+    },
+    value3: (value: number) => {
+      return stringifyNumber(value)
+    }
+  }
+
+  styleKey = 'value1'
+  styleCallback = (val: any) => {
+    return {
+      lineWidth: 1,
+      strokeOpacity: 1,
+      fillOpacity: 0.3,
+      opacity: 0.65,
+      fill: val > 0 ? '#50C878' : '#FE6F5E'
+    };
+  }
 
   submitForm(): void {
     this.pageIndex = 1;
@@ -161,6 +202,15 @@ export class CustomDateRangeComponent implements OnInit {
           this.total = adjustResults.length;
 
           this.resolveChartDataItems(adjustResults)
+
+          this.bubbleChartData = adjustResults.map(e => {
+            return {
+              label: e.symbol,
+              value1: e.priceChangePercent,
+              value2: e.currentPriceRelative,
+              value3: e.marketCap
+            }
+          })
         },
         (e: Error) => {
           this.loading = false;

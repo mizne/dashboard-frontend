@@ -1,0 +1,49 @@
+<div class="market-overview-chart-container">
+  <form
+    nz-form
+    [nzLayout]="'inline'"
+    [formGroup]="form"
+    (ngSubmit)="submitForm()"
+  >
+    <nz-form-item style="margin-bottom: 6px">
+      <nz-form-label nzFor="inDays">周期</nz-form-label>
+      <nz-form-control>
+        <nz-radio-group formControlName="inDays" nzButtonStyle="solid">
+          <label
+            nz-radio-button
+            *ngFor="let item of inDayss"
+            [nzValue]="item.name"
+            >{{ item.label }}</label
+          >
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item class="register-area">
+      <nz-form-control>
+        <button nz-button [nzType]="'primary'">搜索</button>
+        <button
+          nz-button
+          type="button"
+          (click)="resetForm()"
+          style="margin-left: 6px"
+        >
+          重置
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <nz-spin [nzSpinning]="loading">
+    <div>
+      <bubble-chart
+        [width]="1120"
+        [height]="600"
+        [data]="data"
+        [alias]="alias"
+        [formatter]="formatter"
+        [styleKey]="styleKey"
+        [styleCallback]="styleCallback"
+      ></bubble-chart>
+    </div>
+  </nz-spin>
+</div>
