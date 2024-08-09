@@ -16,6 +16,7 @@ import { ScaleType } from '@antv/g2/lib/interface';
 
 const defaultColors = ['#063d8a', '#1770d6', '#47abfc', '#38c060'];
 
+// https://g2-v4.antv.vision/en/examples/case/dynamic#dynamic-bubble
 @Component({
   selector: 'bubble-chart',
   templateUrl: 'bubble-chart.component.html',
