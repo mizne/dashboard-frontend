@@ -26,6 +26,7 @@ import { StatisticsDefinitionsComponent } from './statistics-definitions/statist
 import { StackBarChartComponent } from './stack-bar-chart/stack-bar-chart.component';
 import { SystemTaskTimerSettingsComponent } from './system-task-timer-settings/system-task-timer-settings.component';
 import { CexFutureSearchInputComponent } from './cex-future-search-input/cex-future-search-input.component';
+import { CexFutureSearchMultiInputComponent } from './cex-future-search-multi-input/cex-future-search-multi-input.component';
 import { CexTokenSearchInputComponent } from './cex-token-search-input/cex-token-search-input.component';
 import { CexTokenSearchMultiInputComponent } from './cex-token-search-multi-input/cex-token-search-multi-input.component';
 import { CollectInputComponent } from './collect-input/collect-input.component';
@@ -62,6 +63,7 @@ export const components = [
   StackBarChartComponent,
   SystemTaskTimerSettingsComponent,
   CexFutureSearchInputComponent,
+  CexFutureSearchMultiInputComponent,
   CexTokenSearchInputComponent,
   CexTokenSearchMultiInputComponent,
   CollectInputComponent,
@@ -99,6 +101,7 @@ export {
   StackBarChartComponent,
   SystemTaskTimerSettingsComponent,
   CexFutureSearchInputComponent,
+  CexFutureSearchMultiInputComponent,
   CexTokenSearchInputComponent,
   CexTokenSearchMultiInputComponent,
   CollectInputComponent,

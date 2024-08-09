@@ -140,6 +140,8 @@ export class MarketOverviewChartComponent implements OnInit, OnDestroy {
     '最近一年': [new Date(new Date().getTime() - 12 * 30 * 24 * 60 * 60 * 1e3), new Date()],
   }
 
+  alertMessage = 'x轴表示涨跌幅, y轴表示当前价位, 气泡大小表示市值大小, 红色表示涨跌幅为负, 绿色表示涨跌幅为正'
+
   submitForm(): void {
     const timeDateRange = this.form.get('timeDateRange')?.value;
     if (timeDateRange && timeDateRange.length === 2) {

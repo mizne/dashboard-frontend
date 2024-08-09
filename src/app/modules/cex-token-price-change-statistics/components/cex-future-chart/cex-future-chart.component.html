@@ -1,24 +1,10 @@
-<div class="market-overview-chart-container">
+<div class="cex-future-chart-container">
   <form
     nz-form
     [nzLayout]="'inline'"
     [formGroup]="form"
     (ngSubmit)="submitForm()"
   >
-    <nz-form-item style="margin-bottom: 6px">
-      <nz-form-label nzFor="inDays">周期</nz-form-label>
-      <nz-form-control>
-        <nz-radio-group formControlName="inDays" nzButtonStyle="solid">
-          <label
-            nz-radio-button
-            *ngFor="let item of inDayss"
-            [nzValue]="item.name"
-            >{{ item.label }}</label
-          >
-        </nz-radio-group>
-      </nz-form-control>
-    </nz-form-item>
-
     <nz-form-item style="margin-bottom: 6px">
       <nz-form-label nzFor="timeDateRange">最近多少天动图</nz-form-label>
       <nz-form-control>
@@ -32,19 +18,9 @@
     <nz-form-item style="margin-bottom: 6px">
       <nz-form-label nzFor="symbol">symbol</nz-form-label>
       <nz-form-control>
-        <app-cex-token-search-multi-input
+        <app-cex-future-search-multi-input
           formControlName="symbol"
-        ></app-cex-token-search-multi-input>
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item style="margin-bottom: 6px">
-      <nz-form-label nzFor="listingTimeDateRange">上市日期</nz-form-label>
-      <nz-form-control>
-        <nz-range-picker
-          [nzRanges]="listingTimeRanges"
-          formControlName="listingTimeDateRange"
-        ></nz-range-picker>
+        ></app-cex-future-search-multi-input>
       </nz-form-control>
     </nz-form-item>
 
@@ -87,7 +63,6 @@
         [formatter]="formatter"
         [min]="min"
         [max]="max"
-        [tickInterval]="tickInterval"
         [styleKey]="styleKey"
         [styleCallback]="styleCallback"
         [annotation]="annotation"

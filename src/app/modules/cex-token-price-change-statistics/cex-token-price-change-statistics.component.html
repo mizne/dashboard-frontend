@@ -10,14 +10,18 @@
 <nz-modal
   [(nzVisible)]="visible"
   [nzWidth]="1200"
-  [nzTitle]="'涨跌幅统计'"
+  [nzTitle]="'市场概览'"
   [nzFooter]="null"
   (nzOnCancel)="visible = false"
 >
   <ng-container *nzModalContent>
     <nz-collapse>
-      <nz-collapse-panel [nzHeader]="'市场概览'" [nzActive]="true">
+      <nz-collapse-panel [nzHeader]="'涨跌幅趋势'" [nzActive]="true">
         <market-overview-chart></market-overview-chart>
+      </nz-collapse-panel>
+
+      <nz-collapse-panel [nzHeader]="'期货市场趋势'" [nzActive]="true">
+        <cex-future-chart></cex-future-chart>
       </nz-collapse-panel>
 
       <nz-collapse-panel [nzHeader]="'当前价位分布'" [nzActive]="false">
