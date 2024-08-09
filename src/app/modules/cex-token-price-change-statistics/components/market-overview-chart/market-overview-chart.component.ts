@@ -129,8 +129,16 @@ export class MarketOverviewChartComponent implements OnInit, OnDestroy {
 
   form = this.fb.group({
     inDays: [90],
-    timeDateRange: [[]]
+    timeDateRange: [[]],
+    symbol: [[]],
+    listingTimeDateRange: [[]],
   });
+  listingTimeRanges = {
+    '最近一个月': [new Date(new Date().getTime() - 1 * 30 * 24 * 60 * 60 * 1e3), new Date()],
+    '最近三个月': [new Date(new Date().getTime() - 3 * 30 * 24 * 60 * 60 * 1e3), new Date()],
+    '最近半年': [new Date(new Date().getTime() - 6 * 30 * 24 * 60 * 60 * 1e3), new Date()],
+    '最近一年': [new Date(new Date().getTime() - 12 * 30 * 24 * 60 * 60 * 1e3), new Date()],
+  }
 
   submitForm(): void {
     const timeDateRange = this.form.get('timeDateRange')?.value;
@@ -192,8 +200,8 @@ export class MarketOverviewChartComponent implements OnInit, OnDestroy {
     if (inDays) {
       const time = this.klineIntervalService.resolveOneDayIntervalMills(1)
       const items = await lastValueFrom(this.cexTokenPriceChangeService.queryList({
-        inDays: inDays,
-        time
+        time,
+        ...this.adjustQuery()
       }))
 
       const endDate = time
@@ -232,7 +240,7 @@ export class MarketOverviewChartComponent implements OnInit, OnDestroy {
       const startDate = endDate - inDays * KlineIntervalService.ONE_DAY_MILLS;
       this.annotation = this.resolveAnnotationText(startDate, endDate)
       const data = await (lastValueFrom(this.cexTokenPriceChangeService
-        .queryList({ inDays, time: endDate })))
+        .queryList({ time: endDate, ...this.adjustQuery() })))
 
       if (data.length > 0) {
         chartDatas.push({
@@ -290,11 +298,27 @@ export class MarketOverviewChartComponent implements OnInit, OnDestroy {
     return `${format(startDate, 'yyyy-MM-dd')} ~ ${format(endDate, 'yyyy-MM-dd')}`
   }
 
-  private adjustQuery(query: { [key: string]: any }): { [key: string]: any } {
+  private adjustQuery(): { [key: string]: any } {
     // MARK: 
+    const formValue = this.form.value;
     const o: { [key: string]: any } = {};
-    Object.keys(query).forEach((key) => {
-      Object.assign(o, { [key]: query[key] });
+    Object.keys(formValue).forEach((key) => {
+      if (key === 'symbol' && formValue['symbol'] && formValue['symbol'].length > 0) {
+        Object.assign(o, { symbol: { $in: formValue['symbol'] } })
+      }
+
+      if (key === 'inDays' && typeof formValue['inDays'] === 'number') {
+        Object.assign(o, { inDays: formValue['inDays'] })
+      }
+
+      if (key === 'listingTimeDateRange' && formValue['listingTimeDateRange'] && formValue['listingTimeDateRange'].length === 2) {
+        Object.assign(o, {
+          listingTime: {
+            $gte: new Date(formValue['listingTimeDateRange'][0]).getTime(),
+            $lte: new Date(formValue['listingTimeDateRange'][1]).getTime(),
+          }
+        })
+      }
     });
     return o;
   }

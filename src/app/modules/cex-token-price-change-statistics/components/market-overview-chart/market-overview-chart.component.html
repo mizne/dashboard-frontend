@@ -29,6 +29,25 @@
       </nz-form-control>
     </nz-form-item>
 
+    <nz-form-item style="margin-bottom: 6px">
+      <nz-form-label nzFor="symbol">symbol</nz-form-label>
+      <nz-form-control>
+        <app-cex-token-search-multi-input
+          formControlName="symbol"
+        ></app-cex-token-search-multi-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item style="margin-bottom: 6px">
+      <nz-form-label nzFor="listingTimeDateRange">上市日期</nz-form-label>
+      <nz-form-control>
+        <nz-range-picker
+          [nzRanges]="listingTimeRanges"
+          formControlName="listingTimeDateRange"
+        ></nz-range-picker>
+      </nz-form-control>
+    </nz-form-item>
+
     <nz-form-item class="register-area" style="margin-bottom: 6px">
       <nz-form-control>
         <button nz-button [nzType]="'primary'">搜索</button>
