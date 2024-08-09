@@ -108,7 +108,8 @@ export class SharedService {
   executeTaskCustom(
     task: string,
     interval: KlineIntervals,
-    endTime: number
+    endTime: number,
+    endTimeLimit: number[]
   ): Observable<ExecuteTaskResp> {
     return this.httpClient.post<ExecuteTaskResp>(
       `${this.baseURL}/app/execute-task-custom`,
@@ -116,6 +117,10 @@ export class SharedService {
         task,
         interval,
         endTime,
+        ...(endTimeLimit.length === 2 ? {
+          minEndTime: endTimeLimit[0],
+          maxEndTime: endTimeLimit[1],
+        } : {})
       }
     );
   }

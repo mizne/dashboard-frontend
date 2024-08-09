@@ -4,8 +4,10 @@ import { paddingZero } from 'src/app/utils';
 
 @Injectable({ providedIn: 'root' })
 export class KlineIntervalService {
-  constructor() {}
+  constructor() { }
 
+  public static readonly FOUR_HOURS_MILLS = 4 * 60 * 60 * 1e3;
+  public static readonly ONE_DAY_MILLS = 24 * 60 * 60 * 1e3;
   resolveFourHoursIntervalMills(latestIntervals: number): number {
     const fourHours = 4 * 60 * 60 * 1e3;
     const hours = [0, 4, 8, 12, 16, 20];
@@ -16,7 +18,7 @@ export class KlineIntervalService {
 
     const theMills = parse(
       format(new Date(), 'yyyy-MM-dd') +
-        ` ${paddingZero(String(theHour))}:00:00`,
+      ` ${paddingZero(String(theHour))}:00:00`,
       'yyyy-MM-dd HH:mm:ss',
       new Date()
     ).getTime();

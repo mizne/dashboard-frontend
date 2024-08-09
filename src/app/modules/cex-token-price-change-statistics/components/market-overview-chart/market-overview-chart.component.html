@@ -19,7 +19,17 @@
       </nz-form-control>
     </nz-form-item>
 
-    <nz-form-item class="register-area">
+    <nz-form-item style="margin-bottom: 6px">
+      <nz-form-label nzFor="timeDateRange">最近多少天动图</nz-form-label>
+      <nz-form-control>
+        <nz-range-picker
+          [nzRanges]="timeRanges"
+          formControlName="timeDateRange"
+        ></nz-range-picker>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item class="register-area" style="margin-bottom: 6px">
       <nz-form-control>
         <button nz-button [nzType]="'primary'">搜索</button>
         <button
@@ -29,6 +39,16 @@
           style="margin-left: 6px"
         >
           重置
+        </button>
+
+        <button
+          *ngIf="showPauseTimer"
+          nz-button
+          type="button"
+          (click)="enablePauseTimer()"
+          style="margin-left: 6px"
+        >
+          {{ pauseTimer ? "继续" : "暂停" }}
         </button>
       </nz-form-control>
     </nz-form-item>
@@ -43,6 +63,8 @@
         [formatter]="formatter"
         [styleKey]="styleKey"
         [styleCallback]="styleCallback"
+        [annotation]="annotation"
+        [animateDuration]="animateDuration"
       ></bubble-chart>
     </div>
   </nz-spin>
