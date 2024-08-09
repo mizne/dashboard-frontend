@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CexTokenPriceChange, CexTokenPriceChangeService, KlineIntervalService } from 'src/app/shared';
@@ -10,7 +10,7 @@ import { format, parse } from 'date-fns';
   selector: 'market-overview-chart',
   templateUrl: 'market-overview-chart.component.html'
 })
-export class MarketOverviewChartComponent implements OnInit {
+export class MarketOverviewChartComponent implements OnInit, OnDestroy {
   constructor(
     private readonly cexTokenPriceChangeService: CexTokenPriceChangeService,
     private readonly notification: NzNotificationService,
@@ -95,6 +95,18 @@ export class MarketOverviewChartComponent implements OnInit {
     }
   }
 
+  min = {
+    value1: -1,
+    value2: 0,
+    value3: 0
+  }
+  max = {
+    value2: 1,
+  }
+  tickInterval = {
+    value1: 1
+  }
+
   styleKey = 'value1'
   styleCallback = (val: any) => {
     return {
@@ -116,7 +128,7 @@ export class MarketOverviewChartComponent implements OnInit {
 
 
   form = this.fb.group({
-    inDays: [180],
+    inDays: [90],
     timeDateRange: [[]]
   });
 
@@ -144,7 +156,7 @@ export class MarketOverviewChartComponent implements OnInit {
 
   resetForm() {
     this.form.reset({
-      inDays: 180
+      inDays: 90
     });
 
     if (this.timer) {
@@ -164,6 +176,14 @@ export class MarketOverviewChartComponent implements OnInit {
     this.loadChartData();
   }
 
+  ngOnDestroy(): void {
+    if (this.timer) {
+      clearInterval(this.timer as number)
+      this.timer = 0;
+    }
+    this.pauseTimer = false
+    this.showPauseTimer = true
+  }
 
   private async loadChartData() {
     this.loading = true;
@@ -228,8 +248,7 @@ export class MarketOverviewChartComponent implements OnInit {
     let timerCount = 0;
     const timerInterval = 4e3
     this.animateDuration = timerInterval - 2e3
-
-    this.timer = setInterval(() => {
+    const ticker = () => {
       if (this.pauseTimer) {
         return
       }
@@ -255,8 +274,10 @@ export class MarketOverviewChartComponent implements OnInit {
       })
 
       timerCount += 1;
-    }, timerInterval)
+    }
+    this.timer = setInterval(ticker, timerInterval)
 
+    ticker()
   }
 
   private resolveAnnotationText(startDate: number, endDate: number): string {
