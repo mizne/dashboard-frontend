@@ -73,21 +73,25 @@
           *ngIf="showPauseTimer"
           nz-button
           type="button"
-          title="减速"
+          [title]="
+            '减速' + '(当前/最小 ' + this.speed + '/' + this.minSpeed + ')'
+          "
           (click)="speedDown()"
           style="margin-left: 6px"
         >
-          -
+          {{ " - " + " (" + this.speed + "/" + this.minSpeed + ")" }}
         </button>
         <button
           *ngIf="showPauseTimer"
           nz-button
           type="button"
-          title="加速"
+          [title]="
+            '减速' + '(当前/最大 ' + this.speed + '/' + this.maxSpeed + ')'
+          "
           (click)="speedUp()"
           style="margin-left: 6px"
         >
-          +
+          {{ " + " + " (" + this.speed + "/" + this.maxSpeed + ")" }}
         </button>
       </nz-form-control>
     </nz-form-item>
