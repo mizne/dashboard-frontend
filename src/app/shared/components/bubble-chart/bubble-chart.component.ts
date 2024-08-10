@@ -10,7 +10,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import * as uuid from 'uuid';
-import { Chart, Util } from '@antv/g2';
+import { Chart, Geometry, Util } from '@antv/g2';
 import { isEmpty, stringifyNumber } from 'src/app/utils';
 import { ScaleType } from '@antv/g2/lib/interface';
 
@@ -72,6 +72,7 @@ export class BubbleChartComponent
 
 
   private _chart: Chart | null = null;
+  private _geo: Geometry | null = null;
   private rendered = false
 
   ngOnInit() { }
@@ -117,7 +118,6 @@ export class BubbleChartComponent
       const min = this.min
       const max = this.max
       const tickInterval = this.tickInterval
-      let geo = null
 
       chart.data(data);
       // 为各个字段设置别名
@@ -167,7 +167,7 @@ export class BubbleChartComponent
         showMarkers: false,
       });
       chart.legend('value3', false);
-      geo = chart.point().position('value1*value2')
+      this._geo = chart.point().position('value1*value2')
         .size('value3', [4, 65])
         .shape('circle')
         .tooltip('label*value3*value1*value2')
@@ -179,7 +179,7 @@ export class BubbleChartComponent
         })
 
       if (this.styleKey && this.styleCallback) {
-        geo = geo.style(this.styleKey, this.styleCallback as any);
+        this._geo = this._geo.style(this.styleKey, this.styleCallback as any);
       }
 
       if (this.annotation) {
@@ -218,6 +218,7 @@ export class BubbleChartComponent
 
         });
       }
+
       chart.changeData(this.data)
 
       this.checkDataMinMaxLimit()

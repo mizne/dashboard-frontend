@@ -87,6 +87,9 @@ export class CexFutureChartComponent implements OnInit, OnDestroy {
   timer: any = 0
   pauseTimer = false
   showPauseTimer = false
+  speed = 1;
+  minSpeed = 0.25;
+  maxSpeed = 2;
 
 
   loading = false;
@@ -132,11 +135,32 @@ export class CexFutureChartComponent implements OnInit, OnDestroy {
     }
     this.pauseTimer = false
     this.showPauseTimer = false
+    this.speed = 1;
     this.loadChartData();
   }
 
   enablePauseTimer() {
     this.pauseTimer = !this.pauseTimer
+  }
+
+  speedUp() {
+    if (this.speed >= this.maxSpeed) {
+      this.notification.warning(`已经最大速度 ${this.maxSpeed}`, `已经最大速度 ${this.maxSpeed}`)
+      return
+    }
+
+    this.speed = 2 * this.speed;
+    this.notification.info(`当前速度 ${this.speed}`, `最大速度 ${this.maxSpeed}`)
+  }
+
+  speedDown() {
+    if (this.speed <= this.minSpeed) {
+      this.notification.warning(`已经最小速度 ${this.minSpeed}`, `已经最小速度 ${this.minSpeed}`)
+      return
+    }
+
+    this.speed = 0.5 * this.speed;
+    this.notification.info(`当前速度 ${this.speed}`, `最小速度 ${this.minSpeed}`)
   }
 
   ngOnInit(): void {
@@ -204,15 +228,26 @@ export class CexFutureChartComponent implements OnInit, OnDestroy {
 
     this.loading = false;
 
-    let timerCount = 0;
-    const timerInterval = 2e3
-    this.animateDuration = timerInterval - 1e3
+    let dataCount = 0;
+    let tickerCount = 0;
+    const base = 2;
+    const timerInterval = 1e3 * base / this.maxSpeed;
+    this.animateDuration = 0.5 * base * 1 / this.speed
     const ticker = () => {
+      // 执行前判断 速度
+      const n = this.maxSpeed / this.speed;
+      if (tickerCount % n !== 0) {
+        tickerCount += 1;
+        return
+      }
+
+      tickerCount += 1;
+
       if (this.pauseTimer) {
         return
       }
 
-      if (timerCount >= chartDatas.length) {
+      if (dataCount >= chartDatas.length) {
         clearInterval(this.timer as number)
         this.timer = 0;
         this.showPauseTimer = false;
@@ -221,8 +256,8 @@ export class CexFutureChartComponent implements OnInit, OnDestroy {
       }
 
 
-      this.annotation = this.resolveAnnotationText(chartDatas[timerCount].endDate)
-      this.data = chartDatas[timerCount].data.map(e => {
+      this.annotation = this.resolveAnnotationText(chartDatas[dataCount].endDate)
+      this.data = chartDatas[dataCount].data.map(e => {
         return {
           label: e.symbol,
           value1: e.longShortRatio,
@@ -231,7 +266,7 @@ export class CexFutureChartComponent implements OnInit, OnDestroy {
         }
       })
 
-      timerCount += 1;
+      dataCount += 1;
     }
     this.timer = setInterval(ticker, timerInterval)
 

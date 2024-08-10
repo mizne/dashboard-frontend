@@ -41,9 +41,29 @@
           nz-button
           type="button"
           (click)="enablePauseTimer()"
-          style="margin-left: 6px"
+          style="margin-left: 12px"
         >
           {{ pauseTimer ? "继续" : "暂停" }}
+        </button>
+        <button
+          *ngIf="showPauseTimer"
+          nz-button
+          type="button"
+          title="减速"
+          (click)="speedDown()"
+          style="margin-left: 6px"
+        >
+          -
+        </button>
+        <button
+          *ngIf="showPauseTimer"
+          nz-button
+          type="button"
+          title="加速"
+          (click)="speedUp()"
+          style="margin-left: 6px"
+        >
+          +
         </button>
       </nz-form-control>
     </nz-form-item>
