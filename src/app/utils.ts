@@ -122,7 +122,20 @@ export function sleep(ms: number): Promise<void> {
   });
 }
 
-export function stringifyMills(ms: number): string {
+interface SkipOptions {
+  skipSecond?: boolean;
+  skipMinute?: boolean;
+  skipHour?: boolean;
+}
+
+export function stringifyMills(ms: number, options: SkipOptions = {
+  skipSecond: false,
+  skipMinute: false,
+  skipHour: false,
+}): string {
+  const skipSecond = isNil(options.skipSecond) ? true : options.skipSecond;
+  const skipMinute = isNil(options.skipMinute) ? false : options.skipMinute;
+  const skipHour = isNil(options.skipHour) ? false : options.skipHour;
   ms = Number(ms);
   if (ms !== ms) {
     return '--';
@@ -141,8 +154,7 @@ export function stringifyMills(ms: number): string {
   if (ms < oneHour) {
     const minutes = Math.floor(ms / oneMinute);
     const seconds = Math.floor((ms - minutes * oneMinute) / oneSecond);
-    return `${paddingZero(String(minutes))}m`;
-    // return `${paddingZero(String(minutes))}m ${paddingZero(String(seconds))}s`;
+    return `${paddingZero(String(minutes))}m` + (skipSecond ? '' : ` ${paddingZero(String(seconds))}s`);
   }
   if (ms < oneDay) {
     const hours = Math.floor(ms / oneHour);
@@ -150,12 +162,10 @@ export function stringifyMills(ms: number): string {
     const seconds = Math.floor(
       (ms - hours * oneHour - minutes * oneMinute) / oneSecond
     );
-    return `${paddingZero(String(hours))}h ${paddingZero(
-      String(minutes)
-    )}m`;
-    // return `${paddingZero(String(hours))}h ${paddingZero(
-    //   String(minutes)
-    // )}m ${paddingZero(String(seconds))}s`;
+
+    return `${paddingZero(String(hours))}h` + (
+      skipMinute ? '' : `${paddingZero(String(minutes))}m`
+    )
   }
 
   const days = Math.floor(ms / oneDay);
@@ -166,13 +176,10 @@ export function stringifyMills(ms: number): string {
   const seconds = Math.floor(
     (ms - days * oneDay - hours * oneHour - minutes * oneMinute) / oneSecond
   );
-  return `${paddingZero(String(days))}day ${paddingZero(
-    String(hours)
-  )}h`;
 
-  // return `${paddingZero(String(days))}day ${paddingZero(
-  //   String(hours)
-  // )}h ${paddingZero(String(minutes))}m ${paddingZero(String(seconds))}s`;
+  return `${paddingZero(String(days))}day` + (
+    skipHour ? '' : `${paddingZero(String(hours))}h`
+  )
 }
 
 export function stringifyNumber(n: number): string {

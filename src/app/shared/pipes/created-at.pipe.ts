@@ -22,16 +22,15 @@ export class CreatedAtPipe implements PipeTransform {
         const isSameYear =
           new Date(now).getFullYear() === new Date(ms).getFullYear();
 
-        if (delta >= ONE_MONTH) {
+        if (delta >= ONE_DAY) {
           return isSameYear
             ? format(ms, 'MM-dd')
             : format(ms, 'yyyy-MM-dd');
-        } else if (delta >= ONE_DAY) {
-          return isSameYear
-            ? format(ms, 'MM-dd HH:mm')
-            : format(ms, 'yyyy-MM-dd HH:mm');
         }
-        return stringifyMills(delta) + ' ago';
+        return stringifyMills(delta, {
+          skipMinute: true,
+          skipHour: true
+        }) + ' ago';
       })
     );
   }
