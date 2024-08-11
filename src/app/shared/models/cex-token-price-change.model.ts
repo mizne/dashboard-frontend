@@ -42,3 +42,17 @@ export interface CustomDateRangeCexTokenPriceChange extends CexTokenPriceChange 
   dateRangeEnd: number;
 }
 
+export enum MarketRequest {
+  FIND_BOTTOM = 'FIND_BOTTOM',
+  FIND_TOP = 'FIND_TOP'
+}
+
+export interface MarketShift {
+  date: number;
+  status: string;
+  inDays: number;
+  currentPriceRelativeThreshold: number;
+  percentThreshold: number;
+  request: MarketRequest;
+}
+

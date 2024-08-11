@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CexTokenPriceChange, CustomDateRangeCexTokenPriceChange } from '../models/cex-token-price-change.model';
+import { CexTokenPriceChange, CustomDateRangeCexTokenPriceChange, MarketRequest, MarketShift } from '../models/cex-token-price-change.model';
 import { FilterQuery } from 'src/app/shared';
 import { KlineIntervalService } from './kline-interval.service';
+
+
 
 @Injectable({ providedIn: 'root' })
 export class CexTokenPriceChangeService {
@@ -71,6 +73,35 @@ export class CexTokenPriceChangeService {
       {
         dateRangeStart,
         dateRangeEnd,
+      }
+    );
+  }
+
+  queryMarketShift(
+    dateRangeStart: number,
+    dateRangeEnd: number,
+    inDays: number,
+    currentPriceRelativeThreshold: number,
+    percentThreshold: number,
+    request: MarketRequest
+  ): Observable<{
+    code: number;
+    message: string;
+    result: Array<MarketShift>
+  }> {
+    return this.httpClient.post<{
+      code: number;
+      message: string;
+      result: Array<MarketShift>
+    }>(
+      `${this.baseURL}/cex-token-price-change/queryMarketShift`,
+      {
+        dateRangeStart,
+        dateRangeEnd,
+        inDays,
+        currentPriceRelativeThreshold,
+        percentThreshold,
+        request
       }
     );
   }

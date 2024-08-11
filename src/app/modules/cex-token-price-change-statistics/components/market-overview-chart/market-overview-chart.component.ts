@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CexTokenPriceChange, CexTokenPriceChangeService, KlineIntervalService } from 'src/app/shared';
+import { CexTokenPriceChange, CexTokenPriceChangeService, KlineIntervalService, MarketRequest } from 'src/app/shared';
 import { removeEmpty, stringifyNumber } from 'src/app/utils';
 import { lastValueFrom } from 'rxjs';
 import { format, parse } from 'date-fns';
@@ -220,7 +220,6 @@ export class MarketOverviewChartComponent implements OnInit, OnDestroy {
     this.pauseTimer = false
     this.showPauseTimer = true
   }
-
   private async loadChartData() {
     this.loading = true;
     const inDays = this.form.get('inDays')?.value

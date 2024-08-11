@@ -3,13 +3,15 @@ import { PriceRelativeChartComponent } from './price-relative-chart/price-relati
 import { MarketOverviewChartComponent } from './market-overview-chart/market-overview-chart.component'
 import { CexFutureChartComponent } from './cex-future-chart/cex-future-chart.component'
 import { CustomDateRangeComponent } from './custom-date-range/custom-date-range.component'
+import { MarketShiftExplorerComponent } from './market-shift-explorer/market-shift-explorer.component'
 
 export const components = [
   PriceChangeChartComponent,
   PriceRelativeChartComponent,
   MarketOverviewChartComponent,
   CexFutureChartComponent,
-  CustomDateRangeComponent
+  CustomDateRangeComponent,
+  MarketShiftExplorerComponent
 ]
 
 export {

@@ -1,0 +1,106 @@
+<div class="market-shift-explorer-container">
+  <form
+    nz-form
+    [nzLayout]="'inline'"
+    [formGroup]="form"
+    (ngSubmit)="submitForm()"
+  >
+    <nz-form-item style="margin-bottom: 6px">
+      <nz-form-label nzFor="inDays">周期</nz-form-label>
+      <nz-form-control>
+        <nz-radio-group formControlName="inDays" nzButtonStyle="solid">
+          <label
+            nz-radio-button
+            *ngFor="let item of inDayss"
+            [nzValue]="item.name"
+            >{{ item.label }}</label
+          >
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item style="margin-bottom: 6px">
+      <nz-form-label nzFor="timeDateRange">时间段</nz-form-label>
+      <nz-form-control>
+        <nz-range-picker
+          [nzRanges]="timeRanges"
+          formControlName="timeDateRange"
+        ></nz-range-picker>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item style="margin-bottom: 6px">
+      <nz-form-label>发现底部/顶部</nz-form-label>
+      <nz-form-control>
+        <nz-radio-group formControlName="request" nzButtonStyle="solid">
+          <label
+            nz-radio-button
+            *ngFor="let item of requests"
+            [nzValue]="item.value"
+            >{{ item.label }}</label
+          >
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label style="margin-bottom: 6px">
+        <span>当前价位的阈值</span>
+      </nz-form-label>
+      <nz-form-control>
+        <nz-input-number
+          formControlName="currentPriceRelativeThreshold"
+          [nzMin]="0"
+          [nzMax]="1"
+          [nzStep]="0.1"
+        ></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label style="margin-bottom: 6px">
+        <span>超过阈值的百分比</span>
+      </nz-form-label>
+      <nz-form-control>
+        <nz-input-number
+          formControlName="percentThreshold"
+          [nzMin]="0"
+          [nzMax]="1"
+          [nzStep]="0.1"
+        ></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item class="register-area" style="margin-bottom: 6px">
+      <nz-form-control>
+        <button nz-button [nzType]="'primary'">搜索</button>
+        <button
+          nz-button
+          type="button"
+          (click)="resetForm()"
+          style="margin-left: 6px"
+        >
+          重置
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <nz-alert
+    nzType="warning"
+    [nzMessage]="alertMessage"
+    style="margin: 12px 0"
+  ></nz-alert>
+  <nz-spin [nzSpinning]="loading">
+    <nz-list
+      nzBordered
+      nzSize="small"
+      style="margin-top: 12px; max-height: 400px; overflow: auto"
+    >
+      <nz-list-header>发现市场</nz-list-header>
+      <nz-list-item *ngFor="let item of marketShiftItems">
+        <span><created-at [createdAt]="item.date || 0"></created-at></span>
+        <pre>{{ item.status }}</pre>
+      </nz-list-item>
+    </nz-list>
+  </nz-spin>
+</div>
