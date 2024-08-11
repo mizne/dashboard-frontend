@@ -1,10 +1,11 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CexTokenPriceChange, CexTokenPriceChangeService } from 'src/app/shared';
+import { CexTokenPriceChange, CexTokenPriceChangeService, KlineIntervalService } from 'src/app/shared';
 import { removeEmpty } from 'src/app/utils';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { lastValueFrom } from 'rxjs';
+import { format, parse } from 'date-fns';
 
 @Component({
   selector: 'cex-token-price-change-statistics',
@@ -14,7 +15,8 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
   constructor(
     private readonly cexTokenPriceChangeService: CexTokenPriceChangeService,
     private readonly notification: NzNotificationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private readonly klineIntervalService: KlineIntervalService
   ) { }
 
   @Input() content: TemplateRef<any> | null = null;
@@ -81,6 +83,7 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
     priceChangePercent: [null],
     currentPriceRelative: [null],
     listingTimeDateRange: [null],
+    time: []
   });
   listingTimeRanges = {
     '最近一个月': [new Date(new Date().getTime() - 1 * 30 * 24 * 60 * 60 * 1e3), new Date()],
@@ -207,9 +210,10 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
       ...removeEmpty(this.form.value),
       ...(this.tagCtrl.value ? { tags: this.tagCtrl.value } : {})
     };
+    const adjustedQuery = this.adjustQuery(this.query)
     this.cexTokenPriceChangeService
       .queryList(
-        this.adjustQuery(this.query),
+        adjustedQuery,
         { number: this.pageIndex, size: this.pageSize },
         this.sort
       )
@@ -225,7 +229,7 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
       );
 
     this.cexTokenPriceChangeService
-      .queryCount(this.adjustQuery(this.query))
+      .queryCount(adjustedQuery)
       .subscribe((count) => {
         this.total = count;
       });
@@ -250,6 +254,15 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
           });
         }
 
+      } else if (key === 'time' && query['time']) {
+        const adjustTime = parse(`${format(query['time'], 'yyyy-MM-dd')} 08:00:00`, 'yyyy-MM-dd HH:mm:ss', new Date()).getTime()
+        const time = Math.min(adjustTime, this.klineIntervalService.resolveOneDayIntervalMills(1));
+        Object.assign(o, {
+          time: time
+        })
+        if (adjustTime !== time) {
+          this.notification.warning(`选择的快照时间超出最新时间`, `获取最新时间的数据`)
+        }
       } else {
         Object.assign(o, { [key]: query[key] });
       }

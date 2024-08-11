@@ -1,9 +1,10 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CexTokenPriceChangeService } from 'src/app/shared';
+import { CexTokenPriceChangeService, KlineIntervalService } from 'src/app/shared';
 import { removeEmpty } from 'src/app/utils';
 import { lastValueFrom } from 'rxjs';
+import { format, parse } from 'date-fns';
 
 @Component({
   selector: 'price-relative-chart',
@@ -13,7 +14,8 @@ export class PriceRelativeChartComponent implements OnInit {
   constructor(
     private readonly cexTokenPriceChangeService: CexTokenPriceChangeService,
     private readonly notification: NzNotificationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private readonly klineIntervalService: KlineIntervalService
   ) { }
 
   // [3, 7, 15, 30, 60, 90, 180, 360, 540];
@@ -100,7 +102,8 @@ export class PriceRelativeChartComponent implements OnInit {
 
   form = this.fb.group({
     tags: [],
-    marketCap: []
+    marketCap: [],
+    time: []
   });
 
   submitForm(): void {
@@ -125,11 +128,12 @@ export class PriceRelativeChartComponent implements OnInit {
       data: Array<{ label: string; value: number; color: string; }>
     }> = [];
 
+    const formQuery = removeEmpty(this.adjustQuery(this.form.value))
     for (const inDays of this.inDayss) {
       if (inDays.name) {
         const items = await lastValueFrom(this.cexTokenPriceChangeService.queryList({
           inDays: inDays.name,
-          ...(removeEmpty(this.adjustQuery(this.form.value)))
+          ...(formQuery)
         }))
         const chartData = {
           title: `${inDays.name} 天`,
@@ -179,7 +183,18 @@ export class PriceRelativeChartComponent implements OnInit {
     // MARK: 
     const o: { [key: string]: any } = {};
     Object.keys(query).forEach((key) => {
-      Object.assign(o, { [key]: query[key] });
+      if (key === 'time' && query['time']) {
+        const adjustTime = parse(`${format(query['time'], 'yyyy-MM-dd')} 08:00:00`, 'yyyy-MM-dd HH:mm:ss', new Date()).getTime()
+        const time = Math.min(adjustTime, this.klineIntervalService.resolveOneDayIntervalMills(1));
+        Object.assign(o, {
+          time: time
+        })
+        if (adjustTime !== time) {
+          this.notification.warning(`选择的快照时间超出最新时间`, `获取最新时间的数据`)
+        }
+      } else {
+        Object.assign(o, { [key]: query[key] });
+      }
     });
     return o;
   }
