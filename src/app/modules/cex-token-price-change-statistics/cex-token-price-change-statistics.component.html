@@ -183,6 +183,14 @@
                   上市时间
                 </th>
 
+                <th
+                  nzColumnKey="time"
+                  [nzSortFn]="true"
+                  [nzSortDirections]="['descend', 'ascend', null]"
+                >
+                  快照时间
+                </th>
+
                 <th nzColumnKey="Action" style="width: 140px">操作</th>
               </tr>
             </thead>
@@ -302,6 +310,10 @@
 
                 <td>
                   <created-at [createdAt]="data.listingTime || 0"></created-at>
+                </td>
+
+                <td>
+                  <created-at [createdAt]="data.time || 0"></created-at>
                 </td>
 
                 <td>

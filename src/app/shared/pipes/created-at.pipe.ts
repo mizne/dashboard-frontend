@@ -16,11 +16,17 @@ export class CreatedAtPipe implements PipeTransform {
       map(() => {
         const now = new Date().getTime();
         const delta = now - ms;
-        const limit = 1 * 24 * 60 * 60 * 1e3;
+        const ONE_DAY = 1 * 24 * 60 * 60 * 1e3;
+        const ONE_MONTH = 30 * 24 * 60 * 60 * 1e3;
+        const ONE_YEAR = 365 * 24 * 60 * 60 * 1e3;
+        const isSameYear =
+          new Date(now).getFullYear() === new Date(ms).getFullYear();
 
-        if (delta >= limit) {
-          const isSameYear =
-            new Date(now).getFullYear() === new Date(ms).getFullYear();
+        if (delta >= ONE_MONTH) {
+          return isSameYear
+            ? format(ms, 'MM-dd')
+            : format(ms, 'yyyy-MM-dd');
+        } else if (delta >= ONE_DAY) {
           return isSameYear
             ? format(ms, 'MM-dd HH:mm')
             : format(ms, 'yyyy-MM-dd HH:mm');
