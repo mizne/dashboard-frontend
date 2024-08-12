@@ -50,9 +50,5 @@ export enum MarketRequest {
 export interface MarketShift {
   date: number;
   status: string;
-  inDays: number;
-  currentPriceRelativeThreshold: number;
-  percentThreshold: number;
-  request: MarketRequest;
 }
 
