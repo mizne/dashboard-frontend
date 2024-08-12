@@ -105,4 +105,34 @@ export class CexTokenPriceChangeService {
       }
     );
   }
+
+
+  queryMarketShiftByMultipleInDays(
+    dateRangeStart: number,
+    dateRangeEnd: number,
+    request: MarketRequest,
+    filters: Array<{
+      inDays: number;
+      currentPriceRelativeThreshold: number;
+      percentThreshold: number;
+    }>
+  ): Observable<{
+    code: number;
+    message: string;
+    result: Array<MarketShift>
+  }> {
+    return this.httpClient.post<{
+      code: number;
+      message: string;
+      result: Array<MarketShift>
+    }>(
+      `${this.baseURL}/cex-token-price-change/queryMarketShiftByMultipleInDays`,
+      {
+        dateRangeStart,
+        dateRangeEnd,
+        request,
+        filters
+      }
+    );
+  }
 }
