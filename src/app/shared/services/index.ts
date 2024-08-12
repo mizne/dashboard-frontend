@@ -21,6 +21,7 @@ export * from './cex-future-daily.service'
 
 export * from './cex-token.service'
 export * from './cex-token-price-change.service'
+export * from './cex-token-price-change-statistics.service'
 export * from './cex-token-alert.service'
 export * from './cex-token-cache.service'
 export * from './cex-token-daily.service'

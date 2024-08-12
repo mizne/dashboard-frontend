@@ -17,6 +17,7 @@ export * from './cex-future-daily.model';
 
 export * from './cex-token.model';
 export * from './cex-token-price-change.model';
+export * from './cex-token-price-change-statistics.model';
 export * from './cex-token-alert.model';
 export * from './cex-token-daily.model';
 
@@ -35,3 +36,4 @@ export * from './task-record.model';
 export * from './cmc-token.model';
 export * from './cmc-token-daily.model';
 export * from './cmc-token-price-change.model';
+
