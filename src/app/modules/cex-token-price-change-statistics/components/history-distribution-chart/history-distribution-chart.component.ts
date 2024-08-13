@@ -69,9 +69,9 @@ export class HistoryDistributionChartComponent implements OnInit, OnDestroy {
 
   loading = false;
 
-
+  defaultInDays = 180;
   form = this.fb.group({
-    inDays: [90],
+    inDays: [this.defaultInDays],
     time: [new Date(this.klineIntervalService.resolveOneDayIntervalMills(1))]
   });
 
@@ -94,7 +94,8 @@ export class HistoryDistributionChartComponent implements OnInit, OnDestroy {
 
   resetForm() {
     this.form.reset({
-      inDays: 90
+      inDays: this.defaultInDays,
+      time: new Date(this.klineIntervalService.resolveOneDayIntervalMills(1))
     });
 
     this.loadChartData()
