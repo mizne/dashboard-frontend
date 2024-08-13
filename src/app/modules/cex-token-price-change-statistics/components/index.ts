@@ -4,6 +4,7 @@ import { MarketOverviewChartComponent } from './market-overview-chart/market-ove
 import { CexFutureChartComponent } from './cex-future-chart/cex-future-chart.component'
 import { CustomDateRangeComponent } from './custom-date-range/custom-date-range.component'
 import { MarketShiftExplorerComponent } from './market-shift-explorer/market-shift-explorer.component'
+import { HistoryDistributionChartComponent } from './history-distribution-chart/history-distribution-chart.component'
 
 export const components = [
   PriceChangeChartComponent,
@@ -11,7 +12,8 @@ export const components = [
   MarketOverviewChartComponent,
   CexFutureChartComponent,
   CustomDateRangeComponent,
-  MarketShiftExplorerComponent
+  MarketShiftExplorerComponent,
+  HistoryDistributionChartComponent,
 ]
 
 export {

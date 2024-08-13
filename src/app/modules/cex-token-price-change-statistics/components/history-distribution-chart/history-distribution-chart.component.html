@@ -1,0 +1,102 @@
+<div class="history-distribution-chart-container">
+  <form
+    nz-form
+    [nzLayout]="'inline'"
+    [formGroup]="form"
+    (ngSubmit)="submitForm()"
+  >
+    <nz-form-item style="margin-bottom: 6px">
+      <nz-form-label nzFor="inDays">周期</nz-form-label>
+      <nz-form-control>
+        <nz-radio-group formControlName="inDays" nzButtonStyle="solid">
+          <label
+            nz-radio-button
+            *ngFor="let item of inDayss"
+            [nzValue]="item.name"
+            >{{ item.label }}</label
+          >
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item style="margin-bottom: 6px">
+      <nz-form-label nzFor="time">某个时刻</nz-form-label>
+      <nz-form-control>
+        <nz-date-picker formControlName="time"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item class="register-area" style="margin-bottom: 6px">
+      <nz-form-control>
+        <button nz-button [nzType]="'primary'">搜索</button>
+        <button
+          nz-button
+          type="button"
+          (click)="resetForm()"
+          style="margin-left: 6px"
+        >
+          重置
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <nz-alert
+    nzType="warning"
+    [nzMessage]="alertMessage1"
+    style="margin: 12px 0"
+  ></nz-alert>
+
+  <nz-spin [nzSpinning]="loadingAvgPriceRelativeDesc">
+    <nz-descriptions nzBordered style="margin: 12px 0">
+      <nz-descriptions-item nzTitle="最低时刻">{{
+        lowestAvgPriceRelativeDesc
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="最高时刻">{{
+        highestAvgPriceRelativeDesc
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="某个时刻">{{
+        theMomentAvgPriceRelativeDesc
+      }}</nz-descriptions-item>
+    </nz-descriptions>
+  </nz-spin>
+
+  <nz-spin [nzSpinning]="loading">
+    <div>
+      <bar-chart
+        [width]="1120"
+        [height]="600"
+        [data]="priceRelativeDistributionChartData"
+      ></bar-chart>
+    </div>
+  </nz-spin>
+
+  <nz-alert
+    nzType="warning"
+    [nzMessage]="alertMessage2"
+    style="margin: 12px 0"
+  ></nz-alert>
+
+  <nz-spin [nzSpinning]="loadingAvgPricePercentDesc">
+    <nz-descriptions nzBordered style="margin: 12px 0">
+      <nz-descriptions-item nzTitle="最低时刻">{{
+        lowestAvgPricePercentDesc
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="最高时刻">{{
+        highestAvgPricePercentDesc
+      }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="某个时刻">{{
+        theMomentAvgPricePercentDesc
+      }}</nz-descriptions-item>
+    </nz-descriptions>
+  </nz-spin>
+
+  <nz-spin [nzSpinning]="loading">
+    <div>
+      <bar-chart
+        [width]="1120"
+        [height]="600"
+        [data]="priceChangePercentDistributionChartData"
+      ></bar-chart>
+    </div>
+  </nz-spin>
+</div>

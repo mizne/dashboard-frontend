@@ -16,11 +16,15 @@
 >
   <ng-container *nzModalContent>
     <nz-collapse>
-      <nz-collapse-panel [nzHeader]="'当前价位/涨跌幅趋势'" [nzActive]="true">
+      <nz-collapse-panel [nzHeader]="'历史分布图'" [nzActive]="true">
+        <history-distribution-chart></history-distribution-chart>
+      </nz-collapse-panel>
+
+      <nz-collapse-panel [nzHeader]="'当前价位/涨跌幅趋势'" [nzActive]="false">
         <market-overview-chart></market-overview-chart>
       </nz-collapse-panel>
 
-      <nz-collapse-panel [nzHeader]="'期货市场趋势'" [nzActive]="true">
+      <nz-collapse-panel [nzHeader]="'期货市场趋势'" [nzActive]="false">
         <cex-future-chart></cex-future-chart>
       </nz-collapse-panel>
 

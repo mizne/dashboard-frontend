@@ -74,6 +74,7 @@ export class BarChartComponent
     const chart = this._chart;
     const data = this.adjustData(this.data);
 
+    chart.clear();
     chart.data(data.map((e) => ({ label: e.label, value: e.value })));
 
     chart.scale('value', {
