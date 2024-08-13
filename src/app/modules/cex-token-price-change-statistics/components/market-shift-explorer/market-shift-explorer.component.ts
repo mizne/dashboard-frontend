@@ -81,8 +81,9 @@ export class MarketShiftExplorerComponent implements OnInit, OnDestroy {
 
   marketShiftItems: MarketShift[] = []
 
+  defaultInDays = 180;
   form = this.fb.group({
-    inDays: [90],
+    inDays: [this.defaultInDays],
     timeDateRange: [[]],
     request: [MarketRequest.FIND_TOP],
     currentPriceRelativeThreshold: [0.8],
@@ -102,7 +103,7 @@ export class MarketShiftExplorerComponent implements OnInit, OnDestroy {
 
   resetForm() {
     this.form.reset({
-      inDays: 90
+      inDays: this.defaultInDays
     });
 
     // this.loadChartData();

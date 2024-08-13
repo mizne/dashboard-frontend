@@ -131,9 +131,9 @@ export class MarketOverviewChartComponent implements OnInit, OnDestroy {
 
   loading = false;
 
-
+  defaultInDays = 180;
   form = this.fb.group({
-    inDays: [90],
+    inDays: [this.defaultInDays],
     timeDateRange: [[]],
     symbol: [[]],
     listingTimeDateRange: [[]],
@@ -171,7 +171,7 @@ export class MarketOverviewChartComponent implements OnInit, OnDestroy {
 
   resetForm() {
     this.form.reset({
-      inDays: 90
+      inDays: this.defaultInDays
     });
 
     if (this.timer) {

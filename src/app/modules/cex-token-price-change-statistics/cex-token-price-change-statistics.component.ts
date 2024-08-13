@@ -77,8 +77,9 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
     },
   ];
 
+  defaultInDays = 180;
   form = this.fb.group<any>({
-    inDays: [this.inDayss[3].name],
+    inDays: [this.defaultInDays],
     symbol: [''],
     priceChangePercent: [null],
     currentPriceRelative: [null],
