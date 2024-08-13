@@ -237,7 +237,7 @@ export class HistoryDistributionChartComponent implements OnInit, OnDestroy {
     const min = minItems[0].avgPriceChangePercent;
     const max = maxItems[0].avgPriceChangePercent;
 
-    const interval = Math.ceil(max + 1) / 100
+    const interval = Math.ceil(max - min) / 100
 
     return {
       start: this.findStart(-1, interval, min),
