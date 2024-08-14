@@ -21,18 +21,20 @@
         </th>
         <th nzColumnKey="inDays">周期（天）</th>
         <th
+          title="排行越低, 数值越小"
           nzColumnKey="avgCurrentPriceRelative"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
         >
-          平均当前价位
+          {{ "平均当前价位 | 排行" }}
         </th>
         <th
+          title="排行越低, 数值越小"
           nzColumnKey="avgPriceChangePercent"
           [nzSortFn]="true"
           [nzSortDirections]="['descend', 'ascend', null]"
         >
-          平均涨跌幅
+          {{ "平均涨跌幅 | 排行" }}
         </th>
 
         <th nzColumnKey="Action" style="width: 140px">操作</th>
@@ -49,10 +51,20 @@
         </td>
 
         <td>
-          {{ data.avgCurrentPriceRelative | toFixed : 3 }}
+          {{
+            (data.avgCurrentPriceRelative | toFixed : 3) +
+              " | " +
+              data.avgCurrentPriceRelativeRanking
+          }}
         </td>
 
-        <td>{{ data.avgPriceChangePercent | toFixed : 3 }}</td>
+        <td>
+          {{
+            (data.avgPriceChangePercent | toFixed : 3) +
+              " | " +
+              data.avgPriceChangePercentRanking
+          }}
+        </td>
 
         <td>
           <button nz-button nzType="default" (click)="select(data)">
