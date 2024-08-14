@@ -80,7 +80,6 @@ export class HistoryDistributionChartComponent implements OnInit, OnDestroy {
   highestAvgPriceRelativeDesc = '--';
   theMomentAvgPriceRelativeDesc = '--';
   loadingAvgPriceRelativeDesc = false;
-  avgPriceRelativeListPopoverVisible = false;
 
 
   alertMessage2 = '平均涨跌幅的历史分布图'
@@ -88,7 +87,6 @@ export class HistoryDistributionChartComponent implements OnInit, OnDestroy {
   highestAvgPricePercentDesc = '--';
   theMomentAvgPricePercentDesc = '--';
   loadingAvgPricePercentDesc = false;
-  avgChangeListPopoverVisible = false;
 
   submitForm(): void {
     this.loadChartData()
