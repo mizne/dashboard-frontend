@@ -80,6 +80,7 @@ export class HistoryDistributionChartComponent implements OnInit, OnDestroy {
   highestAvgPriceRelativeDesc = '--';
   theMomentAvgPriceRelativeDesc = '--';
   loadingAvgPriceRelativeDesc = false;
+  avgPriceRelativeListPopoverVisible = false;
 
 
   alertMessage2 = '平均涨跌幅的历史分布图'
@@ -87,6 +88,7 @@ export class HistoryDistributionChartComponent implements OnInit, OnDestroy {
   highestAvgPricePercentDesc = '--';
   theMomentAvgPricePercentDesc = '--';
   loadingAvgPricePercentDesc = false;
+  avgChangeListPopoverVisible = false;
 
   submitForm(): void {
     this.loadChartData()
@@ -116,6 +118,11 @@ export class HistoryDistributionChartComponent implements OnInit, OnDestroy {
 
     this.loadAvgPriceRelativeDesc();
     this.loadAvgPricePercentDesc();
+  }
+
+  ensureSelectTime(time: number) {
+    this.form.patchValue({ time: new Date(time) })
+    this.loadChartData()
   }
 
   private async loadPriceRelativeChartData() {
@@ -324,9 +331,9 @@ export class HistoryDistributionChartComponent implements OnInit, OnDestroy {
       const totalCount = await lastValueFrom(this.cexTokenPriceChangeStatisticsService.queryCount({ inDays }));
       const lowerThanThe = await lastValueFrom(this.cexTokenPriceChangeStatisticsService.queryCount({ inDays, avgCurrentPriceRelative: { $lt: theAvg } }));
 
-      if (lowerThanThe <= 0.1 * totalCount) {
+      if (lowerThanThe <= 0.05 * totalCount) {
         return `${format(timeMills, 'yyyy-MM-dd')} | ${theAvg.toFixed(3)} ` + (lowerThanThe === 0 ? `历史最低时刻` : `比它低的时刻数 ${lowerThanThe}/${totalCount}`)
-      } else if (lowerThanThe >= 0.9 * totalCount) {
+      } else if (lowerThanThe >= 0.95 * totalCount) {
         return `${format(timeMills, 'yyyy-MM-dd')} | ${theAvg.toFixed(3)} ` + (totalCount - lowerThanThe === 1 ? `历史最高时刻` : `比它高的时刻数 ${totalCount - lowerThanThe}/${totalCount}`)
       } else {
         return `${format(timeMills, 'yyyy-MM-dd')} | ${theAvg.toFixed(3)}`
@@ -388,9 +395,9 @@ export class HistoryDistributionChartComponent implements OnInit, OnDestroy {
       const totalCount = await lastValueFrom(this.cexTokenPriceChangeStatisticsService.queryCount({ inDays }));
       const lowerThanThe = await lastValueFrom(this.cexTokenPriceChangeStatisticsService.queryCount({ inDays, avgPriceChangePercent: { $lt: theAvg } }));
 
-      if (lowerThanThe <= 0.1 * totalCount) {
+      if (lowerThanThe <= 0.05 * totalCount) {
         return `${format(timeMills, 'yyyy-MM-dd')} | ${(theAvg * 100).toFixed(3)}% ` + (lowerThanThe === 0 ? `历史最低时刻` : `比它低的时刻数 ${lowerThanThe}/${totalCount}`)
-      } else if (lowerThanThe >= 0.9 * totalCount) {
+      } else if (lowerThanThe >= 0.95 * totalCount) {
         return `${format(timeMills, 'yyyy-MM-dd')} | ${(theAvg * 100).toFixed(3)}% ` + (totalCount - lowerThanThe === 1 ? `历史最高时刻` : `比它高的时刻数 ${totalCount - lowerThanThe}/${totalCount}`)
       } else {
         return `${format(timeMills, 'yyyy-MM-dd')} | ${(theAvg * 100).toFixed(3)}%`

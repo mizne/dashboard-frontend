@@ -5,6 +5,7 @@ import { CexFutureChartComponent } from './cex-future-chart/cex-future-chart.com
 import { CustomDateRangeComponent } from './custom-date-range/custom-date-range.component'
 import { MarketShiftExplorerComponent } from './market-shift-explorer/market-shift-explorer.component'
 import { HistoryDistributionChartComponent } from './history-distribution-chart/history-distribution-chart.component'
+import { CexTokenPriceChangeStatisticsTableComponent } from './cex-token-price-change-statistics-table/cex-token-price-change-statistics-table.component'
 
 export const components = [
   PriceChangeChartComponent,
@@ -14,6 +15,7 @@ export const components = [
   CustomDateRangeComponent,
   MarketShiftExplorerComponent,
   HistoryDistributionChartComponent,
+  CexTokenPriceChangeStatisticsTableComponent,
 ]
 
 export {

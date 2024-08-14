@@ -57,8 +57,31 @@
       <nz-descriptions-item nzTitle="某个时刻">{{
         theMomentAvgPriceRelativeDesc
       }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="更多">
+        <button
+          nz-button
+          nzType="primary"
+          nzShape="circle"
+          nz-popover
+          nzPopoverTitle="平均当前价位列表"
+          [(nzPopoverVisible)]="avgPriceRelativeListPopoverVisible"
+          nzPopoverTrigger="click"
+          [nzPopoverContent]="avgPriceRelativeListPopoverTemplate"
+          [nzPopoverPlacement]="'rightTop'"
+          [nzPopoverOverlayStyle]="{ overFlow: 'auto', maxHeight: '560px' }"
+        >
+          <i nz-icon [nzType]="'more'" nzTheme="outline"></i>
+        </button>
+      </nz-descriptions-item>
     </nz-descriptions>
   </nz-spin>
+
+  <ng-template #avgPriceRelativeListPopoverTemplate>
+    <cex-token-price-change-statistics-table
+      [inDays]="form.get('inDays')?.value"
+      (selectTime)="ensureSelectTime($event)"
+    ></cex-token-price-change-statistics-table>
+  </ng-template>
 
   <nz-spin [nzSpinning]="loading">
     <div>
@@ -87,8 +110,31 @@
       <nz-descriptions-item nzTitle="某个时刻">{{
         theMomentAvgPricePercentDesc
       }}</nz-descriptions-item>
+      <nz-descriptions-item nzTitle="更多">
+        <button
+          nz-button
+          nzType="primary"
+          nzShape="circle"
+          nz-popover
+          nzPopoverTitle="平均涨跌幅列表"
+          [(nzPopoverVisible)]="avgChangeListPopoverVisible"
+          nzPopoverTrigger="click"
+          [nzPopoverContent]="avgChangeListPopoverTemplate"
+          [nzPopoverPlacement]="'rightTop'"
+          [nzPopoverOverlayStyle]="{ overFlow: 'auto', maxHeight: '560px' }"
+        >
+          <i nz-icon [nzType]="'more'" nzTheme="outline"></i>
+        </button>
+      </nz-descriptions-item>
     </nz-descriptions>
   </nz-spin>
+
+  <ng-template #avgChangeListPopoverTemplate>
+    <cex-token-price-change-statistics-table
+      [inDays]="form.get('inDays')?.value"
+      (selectTime)="ensureSelectTime($event)"
+    ></cex-token-price-change-statistics-table>
+  </ng-template>
 
   <nz-spin [nzSpinning]="loading">
     <div>
