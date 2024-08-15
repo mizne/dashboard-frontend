@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core'
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CexTokenPriceChange, CexTokenPriceChangeService, KlineIntervalService, MarketRequest } from 'src/app/shared';
-import { removeEmpty, stringifyNumber } from 'src/app/utils';
+import { colors, removeEmpty, stringifyNumber } from 'src/app/utils';
 import { lastValueFrom } from 'rxjs';
 import { format, parse } from 'date-fns';
 
@@ -72,6 +72,7 @@ export class MarketOverviewChartComponent implements OnInit, OnDestroy {
     value1: number;
     value2: number;
     value3: number;
+    color?: string;
   }> = [];
 
   alias = {
@@ -109,15 +110,25 @@ export class MarketOverviewChartComponent implements OnInit, OnDestroy {
     value1: 1
   }
 
-  styleKey = 'value1'
-  styleCallback = (val: any) => {
-    return {
-      lineWidth: 1,
-      strokeOpacity: 1,
-      fillOpacity: 0.3,
-      opacity: 0.65,
-      fill: val > 0 ? '#50C878' : '#FE6F5E'
-    };
+  styleKey = 'value1*color'
+  styleCallback = (value1Val: number, colorVal: string) => {
+    if (colorVal) {
+      return {
+        lineWidth: 1,
+        strokeOpacity: 1,
+        fillOpacity: 0.3,
+        opacity: 0.65,
+        fill: colorVal
+      }
+    } else {
+      return {
+        lineWidth: 1,
+        strokeOpacity: 1,
+        fillOpacity: 0.3,
+        opacity: 0.65,
+        fill: value1Val > 0 ? '#50C878' : '#FE6F5E'
+      }
+    }
   }
   annotation = ''
   animateDuration = 2e3
@@ -224,6 +235,8 @@ export class MarketOverviewChartComponent implements OnInit, OnDestroy {
     this.loading = true;
     const inDays = this.form.get('inDays')?.value
 
+    const hasSelectSymbols = this.form.value.symbol && this.form.value.symbol.length > 0
+
     if (inDays) {
       const time = this.klineIntervalService.resolveOneDayIntervalMills(1)
       const items = await lastValueFrom(this.cexTokenPriceChangeService.queryList({
@@ -234,12 +247,15 @@ export class MarketOverviewChartComponent implements OnInit, OnDestroy {
       const endDate = time
       const startDate = endDate - inDays * KlineIntervalService.ONE_DAY_MILLS;
       this.annotation = this.resolveAnnotationText(startDate, endDate)
-      this.data = items.map(e => {
+      this.data = items.map((e, i) => {
         return {
           label: e.symbol,
           value1: e.priceChangePercent,
           value2: e.currentPriceRelative,
-          value3: e.marketCap
+          value3: e.marketCap,
+          ...(hasSelectSymbols ? {
+            color: colors[i % colors.length]
+          } : {})
         }
       })
     }
@@ -249,6 +265,7 @@ export class MarketOverviewChartComponent implements OnInit, OnDestroy {
   private async loadAnimateBubbleChartData() {
     // console.log(`loadAnimateBubbleChartData()`)
     const timeDateRange = this.form.get('timeDateRange')?.value as Date[];
+
     this.loading = true;
     const firstDate = parse(`${format(timeDateRange[0], 'yyyy-MM-dd')} 08:00:00`, 'yyyy-MM-dd HH:mm:ss', new Date()).getTime();
     const lastDate = parse(`${format(timeDateRange[1], 'yyyy-MM-dd')} 08:00:00`, 'yyyy-MM-dd HH:mm:ss', new Date()).getTime();
@@ -309,12 +326,16 @@ export class MarketOverviewChartComponent implements OnInit, OnDestroy {
       // console.log(`timer bubble chart data, start date: ${format(chartDatas[dataCount].startDate, 'yyyy-MM-dd')}`)
 
       this.annotation = this.resolveAnnotationText(chartDatas[dataCount].startDate, chartDatas[dataCount].endDate)
-      this.data = chartDatas[dataCount].data.map(e => {
+      const hasSelectSymbols = this.form.value.symbol && this.form.value.symbol.length > 0
+      this.data = chartDatas[dataCount].data.map((e, i) => {
         return {
           label: e.symbol,
           value1: e.priceChangePercent,
           value2: e.currentPriceRelative,
-          value3: e.marketCap
+          value3: e.marketCap,
+          ...(hasSelectSymbols ? {
+            color: colors[i % colors.length]
+          } : {})
         }
       })
 

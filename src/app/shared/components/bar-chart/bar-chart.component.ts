@@ -11,8 +11,10 @@ import {
 } from '@angular/core';
 import * as uuid from 'uuid';
 import { Chart, Util } from '@antv/g2';
+import { colors } from 'src/app/utils';
 
-const defaultColors = ['#063d8a', '#1770d6', '#47abfc', '#38c060'];
+// const defaultColors = ['#063d8a', '#1770d6', '#47abfc', '#38c060'];
+const defaultColors = colors;
 
 @Component({
   selector: 'bar-chart',

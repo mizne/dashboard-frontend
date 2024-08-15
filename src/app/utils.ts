@@ -1,6 +1,18 @@
 import { format, parse } from 'date-fns';
 import { UTCTimestamp } from 'lightweight-charts';
 
+export const colors = [
+  '#f23645',
+  '#ff9800',
+  '#ffeb3b',
+  '#4caf50',
+  '#089981',
+  '#00bcd4',
+  '#2962ff',
+  '#673ab7',
+  '#9c27b0',
+  '#e91e63',
+]
 export const removeNullOrUndefined = (obj: { [key: string]: any }) => {
   const result: { [key: string]: any } = {};
   for (const key of Object.keys(obj)) {

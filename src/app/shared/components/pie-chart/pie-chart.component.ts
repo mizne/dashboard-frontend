@@ -9,18 +9,19 @@ import {
 } from '@angular/core';
 import * as uuid from 'uuid';
 import { Chart, Util } from '@antv/g2';
+import { colors } from 'src/app/utils';
 
-const defaultColors = ['#063d8a', '#1770d6', '#47abfc', '#38c060'];
+// const defaultColors = ['#063d8a', '#1770d6', '#47abfc', '#38c060'];
+const defaultColors = colors;
 
 @Component({
   selector: 'pie-chart',
   templateUrl: 'pie-chart.component.html',
 })
 export class PieChartComponent
-  implements OnInit, OnChanges, AfterViewInit, OnDestroy
-{
+  implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   chartID = 'pie-chart-wrapper-' + uuid.v4();
-  constructor() {}
+  constructor() { }
 
   @Input() data: Array<{ label: string; value: number; color?: string }> = [];
   @Input() height = 240;
@@ -28,7 +29,7 @@ export class PieChartComponent
 
   private _chart: Chart | null = null;
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngAfterViewInit(): void {
     this.initChart();

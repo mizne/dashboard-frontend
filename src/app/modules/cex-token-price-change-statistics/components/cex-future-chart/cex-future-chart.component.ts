@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core'
 import { FormBuilder, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CexFutureDaily, CexFutureDailyService, CexTokenPriceChange, CexTokenPriceChangeService, KlineIntervalService } from 'src/app/shared';
-import { removeEmpty, stringifyNumber } from 'src/app/utils';
+import { colors, removeEmpty, stringifyNumber } from 'src/app/utils';
 import { lastValueFrom } from 'rxjs';
 import { format, parse } from 'date-fns';
 
@@ -34,6 +34,7 @@ export class CexFutureChartComponent implements OnInit, OnDestroy {
     value1: number;
     value2: number;
     value3: number;
+    color?: string;
   }> = [];
 
   alias = {
@@ -72,15 +73,25 @@ export class CexFutureChartComponent implements OnInit, OnDestroy {
     value1: 1
   }
 
-  styleKey = 'value2'
-  styleCallback = (val: any) => {
-    return {
-      lineWidth: 1,
-      strokeOpacity: 1,
-      fillOpacity: 0.3,
-      opacity: 0.65,
-      fill: val >= 0.0001 ? '#50C878' : '#FE6F5E'
-    };
+  styleKey = 'value2*color'
+  styleCallback = (value2Val: number, colorVal: string) => {
+    if (colorVal) {
+      return {
+        lineWidth: 1,
+        strokeOpacity: 1,
+        fillOpacity: 0.3,
+        opacity: 0.65,
+        fill: colorVal
+      };
+    } else {
+      return {
+        lineWidth: 1,
+        strokeOpacity: 1,
+        fillOpacity: 0.3,
+        opacity: 0.65,
+        fill: value2Val >= 0.0001 ? '#50C878' : '#FE6F5E'
+      };
+    }
   }
   annotation = ''
   animateDuration = 2e3
@@ -179,6 +190,7 @@ export class CexFutureChartComponent implements OnInit, OnDestroy {
   private async loadChartData() {
     this.loading = true;
 
+    const hasSelectSymbols = this.form.value.symbol && this.form.value.symbol.length > 0
     const time = this.klineIntervalService.resolveFourHoursIntervalMills(1)
     const items = await lastValueFrom(this.cexFutureDailyService.queryList({
       time,
@@ -187,12 +199,15 @@ export class CexFutureChartComponent implements OnInit, OnDestroy {
 
     const endDate = time
     this.annotation = this.resolveAnnotationText(endDate)
-    this.data = items.map(e => {
+    this.data = items.map((e, i) => {
       return {
         label: e.symbol,
         value1: e.longShortRatio,
         value2: e.fundingRate,
-        value3: typeof e.price === 'number' ? e.openInterest * e.price : e.openInterest
+        value3: typeof e.price === 'number' ? e.openInterest * e.price : e.openInterest,
+        ...(hasSelectSymbols ? {
+          color: colors[i % colors.length]
+        } : {})
       }
     })
     this.loading = false;
@@ -257,12 +272,16 @@ export class CexFutureChartComponent implements OnInit, OnDestroy {
 
 
       this.annotation = this.resolveAnnotationText(chartDatas[dataCount].endDate)
-      this.data = chartDatas[dataCount].data.map(e => {
+      const hasSelectSymbols = this.form.value.symbol && this.form.value.symbol.length > 0
+      this.data = chartDatas[dataCount].data.map((e, i) => {
         return {
           label: e.symbol,
           value1: e.longShortRatio,
           value2: e.fundingRate,
-          value3: typeof e.price === 'number' ? e.openInterest * e.price : e.openInterest
+          value3: typeof e.price === 'number' ? e.openInterest * e.price : e.openInterest,
+          ...(hasSelectSymbols ? {
+            color: colors[i % colors.length]
+          } : {})
         }
       })
 

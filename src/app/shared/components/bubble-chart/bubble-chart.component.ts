@@ -11,10 +11,10 @@ import {
 } from '@angular/core';
 import * as uuid from 'uuid';
 import { Chart, Geometry, Util } from '@antv/g2';
-import { isEmpty, stringifyNumber } from 'src/app/utils';
+import { colors, isEmpty, stringifyNumber } from 'src/app/utils';
 import { ScaleType } from '@antv/g2/lib/interface';
 
-const defaultColors = ['#063d8a', '#1770d6', '#47abfc', '#38c060'];
+const defaultColors = colors;
 
 // https://g2-v4.antv.vision/en/examples/case/dynamic#dynamic-bubble
 @Component({
@@ -31,6 +31,7 @@ export class BubbleChartComponent
     value1: number;
     value2: number;
     value3: number;
+    color?: string;
   }> = [];
 
   @Input() alias: {
