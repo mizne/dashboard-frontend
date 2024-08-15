@@ -5,10 +5,10 @@ import { CexTokenPriceChangeStatistics, CexTokenPriceChangeStatisticsService } f
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 @Component({
-  selector: 'cex-token-price-change-statistics-table',
-  templateUrl: 'cex-token-price-change-statistics-table.component.html'
+  selector: 'statistics-table',
+  templateUrl: 'statistics-table.component.html'
 })
-export class CexTokenPriceChangeStatisticsTableComponent implements OnInit, OnChanges {
+export class StatisticsTableComponent implements OnInit, OnChanges {
   constructor(
     private readonly cexTokenPriceChangeStatisticsService: CexTokenPriceChangeStatisticsService,
     private readonly notification: NzNotificationService,

@@ -42,11 +42,16 @@
   </form>
 
   <nz-collapse style="margin: 12px 0">
+    <nz-collapse-panel [nzHeader]="'某个时刻的历史排行'" [nzActive]="true">
+      <statistics-ranking-chart
+        [time]="form.get('time')?.value"
+      ></statistics-ranking-chart>
+    </nz-collapse-panel>
     <nz-collapse-panel [nzHeader]="'历史数据表格'" [nzActive]="false">
-      <cex-token-price-change-statistics-table
+      <statistics-table
         [inDays]="form.get('inDays')?.value"
         (selectTime)="ensureSelectTime($event)"
-      ></cex-token-price-change-statistics-table>
+      ></statistics-table>
     </nz-collapse-panel>
   </nz-collapse>
 
