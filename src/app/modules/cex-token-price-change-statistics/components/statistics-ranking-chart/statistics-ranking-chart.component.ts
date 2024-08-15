@@ -63,7 +63,7 @@ export class StatisticsRankingChartComponent implements OnInit, OnChanges {
 
   chartDataItems: Array<{
     title: string;
-    data: Array<{ label: string; value: number; color?: string; }>
+    data: Array<{ label: string; value: number; color?: string; text?: string; textOffsetY?: number; textColor?: string; }>
   }> = []
   baseline: any = null
   loading = false;
@@ -87,7 +87,7 @@ export class StatisticsRankingChartComponent implements OnInit, OnChanges {
     this.loading = true;
     const chartDataItems: Array<{
       title: string;
-      data: Array<{ label: string; value: number; color?: string }>
+      data: Array<{ label: string; value: number; color?: string; text?: string; textOffsetY?: number; textColor?: string; }>
     }> = [];
 
     for (const inDays of this.inDayss) {
@@ -97,17 +97,37 @@ export class StatisticsRankingChartComponent implements OnInit, OnChanges {
           inDays: inDays.name,
           time: parse(`${format(this.time, 'yyyy-MM-dd')} 08:00:00`, 'yyyy-MM-dd HH:mm:ss', new Date()).getTime()
         }))
+        const avgPriceRelativeText = this.resolveText(items[0].avgCurrentPriceRelativeRanking, totalCount);
+        const avgPricePercentText = this.resolveText(items[0].avgPriceChangePercentRanking, totalCount);
         const chartData = {
           title: `${inDays.name} 天`,
           data: [
             {
               label: '平均当前价位',
               value: items[0].avgCurrentPriceRelativeRanking,
+              ...(avgPriceRelativeText ? {
+                text: avgPriceRelativeText,
+                ...(avgPriceRelativeText.indexOf('低') >= 0 ? {
+
+                } : {
+                  textOffsetY: 30,
+                  textColor: '#FFFF66'
+                })
+              } : {}),
               color: this.resolveColor(items[0].avgCurrentPriceRelativeRanking, totalCount)
             },
             {
               label: '平均涨跌幅',
               value: items[0].avgPriceChangePercentRanking,
+              ...(avgPricePercentText ? {
+                text: avgPricePercentText,
+                ...(avgPricePercentText.indexOf('低') >= 0 ? {
+
+                } : {
+                  textOffsetY: 30,
+                  textColor: '#FFFF66'
+                })
+              } : {}),
               color: this.resolveColor(items[0].avgPriceChangePercentRanking, totalCount)
             },
             {
@@ -130,6 +150,18 @@ export class StatisticsRankingChartComponent implements OnInit, OnChanges {
     this.chartDataItems = chartDataItems;
   }
 
+  private resolveText(n: number, total: number): string {
+    if (n <= 10) {
+      return n === 1 ? '历史最低' : `历史第${n}低`
+    }
+
+    if (n >= total - 9) {
+      return n === total ? '历史最高' : `历史第${total - n + 1}高`
+    }
+
+    return ''
+  }
+
 
   private resolveColor(n: number, total: number): string {
     if (n >= total * 0.95) {
@@ -138,9 +170,6 @@ export class StatisticsRankingChartComponent implements OnInit, OnChanges {
     if (n <= total * 0.05) {
       return '#FE6F5E'
     }
-    return '#063d8a'
+    return '#13479070'
   }
-
-
-
 }

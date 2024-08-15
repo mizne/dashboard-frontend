@@ -30,7 +30,7 @@ export class BarChartComponent
   chartID = 'bar-chart-wrapper-' + uuid.v4();
   constructor() { }
 
-  @Input() data: Array<{ label: string; value: number; color?: string }> = [];
+  @Input() data: Array<{ label: string; value: number; color?: string; text?: string; textOffsetY?: number; textColor?: string; }> = [];
   @Input() height = 240;
   @Input() width = 420;
 
@@ -110,6 +110,7 @@ export class BarChartComponent
 
     // 添加文本标注
     data.forEach((item) => {
+      // 默认添加 value 数字标注
       chart
         .annotation()
         .text({
@@ -120,6 +121,21 @@ export class BarChartComponent
           },
           offsetY: -30,
         })
+
+      if (item.text) {
+        chart
+          .annotation()
+          .text({
+            position: [item.label, item.value],
+            content: item.text,
+            style: {
+              textAlign: 'center',
+              fill: item.textColor || '#673ab7'
+            },
+            offsetY: item.textOffsetY || 0,
+            offsetX: 0
+          })
+      }
     });
 
     if (this.baseline) {
@@ -155,14 +171,17 @@ export class BarChartComponent
   }
 
   private adjustData(
-    data: Array<{ label: string; value: number; color?: string }>
-  ): Array<{ label: string; value: number; color: string }> {
-    const results: Array<{ label: string; value: number; color: string }> = [];
+    data: Array<{ label: string; value: number; color?: string; text?: string; textOffsetY?: number; textColor?: string; }>
+  ): Array<{ label: string; value: number; color: string; text?: string; textOffsetY?: number; textColor?: string; }> {
+    const results: Array<{ label: string; value: number; color: string; text?: string; textOffsetY?: number; textColor?: string; }> = [];
     for (const [i, e] of data.entries()) {
       results.push({
         label: e.label,
         value: e.value,
         color: e.color || defaultColors[i % defaultColors.length],
+        text: e.text,
+        textOffsetY: e.textOffsetY,
+        textColor: e.textColor
       });
     }
 
