@@ -108,7 +108,7 @@ export class StatisticsRankingChartComponent implements OnInit, OnChanges {
               ...(avgPriceRelativeText ? {
                 text: avgPriceRelativeText,
                 ...(avgPriceRelativeText.indexOf('低') >= 0 ? {
-
+                  textOffsetY: -10
                 } : {
                   textOffsetY: 30,
                   textColor: '#FFFF66'
@@ -122,7 +122,7 @@ export class StatisticsRankingChartComponent implements OnInit, OnChanges {
               ...(avgPricePercentText ? {
                 text: avgPricePercentText,
                 ...(avgPricePercentText.indexOf('低') >= 0 ? {
-
+                  textOffsetY: -10
                 } : {
                   textOffsetY: 30,
                   textColor: '#FFFF66'
