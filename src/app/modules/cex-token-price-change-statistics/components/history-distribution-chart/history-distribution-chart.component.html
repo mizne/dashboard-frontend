@@ -48,15 +48,15 @@
       ></statistics-ranking-chart>
     </nz-collapse-panel>
 
+    <nz-collapse-panel [nzHeader]="'历史数据折线图'" [nzActive]="true">
+      <statistics-history-ranking-chart></statistics-history-ranking-chart>
+    </nz-collapse-panel>
+
     <nz-collapse-panel [nzHeader]="'历史数据表格'" [nzActive]="false">
       <statistics-table
         [inDays]="form.get('inDays')?.value"
         (selectTime)="ensureSelectTime($event)"
       ></statistics-table>
-    </nz-collapse-panel>
-
-    <nz-collapse-panel [nzHeader]="'历史数据折线图'" [nzActive]="false">
-      <statistics-history-ranking-chart></statistics-history-ranking-chart>
     </nz-collapse-panel>
   </nz-collapse>
 
