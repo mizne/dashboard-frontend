@@ -34,7 +34,7 @@ export class BarChartComponent
   @Input() height = 240;
   @Input() width = 420;
 
-  @Input() baseline: null | BarChartBaseline = null
+  @Input() baseline: null | BarChartBaseline | BarChartBaseline[] = null
 
   @Output() barClick = new EventEmitter<any>()
 
@@ -140,34 +140,42 @@ export class BarChartComponent
 
     if (this.baseline) {
       // 添加基准线标注
-      chart.annotation().line({
-        top: true, // 将基准线放在图表的最上层
-        start: ['min', this.baseline.value], // 起点坐标，'min' 表示 x 轴的最小值，55 是 y 轴上的基准线值
-        end: ['max', this.baseline.value], // 终点坐标，'max' 表示 x 轴的最大值，55 是 y 轴上的基准线值
-        style: {
-          stroke: '#FF0000', // 基准线颜色
-          lineWidth: 2, // 基准线宽度
-          lineDash: [4, 4], // 虚线样式
-        },
-        ...(this.baseline.text ? {
-          text: {
-            position: 'center', // 文本位置，可选值 'start', 'center', 'end'
-            content: this.baseline.text, // 文本内容
-            style: {
-              fill: '#FF0000', // 文本颜色
-              fontSize: 12,
-              fontWeight: 'bold',
-            },
-            offsetX: 10, // 文本水平偏移
-            offsetY: -5, // 文本垂直偏移
-          },
-        } : {})
-      });
+      if (Array.isArray(this.baseline)) {
+        this.baseline.forEach(line => {
+          this.renderBaseline(chart, line)
+        })
+      } else {
+        this.renderBaseline(chart, this.baseline)
+      }
     }
 
-
-
     chart.render();
+  }
+
+  private renderBaseline(chart: Chart, line: BarChartBaseline) {
+    chart.annotation().line({
+      top: true, // 将基准线放在图表的最上层
+      start: ['min', line.value], // 起点坐标，'min' 表示 x 轴的最小值，55 是 y 轴上的基准线值
+      end: ['max', line.value], // 终点坐标，'max' 表示 x 轴的最大值，55 是 y 轴上的基准线值
+      style: {
+        stroke: '#FF0000', // 基准线颜色
+        lineWidth: 2, // 基准线宽度
+        lineDash: [4, 4], // 虚线样式
+      },
+      ...(line.text ? {
+        text: {
+          position: 'center', // 文本位置，可选值 'start', 'center', 'end'
+          content: line.text, // 文本内容
+          style: {
+            fill: '#FF0000', // 文本颜色
+            fontSize: 12,
+            fontWeight: 'bold',
+          },
+          offsetX: 10, // 文本水平偏移
+          offsetY: -5, // 文本垂直偏移
+        },
+      } : {})
+    });
   }
 
   private adjustData(

@@ -7,6 +7,7 @@ import { MarketShiftExplorerComponent } from './market-shift-explorer/market-shi
 import { HistoryDistributionChartComponent } from './history-distribution-chart/history-distribution-chart.component'
 import { StatisticsTableComponent } from './statistics-table/statistics-table.component'
 import { StatisticsRankingChartComponent } from './statistics-ranking-chart/statistics-ranking-chart.component'
+import { StatisticsHistoryRankingChartComponent } from './statistics-history-ranking-chart/statistics-history-ranking-chart.component'
 
 export const components = [
   PriceChangeChartComponent,
@@ -18,6 +19,7 @@ export const components = [
   HistoryDistributionChartComponent,
   StatisticsTableComponent,
   StatisticsRankingChartComponent,
+  StatisticsHistoryRankingChartComponent,
 ]
 
 export {

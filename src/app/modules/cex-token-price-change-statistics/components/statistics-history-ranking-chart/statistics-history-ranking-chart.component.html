@@ -1,0 +1,54 @@
+<div class="statistics-history-ranking-chart-container">
+  <form
+    nz-form
+    [nzLayout]="'inline'"
+    [formGroup]="form"
+    (ngSubmit)="submitForm()"
+  >
+    <nz-form-item style="margin-bottom: 6px">
+      <nz-form-label nzFor="timeDateRange">时间段</nz-form-label>
+      <nz-form-control>
+        <nz-range-picker
+          [nzRanges]="timeRanges"
+          formControlName="timeDateRange"
+        ></nz-range-picker>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item class="register-area" style="margin-bottom: 6px">
+      <nz-form-control>
+        <button nz-button [nzType]="'primary'">搜索</button>
+        <button
+          nz-button
+          type="button"
+          (click)="resetForm()"
+          style="margin-left: 6px"
+        >
+          重置
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <nz-spin [nzSpinning]="loading">
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      "
+    >
+      <div *ngFor="let chartData of chartDataItems">
+        <line-chart
+          [data]="chartData.data"
+          [min]="min"
+          [max]="max"
+          [width]="1000"
+          [height]="600"
+          [baseline]="baseline"
+        ></line-chart>
+        <p style="text-align: center">{{ chartData.title }}</p>
+      </div>
+    </div>
+  </nz-spin>
+</div>
