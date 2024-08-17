@@ -55,6 +55,16 @@ export class NotifyObserverService {
         page,
         sort,
       }
+    ).pipe(
+      map(items => {
+        return items.map(e => {
+          return {
+            ...e,
+            priceChangeToValue: typeof e.priceChangeToValue === 'number' ? [e.priceChangeToValue] : e.priceChangeToValue,
+            priceChangeInDays: typeof e.priceChangeInDays === 'number' ? [e.priceChangeInDays] : e.priceChangeInDays,
+          }
+        })
+      })
     );
   }
 

@@ -18,7 +18,8 @@ export class PriceChangeService implements NotifyObserverTypeServiceInterface {
   }
 
   checkValidForm(obj: Partial<NotifyObserver>): { code: number; message?: string | undefined; } {
-    if (obj.notifyShowTitle && obj.priceChangeType && obj.priceChangeCexTokenSymbol && ((typeof obj.priceChangeToValue === 'number') || (typeof obj.priceChangeInDays === 'number'))) {
+    if (
+      obj.notifyShowTitle && obj.priceChangeType && obj.priceChangeCexTokenSymbol && ((Array.isArray(obj.priceChangeToValue) && obj.priceChangeToValue.length > 0) || (Array.isArray(obj.priceChangeInDays) && obj.priceChangeInDays.length > 0))) {
       return { code: 0 }
     }
     return { code: -1, message: `通知标题, 价格类型, 标的symbol必填, 价格数值/周期天数相对应价格类型有一个必填` }
@@ -45,6 +46,14 @@ export class PriceChangeService implements NotifyObserverTypeServiceInterface {
     if (typeof item.priceChangeInDays === 'number') {
       return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType} ${item.priceChangeInDays}`
     }
+
+    if ((Array.isArray(item.priceChangeToValue) && item.priceChangeToValue.length > 0)) {
+      return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType} ${item.priceChangeToValue.join(', ')}`
+    }
+    if (Array.isArray(item.priceChangeInDays) && item.priceChangeInDays.length > 0) {
+      return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType} ${item.priceChangeInDays.join(', ')}`
+    }
+
     return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType}`
   }
 

@@ -53,10 +53,7 @@
         <span>价格涨到/跌到的数值</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-input-number
-          formControlName="priceChangeToValue"
-          [nzStep]="1"
-        ></nz-input-number>
+        <app-multi-input formControlName="priceChangeToValue"></app-multi-input>
       </nz-form-control>
     </nz-form-item>
 
@@ -69,11 +66,7 @@
         <span>新高/新低的周期天数</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-input-number
-          formControlName="priceChangeInDays"
-          [nzStep]="1"
-          [nzMin]="1"
-        ></nz-input-number>
+        <app-multi-input formControlName="priceChangeInDays"></app-multi-input>
       </nz-form-control>
     </nz-form-item>
   </form>

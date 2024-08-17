@@ -41,7 +41,6 @@ export class MultiInputComponent implements ControlValueAccessor, OnDestroy {
   inputVisible = false;
   inputValue = null;
 
-
   @Input() min = 0;
   @Input() max = 999;
 
