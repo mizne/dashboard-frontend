@@ -78,6 +78,9 @@ export class StatisticsRankingChartComponent implements OnInit, OnChanges {
   }
 
 
+  fetchLatestRanking() {
+    this.loadLatestChartData()
+  }
   private async loadChartData() {
     if (!this.time) {
 
@@ -97,47 +100,8 @@ export class StatisticsRankingChartComponent implements OnInit, OnChanges {
           inDays: inDays.name,
           time: parse(`${format(this.time, 'yyyy-MM-dd')} 08:00:00`, 'yyyy-MM-dd HH:mm:ss', new Date()).getTime()
         }))
-        const avgPriceRelativeText = this.resolveText(items[0].avgCurrentPriceRelativeRanking, totalCount);
-        const avgPricePercentText = this.resolveText(items[0].avgPriceChangePercentRanking, totalCount);
-        const chartData = {
-          title: `${inDays.name} 天`,
-          data: [
-            {
-              label: '平均当前价位',
-              value: items[0].avgCurrentPriceRelativeRanking,
-              ...(avgPriceRelativeText ? {
-                text: avgPriceRelativeText,
-                ...(avgPriceRelativeText.indexOf('低') >= 0 ? {
-                  textOffsetY: -10
-                } : {
-                  textOffsetY: 30,
-                  textColor: '#FFFF66'
-                })
-              } : {}),
-              color: this.resolveColor(items[0].avgCurrentPriceRelativeRanking, totalCount)
-            },
-            {
-              label: '平均涨跌幅',
-              value: items[0].avgPriceChangePercentRanking,
-              ...(avgPricePercentText ? {
-                text: avgPricePercentText,
-                ...(avgPricePercentText.indexOf('低') >= 0 ? {
-                  textOffsetY: -10
-                } : {
-                  textOffsetY: 30,
-                  textColor: '#FFFF66'
-                })
-              } : {}),
-              color: this.resolveColor(items[0].avgPriceChangePercentRanking, totalCount)
-            },
-            {
-              label: '总数',
-              value: totalCount,
-              color: '#063d8a'
-            },
 
-          ].filter(e => e.value > 0)
-        }
+        const chartData = this.resolveChartData(items[0].avgCurrentPriceRelativeRanking, items[0].avgPriceChangePercentRanking, totalCount, inDays.name)
 
         if (chartData.data.length > 0) {
           chartDataItems.push(chartData)
@@ -148,6 +112,86 @@ export class StatisticsRankingChartComponent implements OnInit, OnChanges {
 
     this.loading = false;
     this.chartDataItems = chartDataItems;
+  }
+
+  private async loadLatestChartData() {
+
+    this.loading = true;
+    const chartDataItems: Array<{
+      title: string;
+      data: Array<{ label: string; value: number; color?: string; text?: string; textOffsetY?: number; textColor?: string; }>
+    }> = [];
+
+    const resp = await lastValueFrom(this.cexTokenPriceChangeStatisticsService.latestRanking());
+
+    if (resp.code !== 0) {
+      this.notification.error(`获取最新排行数据失败`, `${resp.message}`)
+      this.loading = false
+      return
+    }
+
+    for (const inDays of this.inDayss) {
+      const totalCount = 1 + await lastValueFrom(this.cexTokenPriceChangeStatisticsService.queryCount({ inDays: inDays.name }))
+      if (inDays.name) {
+        const items = resp.result.filter(e => e.inDays === inDays.name)
+
+        const chartData = this.resolveChartData(items[0].avgCurrentPriceRelativeRanking, items[0].avgPriceChangePercentRanking, totalCount, inDays.name)
+
+        if (chartData.data.length > 0) {
+          chartDataItems.push(chartData)
+        }
+      }
+
+    }
+
+    this.loading = false;
+    this.chartDataItems = chartDataItems;
+  }
+
+  private resolveChartData(avgCurrentPriceRelativeRanking: number, avgPriceChangePercentRanking: number, totalCount: number, inDays: number) {
+    const avgPriceRelativeText = this.resolveText(avgCurrentPriceRelativeRanking, totalCount);
+    const avgPricePercentText = this.resolveText(avgPriceChangePercentRanking, totalCount);
+    const chartData = {
+      title: `${inDays} 天`,
+      data: [
+        {
+          label: '平均当前价位',
+          value: avgCurrentPriceRelativeRanking,
+          ...(avgPriceRelativeText ? {
+            text: avgPriceRelativeText,
+            ...(avgPriceRelativeText.indexOf('低') >= 0 ? {
+              textOffsetY: -10
+            } : {
+              textOffsetY: 30,
+              textColor: '#FFFF66'
+            })
+          } : {}),
+          color: this.resolveColor(avgCurrentPriceRelativeRanking, totalCount)
+        },
+        {
+          label: '平均涨跌幅',
+          value: avgPriceChangePercentRanking,
+          ...(avgPricePercentText ? {
+            text: avgPricePercentText,
+            ...(avgPricePercentText.indexOf('低') >= 0 ? {
+              textOffsetY: -10
+            } : {
+              textOffsetY: 30,
+              textColor: '#FFFF66'
+            })
+          } : {}),
+          color: this.resolveColor(avgPriceChangePercentRanking, totalCount)
+        },
+        {
+          label: '总数',
+          value: totalCount,
+          color: '#063d8a'
+        },
+
+      ].filter(e => e.value > 0)
+    }
+
+    return chartData
   }
 
   private resolveText(n: number, total: number): string {

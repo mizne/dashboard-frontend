@@ -1,4 +1,7 @@
 <div class="statistics-ranking-chart-container">
+  <button nz-button [nzType]="'primary'" (click)="fetchLatestRanking()">
+    获取最新排行
+  </button>
   <nz-spin [nzSpinning]="loading">
     <div
       style="

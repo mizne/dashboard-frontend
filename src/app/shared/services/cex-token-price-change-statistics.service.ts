@@ -55,5 +55,12 @@ export class CexTokenPriceChangeStatisticsService {
     return this.httpClient.delete<any>(`${this.baseURL}/cex-token-price-change-statistics/${id}`);
   }
 
+  latestRanking(): Observable<{ code: number; message: string; result: CexTokenPriceChangeStatistics[] }> {
+    return this.httpClient.post<{ code: number; message: string; result: any }>(
+      `${this.baseURL}/cex-token-price-change-statistics/latestRanking`,
+      {
+      }
+    );
+  }
 
 }
