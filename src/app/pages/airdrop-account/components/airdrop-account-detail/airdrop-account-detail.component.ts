@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Subject, Subscription, takeUntil } from 'rxjs';
 import { CreateAirdropAccountService, AirdropAccountModalActions } from 'src/app/modules/create-airdrop-account';
-import { CreateAirdropAccountAttendJobService, AirdropAccountAttendJobModalActions } from 'src/app/modules/create-airdrop-account-attend-job';
-import { ClientNotifyService, AirdropAccount, AirdropAccountService, NotifyObserver, NotifyObserverService, AirdropAccountAttendJob, AirdropAccountAttendJobService, } from 'src/app/shared';
+import { AirdropAccount, AirdropAccountService, AirdropAccountAttendJob, } from 'src/app/shared';
 import { DestroyService } from 'src/app/shared/services/destroy.service';
 
 interface TableItem extends AirdropAccountAttendJob {
@@ -27,11 +25,7 @@ export class AirdropAccountDetailComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly airdropAccountService: AirdropAccountService,
-    private readonly airdropAccountAttendJobService: AirdropAccountAttendJobService,
     private readonly notificationService: NzNotificationService,
-    private readonly createAttendJobService: CreateAirdropAccountAttendJobService,
-    private readonly destroy$: DestroyService,
-    private readonly clientNotifyService: ClientNotifyService,
     private readonly createAirdropAccountService: CreateAirdropAccountService
   ) { }
 

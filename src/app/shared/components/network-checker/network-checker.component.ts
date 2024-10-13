@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { ClientNotifyService, SharedService, TaskRecordService } from '../../services';
+import { ClientNotifyService, TaskRecordService } from '../../services';
 import { lastValueFrom } from 'rxjs';
 import { memorizeFn } from 'src/app/utils';
 
@@ -10,8 +9,6 @@ import { memorizeFn } from 'src/app/utils';
 })
 export class NetworkCheckerComponent implements OnInit {
   constructor(
-    private sharedService: SharedService,
-    private notification: NzNotificationService,
     private readonly clientNotifyService: ClientNotifyService,
     private readonly taskRecordService: TaskRecordService,
   ) { }

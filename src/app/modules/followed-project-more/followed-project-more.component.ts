@@ -1,10 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { CreateFollowedProjectTrackingRecordService, FollowedProjectTrackingRecordModalActions } from 'src/app/modules/create-followed-project-tracking-record';
 import { CreateNotifyObserverService } from 'src/app/modules/create-notify-observer';
-import { ClientNotifyService, FollowedProjectService, FollowedProjectTrackingRecord, FollowedProjectTrackingRecordService, NotifyObserver, NotifyObserverService, NotifyObserverTypes, TagTypes, } from 'src/app/shared';
+import { FollowedProjectTrackingRecord, FollowedProjectTrackingRecordService, NotifyObserver, NotifyObserverService, TagTypes, } from 'src/app/shared';
 import { DestroyService } from 'src/app/shared/services/destroy.service';
 import { NotifyObserverTypeManagerService } from 'src/app/modules/create-notify-observer';
 import { removeKeys } from 'src/app/utils';
@@ -32,8 +31,6 @@ export class FollowedProjectMoreComponent implements OnInit {
     private readonly followedProjectTrackingRecordService: FollowedProjectTrackingRecordService,
     private readonly notificationService: NzNotificationService,
     private readonly createNotifyObserverService: CreateNotifyObserverService,
-    private readonly destroy$: DestroyService,
-    private readonly clientNotifyService: ClientNotifyService,
     private readonly notifyObserverTypeService: NotifyObserverTypeManagerService,
     private readonly createFollowedProjectTrackingRecordService: CreateFollowedProjectTrackingRecordService
   ) { }
