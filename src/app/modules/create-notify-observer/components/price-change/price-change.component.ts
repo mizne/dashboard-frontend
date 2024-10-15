@@ -30,6 +30,8 @@ export class CreatePriceChangeComponent implements OnInit, FormItemInterface {
     this.data.get('priceChangeType')?.valueChanges.subscribe(v => {
       this.data.get('priceChangeInDays')?.patchValue(null, { emitEvent: false })
       this.data.get('priceChangeToValue')?.patchValue(null, { emitEvent: false })
+      this.data.get('priceChangePercentValue')?.patchValue(null, { emitEvent: false })
+      this.data.get('priceChangePercentInDays')?.patchValue(null, { emitEvent: false })
     })
   }
 

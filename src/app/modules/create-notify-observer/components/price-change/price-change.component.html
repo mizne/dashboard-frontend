@@ -48,7 +48,7 @@
       <nz-form-label
         [nzSm]="6"
         [nzXs]="24"
-        nzTooltipTitle="价格涨到/跌到的数值"
+        nzTooltipTitle="价格类型为 价格涨到/跌到 时必填"
       >
         <span>价格涨到/跌到的数值</span>
       </nz-form-label>
@@ -61,12 +61,42 @@
       <nz-form-label
         [nzSm]="6"
         [nzXs]="24"
-        nzTooltipTitle="多少天内价格涨到新高/跌到新低"
+        nzTooltipTitle="价格类型为 价格涨到新高/跌到新低 时必填"
       >
         <span>新高/新低的周期天数</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <app-multi-input formControlName="priceChangeInDays"></app-multi-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzTooltipTitle="价格类型为 价格涨幅/跌幅 时必填，与涨跌幅数值一一对应"
+      >
+        <span>价格涨幅/跌幅的周期天数</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-multi-input
+          formControlName="priceChangePercentInDays"
+        ></app-multi-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzTooltipTitle="价格类型为 价格涨幅/跌幅 时必填，与涨跌幅周期天数一一对应"
+      >
+        <span>价格涨幅/跌幅的数值</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-multi-input
+          formControlName="priceChangePercentValue"
+        ></app-multi-input>
       </nz-form-control>
     </nz-form-item>
   </form>

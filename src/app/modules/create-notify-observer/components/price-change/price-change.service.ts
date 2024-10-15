@@ -22,7 +22,7 @@ export class PriceChangeService implements NotifyObserverTypeServiceInterface {
       obj.notifyShowTitle && obj.priceChangeType && obj.priceChangeCexTokenSymbol && ((Array.isArray(obj.priceChangeToValue) && obj.priceChangeToValue.length > 0) || (Array.isArray(obj.priceChangeInDays) && obj.priceChangeInDays.length > 0))) {
       return { code: 0 }
     }
-    return { code: -1, message: `通知标题, 价格类型, 标的symbol必填, 价格数值/周期天数相对应价格类型有一个必填` }
+    return { code: -1, message: `通知标题, 价格类型, 标的symbol必填, 价格数值/周期天数/涨跌幅数值及周期天数相对应价格类型有一个必填` }
   }
 
   resolveExistedCondition(obj: Partial<NotifyObserver>): Partial<NotifyObserver> | null {
@@ -32,6 +32,8 @@ export class PriceChangeService implements NotifyObserverTypeServiceInterface {
       priceChangeCexTokenSymbol: obj.priceChangeCexTokenSymbol,
       priceChangeToValue: obj.priceChangeToValue,
       priceChangeInDays: obj.priceChangeInDays,
+      priceChangePercentInDays: obj.priceChangePercentInDays,
+      priceChangePercentValue: obj.priceChangePercentValue,
     }
   }
 
@@ -54,6 +56,11 @@ export class PriceChangeService implements NotifyObserverTypeServiceInterface {
       return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType} ${item.priceChangeInDays.join(', ')}`
     }
 
+    if (Array.isArray(item.priceChangePercentValue) && item.priceChangePercentValue.length > 0 &&
+      Array.isArray(item.priceChangePercentInDays) && item.priceChangePercentInDays.length > 0) {
+      return `${item.priceChangeCexTokenSymbol} ${item.priceChangePercentInDays.join(', ')}天内 ${item.priceChangeType} ${item.priceChangePercentValue.join(', ')}`
+    }
+
     return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType}`
   }
 
@@ -63,6 +70,8 @@ export class PriceChangeService implements NotifyObserverTypeServiceInterface {
       priceChangeCexTokenSymbol: [obj.priceChangeCexTokenSymbol],
       priceChangeToValue: [obj.priceChangeToValue],
       priceChangeInDays: [obj.priceChangeInDays],
+      priceChangePercentValue: [obj.priceChangePercentValue],
+      priceChangePercentInDays: [obj.priceChangePercentInDays],
     }
   }
 }

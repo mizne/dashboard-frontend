@@ -212,6 +212,8 @@ export interface NotifyObserver {
   priceChangeType: string;
   priceChangeToValue?: number | number[];
   priceChangeInDays?: number | number[];
+  priceChangePercentValue?: number[];
+  priceChangePercentInDays?: number[];
 
   readonly createdAt: number;
   readonly createdAtStr: string;
