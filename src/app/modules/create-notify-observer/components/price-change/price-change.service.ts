@@ -19,10 +19,17 @@ export class PriceChangeService implements NotifyObserverTypeServiceInterface {
 
   checkValidForm(obj: Partial<NotifyObserver>): { code: number; message?: string | undefined; } {
     if (
-      obj.notifyShowTitle && obj.priceChangeType && obj.priceChangeCexTokenSymbol && ((Array.isArray(obj.priceChangeToValue) && obj.priceChangeToValue.length > 0) || (Array.isArray(obj.priceChangeInDays) && obj.priceChangeInDays.length > 0))) {
+      obj.notifyShowTitle &&
+      obj.priceChangeType &&
+      obj.priceChangeCexTokenSymbol &&
+      (
+        (Array.isArray(obj.priceChangeToValue) && obj.priceChangeToValue.length > 0) ||
+        (Array.isArray(obj.priceChangeInDays) && obj.priceChangeInDays.length > 0) ||
+        (Array.isArray(obj.priceChangePercentValue) && obj.priceChangePercentValue.length > 0 && Array.isArray(obj.priceChangePercentInDays) && obj.priceChangePercentInDays.length > 0)
+      )) {
       return { code: 0 }
     }
-    return { code: -1, message: `通知标题, 价格类型, 标的symbol必填, 价格数值/周期天数/涨跌幅数值及周期天数相对应价格类型有一个必填` }
+    return { code: -1, message: `通知标题, 价格类型, 标的symbol必填, 价格数值/周期天数/涨跌幅数值及周期天数相对应价格类型必填` }
   }
 
   resolveExistedCondition(obj: Partial<NotifyObserver>): Partial<NotifyObserver> | null {
