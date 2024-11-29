@@ -177,7 +177,7 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
 
         this.fetchPriceChangeNotifyObservers()
       } else {
-        this._symbol = symbol || name || '';
+        this._symbol = symbol || name || '【缓存未命中】';
         console.warn(`[CexTokenSymbolItemComponent.ts] not found token by name: ${name} symbol: ${symbol}`);
       }
     });
