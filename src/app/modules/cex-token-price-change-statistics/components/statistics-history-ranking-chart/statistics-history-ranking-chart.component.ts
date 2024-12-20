@@ -38,7 +38,7 @@ export class StatisticsHistoryRankingChartComponent implements OnInit, OnChanges
     '最近一年': [new Date(new Date().getTime() - 12 * 30 * 24 * 60 * 60 * 1e3), new Date()],
   }
   form = this.fb.group({
-    timeDateRange: [[new Date(new Date().getTime() - 1 * 30 * 24 * 60 * 60 * 1e3), new Date()]],
+    timeDateRange: [[new Date(new Date().getTime() - 6 * 30 * 24 * 60 * 60 * 1e3), new Date()]],
   });
 
 
@@ -56,7 +56,7 @@ export class StatisticsHistoryRankingChartComponent implements OnInit, OnChanges
 
   resetForm() {
     this.form.reset({
-      timeDateRange: [new Date(new Date().getTime() - 1 * 30 * 24 * 60 * 60 * 1e3), new Date()]
+      timeDateRange: [new Date(new Date().getTime() - 6 * 30 * 24 * 60 * 60 * 1e3), new Date()]
     });
 
     this.loadChartData();
