@@ -1,0 +1,52 @@
+<div class="cex-future-item-detail-container" (click)="open()">
+  <ng-container *ngIf="content" [ngTemplateOutlet]="content"></ng-container>
+  <ng-container *ngIf="!content">
+    <button nz-button nzType="primary" [title]="'清算通知'">清算通知</button>
+  </ng-container>
+</div>
+
+<ng-template #tplTitle>
+  <div style="display: flex; align-items: center">
+    <cex-token-symbol-item
+      style="margin-left: 12px"
+      [symbol]="symbol"
+    ></cex-token-symbol-item>
+    <span style="margin-left: 12px">{{ " 清算通知 " }}</span>
+  </div>
+</ng-template>
+
+<nz-modal
+  [(nzVisible)]="futureDetailModalVisible"
+  [nzTitle]="tplTitle"
+  [nzWidth]="400"
+  (nzOnCancel)="futureDetailModalVisible = false"
+  (nzOnOk)="ensure()"
+>
+  <ng-container *nzModalContent>
+    <nz-card style="margin-top: 12px">
+      <nz-form-item>
+        <nz-form-label nzTooltipTitle="开启通知">
+          <span>开启通知</span>
+        </nz-form-label>
+        <nz-form-control>
+          <nz-switch
+            [formControl]="enableLiquidationNotificationCtrl"
+          ></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label style="margin-bottom: 6px">
+          <span>清算金额阈值</span>
+        </nz-form-label>
+        <nz-form-control>
+          <nz-input-number
+            [formControl]="liquidationAmountLimitCtrl"
+            [nzMin]="0"
+            [nzStep]="1000"
+          ></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-card>
+  </ng-container>
+</nz-modal>

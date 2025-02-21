@@ -41,6 +41,7 @@ export class CexFutureListComponent implements OnInit {
   form = this.fb.group({
     symbol: [null],
     hasCollect: [null],
+    enableLiquidationNotification: [null],
     createdAt: [0],
   });
   colletStatuses = [
@@ -54,6 +55,20 @@ export class CexFutureListComponent implements OnInit {
     },
     {
       label: '未标记',
+      value: false
+    }
+  ]
+  enableLiquidationNotifications = [
+    {
+      label: '所有',
+      value: null
+    },
+    {
+      label: '已开启',
+      value: true
+    },
+    {
+      label: '未开启',
       value: false
     }
   ]
@@ -112,6 +127,24 @@ export class CexFutureListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  updateLiquidationNotification(ev: any, item: TableItem) {
+    this.cexFutureService.updateEnableLiquidationNotification({
+      id: item._id,
+      symbol: ev.symbol,
+      enableLiquidationNotification: ev.enableLiquidationNotification,
+      liquidationAmountLimit: ev.liquidationAmountLimit,
+    }).subscribe({
+      next: () => {
+        this.notification.success(`修改清算通知成功`, `修改清算通知成功`);
+        this.loadDataFromServer();
+      },
+      complete: () => { },
+      error: (e) => {
+        this.notification.error(`修改清算通知失败`, `请稍后重试，${e.message}`);
+      },
+    });
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
@@ -221,6 +254,10 @@ export class CexFutureListComponent implements OnInit {
       } else if (key === 'hasCollect') {
         Object.assign(o, {
           ['hasCollect']: !!query['hasCollect'] ? true : { $in: [false, null, undefined] },
+        });
+      } else if (key === 'enableLiquidationNotification') {
+        Object.assign(o, {
+          ['enableLiquidationNotification']: !!query['enableLiquidationNotification'] ? true : { $in: [false, null, undefined] },
         });
       } else if (key === 'createdAt') {
         Object.assign(

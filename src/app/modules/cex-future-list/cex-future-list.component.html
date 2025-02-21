@@ -49,6 +49,23 @@
       </nz-form-item>
 
       <nz-form-item>
+        <nz-form-label>是否开启清算通知</nz-form-label>
+        <nz-form-control>
+          <nz-radio-group
+            formControlName="enableLiquidationNotification"
+            nzButtonStyle="solid"
+          >
+            <label
+              nz-radio-button
+              *ngFor="let item of enableLiquidationNotifications"
+              [nzValue]="item.value"
+              >{{ item.label }}</label
+            >
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
         <nz-form-label nzFor="createdAt">添加时间</nz-form-label>
         <nz-form-control>
           <nz-select
@@ -72,7 +89,7 @@
             nz-button
             type="button"
             (click)="resetForm()"
-            style="margin-left: 6px"
+            style="margin: 6px"
           >
             重置
           </button>
@@ -153,9 +170,34 @@
             </td>
             <td>
               <div style="display: flex; align-items: center">
+                <cex-future-item-liquidation-notification
+                  [symbol]="data.symbol"
+                  [enableLiquidationNotification]="
+                    data.enableLiquidationNotification
+                  "
+                  [liquidationAmountLimit]="data.liquidationAmountLimit"
+                  [content]="cexFutureLiquidationNotificationTemplate"
+                  (update)="updateLiquidationNotification($event, data)"
+                ></cex-future-item-liquidation-notification>
+
+                <ng-template #cexFutureLiquidationNotificationTemplate>
+                  <button
+                    nz-button
+                    [nzType]="
+                      data.enableLiquidationNotification ? 'primary' : 'default'
+                    "
+                    nzShape="circle"
+                    nzSize="small"
+                    [title]="'查看 清算通知'"
+                  >
+                    <span nz-icon nzType="alert" [nzTheme]="'outline'"></span>
+                  </button>
+                </ng-template>
+
                 <cex-future-item-detail
                   [symbol]="data.symbol"
                   [content]="cexFutureContentTemplate"
+                  style="margin-left: 12px"
                 ></cex-future-item-detail>
 
                 <ng-template #cexFutureContentTemplate>

@@ -48,6 +48,20 @@ export class CexFutureService {
     );
   }
 
+  updateEnableLiquidationNotification(
+    params: { id: string; symbol: string; enableLiquidationNotification: boolean; liquidationAmountLimit: number; },
+  ) {
+    return this.httpClient.post<{ code: number; message: string; result: any }>(
+      `${this.baseURL}/cex-future/updateEnableLiquidationNotification`,
+      {
+        id: params.id,
+        symbol: params.symbol,
+        enableLiquidationNotification: params.enableLiquidationNotification,
+        liquidationAmountLimit: params.liquidationAmountLimit,
+      }
+    );
+  }
+
   deleteByID(id: string): Observable<any> {
     return this.httpClient.delete<any>(`${this.baseURL}/cex-future/${id}`);
   }

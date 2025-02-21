@@ -14,6 +14,9 @@ export interface CexFuture {
   readonly logoName: string;
   readonly hasCollect: boolean;
 
+  readonly enableLiquidationNotification?: boolean;
+  readonly liquidationAmountLimit?: number;
+
   readonly createdAt: number;
   readonly createdAtStr: string;
 }
