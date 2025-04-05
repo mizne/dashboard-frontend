@@ -129,10 +129,10 @@ export class CexTokenPriceChangeStatisticsComponent implements OnInit {
       this.loadDataFromServer();
     })
 
-    this.compareSymbolsCtrl.valueChanges.subscribe(symbols => {
-      const notDuplicateSymbols: string[] = Array.from(new Set(symbols));
-      this.fetchCompareWithDataItems(notDuplicateSymbols)
-    })
+    // this.compareSymbolsCtrl.valueChanges.subscribe(symbols => {
+    //   const notDuplicateSymbols: string[] = Array.from(new Set(symbols));
+    //   this.fetchCompareWithDataItems(notDuplicateSymbols)
+    // })
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {

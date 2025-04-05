@@ -1,5 +1,53 @@
-<div class="volume-ranking-statistics-container">
+<div
+  class="volume-ranking-statistics-container"
+  style="display: flex; justify-content: space-between"
+>
   <!-- <nz-spin [nzSpinning]="loading">
     
   </nz-spin> -->
+
+  <nz-card
+    *ngFor="let day of inDayss"
+    style="width: 200px"
+    [nzTitle]="'最近 ' + day.inDays + ' 天'"
+    [nzBodyStyle]="{ padding: 0 }"
+  >
+    <nz-list
+      nzBordered
+      nzSize="small"
+      style="
+        background: white;
+        max-height: 800px;
+        overflow: auto;
+        margin-bottom: 12px;
+      "
+    >
+      <nz-list-header style="display: flex; justify-content: space-between">
+        <span style="width: 160px; display: inline-block">symbol</span>
+        <span style="width: 40px; display: inline-block">次数</span>
+      </nz-list-header>
+      <nz-list-item *ngFor="let data of day.items">
+        <span style="width: 160px; display: inline-block">
+          <cex-token-symbol-item
+            [symbol]="data.symbol"
+            [content]="symbolContent"
+          ></cex-token-symbol-item>
+          <ng-template #symbolContent let-name="name" let-logoName="logoName">
+            <image-view
+              [name]="logoName"
+              style="margin-right: 4px"
+            ></image-view>
+            <span
+              class="symbol-item-custom-content"
+              style="font-weight: bold"
+              >{{ name }}</span
+            >
+          </ng-template>
+        </span>
+        <span style="width: 40px; display: inline-block">
+          {{ data.countInRanking }}
+        </span>
+      </nz-list-item>
+    </nz-list>
+  </nz-card>
 </div>

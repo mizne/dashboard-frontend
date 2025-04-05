@@ -8,6 +8,17 @@ import { CexTokenVolumeRankingStatistics, CexTokenVolumeRankingStatisticsService
   templateUrl: './volume-ranking-statistics.component.html'
 })
 export class VolumeRankingStatisticsComponent implements OnInit, OnDestroy {
+
+  inDayss: Array<{
+    inDays: number;
+    items: Array<CexTokenVolumeRankingStatistics>
+  }> = AVAILABLE_CEX_TOKEN_VOLUME_RANKING_IN_DAYS_LIST.map(e => {
+    return {
+      inDays: e,
+      items: []
+    }
+  })
+
   constructor(
     private readonly cexTokenVolumeRankingStatisticsService: CexTokenVolumeRankingStatisticsService,
     private readonly notification: NzNotificationService,
@@ -24,10 +35,12 @@ export class VolumeRankingStatisticsComponent implements OnInit, OnDestroy {
 
   }
   private async loadChartData() {
-    for (const day of AVAILABLE_CEX_TOKEN_VOLUME_RANKING_IN_DAYS_LIST) {
-      this.cexTokenVolumeRankingStatisticsService.queryList({ inDays: day })
+    for (const day of this.inDayss) {
+      this.cexTokenVolumeRankingStatisticsService.queryList({ inDays: day.inDays })
         .subscribe((items => {
-          console.log(`${day} days, cex token volume ranking statistics items: `, items)
+          // console.log(`${day} days, cex token volume ranking statistics items: `, items);
+
+          day.items = items.sort((a, b) => b.countInRanking - a.countInRanking)
         }))
     }
   }
