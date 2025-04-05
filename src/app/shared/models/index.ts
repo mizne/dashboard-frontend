@@ -18,6 +18,7 @@ export * from './cex-future-daily.model';
 export * from './cex-token.model';
 export * from './cex-token-price-change.model';
 export * from './cex-token-price-change-statistics.model';
+export * from './cex-token-volume-ranking-statistics.model';
 export * from './cex-token-alert.model';
 export * from './cex-token-daily.model';
 
