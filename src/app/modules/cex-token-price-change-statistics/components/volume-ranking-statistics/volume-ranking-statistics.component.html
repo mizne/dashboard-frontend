@@ -23,11 +23,11 @@
       "
     >
       <nz-list-header style="display: flex; justify-content: space-between">
-        <span style="width: 160px; display: inline-block">symbol</span>
+        <span style="width: 180px; display: inline-block">symbol</span>
         <span style="width: 40px; display: inline-block">次数</span>
       </nz-list-header>
       <nz-list-item *ngFor="let data of day.items">
-        <span style="width: 160px; display: inline-block">
+        <span style="width: 180px; display: flex; align-items: center">
           <cex-token-symbol-item
             [symbol]="data.symbol"
             [content]="symbolContent"
@@ -42,6 +42,41 @@
               style="font-weight: bold"
               >{{ name }}</span
             >
+          </ng-template>
+
+          <cex-token-item-detail
+            [symbol]="data.symbol"
+            [content]="cexTokenItemTemplate"
+          >
+          </cex-token-item-detail>
+          <ng-template #cexTokenItemTemplate>
+            <button
+              nz-button
+              nzType="default"
+              nzShape="circle"
+              nzSize="small"
+              [title]="'查看 现货详情'"
+              style="margin-left: 4px"
+            >
+              <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
+            </button>
+          </ng-template>
+          <cex-future-item-detail
+            [symbol]="data.symbol"
+            [content]="cexFutureItemTemplate"
+          >
+          </cex-future-item-detail>
+          <ng-template #cexFutureItemTemplate>
+            <button
+              nz-button
+              nzType="default"
+              nzShape="circle"
+              nzSize="small"
+              [title]="'查看 合约详情'"
+              style="margin-left: 4px"
+            >
+              <span nz-icon nzType="line-chart" nzTheme="outline"></span>
+            </button>
           </ng-template>
         </span>
         <span style="width: 40px; display: inline-block">
