@@ -206,6 +206,24 @@
                   </button>
                 </ng-template>
 
+                <cex-future-item-detail
+                  [symbol]="data.symbol"
+                  [content]="cexFutureItemTemplate"
+                >
+                </cex-future-item-detail>
+                <ng-template #cexFutureItemTemplate>
+                  <button
+                    nz-button
+                    nzType="default"
+                    nzShape="circle"
+                    nzSize="small"
+                    [title]="'查看 合约详情'"
+                    style="margin-left: 4px"
+                  >
+                    <span nz-icon nzType="line-chart" nzTheme="outline"></span>
+                  </button>
+                </ng-template>
+
                 <a
                   nz-popconfirm
                   nzPopconfirmTitle="确认删除该条数据?"
