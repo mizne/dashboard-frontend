@@ -122,6 +122,7 @@
             <th nzColumnKey="pair">pair</th>
             <th nzColumnKey="baseAsset">跟踪标的</th>
             <th nzColumnKey="contractType">合约类型</th>
+            <th nzColumnKey="slug">cmc</th>
             <th
               nzColumnKey="createdAt"
               [nzSortFn]="true"
@@ -163,6 +164,39 @@
             </td>
             <td>
               <span>{{ data.contractType }}</span>
+            </td>
+
+            <td style="display: flex; align-items: center">
+              <linkable
+                *ngIf="data.slug; else noSlug"
+                [title]="'CMC ' + data.slug"
+                icon="copyright-circle"
+                [href]="'https://coinmarketcap.com/currencies/' + data.slug"
+              >
+              </linkable>
+              <ng-template #noSlug>
+                <span>--</span>
+              </ng-template>
+
+              <cex-future-item-slug
+                [symbol]="data.symbol"
+                [slug]="data.slug"
+                [content]="cexFutureSlugTemplate"
+                (update)="updateSlug($event, data)"
+              ></cex-future-item-slug>
+
+              <ng-template #cexFutureSlugTemplate>
+                <button
+                  nz-button
+                  [nzType]="'default'"
+                  nzShape="circle"
+                  nzSize="small"
+                  [title]="'修改 slug'"
+                  style="margin-left: 12px"
+                >
+                  <span nz-icon nzType="edit" [nzTheme]="'outline'"></span>
+                </button>
+              </ng-template>
             </td>
 
             <td>

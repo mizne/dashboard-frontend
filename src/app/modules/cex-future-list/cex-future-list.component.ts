@@ -147,6 +147,21 @@ export class CexFutureListComponent implements OnInit {
     });
   }
 
+  updateSlug(ev: any, item: TableItem) {
+    this.cexFutureService.update(item._id, {
+      slug: ev.slug,
+    }).subscribe({
+      next: () => {
+        this.notification.success(`修改slug成功`, `修改slug成功`);
+        this.loadDataFromServer();
+      },
+      complete: () => { },
+      error: (e) => {
+        this.notification.error(`修改slug失败`, `请稍后重试，${e.message}`);
+      },
+    });
+  }
+
   onQueryParamsChange(params: NzTableQueryParams): void {
     const { pageSize, pageIndex, sort, filter } = params;
     const currentSort = sort.find((item) => item.value !== null);

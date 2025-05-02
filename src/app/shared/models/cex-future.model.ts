@@ -9,6 +9,7 @@ export interface CexFuture {
   readonly symbol: string;
   readonly pair: string;
   readonly baseAsset: string;
+  slug?: string;
 
   readonly contractType: ContractTypes;
   readonly logoName: string;
