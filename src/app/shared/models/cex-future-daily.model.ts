@@ -6,6 +6,8 @@ export interface CexFutureDaily {
   readonly symbol: string;
   readonly pair: string;
   readonly baseAsset: string;
+  slug?: string;
+  openInterestAndCircularSupplyRatio: number;
 
   readonly contractType: ContractTypes;
   readonly logoName: string;

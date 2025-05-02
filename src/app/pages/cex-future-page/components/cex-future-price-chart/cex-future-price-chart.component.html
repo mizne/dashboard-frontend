@@ -158,6 +158,17 @@
                   <th nzColumnKey="symbol">Symbol</th>
                   <th nzColumnKey="baseAsset">标的</th>
                   <th nzColumnKey="contractType">合约类型</th>
+
+                  <th nzColumnKey="slug">cmc</th>
+                  <th
+                    nzColumnKey="openInterestAndCircularSupplyRatio"
+                    [nzSortFn]="oicsRatioCompare"
+                    [nzSortDirections]="['descend', 'ascend', null]"
+                    title="未平仓合约量/流通量 比值"
+                  >
+                    oi/cs ratio
+                  </th>
+
                   <th
                     nzColumnKey="fundingRate"
                     [nzSortFn]="fundingRateCompare"
@@ -226,7 +237,12 @@
                 <tr *ngFor="let data of rowSelectionTable.data">
                   <td
                     [title]="data.symbol"
-                    style="display: flex; align-items: center; min-height: 65px"
+                    style="
+                      display: flex;
+                      align-items: center;
+                      min-height: 65px;
+                      max-width: 100px;
+                    "
                   >
                     <cex-token-symbol-item
                       [name]="data.baseAsset"
@@ -239,17 +255,47 @@
                         [name]="logoName"
                         style="margin-right: 4px"
                       ></image-view>
-                      <span class="symbol-item-custom-content">{{
-                        data.symbol
-                      }}</span>
+                      <span
+                        class="symbol-item-custom-content"
+                        style="max-width: 100px"
+                        nzEllipsis
+                        >{{ data.symbol }}</span
+                      >
+                    </ng-template>
+                  </td>
+                  <td
+                    style="max-width: 100px"
+                    nzEllipsis
+                    [title]="data.baseAsset"
+                  >
+                    {{ data.baseAsset }}
+                  </td>
+                  <td
+                    style="max-width: 100px"
+                    nzEllipsis
+                    [title]="data.contractType"
+                  >
+                    {{ data.contractType }}
+                  </td>
+
+                  <td>
+                    <linkable
+                      *ngIf="data.slug; else noSlug"
+                      [title]="'CMC ' + data.slug"
+                      icon="copyright-circle"
+                      [href]="
+                        'https://coinmarketcap.com/currencies/' + data.slug
+                      "
+                    >
+                    </linkable>
+                    <ng-template #noSlug>
+                      <span>--</span>
                     </ng-template>
                   </td>
                   <td>
-                    {{ data.baseAsset }}
+                    {{ data.openInterestAndCircularSupplyRatio }}
                   </td>
-                  <td>
-                    {{ data.contractType }}
-                  </td>
+
                   <td>
                     {{ data.fundingRate | percent }}
                   </td>

@@ -8,52 +8,104 @@
       最近一月
     </button> -->
 
-    <button nz-button nzType="primary" (click)="openModal(3)" [title]="'查看最近三月'" style="margin-left: 24px;">
+    <button
+      nz-button
+      nzType="primary"
+      (click)="openModal(3)"
+      [title]="'查看最近三月'"
+      style="margin-left: 24px"
+    >
       最近三月
     </button>
 
-    <button nz-button nzType="primary" (click)="openModal(6)" [title]="'查看最近半年'" style="margin-left: 8px;">
+    <button
+      nz-button
+      nzType="primary"
+      (click)="openModal(6)"
+      [title]="'查看最近半年'"
+      style="margin-left: 8px"
+    >
       最近半年
     </button>
 
-    <button nz-button nzType="primary" (click)="openModal(12)" [title]="'查看最近一年'" style="margin-left: 8px;">
+    <button
+      nz-button
+      nzType="primary"
+      (click)="openModal(12)"
+      [title]="'查看最近一年'"
+      style="margin-left: 8px"
+    >
       最近一年
     </button>
 
     <nz-radio-group [formControl]="relativeCtrl" style="margin-left: 32px">
-      <label *ngFor="let item of relatives" nz-radio-button [nzValue]="item.value">{{item.label}}</label>
+      <label
+        *ngFor="let item of relatives"
+        nz-radio-button
+        [nzValue]="item.value"
+        >{{ item.label }}</label
+      >
     </nz-radio-group>
   </div>
   <nz-spin nzTip="Loading..." [nzSpinning]="loading">
-    <stack-bar-chart [title]="title" [data]="data" [colors]="colors"></stack-bar-chart>
+    <stack-bar-chart
+      [title]="title"
+      [data]="data"
+      [colors]="colors"
+    ></stack-bar-chart>
   </nz-spin>
 </div>
 
-<nz-modal [(nzVisible)]="monthModalVisible" [nzWidth]="1680" [nzTitle]="monthModalTitle" [nzFooter]="null"
-  (nzOnCancel)="monthModalVisible=false">
-
+<nz-modal
+  [(nzVisible)]="monthModalVisible"
+  [nzWidth]="1680"
+  [nzTitle]="monthModalTitle"
+  [nzFooter]="null"
+  (nzOnCancel)="monthModalVisible = false"
+>
   <ng-container *nzModalContent>
     <nz-spin nzTip="Loading..." [nzSpinning]="monthModalLoading">
-      <div style="min-height: 400px;">
+      <div style="min-height: 400px">
         <ng-container *ngFor="let item of monthModalData">
-          <stack-bar-chart [title]="''" [data]="item" [colors]="monthModalColors"></stack-bar-chart>
+          <stack-bar-chart
+            [title]="''"
+            [data]="item"
+            [colors]="monthModalColors"
+          ></stack-bar-chart>
         </ng-container>
       </div>
     </nz-spin>
   </ng-container>
-
 </nz-modal>
 
-<nz-modal [(nzVisible)]="visible" [nzWidth]="1400" [nzTitle]="detailModalTitle" [nzFooter]="null"
-  (nzOnCancel)="visible=false">
+<nz-modal
+  [(nzVisible)]="visible"
+  [nzWidth]="1400"
+  [nzTitle]="detailModalTitle"
+  [nzFooter]="null"
+  (nzOnCancel)="visible = false"
+>
   <ng-container *nzModalContent>
-
     <nz-card>
-      <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
+      <form
+        nz-form
+        [formGroup]="form"
+        (ngSubmit)="submitForm()"
+        [nzLayout]="'inline'"
+      >
         <nz-form-item>
-          <nz-form-label nzFor="latestIntervals">倒数第几个周期({{intervalTime$ | async | date:'MM-dd HH:mm'}})</nz-form-label>
+          <nz-form-label nzFor="latestIntervals"
+            >倒数第几个周期({{
+              intervalTime$ | async | date : "MM-dd HH:mm"
+            }})</nz-form-label
+          >
           <nz-form-control>
-            <nz-input-number formControlName="latestIntervals" [attr.id]="'latestIntervals'" [nzMin]="1" [nzStep]="1">
+            <nz-input-number
+              formControlName="latestIntervals"
+              [attr.id]="'latestIntervals'"
+              [nzMin]="1"
+              [nzStep]="1"
+            >
             </nz-input-number>
           </nz-form-control>
         </nz-form-item>
@@ -61,7 +113,14 @@
         <nz-form-item class="search-area">
           <nz-form-control>
             <button nz-button [nzType]="'primary'">搜索</button>
-            <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+            <button
+              nz-button
+              type="button"
+              (click)="resetForm()"
+              style="margin-left: 12px"
+            >
+              重置
+            </button>
           </nz-form-control>
         </nz-form-item>
       </form>
@@ -71,98 +130,181 @@
       <nz-tabset style="min-height: 200px">
         <nz-tab *ngFor="let tab of tabs" [nzTitle]="titleTemplate">
           <ng-template #titleTemplate>
-            <div style="display: flex; align-items: center;">
-              <span [ngStyle]="{
-                display: 'inline-block',
-                width: '16px',
-                height: '16px',
-                backgroundColor: tab.color
-              }"></span>
-              <span style="margin-left: 4px;">{{ tab.label }}</span>
+            <div style="display: flex; align-items: center">
+              <span
+                [ngStyle]="{
+                  display: 'inline-block',
+                  width: '16px',
+                  height: '16px',
+                  backgroundColor: tab.color
+                }"
+              ></span>
+              <span style="margin-left: 4px">{{ tab.label }}</span>
             </div>
           </ng-template>
           <nz-card style="margin-top: 12px">
-            <nz-table #rowSelectionTable nzShowSizeChanger nzShowPagination [nzData]="tab.table.list"
-              [nzFrontPagination]="true" [nzShowTotal]="rangeTemplate" [nzPageSize]="tab.table.pageSize"
-              [nzPageIndex]="tab.table.pageIndex">
+            <nz-table
+              #rowSelectionTable
+              nzShowSizeChanger
+              nzShowPagination
+              [nzData]="tab.table.list"
+              [nzFrontPagination]="true"
+              [nzShowTotal]="rangeTemplate"
+              [nzPageSize]="tab.table.pageSize"
+              [nzPageIndex]="tab.table.pageIndex"
+            >
               <thead>
                 <tr>
-                  <th nzColumnKey="symbol">
-                    Symbol
+                  <th nzColumnKey="symbol">Symbol</th>
+                  <th nzColumnKey="baseAsset">标的</th>
+                  <th nzColumnKey="contractType">合约类型</th>
+
+                  <th nzColumnKey="slug">cmc</th>
+                  <th
+                    nzColumnKey="openInterestAndCircularSupplyRatio"
+                    [nzSortFn]="oicsRatioCompare"
+                    [nzSortDirections]="['descend', 'ascend', null]"
+                    title="未平仓合约量/流通量 比值"
+                  >
+                    oi/cs ratio
                   </th>
-                  <th nzColumnKey="baseAsset">
-                    标的
-                  </th>
-                  <th nzColumnKey="contractType">
-                    合约类型
-                  </th>
-                  <th nzColumnKey="fundingRate" [nzSortFn]="fundingRateCompare"
-                    [nzSortDirections]="['descend', 'ascend', null]">
+
+                  <th
+                    nzColumnKey="fundingRate"
+                    [nzSortFn]="fundingRateCompare"
+                    [nzSortDirections]="['descend', 'ascend', null]"
+                  >
                     资金费率
                   </th>
-                  <th nzColumnKey="openInterest">
-                    未平仓合约量
-                  </th>
-                  <th nzColumnKey="longShortRatio" [nzSortFn]="longShortRatioCompare"
-                    [nzSortDirections]="['descend', 'ascend', null]">
+                  <th nzColumnKey="openInterest">未平仓合约量</th>
+                  <th
+                    nzColumnKey="longShortRatio"
+                    [nzSortFn]="longShortRatioCompare"
+                    [nzSortDirections]="['descend', 'ascend', null]"
+                  >
                     多空比
                   </th>
-                  <th nzColumnKey="openInterestRelative21" [nzSortFn]="openInterestRelative21Compare"
-                    title="未平仓合约量 相对变动" [nzSortDirections]="['descend', 'ascend', null]">
+                  <th
+                    nzColumnKey="openInterestRelative21"
+                    [nzSortFn]="openInterestRelative21Compare"
+                    title="未平仓合约量 相对变动"
+                    [nzSortDirections]="['descend', 'ascend', null]"
+                  >
                     21周期
                   </th>
-                  <th nzColumnKey="openInterestRelative55" [nzSortFn]="openInterestRelative55Compare"
-                    title="未平仓合约量 相对变动" [nzSortDirections]="['descend', 'ascend', null]">
+                  <th
+                    nzColumnKey="openInterestRelative55"
+                    [nzSortFn]="openInterestRelative55Compare"
+                    title="未平仓合约量 相对变动"
+                    [nzSortDirections]="['descend', 'ascend', null]"
+                  >
                     55周期
                   </th>
-                  <th nzColumnKey="time" [nzSortFn]="timeCompare" [nzSortDirections]="['descend', 'ascend', null]">周期
+                  <th
+                    nzColumnKey="time"
+                    [nzSortFn]="timeCompare"
+                    [nzSortDirections]="['descend', 'ascend', null]"
+                  >
+                    周期
                   </th>
-                  <th nzColumnKey="createdAt" [nzSortFn]="createdAtCompare"
-                    [nzSortDirections]="['descend', 'ascend', null]">添加时间
+                  <th
+                    nzColumnKey="createdAt"
+                    [nzSortFn]="createdAtCompare"
+                    [nzSortDirections]="['descend', 'ascend', null]"
+                  >
+                    添加时间
                   </th>
-                  <th nzColumnKey="Action" style="width: 60px;">操作</th>
+                  <th nzColumnKey="Action" style="width: 60px">操作</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let data of rowSelectionTable.data">
-                  <td [title]="data.symbol" style="display: flex; align-items: center; min-height: 65px;">
-                    <cex-token-symbol-item [name]="data.baseAsset" [content]="symbolContent">
+                  <td
+                    [title]="data.symbol"
+                    style="
+                      display: flex;
+                      align-items: center;
+                      min-height: 65px;
+                      max-width: 100px;
+                    "
+                  >
+                    <cex-token-symbol-item
+                      [name]="data.baseAsset"
+                      [content]="symbolContent"
+                    >
                     </cex-token-symbol-item>
 
                     <ng-template #symbolContent let-logoName="logoName">
-                      <image-view [name]="logoName" style="margin-right: 4px;"></image-view>
-                      <span class="symbol-item-custom-content">{{data.symbol}}</span>
+                      <image-view
+                        [name]="logoName"
+                        style="margin-right: 4px"
+                      ></image-view>
+                      <span
+                        class="symbol-item-custom-content"
+                        style="max-width: 100px"
+                        nzEllipsis
+                        >{{ data.symbol }}</span
+                      >
+                    </ng-template>
+                  </td>
+                  <td
+                    style="max-width: 100px"
+                    nzEllipsis
+                    [title]="data.baseAsset"
+                  >
+                    {{ data.baseAsset }}
+                  </td>
+                  <td
+                    style="max-width: 100px"
+                    nzEllipsis
+                    [title]="data.contractType"
+                  >
+                    {{ data.contractType }}
+                  </td>
+
+                  <td>
+                    <linkable
+                      *ngIf="data.slug; else noSlug"
+                      [title]="'CMC ' + data.slug"
+                      icon="copyright-circle"
+                      [href]="
+                        'https://coinmarketcap.com/currencies/' + data.slug
+                      "
+                    >
+                    </linkable>
+                    <ng-template #noSlug>
+                      <span>--</span>
                     </ng-template>
                   </td>
                   <td>
-                    {{data.baseAsset}}
+                    {{ data.openInterestAndCircularSupplyRatio }}
+                  </td>
+
+                  <td>
+                    {{ data.fundingRate | percent }}
                   </td>
                   <td>
-                    {{data.contractType}}
+                    {{ data.openInterest }}
                   </td>
                   <td>
-                    {{data.fundingRate | percent}}
+                    {{ data.longShortRatio }}
                   </td>
                   <td>
-                    {{data.openInterest}}
+                    {{ data.openInterestRelative21 | toFixed }}
                   </td>
                   <td>
-                    {{data.longShortRatio}}
+                    {{ data.openInterestRelative55 | toFixed }}
                   </td>
                   <td>
-                    {{data.openInterestRelative21 | toFixed}}
-                  </td>
-                  <td>
-                    {{data.openInterestRelative55 | toFixed}}
-                  </td>
-                  <td>
-                    {{data.time | date:'MM-dd HH:mm'}}
+                    {{ data.time | date : "MM-dd HH:mm" }}
                   </td>
                   <td>
                     <created-at [createdAt]="data.createdAt"></created-at>
                   </td>
                   <td>
-                    <cex-future-item-detail [symbol]="data.symbol"></cex-future-item-detail>
+                    <cex-future-item-detail
+                      [symbol]="data.symbol"
+                    ></cex-future-item-detail>
                   </td>
                 </tr>
               </tbody>

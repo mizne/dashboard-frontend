@@ -115,6 +115,7 @@ export class CexFuturePriceChartComponent implements OnInit {
     })
   );
 
+  oicsRatioCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.openInterestAndCircularSupplyRatio - b.openInterestAndCircularSupplyRatio
   fundingRateCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.fundingRate - b.fundingRate
   longShortRatioCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.longShortRatio - b.longShortRatio
   priceBetweenMinMaxRelative21Compare = (a: CexFutureDaily, b: CexFutureDaily) => a.priceBetweenMinMaxRelative21 - b.priceBetweenMinMaxRelative21

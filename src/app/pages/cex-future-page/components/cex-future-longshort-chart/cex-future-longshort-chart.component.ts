@@ -83,6 +83,7 @@ export class CexFutureLongshortChartComponent implements OnInit {
     })
   );
 
+  oicsRatioCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.openInterestAndCircularSupplyRatio - b.openInterestAndCircularSupplyRatio
   fundingRateCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.fundingRate - b.fundingRate
   longShortRatioCompare = (a: CexFutureDaily, b: CexFutureDaily) => a.longShortRatio - b.longShortRatio
   openInterestRelative21Compare = (a: CexFutureDaily, b: CexFutureDaily) => a.openInterestRelative21 - b.openInterestRelative21
