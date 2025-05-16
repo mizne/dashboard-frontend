@@ -2,35 +2,65 @@
   <ng-content></ng-content>
 </span>
 
-<nz-modal [(nzVisible)]="visible" [nzWidth]="1400" [nzTitle]="'定时任务记录'" [nzFooter]="null" (nzOnCancel)="visible=false">
+<nz-modal
+  [(nzVisible)]="visible"
+  [nzWidth]="1400"
+  [nzTitle]="'定时任务记录'"
+  [nzFooter]="null"
+  (nzOnCancel)="visible = false"
+>
   <ng-container *nzModalContent>
-
     <nz-card *ngIf="showChart" style="margin-bottom: 12px">
       <nz-spin nzTip="Loading..." [nzSpinning]="loadingChart">
-        <stack-bar-chart [title]="title" [data]="data" [colors]="colors"></stack-bar-chart>
+        <stack-bar-chart
+          [title]="title"
+          [data]="data"
+          [colors]="colors"
+        ></stack-bar-chart>
       </nz-spin>
     </nz-card>
 
     <nz-card>
-      <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
+      <form
+        nz-form
+        [formGroup]="form"
+        (ngSubmit)="submitForm()"
+        [nzLayout]="'inline'"
+      >
         <nz-form-item>
           <nz-form-label nzFor="name">名称</nz-form-label>
           <nz-form-control>
-            <input nz-input class="ant-input" placeholder="请输入名称" formControlName="name" [attr.id]="'name'" />
+            <input
+              nz-input
+              class="ant-input"
+              placeholder="请输入名称"
+              formControlName="name"
+              [attr.id]="'name'"
+            />
           </nz-form-control>
         </nz-form-item>
 
         <nz-form-item>
           <nz-form-label nzFor="key">Key</nz-form-label>
           <nz-form-control>
-            <input nz-input class="ant-input" placeholder="请输入key" formControlName="key" [attr.id]="'key'" />
+            <input
+              nz-input
+              class="ant-input"
+              placeholder="请输入key"
+              formControlName="key"
+              [attr.id]="'key'"
+            />
           </nz-form-control>
         </nz-form-item>
 
         <nz-form-item>
           <nz-form-label nzFor="hasError">发生错误</nz-form-label>
           <nz-form-control>
-            <nz-radio-group formControlName="hasError" nzSize="small" [nzButtonStyle]="'solid'">
+            <nz-radio-group
+              formControlName="hasError"
+              nzSize="small"
+              [nzButtonStyle]="'solid'"
+            >
               <label nz-radio-button [nzValue]="null">所有</label>
               <label nz-radio-button [nzValue]="true">有</label>
               <label nz-radio-button [nzValue]="false">没有</label>
@@ -41,8 +71,17 @@
         <nz-form-item>
           <nz-form-label nzFor="duration">时长</nz-form-label>
           <nz-form-control>
-            <nz-radio-group formControlName="duration" nzSize="small" [nzButtonStyle]="'solid'">
-              <label *ngFor="let item of durations" nz-radio-button [nzValue]="item.value">{{item.label}}</label>
+            <nz-radio-group
+              formControlName="duration"
+              nzSize="small"
+              [nzButtonStyle]="'solid'"
+            >
+              <label
+                *ngFor="let item of durations"
+                nz-radio-button
+                [nzValue]="item.value"
+                >{{ item.label }}</label
+              >
             </nz-radio-group>
           </nz-form-control>
         </nz-form-item>
@@ -50,23 +89,44 @@
         <nz-form-item style="margin-top: 4px">
           <nz-form-label nzFor="time">开始时间</nz-form-label>
           <nz-form-control>
-            <nz-range-picker [nzShowTime]="true" formControlName="time"></nz-range-picker>
+            <nz-range-picker
+              [nzShowTime]="true"
+              formControlName="time"
+            ></nz-range-picker>
           </nz-form-control>
         </nz-form-item>
 
-        <nz-form-item class="register-area" style="margin-left: 12px;margin-top: 4px">
+        <nz-form-item
+          class="register-area"
+          style="margin-left: 12px; margin-top: 4px"
+        >
           <nz-form-control>
             <button nz-button [nzType]="'primary'">搜索</button>
-            <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+            <button
+              nz-button
+              type="button"
+              (click)="resetForm()"
+              style="margin-left: 12px"
+            >
+              重置
+            </button>
           </nz-form-control>
         </nz-form-item>
       </form>
     </nz-card>
 
     <nz-card style="margin-top: 12px">
-      <nz-table nzShowSizeChanger [nzData]="items" [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total"
-        [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
-        (nzQueryParams)="onQueryParamsChange($event)">
+      <nz-table
+        nzShowSizeChanger
+        [nzData]="items"
+        [nzFrontPagination]="false"
+        [nzLoading]="loading"
+        [nzTotal]="total"
+        [nzShowTotal]="rangeTemplate"
+        [nzPageSize]="pageSize"
+        [nzPageIndex]="pageIndex"
+        (nzQueryParams)="onQueryParamsChange($event)"
+      >
         <thead>
           <tr>
             <th nzColumnKey="name">名称</th>
@@ -83,11 +143,17 @@
         </thead>
         <tbody>
           <tr *ngFor="let data of items">
-            <td style="display: flex; align-items: center; min-height: 70px;">
+            <td>
               <span>{{ data.name }}</span>
             </td>
             <td>
-              <p nz-typography nzEllipsis nzCopyable [nzContent]="data.key" style="margin-bottom: 0;"></p>
+              <p
+                nz-typography
+                nzEllipsis
+                nzCopyable
+                [nzContent]="data.key"
+                style="margin-bottom: 0"
+              ></p>
             </td>
 
             <td>
@@ -98,7 +164,10 @@
               <created-at [createdAt]="data.startAt"></created-at>
             </td>
             <td>
-              <created-at *ngIf="data.endAt; else noEndAt" [createdAt]="data.endAt"></created-at>
+              <created-at
+                *ngIf="data.endAt; else noEndAt"
+                [createdAt]="data.endAt"
+              ></created-at>
 
               <ng-template #noEndAt>
                 <span>--</span>
@@ -115,15 +184,24 @@
             </td>
 
             <td>
-              <created-at *ngIf="data.errorAt; else noErrorAt" [createdAt]="data.errorAt"></created-at>
+              <created-at
+                *ngIf="data.errorAt; else noErrorAt"
+                [createdAt]="data.errorAt"
+              ></created-at>
 
               <ng-template #noErrorAt>
                 <span>--</span>
               </ng-template>
             </td>
             <td>
-              <p *ngIf="data.errorMessage; else noErrorMessage" nz-typography nzEllipsis nzCopyable
-                [nzContent]="data.errorMessage" style="margin-bottom: 0;"></p>
+              <p
+                *ngIf="data.errorMessage; else noErrorMessage"
+                nz-typography
+                nzEllipsis
+                nzCopyable
+                [nzContent]="data.errorMessage"
+                style="margin-bottom: 0"
+              ></p>
 
               <ng-template #noErrorMessage>
                 <span>--</span>

@@ -156,8 +156,8 @@
               <thead>
                 <tr>
                   <th nzColumnKey="symbol">Symbol</th>
-                  <th nzColumnKey="baseAsset">标的</th>
-                  <th nzColumnKey="contractType">合约类型</th>
+                  <!-- <th nzColumnKey="baseAsset">标的</th>
+                  <th nzColumnKey="contractType">合约类型</th> -->
 
                   <th nzColumnKey="slug">cmc</th>
                   <th
@@ -219,35 +219,29 @@
               </thead>
               <tbody>
                 <tr *ngFor="let data of rowSelectionTable.data">
-                  <td
-                    [title]="data.symbol"
-                    style="
-                      display: flex;
-                      align-items: center;
-                      min-height: 65px;
-                      max-width: 100px;
-                    "
-                  >
-                    <cex-token-symbol-item
-                      [name]="data.baseAsset"
-                      [content]="symbolContent"
-                    >
-                    </cex-token-symbol-item>
-
-                    <ng-template #symbolContent let-logoName="logoName">
-                      <image-view
-                        [name]="logoName"
-                        style="margin-right: 4px"
-                      ></image-view>
-                      <span
-                        class="symbol-item-custom-content"
-                        style="max-width: 100px"
-                        nzEllipsis
-                        >{{ data.symbol }}</span
+                  <td [title]="data.symbol" style="max-width: 100px">
+                    <div style="display: flex; align-items: center">
+                      <cex-token-symbol-item
+                        [name]="data.baseAsset"
+                        [content]="symbolContent"
                       >
-                    </ng-template>
+                      </cex-token-symbol-item>
+
+                      <ng-template #symbolContent let-logoName="logoName">
+                        <image-view
+                          [name]="logoName"
+                          style="margin-right: 4px"
+                        ></image-view>
+                        <span
+                          class="symbol-item-custom-content"
+                          style="max-width: 100px"
+                          nzEllipsis
+                          >{{ data.symbol }}</span
+                        >
+                      </ng-template>
+                    </div>
                   </td>
-                  <td
+                  <!-- <td
                     style="max-width: 100px"
                     nzEllipsis
                     [title]="data.baseAsset"
@@ -260,7 +254,7 @@
                     [title]="data.contractType"
                   >
                     {{ data.contractType }}
-                  </td>
+                  </td> -->
 
                   <td>
                     <linkable

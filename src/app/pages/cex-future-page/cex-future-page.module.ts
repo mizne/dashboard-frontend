@@ -9,6 +9,7 @@ import { CexFuturePriceChartComponent } from './components/cex-future-price-char
 import { NotifyHistoryModule } from 'src/app/modules/notify-history';
 import { CexTokenSymbolItemModule } from 'src/app/modules/cex-token-symbol-item';
 import { CexFutureItemDetailModule } from 'src/app/modules/cex-future-item-detail';
+import { CexFutureItemSlugModule } from 'src/app/modules/cex-future-item-slug'
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { CexFutureItemDetailModule } from 'src/app/modules/cex-future-item-detai
     NotifyHistoryModule,
     CexTokenSymbolItemModule,
     CexFutureItemDetailModule,
+    CexFutureItemSlugModule,
   ],
   declarations: [
     CexFuturePageComponent,

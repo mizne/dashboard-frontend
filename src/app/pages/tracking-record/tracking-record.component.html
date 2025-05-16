@@ -1,25 +1,44 @@
 <div class="tracking-record-container">
   <nz-card>
-    <form nz-form [formGroup]="form" (ngSubmit)="submitForm()" [nzLayout]="'inline'">
+    <form
+      nz-form
+      [formGroup]="form"
+      (ngSubmit)="submitForm()"
+      [nzLayout]="'inline'"
+    >
       <nz-form-item>
         <nz-form-label nzFor="title">标题</nz-form-label>
         <nz-form-control>
-          <input nz-input class="ant-input" placeholder="请输入标题" formControlName="title" [attr.id]="'title'" />
+          <input
+            nz-input
+            class="ant-input"
+            placeholder="请输入标题"
+            formControlName="title"
+            [attr.id]="'title'"
+          />
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
         <nz-form-label nzFor="description">描述</nz-form-label>
         <nz-form-control>
-          <input nz-input class="ant-input" placeholder="请输入描述" formControlName="description"
-            [attr.id]="'description'" />
+          <input
+            nz-input
+            class="ant-input"
+            placeholder="请输入描述"
+            formControlName="description"
+            [attr.id]="'description'"
+          />
         </nz-form-control>
       </nz-form-item>
 
       <nz-form-item>
         <nz-form-label nzFor="followedProjectID">关注项目</nz-form-label>
         <nz-form-control>
-          <followed-project-select mode="simple" formControlName="followedProjectID"></followed-project-select>
+          <followed-project-select
+            mode="simple"
+            formControlName="followedProjectID"
+          ></followed-project-select>
         </nz-form-control>
       </nz-form-item>
 
@@ -30,24 +49,43 @@
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item class="register-area" style="margin-left: 64px;">
+      <nz-form-item class="register-area" style="margin-left: 64px">
         <nz-form-control>
           <button nz-button [nzType]="'primary'">搜索</button>
-          <button nz-button type="button" (click)="resetForm()" style="margin-left: 12px">重置</button>
+          <button
+            nz-button
+            type="button"
+            (click)="resetForm()"
+            style="margin-left: 12px"
+          >
+            重置
+          </button>
         </nz-form-control>
       </nz-form-item>
     </form>
   </nz-card>
 
-  <button nz-button [nzType]="'primary'" (click)="showCreateModal()" style="margin-top: 12px;">
+  <button
+    nz-button
+    [nzType]="'primary'"
+    (click)="showCreateModal()"
+    style="margin-top: 12px"
+  >
     添加跟踪记录
   </button>
 
-
   <nz-card style="margin-top: 12px">
-    <nz-table nzShowSizeChanger [nzData]="items" [nzFrontPagination]="false" [nzLoading]="loading" [nzTotal]="total"
-      [nzShowTotal]="rangeTemplate" [nzPageSize]="pageSize" [nzPageIndex]="pageIndex"
-      (nzQueryParams)="onQueryParamsChange($event)">
+    <nz-table
+      nzShowSizeChanger
+      [nzData]="items"
+      [nzFrontPagination]="false"
+      [nzLoading]="loading"
+      [nzTotal]="total"
+      [nzShowTotal]="rangeTemplate"
+      [nzPageSize]="pageSize"
+      [nzPageIndex]="pageIndex"
+      (nzQueryParams)="onQueryParamsChange($event)"
+    >
       <thead>
         <tr>
           <th nzColumnKey="title">标题</th>
@@ -55,57 +93,111 @@
           <th nzColumnKey="description" style="width: 400px">描述</th>
           <th nzColumnKey="link">链接</th>
           <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
-          <th nzColumnKey="Action" style="width: 130px;">操作</th>
+          <th nzColumnKey="Action" style="width: 130px">操作</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of items">
-          <td style="display: flex; align-items: center; min-height: 70px;">
-            <image-view [name]="data.logo" nz-popover nzPopoverTrigger="click"
-              [nzPopoverContent]="contentTemplate"></image-view>
-            <ng-template #contentTemplate>
-              <followed-project-select-view [formControl]="data.followedProjectIDCtrl"></followed-project-select-view>
-            </ng-template>
+          <td>
+            <div style="display: flex; align-items: center">
+              <image-view
+                [name]="data.logo"
+                nz-popover
+                nzPopoverTrigger="click"
+                [nzPopoverContent]="contentTemplate"
+              ></image-view>
+              <ng-template #contentTemplate>
+                <followed-project-select-view
+                  [formControl]="data.followedProjectIDCtrl"
+                ></followed-project-select-view>
+              </ng-template>
 
-            <button *ngIf="data.followedProjectID" nz-button nzSize="small" nzType="primary" nzShape="circle"
-              style="margin-left: 8px" (click)="toSearch(data)" title="搜索该项目跟踪记录">
-              <span nz-icon nzType="search" nzTheme="outline"></span>
-            </button>
+              <button
+                *ngIf="data.followedProjectID"
+                nz-button
+                nzSize="small"
+                nzType="primary"
+                nzShape="circle"
+                style="margin-left: 8px"
+                (click)="toSearch(data)"
+                title="搜索该项目跟踪记录"
+              >
+                <span nz-icon nzType="search" nzTheme="outline"></span>
+              </button>
 
-            <span style="margin-left: 8px">{{ data.title }}</span>
+              <span style="margin-left: 8px">{{ data.title }}</span>
+            </div>
           </td>
-          <td><tag-select [type]="tagType" mode="view" [formControl]="data.tagIDsCtrl"></tag-select></td>
+          <td>
+            <tag-select
+              [type]="tagType"
+              mode="view"
+              [formControl]="data.tagIDsCtrl"
+            ></tag-select>
+          </td>
           <td style="width: 400px">
-            <p nz-typography nzEllipsis nzCopyable [nzContent]="data.description" style="margin-bottom: 0;"></p>
+            <p
+              nz-typography
+              nzEllipsis
+              nzCopyable
+              [nzContent]="data.description"
+              style="margin-bottom: 0"
+            ></p>
           </td>
 
           <td>
-            <linkable [href]="data.link">
-            </linkable>
+            <linkable [href]="data.link"> </linkable>
           </td>
 
           <td>
             <created-at [createdAt]="data.createdAt"></created-at>
           </td>
           <td>
-            <button nz-button (click)="confirmCopy(data)" nzType="primary" nzShape="circle" nzSize="small" nz-tooltip
-              [nzTooltipTitle]="'复制'" style="margin-right: 4px">
+            <button
+              nz-button
+              (click)="confirmCopy(data)"
+              nzType="primary"
+              nzShape="circle"
+              nzSize="small"
+              nz-tooltip
+              [nzTooltipTitle]="'复制'"
+              style="margin-right: 4px"
+            >
               <i nz-icon nzType="copy" nzTheme="outline"></i>
             </button>
 
-            <button nz-button (click)="confirmUpdate(data)" nzType="primary" nzShape="circle" nzSize="small" nz-tooltip
-              [nzTooltipTitle]="'修改'" style="margin-right: 4px">
+            <button
+              nz-button
+              (click)="confirmUpdate(data)"
+              nzType="primary"
+              nzShape="circle"
+              nzSize="small"
+              nz-tooltip
+              [nzTooltipTitle]="'修改'"
+              style="margin-right: 4px"
+            >
               <i nz-icon nzType="edit" nzTheme="outline"></i>
             </button>
 
-            <a nz-popconfirm nzPopconfirmTitle="确认删除该条数据?" nzPopconfirmPlacement="bottom"
-              (nzOnConfirm)="confirmDelete(data)" (nzOnCancel)="cancelDelete(data)">
-              <button nz-button nzType="primary" nzDanger nzShape="circle" nzSize="small" nz-tooltip
-                [nzTooltipTitle]="'删除'">
+            <a
+              nz-popconfirm
+              nzPopconfirmTitle="确认删除该条数据?"
+              nzPopconfirmPlacement="bottom"
+              (nzOnConfirm)="confirmDelete(data)"
+              (nzOnCancel)="cancelDelete(data)"
+            >
+              <button
+                nz-button
+                nzType="primary"
+                nzDanger
+                nzShape="circle"
+                nzSize="small"
+                nz-tooltip
+                [nzTooltipTitle]="'删除'"
+              >
                 <i nz-icon nzType="delete" nzTheme="outline"></i>
               </button>
             </a>
-
           </td>
         </tr>
       </tbody>

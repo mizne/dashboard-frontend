@@ -76,44 +76,96 @@
           <thead>
             <tr>
               <th nzColumnKey="symbol">symbol</th>
-              <th nzColumnKey="pair">pair</th>
-              <th nzColumnKey="baseAsset">跟踪标的</th>
-              <th nzColumnKey="contractType">合约类型</th>
+              <th
+                nzColumnKey="marketCap"
+                [nzSortFn]="true"
+                [nzSortDirections]="['descend', 'ascend', null]"
+              >
+                市值
+              </th>
+
+              <th
+                nzColumnKey="fullyDilutedMarketCap"
+                [nzSortFn]="true"
+                [nzSortDirections]="['descend', 'ascend', null]"
+              >
+                FDV
+              </th>
+              <th nzColumnKey="slug">cmc</th>
               <th nzColumnKey="createdAtStr" [nzSortFn]="true">添加时间</th>
               <th nzColumnKey="Action" style="width: 200px">操作</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let data of items">
-              <td style="display: flex; align-items: center; min-height: 65px">
-                <app-collect-input
-                  [formControl]="data.hasCollectCtrl"
-                  style="margin-right: 8px"
-                ></app-collect-input>
-                <cex-token-symbol-item
-                  [name]="data.baseAsset"
-                  [content]="symbolContent"
-                >
-                </cex-token-symbol-item>
+              <td>
+                <div style="display: flex; align-items: center">
+                  <app-collect-input
+                    [formControl]="data.hasCollectCtrl"
+                    style="margin-right: 8px"
+                  ></app-collect-input>
+                  <cex-token-symbol-item
+                    [name]="data.baseAsset"
+                    [content]="symbolContent"
+                  >
+                  </cex-token-symbol-item>
 
-                <ng-template #symbolContent let-logoName="logoName">
-                  <image-view
-                    [name]="logoName"
-                    style="margin-right: 4px"
-                  ></image-view>
-                  <span class="symbol-item-custom-content">{{
-                    data.symbol
-                  }}</span>
-                </ng-template>
+                  <ng-template #symbolContent let-logoName="logoName">
+                    <image-view
+                      [name]="logoName"
+                      style="margin-right: 4px"
+                    ></image-view>
+                    <span class="symbol-item-custom-content">{{
+                      data.symbol
+                    }}</span>
+                  </ng-template>
+                </div>
               </td>
-              <td>
-                <span>{{ data.pair }}</span>
+              <td [title]="data.marketCap | currency">
+                <span class="marketcap-value">{{
+                  data.marketCap | currency
+                }}</span>
               </td>
-              <td>
-                <span>{{ data.baseAsset }}</span>
+
+              <td [title]="data.fullyDilutedMarketCap | currency">
+                <span class="marketcap-value">{{
+                  data.fullyDilutedMarketCap | currency
+                }}</span>
               </td>
+
               <td>
-                <span>{{ data.contractType }}</span>
+                <div style="display: flex; align-items: center">
+                  <linkable
+                    *ngIf="data.slug; else noSlug"
+                    [title]="'CMC ' + data.slug"
+                    icon="copyright-circle"
+                    [href]="'https://coinmarketcap.com/currencies/' + data.slug"
+                  >
+                  </linkable>
+                  <ng-template #noSlug>
+                    <span>--</span>
+                  </ng-template>
+
+                  <cex-future-item-slug
+                    [symbol]="data.symbol"
+                    [slug]="data.slug"
+                    [content]="cexFutureSlugTemplate"
+                    (update)="updateSlug($event, data)"
+                  ></cex-future-item-slug>
+
+                  <ng-template #cexFutureSlugTemplate>
+                    <button
+                      nz-button
+                      [nzType]="'default'"
+                      nzShape="circle"
+                      nzSize="small"
+                      [title]="'修改 slug'"
+                      style="margin-left: 12px"
+                    >
+                      <span nz-icon nzType="edit" [nzTheme]="'outline'"></span>
+                    </button>
+                  </ng-template>
+                </div>
               </td>
 
               <td>

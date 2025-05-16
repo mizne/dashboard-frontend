@@ -151,26 +151,28 @@
         </thead>
         <tbody>
           <tr *ngFor="let data of items">
-            <td style="display: flex; align-items: center; min-height: 65px">
-              <app-collect-input
-                [formControl]="data.hasCollectCtrl"
-                style="margin-right: 8px"
-              ></app-collect-input>
-              <cex-token-symbol-item
-                [name]="data.baseAsset"
-                [content]="symbolContent"
-              >
-              </cex-token-symbol-item>
+            <td>
+              <div style="display: flex; align-items: center">
+                <app-collect-input
+                  [formControl]="data.hasCollectCtrl"
+                  style="margin-right: 8px"
+                ></app-collect-input>
+                <cex-token-symbol-item
+                  [name]="data.baseAsset"
+                  [content]="symbolContent"
+                >
+                </cex-token-symbol-item>
 
-              <ng-template #symbolContent let-logoName="logoName">
-                <image-view
-                  [name]="logoName"
-                  style="margin-right: 4px"
-                ></image-view>
-                <span class="symbol-item-custom-content">{{
-                  data.symbol
-                }}</span>
-              </ng-template>
+                <ng-template #symbolContent let-logoName="logoName">
+                  <image-view
+                    [name]="logoName"
+                    style="margin-right: 4px"
+                  ></image-view>
+                  <span class="symbol-item-custom-content">{{
+                    data.symbol
+                  }}</span>
+                </ng-template>
+              </div>
             </td>
             <!-- <td>
               <span>{{ data.pair }}</span>
@@ -194,37 +196,39 @@
               }}</span>
             </td>
 
-            <td style="display: flex; align-items: center">
-              <linkable
-                *ngIf="data.slug; else noSlug"
-                [title]="'CMC ' + data.slug"
-                icon="copyright-circle"
-                [href]="'https://coinmarketcap.com/currencies/' + data.slug"
-              >
-              </linkable>
-              <ng-template #noSlug>
-                <span>--</span>
-              </ng-template>
-
-              <cex-future-item-slug
-                [symbol]="data.symbol"
-                [slug]="data.slug"
-                [content]="cexFutureSlugTemplate"
-                (update)="updateSlug($event, data)"
-              ></cex-future-item-slug>
-
-              <ng-template #cexFutureSlugTemplate>
-                <button
-                  nz-button
-                  [nzType]="'default'"
-                  nzShape="circle"
-                  nzSize="small"
-                  [title]="'修改 slug'"
-                  style="margin-left: 12px"
+            <td>
+              <div style="display: flex; align-items: center">
+                <linkable
+                  *ngIf="data.slug; else noSlug"
+                  [title]="'CMC ' + data.slug"
+                  icon="copyright-circle"
+                  [href]="'https://coinmarketcap.com/currencies/' + data.slug"
                 >
-                  <span nz-icon nzType="edit" [nzTheme]="'outline'"></span>
-                </button>
-              </ng-template>
+                </linkable>
+                <ng-template #noSlug>
+                  <span>--</span>
+                </ng-template>
+
+                <cex-future-item-slug
+                  [symbol]="data.symbol"
+                  [slug]="data.slug"
+                  [content]="cexFutureSlugTemplate"
+                  (update)="updateSlug($event, data)"
+                ></cex-future-item-slug>
+
+                <ng-template #cexFutureSlugTemplate>
+                  <button
+                    nz-button
+                    [nzType]="'default'"
+                    nzShape="circle"
+                    nzSize="small"
+                    [title]="'修改 slug'"
+                    style="margin-left: 12px"
+                  >
+                    <span nz-icon nzType="edit" [nzTheme]="'outline'"></span>
+                  </button>
+                </ng-template>
+              </div>
             </td>
 
             <td>
