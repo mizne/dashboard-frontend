@@ -18,6 +18,12 @@ export interface CexFuture {
   readonly enableLiquidationNotification?: boolean;
   readonly liquidationAmountLimit?: number;
 
+  readonly marketCap?: number;
+  readonly fullyDilutedMarketCap?: number;
+
+  readonly circulatingSupply?: number;
+  readonly totalSupply?: number;
+
   readonly createdAt: number;
   readonly createdAtStr: string;
 }

@@ -119,9 +119,25 @@
         <thead>
           <tr>
             <th nzColumnKey="symbol">symbol</th>
-            <th nzColumnKey="pair">pair</th>
+            <!-- <th nzColumnKey="pair">pair</th>
             <th nzColumnKey="baseAsset">跟踪标的</th>
-            <th nzColumnKey="contractType">合约类型</th>
+            <th nzColumnKey="contractType">合约类型</th> -->
+
+            <th
+              nzColumnKey="marketCap"
+              [nzSortFn]="true"
+              [nzSortDirections]="['descend', 'ascend', null]"
+            >
+              市值
+            </th>
+
+            <th
+              nzColumnKey="fullyDilutedMarketCap"
+              [nzSortFn]="true"
+              [nzSortDirections]="['descend', 'ascend', null]"
+            >
+              FDV
+            </th>
             <th nzColumnKey="slug">cmc</th>
             <th
               nzColumnKey="createdAt"
@@ -156,7 +172,7 @@
                 }}</span>
               </ng-template>
             </td>
-            <td>
+            <!-- <td>
               <span>{{ data.pair }}</span>
             </td>
             <td>
@@ -164,6 +180,18 @@
             </td>
             <td>
               <span>{{ data.contractType }}</span>
+            </td> -->
+
+            <td [title]="data.marketCap | currency">
+              <span class="marketcap-value">{{
+                data.marketCap | currency
+              }}</span>
+            </td>
+
+            <td [title]="data.fullyDilutedMarketCap | currency">
+              <span class="marketcap-value">{{
+                data.fullyDilutedMarketCap | currency
+              }}</span>
             </td>
 
             <td style="display: flex; align-items: center">
