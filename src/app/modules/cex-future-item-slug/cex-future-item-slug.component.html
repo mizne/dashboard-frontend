@@ -32,6 +32,20 @@
           <input nz-input [formControl]="slugCtrl" />
         </nz-form-control>
       </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label style="margin-bottom: 6px">
+          <span>openInterestMultiple</span>
+        </nz-form-label>
+
+        <nz-form-control>
+          <nz-input-number
+            [formControl]="openInterestMultipleCtrl"
+            [nzMin]="1"
+            [nzStep]="1"
+          ></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
     </nz-card>
   </ng-container>
 </nz-modal>

@@ -23,6 +23,7 @@ export interface CexFuture {
 
   readonly circulatingSupply?: number;
   readonly totalSupply?: number;
+  readonly openInterestMultiple?: number;
 
   readonly createdAt: number;
   readonly createdAtStr: string;

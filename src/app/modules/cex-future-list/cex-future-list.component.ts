@@ -150,6 +150,7 @@ export class CexFutureListComponent implements OnInit {
   updateSlug(ev: any, item: TableItem) {
     this.cexFutureService.update(item._id, {
       slug: ev.slug,
+      openInterestMultiple: ev.openInterestMultiple,
     }).subscribe({
       next: () => {
         this.notification.success(`修改slug成功`, `修改slug成功`);

@@ -16,12 +16,14 @@ export class CexFutureItemSlugComponent implements OnInit {
 
   @Input() symbol = 'BTCUSDT'
   @Input() slug: string | undefined = ''
-  @Output() update = new EventEmitter<{ slug: string | undefined; }>()
+  @Input() openInterestMultiple: number | undefined = 1
+  @Output() update = new EventEmitter<{ slug: string | undefined; openInterestMultiple: number | undefined }>()
 
   futureDetailModalVisible = false;
   futureDetailModalTitle = '';
 
   slugCtrl = new FormControl(this.slug)
+  openInterestMultipleCtrl = new FormControl(this.openInterestMultiple)
 
   ngOnInit() {
   }
@@ -30,6 +32,7 @@ export class CexFutureItemSlugComponent implements OnInit {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     this.slugCtrl.patchValue(this.slug)
+    this.openInterestMultipleCtrl.patchValue(this.openInterestMultiple)
   }
 
   open() {
@@ -38,7 +41,8 @@ export class CexFutureItemSlugComponent implements OnInit {
 
   ensure() {
     this.update.emit({
-      slug: this.slugCtrl.value as string
+      slug: this.slugCtrl.value as string,
+      openInterestMultiple: this.openInterestMultipleCtrl.value as number,
     })
   }
 }
