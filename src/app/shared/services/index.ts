@@ -16,6 +16,7 @@ export * from './investor.service'
 export * from './wom-peg.service'
 export * from './general-table.service'
 export * from './cex-future.service'
+export * from './cex-future-cache.service'
 export * from './cex-future-alert.service'
 export * from './cex-future-daily.service'
 

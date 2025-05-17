@@ -1,0 +1,77 @@
+<span
+  class="cex-future-symbol-item-container"
+  nz-popover
+  nzPopoverTrigger="click"
+  [nzPopoverTitle]="titleTemplate"
+  [nzPopoverContent]="contentTemplate"
+  (nzPopoverVisibleChange)="popoverVisibleChange($event)"
+  style="display: flex; align-items: center; cursor: pointer"
+>
+  <ng-container
+    *ngIf="content"
+    [ngTemplateOutlet]="content"
+    [ngTemplateOutletContext]="templateContext"
+  ></ng-container>
+  <ng-container *ngIf="!content">
+    <image-view [name]="_logoName" style="margin-right: 4px"></image-view>
+    <span class="symbol-item-default-content">{{ _symbol }}</span>
+  </ng-container>
+</span>
+
+<ng-template #titleTemplate>
+  <div style="display: flex; align-items: center">
+    <image-view [name]="_logoName"></image-view>
+    <span style="margin: 0 6px">{{ _symbol }}</span>
+    <app-collect-input [formControl]="hasCollectCtrl"></app-collect-input>
+  </div>
+</ng-template>
+<ng-template #contentTemplate>
+  <div class="symbol-item-content" style="max-width: 600px">
+    <div class="symbol-item-tags" style="margin-bottom: 12px">
+      <span class="marketcap-label" style="margin-right: 6px">市值：</span>
+      <span class="marketcap-value">{{ _marketCap | currency }}</span>
+    </div>
+
+    <div class="symbol-item-tags" style="margin-bottom: 12px">
+      <span class="fullyDilutedMarketCap-label" style="margin-right: 6px"
+        >FDV：</span
+      >
+      <span class="fullyDilutedMarketCap-value">{{
+        _fullyDilutedMarketCap | currency
+      }}</span>
+    </div>
+
+    <div class="symbol-item-tags" style="margin-bottom: 12px">
+      <span class="time-label" style="margin-right: 6px">上市时间：</span>
+      <span class="time-value"
+        ><created-at [createdAt]="_createdAt"></created-at
+      ></span>
+    </div>
+
+    <div
+      *ngIf="_circulatingSupply > 0 && _totalSupply > 0"
+      class="symbol-item-tags"
+      style="margin-bottom: 12px"
+    >
+      <span class="amount-label" style="margin-right: 6px">流通率：</span>
+      <span
+        class="amount-value"
+        [title]="
+          (_circulatingSupply | volume) + ' / ' + (_totalSupply | volume)
+        "
+      >
+        <nz-progress
+          [nzPercent]="_supplyPercent"
+          nzStatus="active"
+        ></nz-progress>
+      </span>
+    </div>
+
+    <token-actions
+      [symbol]="_symbol"
+      [slug]="_slug"
+      [website]="_website"
+      [twitter]="_twitter"
+    ></token-actions>
+  </div>
+</ng-template>

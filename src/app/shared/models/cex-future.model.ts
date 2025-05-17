@@ -25,6 +25,9 @@ export interface CexFuture {
   readonly totalSupply?: number;
   readonly openInterestMultiple?: number;
 
+  readonly website?: string;
+  readonly twitter?: string;
+
   readonly createdAt: number;
   readonly createdAtStr: string;
 }
