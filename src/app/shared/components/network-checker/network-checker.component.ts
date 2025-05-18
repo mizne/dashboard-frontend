@@ -20,6 +20,7 @@ export class NetworkCheckerComponent implements OnInit {
     priority: number;
     progress: string;
     startAt: number;
+    remark?: string;
 
     avgCostTime: number;
   }> = [];
@@ -43,6 +44,7 @@ export class NetworkCheckerComponent implements OnInit {
             priority: t.priority,
             progress: t.progress,
             startAt: t.startAt,
+            remark: t.remark,
 
             avgCostTime: 0
           })

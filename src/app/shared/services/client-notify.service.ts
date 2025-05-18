@@ -33,6 +33,7 @@ interface ClientNotifyRunningTasksData {
       priority: number;
       progress: string;
       startAt: number;
+      remark?: string;
     }>
   };
 }

@@ -35,6 +35,7 @@
         <span style="width: 80px; display: inline-block">Priority</span>
         <span style="width: 100px; display: inline-block">Start At</span>
         <span style="width: 80px; display: inline-block">估算时长</span>
+        <span style="width: 80px; display: inline-block">Remark</span>
       </nz-list-header>
       <nz-list-item *ngFor="let item of tasks">
         <!-- <span style="width: 1; display: inline-block;">{{item.id}}</span> -->
@@ -61,6 +62,10 @@
         </span>
         <span style="width: 80px; display: inline-block">{{
           item.avgCostTime > 0 ? (item.avgCostTime | timeDuration) : "--"
+        }}</span>
+
+        <span style="width: 80px; display: inline-block">{{
+          item.remark || "【无】"
         }}</span>
       </nz-list-item>
     </nz-list>
