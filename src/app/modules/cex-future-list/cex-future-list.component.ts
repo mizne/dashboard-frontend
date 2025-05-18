@@ -11,6 +11,7 @@ import { CexTokenService } from 'src/app/shared';
 
 interface TableItem extends CexFuture {
   hasCollectCtrl: FormControl;
+  supplyPercent: number;
 }
 
 @Component({
@@ -208,7 +209,8 @@ export class CexFutureListComponent implements OnInit {
           this.status = 'success';
           this.items = results.map(e => ({
             ...e,
-            hasCollectCtrl: new FormControl(e.hasCollect)
+            hasCollectCtrl: new FormControl(e.hasCollect),
+            supplyPercent: (e.circulatingSupply && e.circulatingSupply > 0 && e.totalSupply && e.totalSupply > 0) ? Number(((e.circulatingSupply * 100) / e.totalSupply).toFixed(1)) : 0
           }));
 
           this.subscribeHasCollectCtrl();

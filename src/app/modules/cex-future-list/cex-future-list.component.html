@@ -138,6 +138,7 @@
             >
               FDV
             </th>
+            <th nzColumnKey="supplyPercent">流通率</th>
             <th nzColumnKey="slug">cmc</th>
             <th
               nzColumnKey="createdAt"
@@ -194,6 +195,22 @@
               <span class="marketcap-value">{{
                 data.fullyDilutedMarketCap | currency
               }}</span>
+            </td>
+
+            <td
+              [title]="
+                (data.circulatingSupply || 0 | volume) +
+                ' / ' +
+                (data.totalSupply || 0 | volume)
+              "
+              style="width: 120px"
+            >
+              <span class="amount-value">
+                <nz-progress
+                  [nzPercent]="data.supplyPercent"
+                  nzStatus="active"
+                ></nz-progress>
+              </span>
             </td>
 
             <td>
