@@ -36,6 +36,7 @@ export class NetworkCheckerComponent implements OnInit {
         const the = this.tasks.find(e => e.id === t.id);
         if (the) {
           the.progress = t.progress;
+          the.remark = t.remark;
         } else {
           this.tasks.push({
             id: t.id,
