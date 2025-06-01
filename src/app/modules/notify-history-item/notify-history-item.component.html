@@ -10,7 +10,7 @@
       marginBottom: '12px',
       color: item.hasRead ? '#eee' : ''
     }"
-    [nzTitle]="item.title"
+    [nzTitle]="titleTemplate"
     [nzExtra]="extraTemplate"
   >
     <div style="position: relative">
@@ -237,6 +237,13 @@
       </ng-template>
     </div>
 
+    <ng-template #titleTemplate>
+      <span
+        class="notify-history-item-title"
+        [title]="item.title || '【默认通知历史标题】'"
+        >{{ item.title || "【默认通知历史标题】" }}</span
+      >
+    </ng-template>
     <ng-template #extraTemplate>
       <button
         *ngIf="!item.hasRead"
