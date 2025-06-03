@@ -49,7 +49,12 @@ export class CexFutureAlertSelectComponent implements ControlValueAccessor, OnDe
         name: '多空比暴涨/暴跌',
         type: CexFutureAlertTypes.LONG_SHORT_RATIO_LIMIT,
         cexFutureAlerts: []
-      }
+      },
+      {
+        name: '未平仓量相对流通量过高',
+        type: CexFutureAlertTypes.OPEN_INTEREST_AND_CIRCULAR_SUPPLY_RATIO_LIMIT,
+        cexFutureAlerts: []
+      },
     ];
   loading = false;
 
