@@ -9,7 +9,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { map, firstValueFrom, lastValueFrom } from 'rxjs';
-import { CexTokenCacheService, CexTokenPriceChangeService, CexTokenService, NotifyObserver, NotifyObserverService, NotifyObserverTypes } from 'src/app/shared';
+import { CexTokenCacheService, CexTokenPriceChangeService, CexTokenService, NotifyObserver, NotifyObserverService, NotifyObserverTypes, PriceChangeSymbolTypes } from 'src/app/shared';
 import { CexTokenTagCacheService } from 'src/app/shared';
 import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer'
 
@@ -212,6 +212,7 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
     if (this._symbol) {
       const notifyObservers = await lastValueFrom(this.notifyObserverService.queryList({
         type: NotifyObserverTypes.PRICE_CHANGE,
+        priceChangeSymbolType: PriceChangeSymbolTypes.SPOT,
         priceChangeCexTokenSymbol: this._symbol
       }))
 
@@ -224,6 +225,7 @@ export class CexTokenSymbolItemComponent implements OnInit, OnChanges {
       type: NotifyObserverTypes.PRICE_CHANGE,
       notifyShowTitle: `${this._symbol} 价格通知`,
       enableTelegram: true,
+      priceChangeSymbolType: PriceChangeSymbolTypes.SPOT,
       priceChangeCexTokenSymbol: this._symbol
     }, NotifyObserverModalActions.CREATE)
     success.subscribe((v) => {

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { MAX_GENERAL_TABLE_FIELD_COUNT, NotifyObserverService, SharedService } from 'src/app/shared';
+import { MAX_GENERAL_TABLE_FIELD_COUNT, NotifyObserverService, PriceChangeSymbolTypes, SharedService } from 'src/app/shared';
 import { NotifyObserverModalActions } from '../../create-notify-observer-modal-actions';
 import { FormItemInterface } from '../form-item.interface';
 
@@ -23,6 +23,17 @@ export class CreatePriceChangeComponent implements OnInit, FormItemInterface {
   ) { }
 
   priceChangeTypes: Array<any> = []
+
+  priceChangeSymbolTypes = [
+    {
+      label: 'SPOT',
+      value: PriceChangeSymbolTypes.SPOT,
+    },
+    {
+      label: 'FUTURE',
+      value: PriceChangeSymbolTypes.FUTURE
+    }
+  ]
 
   ngOnInit(): void {
     this.loadPriceChangeTypes()

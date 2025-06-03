@@ -208,7 +208,9 @@ export interface NotifyObserver {
   hookLogo?: string;
 
 
-  priceChangeCexTokenSymbol: string;
+  priceChangeSymbolType: PriceChangeSymbolTypes;
+  priceChangeCexTokenSymbol?: string;
+  priceChangeCexFutureSymbol?: string;
   priceChangeType: string;
   priceChangeToValue?: number | number[];
   priceChangeInDays?: number | number[];
@@ -217,4 +219,9 @@ export interface NotifyObserver {
 
   readonly createdAt: number;
   readonly createdAtStr: string;
+}
+
+export enum PriceChangeSymbolTypes {
+  SPOT = 'SPOT',
+  FUTURE = 'FUTURE'
 }

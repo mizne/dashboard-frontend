@@ -1,5 +1,5 @@
 import { Injectable, Type } from '@angular/core';
-import { NotifyObserver, NotifyObserverTypes } from 'src/app/shared';
+import { NotifyObserver, NotifyObserverTypes, PriceChangeSymbolTypes } from 'src/app/shared';
 import { NotifyObserverModalActions } from '../../create-notify-observer-modal-actions';
 import { NotifyObserverTypeManagerService } from '../../notify-observer-type-manager.service';
 import { NotifyObserverTypeServiceInterface } from '../../notify-observer-type-service.interface';
@@ -21,7 +21,8 @@ export class PriceChangeService implements NotifyObserverTypeServiceInterface {
     if (
       obj.notifyShowTitle &&
       obj.priceChangeType &&
-      obj.priceChangeCexTokenSymbol &&
+      obj.priceChangeSymbolType &&
+      (obj.priceChangeCexTokenSymbol || obj.priceChangeCexFutureSymbol) &&
       (
         (Array.isArray(obj.priceChangeToValue) && obj.priceChangeToValue.length > 0) ||
         (Array.isArray(obj.priceChangeInDays) && obj.priceChangeInDays.length > 0) ||
@@ -29,14 +30,16 @@ export class PriceChangeService implements NotifyObserverTypeServiceInterface {
       )) {
       return { code: 0 }
     }
-    return { code: -1, message: `通知标题, 价格类型, 标的symbol必填, 价格数值/周期天数/涨跌幅数值及周期天数相对应价格类型必填` }
+    return { code: -1, message: `通知标题, 价格类型, symbol必填, 价格数值/周期天数/涨跌幅数值及周期天数相对应价格类型必填` }
   }
 
   resolveExistedCondition(obj: Partial<NotifyObserver>): Partial<NotifyObserver> | null {
     return {
       type: NotifyObserverTypes.PRICE_CHANGE,
       priceChangeType: obj.priceChangeType,
+      priceChangeSymbolType: obj.priceChangeSymbolType,
       priceChangeCexTokenSymbol: obj.priceChangeCexTokenSymbol,
+      priceChangeCexFutureSymbol: obj.priceChangeCexFutureSymbol,
       priceChangeToValue: obj.priceChangeToValue,
       priceChangeInDays: obj.priceChangeInDays,
       priceChangePercentInDays: obj.priceChangePercentInDays,
@@ -50,31 +53,41 @@ export class PriceChangeService implements NotifyObserverTypeServiceInterface {
 
   resolveDesc(item: NotifyObserver): string {
     if (typeof item.priceChangeToValue === 'number') {
-      return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType} ${item.priceChangeToValue}`
+      return `${this.resolveSymbolDesc(item)} ${item.priceChangeType} ${item.priceChangeToValue}`
     }
     if (typeof item.priceChangeInDays === 'number') {
-      return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType} ${item.priceChangeInDays}`
+      return `${this.resolveSymbolDesc(item)} ${item.priceChangeType} ${item.priceChangeInDays}`
     }
 
     if ((Array.isArray(item.priceChangeToValue) && item.priceChangeToValue.length > 0)) {
-      return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType} ${item.priceChangeToValue.join(', ')}`
+      return `${this.resolveSymbolDesc(item)} ${item.priceChangeType} ${item.priceChangeToValue.join(', ')}`
     }
     if (Array.isArray(item.priceChangeInDays) && item.priceChangeInDays.length > 0) {
-      return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType} ${item.priceChangeInDays.join(', ')}`
+      return `${this.resolveSymbolDesc(item)} ${item.priceChangeType} ${item.priceChangeInDays.join(', ')}`
     }
 
     if (Array.isArray(item.priceChangePercentValue) && item.priceChangePercentValue.length > 0 &&
       Array.isArray(item.priceChangePercentInDays) && item.priceChangePercentInDays.length > 0) {
-      return `${item.priceChangeCexTokenSymbol} ${item.priceChangePercentInDays.join(', ')}天内 ${item.priceChangeType} ${item.priceChangePercentValue.join(', ')}`
+      return `${this.resolveSymbolDesc(item)} ${item.priceChangePercentInDays.join(', ')}天内 ${item.priceChangeType} ${item.priceChangePercentValue.join(', ')}`
     }
 
-    return `${item.priceChangeCexTokenSymbol} ${item.priceChangeType}`
+    return `${this.resolveSymbolDesc(item)} ${item.priceChangeType}`
+  }
+
+  private resolveSymbolDesc(item: NotifyObserver): string {
+    if (item.priceChangeSymbolType === PriceChangeSymbolTypes.FUTURE) {
+      return `${PriceChangeSymbolTypes.FUTURE} ${item.priceChangeCexFutureSymbol}`
+    } else {
+      return `${PriceChangeSymbolTypes.SPOT} ${item.priceChangeCexTokenSymbol}`
+    }
   }
 
   resolvePartialFormGroup(obj: Partial<NotifyObserver>, action: NotifyObserverModalActions) {
     return {
       priceChangeType: [obj.priceChangeType],
+      priceChangeSymbolType: [obj.priceChangeSymbolType || PriceChangeSymbolTypes.SPOT],
       priceChangeCexTokenSymbol: [obj.priceChangeCexTokenSymbol],
+      priceChangeCexFutureSymbol: [obj.priceChangeCexFutureSymbol],
       priceChangeToValue: [obj.priceChangeToValue],
       priceChangeInDays: [obj.priceChangeInDays],
       priceChangePercentValue: [obj.priceChangePercentValue],

@@ -11,14 +11,55 @@
         [nzSm]="6"
         [nzXs]="24"
         nzRequired
-        nzTooltipTitle="标的symbol"
+        nzFor="priceChangeSymbolType"
+        nzTooltipTitle="Symbol类型"
       >
-        <span>标的symbol</span>
+        <span>Symbol类型</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-radio-group
+          formControlName="priceChangeSymbolType"
+          nzButtonStyle="solid"
+        >
+          <label
+            nz-radio-button
+            *ngFor="let item of priceChangeSymbolTypes"
+            [nzValue]="item.value"
+            >{{ item.label }}</label
+          >
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="data.get('priceChangeSymbolType')?.value === 'SPOT'">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzRequired
+        nzTooltipTitle="SPOT symbol"
+      >
+        <span>SPOT symbol</span>
       </nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <app-cex-token-search-input
           formControlName="priceChangeCexTokenSymbol"
         ></app-cex-token-search-input>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item *ngIf="data.get('priceChangeSymbolType')?.value === 'FUTURE'">
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzRequired
+        nzTooltipTitle="FUTURE symbol"
+      >
+        <span>FUTURE symbol</span>
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <app-cex-future-search-input
+          formControlName="priceChangeCexFutureSymbol"
+        ></app-cex-future-search-input>
       </nz-form-control>
     </nz-form-item>
 
