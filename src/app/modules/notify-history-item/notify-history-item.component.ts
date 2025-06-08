@@ -183,13 +183,6 @@ export class NotifyHistoryItemComponent implements OnInit {
     return symbol
   }
 
-  cexFutureNameGetter(item: TableItem): string {
-    const symbol = item.title.split('|')[1].trim();
-    if (!symbol) {
-      console.warn(`cexFutureNameGetter() not found cex future symbol from notify history item: `, item)
-    }
-    return symbol.replace('1000', '').replace('USDT', '').replace('USDC', '')
-  }
 
   showCexTokenDetailGetter(item: TableItem): boolean {
     return item.type === NotifyObserverTypes.MARKET && item.title.toLowerCase().indexOf('cex token') >= 0
@@ -203,13 +196,6 @@ export class NotifyHistoryItemComponent implements OnInit {
     return symbol
   }
 
-  cexTokenNameGetter(item: TableItem): string {
-    const symbol = item.title.split('|')[1].trim();
-    if (!symbol) {
-      console.warn(`cexTokenNameGetter() not found cex token symbol from notify history item: `, item)
-    }
-    return symbol.replace('USDT', '').replace('USDC', '')
-  }
 
   cancelDelete(item: NotifyHistory) { }
 

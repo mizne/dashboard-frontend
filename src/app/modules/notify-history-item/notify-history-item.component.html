@@ -181,17 +181,17 @@
           </button>
         </ng-template>
 
-        <cex-token-symbol-item
+        <cex-future-symbol-item
           style="margin-left: 16px"
-          [name]="cexFutureNameGetter(item)"
+          [symbol]="cexFutureSymbolGetter(item)"
           [content]="cexFutureSymbolContent"
         >
-        </cex-token-symbol-item>
+        </cex-future-symbol-item>
 
         <ng-template #cexFutureSymbolContent let-logoName="logoName">
           <image-view [name]="logoName" style="margin-right: 8px"></image-view>
           <span class="symbol-item-custom-content">{{
-            cexFutureNameGetter(item)
+            cexFutureSymbolGetter(item)
           }}</span>
         </ng-template>
       </p>
@@ -219,7 +219,7 @@
 
         <cex-token-symbol-item
           style="margin-left: 16px"
-          [name]="cexTokenNameGetter(item)"
+          [symbol]="cexTokenSymbolGetter(item)"
           [content]="cexTokenSymbolContent"
         >
         </cex-token-symbol-item>
@@ -227,7 +227,7 @@
         <ng-template #cexTokenSymbolContent let-logoName="logoName">
           <image-view [name]="logoName" style="margin-right: 8px"></image-view>
           <span class="symbol-item-custom-content">{{
-            cexTokenNameGetter(item)
+            cexTokenSymbolGetter(item)
           }}</span>
         </ng-template>
       </p>
