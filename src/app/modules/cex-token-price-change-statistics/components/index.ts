@@ -9,6 +9,7 @@ import { StatisticsTableComponent } from './statistics-table/statistics-table.co
 import { StatisticsRankingChartComponent } from './statistics-ranking-chart/statistics-ranking-chart.component'
 import { StatisticsHistoryRankingChartComponent } from './statistics-history-ranking-chart/statistics-history-ranking-chart.component'
 import { VolumeRankingStatisticsComponent } from './volume-ranking-statistics/volume-ranking-statistics.component'
+import { CexTokenPriceChangeTableComponent } from './cex-token-price-change-table/cex-token-price-change-table.component'
 
 export const components = [
   PriceChangeChartComponent,
@@ -22,6 +23,7 @@ export const components = [
   StatisticsRankingChartComponent,
   StatisticsHistoryRankingChartComponent,
   VolumeRankingStatisticsComponent,
+  CexTokenPriceChangeTableComponent,
 ]
 
 export {
