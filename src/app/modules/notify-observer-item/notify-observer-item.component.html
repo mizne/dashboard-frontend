@@ -105,6 +105,44 @@
       >
         <span nz-icon nzType="search" nzTheme="outline"></span>
       </button>
+
+      <cex-token-item-detail
+        *ngIf="showCexTokenItemDetailGetter(item)"
+        [symbol]="cexTokenSymbolGetter(item)"
+        [content]="cexTokenContentTemplate"
+        style="margin-left: 4px"
+      ></cex-token-item-detail>
+
+      <ng-template #cexTokenContentTemplate>
+        <button
+          nz-button
+          nzType="primary"
+          nzShape="circle"
+          nzSize="small"
+          [title]="'查看 ' + cexTokenSymbolGetter(item) + '详情'"
+        >
+          <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
+        </button>
+      </ng-template>
+
+      <cex-future-item-detail
+        *ngIf="showCexFutureItemDetailGetter(item)"
+        [symbol]="cexFutureSymbolGetter(item)"
+        [content]="cexFutureContentTemplate"
+        style="margin-left: 4px"
+      ></cex-future-item-detail>
+
+      <ng-template #cexFutureContentTemplate>
+        <button
+          nz-button
+          nzType="primary"
+          nzShape="circle"
+          nzSize="small"
+          [title]="'查看 ' + cexFutureSymbolGetter(item) + '详情'"
+        >
+          <span nz-icon nzType="line-chart" nzTheme="outline"></span>
+        </button>
+      </ng-template>
     </div>
 
     <span

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverService, NotifyObserverTypes, genTaskRecordCondition } from 'src/app/shared';
+import { NotifyHistory, NotifyHistoryService, NotifyObserver, NotifyObserverService, NotifyObserverTypes, PriceChangeSymbolTypes, genTaskRecordCondition } from 'src/app/shared';
 import { NotifyObserverTypeManagerService } from 'src/app/modules/create-notify-observer';
 import { removeEmpty } from 'src/app/utils';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -136,5 +136,21 @@ export class NotifyObserverItemComponent implements OnInit {
       return this.item?.hookStatisticsDefinitions || []
     }
     return []
+  }
+
+  showCexTokenItemDetailGetter(item: TableItem): boolean {
+    return item.type === NotifyObserverTypes.PRICE_CHANGE && item.priceChangeSymbolType === PriceChangeSymbolTypes.SPOT
+  }
+
+  cexTokenSymbolGetter(item: TableItem) {
+    return item.priceChangeCexTokenSymbol as string
+  }
+
+  showCexFutureItemDetailGetter(item: TableItem): boolean {
+    return item.type === NotifyObserverTypes.PRICE_CHANGE && item.priceChangeSymbolType === PriceChangeSymbolTypes.FUTURE
+  }
+
+  cexFutureSymbolGetter(item: TableItem) {
+    return item.priceChangeCexFutureSymbol as string
   }
 }
