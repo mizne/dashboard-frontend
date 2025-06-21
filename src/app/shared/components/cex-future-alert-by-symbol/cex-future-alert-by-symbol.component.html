@@ -9,5 +9,14 @@
       <span>{{ item.time | date : "MM-dd HH:mm" }}</span>
       <span>{{ " " + item.desc }}</span>
     </nz-tag>
+
+    <nz-empty
+      *ngIf="items.length === 0"
+      [nzNotFoundContent]="contentTpl"
+      nzNotFoundImage="simple"
+    ></nz-empty>
   </nz-spin>
 </div>
+<ng-template #contentTpl>
+  <span> 最近{{ latestIntervals }}周期没有CexFutureAlert </span>
+</ng-template>
