@@ -32,6 +32,7 @@ import { CexTokenSearchInputComponent } from './cex-token-search-input/cex-token
 import { CexTokenSearchMultiInputComponent } from './cex-token-search-multi-input/cex-token-search-multi-input.component';
 import { CollectInputComponent } from './collect-input/collect-input.component';
 import { CexFutureAlertSelectComponent } from './cex-future-alert-select/cex-future-alert-select.component';
+import { CexFutureAlertBySymbolComponent } from './cex-future-alert-by-symbol/cex-future-alert-by-symbol.component';
 import { CexTokenAlertSelectComponent } from './cex-token-alert-select/cex-token-alert-select.component';
 import { CexTokenTagSelectComponent } from './cex-token-tag-select/cex-token-tag-select.component';
 
@@ -70,6 +71,7 @@ export const components = [
   CexTokenSearchMultiInputComponent,
   CollectInputComponent,
   CexFutureAlertSelectComponent,
+  CexFutureAlertBySymbolComponent,
   CexTokenAlertSelectComponent,
   CexTokenTagSelectComponent,
 ];
@@ -109,6 +111,7 @@ export {
   CexTokenSearchMultiInputComponent,
   CollectInputComponent,
   CexFutureAlertSelectComponent,
+  CexFutureAlertBySymbolComponent,
   CexTokenAlertSelectComponent,
   CexTokenTagSelectComponent,
 };

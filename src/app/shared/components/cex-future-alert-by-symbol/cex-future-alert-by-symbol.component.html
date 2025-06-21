@@ -1,0 +1,13 @@
+<div class="cex-future-alert-by-symbol-container" style="padding: 12px 0">
+  <nz-spin [nzSpinning]="loading">
+    <nz-tag
+      *ngFor="let item of items"
+      [title]="item.desc"
+      [nzColor]="cexFutureAlertColorGetter(item)"
+      style="cursor: pointer; margin-bottom: 4px"
+    >
+      <span>{{ item.time | date : "MM-dd HH:mm" }}</span>
+      <span>{{ " " + item.desc }}</span>
+    </nz-tag>
+  </nz-spin>
+</div>
