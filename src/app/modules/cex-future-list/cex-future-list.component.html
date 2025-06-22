@@ -158,11 +158,11 @@
                   [formControl]="data.hasCollectCtrl"
                   style="margin-right: 8px"
                 ></app-collect-input>
-                <cex-token-symbol-item
-                  [name]="data.baseAsset"
+                <cex-future-symbol-item
+                  [symbol]="data.symbol"
                   [content]="symbolContent"
                 >
-                </cex-token-symbol-item>
+                </cex-future-symbol-item>
 
                 <ng-template #symbolContent let-logoName="logoName">
                   <image-view

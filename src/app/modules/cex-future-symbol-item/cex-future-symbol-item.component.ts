@@ -8,7 +8,9 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CexFutureCacheService, CexFutureService } from 'src/app/shared';
+import { CexFutureCacheService, CexFutureService, NotifyObserver, NotifyObserverService, NotifyObserverTypes, PriceChangeSymbolTypes } from 'src/app/shared';
+import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer'
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'cex-future-symbol-item',
@@ -18,7 +20,9 @@ export class CexFutureSymbolItemComponent implements OnInit, OnChanges {
   constructor(
     private readonly cexFutureCacheService: CexFutureCacheService,
     private readonly cexFutureService: CexFutureService,
-    private readonly nzNotificationService: NzNotificationService
+    private readonly nzNotificationService: NzNotificationService,
+    private readonly createNotifyObserverService: CreateNotifyObserverService,
+    private readonly notifyObserverService: NotifyObserverService,
   ) { }
 
   @Input() symbol = '';
@@ -44,6 +48,8 @@ export class CexFutureSymbolItemComponent implements OnInit, OnChanges {
   hasCollectCtrl = new FormControl(false)
 
   templateContext: { [key: string]: any } = {};
+
+  notifyObservers: NotifyObserver[] = []
 
 
   ngOnInit() {
@@ -96,6 +102,8 @@ export class CexFutureSymbolItemComponent implements OnInit, OnChanges {
         }
 
         this.hasCollectCtrl.patchValue(!!token.hasCollect, { emitEvent: false });
+
+        this.fetchPriceChangeNotifyObservers()
       } else {
         this._symbol = symbol || name || '【缓存未命中】';
         console.warn(`[CexFutureSymbolItemComponent.ts] not found cex future by symbol: ${symbol}`);
@@ -122,5 +130,63 @@ export class CexFutureSymbolItemComponent implements OnInit, OnChanges {
     }
   }
 
+  private async fetchPriceChangeNotifyObservers() {
+    if (this._symbol) {
+      const notifyObservers = await lastValueFrom(this.notifyObserverService.queryList({
+        type: NotifyObserverTypes.PRICE_CHANGE,
+        priceChangeSymbolType: PriceChangeSymbolTypes.FUTURE,
+        priceChangeCexFutureSymbol: this._symbol
+      }))
+
+      this.notifyObservers = notifyObservers
+    }
+  }
+
+  confirmAdd() {
+    const { success, error } = this.createNotifyObserverService.createModal(`添加通知源`, {
+      type: NotifyObserverTypes.PRICE_CHANGE,
+      notifyShowTitle: `${this._symbol} 价格通知`,
+      enableTelegram: true,
+      priceChangeSymbolType: PriceChangeSymbolTypes.FUTURE,
+      priceChangeCexFutureSymbol: this._symbol
+    }, NotifyObserverModalActions.CREATE)
+    success.subscribe((v) => {
+      this.nzNotificationService.success(
+        `添加通知源 成功`,
+        `添加通知源 成功`
+      );
+      this.fetchPriceChangeNotifyObservers()
+    });
+    error.subscribe((e) => {
+      this.nzNotificationService.error(`添加通知源 失败`, `${e.message}`);
+    });
+  }
+
+  confirmUpdate(item: NotifyObserver) {
+    const { success, error } = this.createNotifyObserverService.createModal(`修改通知源`, item, NotifyObserverModalActions.UPDATE)
+    success.subscribe((v) => {
+      this.nzNotificationService.success(
+        `修改通知源 成功`,
+        `修改通知源 成功`
+      );
+      this.fetchPriceChangeNotifyObservers()
+    });
+    error.subscribe((e) => {
+      this.nzNotificationService.error(`修改通知源 失败`, `${e.message}`);
+    });
+  }
+  confirmDelete(item: NotifyObserver) {
+    this.notifyObserverService.deleteByID(item._id as string)
+      .subscribe({
+        next: () => {
+          this.nzNotificationService.success(`删除通知源 成功`, `删除通知源 成功`);
+          this.fetchPriceChangeNotifyObservers()
+        },
+        error: (err) => {
+          this.nzNotificationService.error(`删除通知源 失败`, `${err.message}`);
+        }
+      })
+  }
+  cancelDelete(item: NotifyObserver) { }
 
 }
