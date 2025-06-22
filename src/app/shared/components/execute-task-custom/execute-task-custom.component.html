@@ -67,7 +67,10 @@
       </nz-form-item>
 
       <nz-form-item
-        *ngIf="form.get('task')?.value === 'cex-token-daily:only-price-change'"
+        *ngIf="
+          form.get('task')?.value === 'cex-token-daily:only-price-change' ||
+          form.get('task')?.value === 'cex-future-daily:only-price-change'
+        "
       >
         <nz-form-label nzFor="dateRange">结束时间区间</nz-form-label>
         <nz-form-control>

@@ -47,8 +47,18 @@
         <volume-ranking-statistics></volume-ranking-statistics>
       </nz-collapse-panel>
 
-      <nz-collapse-panel [nzHeader]="'详细数据'" [nzActive]="false">
+      <nz-collapse-panel
+        [nzHeader]="'CexTokenPriceChange 详细数据'"
+        [nzActive]="false"
+      >
         <cex-token-price-change-table></cex-token-price-change-table>
+      </nz-collapse-panel>
+
+      <nz-collapse-panel
+        [nzHeader]="'CexFuturePriceChange 详细数据'"
+        [nzActive]="false"
+      >
+        <cex-future-price-change-table></cex-future-price-change-table>
       </nz-collapse-panel>
     </nz-collapse>
   </ng-container>

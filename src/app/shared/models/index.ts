@@ -14,6 +14,7 @@ export * from './general-table.model';
 export * from './cex-future.model';
 export * from './cex-future-alert.model';
 export * from './cex-future-daily.model';
+export * from './cex-future-price-change.model';
 
 export * from './cex-token.model';
 export * from './cex-token-price-change.model';
