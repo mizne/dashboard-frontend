@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { CexFutureCacheService, CexFutureService, NotifyObserver, NotifyObserverService, NotifyObserverTypes, PriceChangeSymbolTypes } from 'src/app/shared';
+import { CexFutureCacheService, CexFuturePriceChangeService, CexFutureService, NotifyObserver, NotifyObserverService, NotifyObserverTypes, PriceChangeSymbolTypes } from 'src/app/shared';
 import { CreateNotifyObserverService, NotifyObserverModalActions } from 'src/app/modules/create-notify-observer'
 import { lastValueFrom } from 'rxjs';
 
@@ -23,6 +23,7 @@ export class CexFutureSymbolItemComponent implements OnInit, OnChanges {
     private readonly nzNotificationService: NzNotificationService,
     private readonly createNotifyObserverService: CreateNotifyObserverService,
     private readonly notifyObserverService: NotifyObserverService,
+    private readonly cexFuturePriceChangeService: CexFuturePriceChangeService,
   ) { }
 
   @Input() symbol = '';
@@ -51,6 +52,12 @@ export class CexFutureSymbolItemComponent implements OnInit, OnChanges {
 
   notifyObservers: NotifyObserver[] = []
 
+  cexFuturePriceChangeTags: Array<{
+    label: string;
+    value: string;
+    color: string;
+  }> = []
+  fetchCexFuturePriceChangeTags = false
 
   ngOnInit() {
     this.hasCollectCtrl.valueChanges.subscribe(v => {
@@ -72,7 +79,48 @@ export class CexFutureSymbolItemComponent implements OnInit, OnChanges {
   popoverVisibleChange(visible: boolean) {
     console.log(`popoverVisibleChange: `, visible);
 
+    if (visible && this._symbol) {
+      this.fetchCexFuturePriceChange()
+    }
+  }
 
+  private async fetchCexFuturePriceChange() {
+    this.fetchCexFuturePriceChangeTags = true
+    const days = [3, 7, 15, 30, 60, 90, 180, 360, 540];
+    const results = []
+    for (const day of days) {
+      const items = await (lastValueFrom(this.cexFuturePriceChangeService.queryList({ symbol: this._symbol, inDays: day }, { number: 1, size: 1 })))
+      if (items.length === 1) {
+        results.push({
+          label: `${day} 天`,
+          value: `${(items[0].priceChangePercent * 100).toFixed(1)} %`,
+          color: this.resolvePriceChangeColor(items[0].priceChangePercent)
+        })
+      }
+    }
+
+    this.cexFuturePriceChangeTags = results
+    this.fetchCexFuturePriceChangeTags = false
+  }
+
+  private resolvePriceChangeColor(priceChangePercent: number): string {
+    if (priceChangePercent <= -0.9) {
+      return '#7C0902'
+    } else if (priceChangePercent > -0.9 && priceChangePercent <= -0.5) {
+      return '#AB274F'
+    } else if (priceChangePercent > -0.5 && priceChangePercent <= -0.2) {
+      return '#FE6F5E'
+    } else if (priceChangePercent > -0.2 && priceChangePercent <= 0) {
+      return '#FDBCB4'
+    } else if (priceChangePercent > 0 && priceChangePercent <= 1.0) {
+      return '#ACE1AF'
+    } else if (priceChangePercent > 1.0 && priceChangePercent <= 5.0) {
+      return '#50C878'
+    } else if (priceChangePercent > 5.0 && priceChangePercent <= 10.0) {
+      return '#177245'
+    } else {
+      return '#013220'
+    }
   }
 
 

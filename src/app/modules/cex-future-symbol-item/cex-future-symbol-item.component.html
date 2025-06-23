@@ -67,6 +67,20 @@
       </span>
     </div>
 
+    <nz-spin [nzSpinning]="fetchCexFuturePriceChangeTags">
+      <div class="symbol-item-tags" style="margin-bottom: 12px">
+        <span class="tag-label" style="margin-right: 6px">涨跌幅统计：</span>
+        <span class="tag-value" style="margin-right: 6px">
+          <nz-tag
+            *ngFor="let item of cexFuturePriceChangeTags"
+            [nzColor]="item.color"
+            style="margin-bottom: 6px"
+            >{{ item.label + " " + item.value }}</nz-tag
+          >
+        </span>
+      </div></nz-spin
+    >
+
     <div class="symbol-item-tags" style="margin-bottom: 24px">
       <span class="notify-label" style="margin-right: 6px">价格通知：</span>
       <span class="notify-add" style="margin-right: 6px">
