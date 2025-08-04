@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared';
 import { CexFutureItemSlugComponent } from './cex-future-item-slug.component'
-import { CexTokenSymbolItemModule } from 'src/app/modules/cex-token-symbol-item'
+import { CexFutureSymbolItemModule } from 'src/app/modules/cex-future-symbol-item'
 
 @NgModule({
   imports: [
     SharedModule,
-    CexTokenSymbolItemModule
+    CexFutureSymbolItemModule
   ],
   exports: [CexFutureItemSlugComponent],
   declarations: [CexFutureItemSlugComponent],

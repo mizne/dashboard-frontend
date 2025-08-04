@@ -8,6 +8,7 @@ import { CexFutureOpeninterestChartComponent } from './components/cex-future-ope
 import { CexFuturePriceChartComponent } from './components/cex-future-price-chart/cex-future-price-chart.component'
 import { NotifyHistoryModule } from 'src/app/modules/notify-history';
 import { CexTokenSymbolItemModule } from 'src/app/modules/cex-token-symbol-item';
+import { CexFutureSymbolItemModule } from 'src/app/modules/cex-future-symbol-item';
 import { CexFutureItemDetailModule } from 'src/app/modules/cex-future-item-detail';
 import { CexFutureItemSlugModule } from 'src/app/modules/cex-future-item-slug'
 
@@ -17,6 +18,7 @@ import { CexFutureItemSlugModule } from 'src/app/modules/cex-future-item-slug'
     CexFuturePageRoutingModule,
     NotifyHistoryModule,
     CexTokenSymbolItemModule,
+    CexFutureSymbolItemModule,
     CexFutureItemDetailModule,
     CexFutureItemSlugModule,
   ],
