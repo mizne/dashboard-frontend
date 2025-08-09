@@ -6,6 +6,11 @@ import {
   mwomStakeWithdrawContractABIBNB,
   mwomStakeWithdrawContractAddressArb,
   mwomStakeWithdrawContractABIArb,
+
+  mwomTokenAddressBNB,
+  mwomTokenABIBNB,
+  mwomTokenAddressArb,
+  mwomTokenABIArb,
 } from '../models/blockchain-contract';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { BehaviorSubject } from 'rxjs';
@@ -28,7 +33,8 @@ const CHAIN_CONFIG = {
   }
 };
 
-
+// https://dashboard.reown.com/8ce9974f-eced-4d99-a387-e9a8188197bf/79bf96f4-d21a-4490-a105-51343e6e1604
+const WALLETCONNECT_PROJECT_ID = 'a344e88ccfa50d0aaa75417a6fba6388'
 @Injectable({
   providedIn: 'root'
 })
@@ -42,9 +48,6 @@ export class WalletService {
 
   mwomStakeWithdrawContract?: ethers.Contract
   mwomSwapContract?: ethers.Contract
-
-  mwomTokenBNB = '0x027a9d301FB747cd972CFB29A63f3BDA551DFc5c'
-  mwomTokenArb = '0x509FD25EE2AC7833a017f17Ee8A6Fb4aAf947876'
 
   initWCProviderLoadingBehaviorSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true)
 
@@ -74,7 +77,7 @@ export class WalletService {
   private initWCProvider() {
     this.initWCProviderLoadingBehaviorSubject.next(true)
     EthereumProvider.init({
-      projectId: 'a344e88ccfa50d0aaa75417a6fba6388', // 去 WalletConnect Cloud 申请
+      projectId: WALLETCONNECT_PROJECT_ID, // 去 WalletConnect Cloud 申请
       chains: [CHAIN_CONFIG.bnb.chainId, CHAIN_CONFIG.arbitrum.chainId],
       rpcMap: { [CHAIN_CONFIG.bnb.chainId]: CHAIN_CONFIG.bnb.rpcUrl, [CHAIN_CONFIG.arbitrum.chainId]: CHAIN_CONFIG.arbitrum.rpcUrl },
       showQrModal: true
@@ -157,12 +160,12 @@ export class WalletService {
     }
 
     if (this.selectedChain === 'bnb') {
-      const tx = await this.mwomStakeWithdrawContract['withdraw'](this.mwomTokenBNB, amountWei);
+      const tx = await this.mwomStakeWithdrawContract['withdraw'](mwomTokenAddressBNB, amountWei);
       const receipt = await tx.wait();
       console.log('提现交易确认:', receipt.hash);
       return receipt;
     } else if (this.selectedChain === 'arbitrum') {
-      const tx = await this.mwomStakeWithdrawContract['withdraw'](this.mwomTokenArb, amountWei);
+      const tx = await this.mwomStakeWithdrawContract['withdraw'](mwomTokenAddressArb, amountWei);
       const receipt = await tx.wait();
       console.log('提现交易确认:', receipt.hash);
       return receipt;
@@ -179,19 +182,84 @@ export class WalletService {
     }
 
     if (this.selectedChain === 'bnb') {
-      const [stakedAmount, availableAmount] = await this.mwomStakeWithdrawContract['stakingInfo'](this.mwomTokenBNB, this.address);
+      const [stakedAmount, availableAmount] = await this.mwomStakeWithdrawContract['stakingInfo'](mwomTokenAddressBNB, this.address);
       const amount = ethers.formatUnits(stakedAmount, 18);
+
+      console.log(`getMWomStakedAmount() bnb amount: ${amount}`)
 
       return Number(amount)
     } else if (this.selectedChain === 'arbitrum') {
-      const [stakedAmount, availableAmount] = await this.mwomStakeWithdrawContract['stakingInfo'](this.mwomTokenArb, this.address);
+      const [stakedAmount, availableAmount] = await this.mwomStakeWithdrawContract['stakingInfo'](mwomTokenAddressArb, this.address);
       const amount = ethers.formatUnits(stakedAmount, 18);
 
+      console.log(`getMWomStakedAmount() arbitrum amount: ${amount}`)
+
       return Number(amount)
+    } else {
+      this.notificationService.warning(`未知network提现`, `未知network提现`)
+      return 0
+    }
+  }
+
+  async depositMWOM(amountWei: bigint) {
+    if (!this.mwomStakeWithdrawContract) {
+      throw new Error(`请先连接钱包`)
+    }
+
+    if (this.selectedChain === 'bnb') {
+      const tx = await this.mwomStakeWithdrawContract['deposit'](mwomTokenAddressBNB, amountWei);
+      const receipt = await tx.wait();
+      console.log('充值交易确认:', receipt.hash);
+      return receipt;
+    } else if (this.selectedChain === 'arbitrum') {
+      const tx = await this.mwomStakeWithdrawContract['deposit'](mwomTokenAddressArb, amountWei);
+      const receipt = await tx.wait();
+      console.log('充值交易确认:', receipt.hash);
+      return receipt;
+    } else {
+      this.notificationService.warning(`未知network充值`, `未知network充值`)
+      return 0
+    }
+
+  }
+
+  async getMWomTokenBalance(): Promise<number> {
+    if (!this.provider) throw new Error('钱包未连接');
+
+    if (this.selectedChain === 'bnb') {
+      // 1. 创建合约实例（只读，不需要 signer）
+      const tokenContract = new ethers.Contract(mwomTokenAddressBNB, mwomTokenABIBNB, this.provider);
+
+      // 2. 获取代币精度
+      const decimals = await tokenContract['decimals']();
+
+      // 3. 获取余额
+      const rawBalance = await tokenContract['balanceOf'](this.address);
+
+      // 4. 格式化成人类可读格式
+      const amount = Number(ethers.formatUnits(rawBalance, decimals));
+      console.log(`getMWomTokenBalance() bnb decimals: ${decimals} amount: ${amount}`)
+      return amount
+    } else if (this.selectedChain === 'arbitrum') {
+      // 1. 创建合约实例（只读，不需要 signer）
+      const tokenContract = new ethers.Contract(mwomTokenAddressArb, mwomTokenABIArb, this.provider);
+
+      // 2. 获取代币精度
+      const decimals = await tokenContract['decimals']();
+
+      // 3. 获取余额
+      const rawBalance = await tokenContract['balanceOf'](this.address);
+
+      // 4. 格式化成人类可读格式
+      const amount = Number(ethers.formatUnits(rawBalance, decimals));
+      console.log(`getMWomTokenBalance() arbitrum decimals: ${decimals} amount: ${amount}`)
+      return amount
     } else {
       this.notificationService.warning(`未知network`, `未知network`)
       return 0
     }
+
+
   }
 
 
