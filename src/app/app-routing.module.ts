@@ -88,6 +88,13 @@ const routes: Routes = [
         (m) => m.AirdropInteractionRecordModule
       ),
   },
+  {
+    path: 'magpie-helper',
+    loadChildren: () =>
+      import('./pages/magpie-helper/magpie-helper.module').then(
+        (m) => m.MagpieHelperModule
+      ),
+  },
 ];
 
 @NgModule({

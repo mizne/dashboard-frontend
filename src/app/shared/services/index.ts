@@ -44,3 +44,6 @@ export * from './task-record.service'
 export * from './cmc-token.service'
 export * from './cmc-token-daily.service'
 export * from './cmc-token-price-change.service'
+
+export * from './wallet.service'
+

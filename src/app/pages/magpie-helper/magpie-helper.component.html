@@ -1,0 +1,22 @@
+<div class="magpie-helper-container">
+  <h3>选择网络</h3>
+  <select
+    [value]="walletService.selectedChain"
+    (change)="selectChain(walletService.selectedChain)"
+  >
+    <option *ngFor="let chain of chains" [value]="chain">
+      {{ chain }}
+    </option>
+  </select>
+
+  <h3>连接钱包</h3>
+  <button *ngFor="let wallet of wallets" (click)="connectWallet(wallet)">
+    连接 {{ wallet }}
+  </button>
+
+  <div *ngIf="walletService.address">
+    <p>已连接: {{ walletService.address }}</p>
+    <p>钱包类型: {{ walletService.connectedWallet }}</p>
+    <button (click)="disconnectWallet()">断开连接</button>
+  </div>
+</div>
