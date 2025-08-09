@@ -1,22 +1,89 @@
 <div class="magpie-helper-container">
-  <h3>选择网络</h3>
-  <select
-    [value]="walletService.selectedChain"
-    (change)="selectChain(walletService.selectedChain)"
-  >
-    <option *ngFor="let chain of chains" [value]="chain">
-      {{ chain }}
-    </option>
-  </select>
+  <nz-card nzTitle="连接钱包">
+    <nz-form-item>
+      <nz-form-label nzFor="status">网络</nz-form-label>
+      <nz-form-control>
+        <nz-radio-group [formControl]="networkCtrl" nzButtonStyle="solid">
+          <label
+            nz-radio-button
+            *ngFor="let chain of chains"
+            [nzValue]="chain"
+            >{{ chain }}</label
+          >
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
 
-  <h3>连接钱包</h3>
-  <button *ngFor="let wallet of wallets" (click)="connectWallet(wallet)">
-    连接 {{ wallet }}
-  </button>
+    <nz-form-item class="register-area">
+      <nz-form-control>
+        <button
+          nz-button
+          [nzType]="'primary'"
+          *ngFor="let wallet of wallets"
+          (click)="connectWallet(wallet.name)"
+          [nzLoading]="wallet.loading$ | async"
+          style="margin-right: 12px"
+        >
+          连接 {{ wallet.name }}
+        </button>
+      </nz-form-control>
+    </nz-form-item>
 
-  <div *ngIf="walletService.address">
-    <p>已连接: {{ walletService.address }}</p>
-    <p>钱包类型: {{ walletService.connectedWallet }}</p>
-    <button (click)="disconnectWallet()">断开连接</button>
-  </div>
+    <div *ngIf="walletService.address">
+      <p>已连接: {{ walletService.address }}</p>
+      <p>钱包类型: {{ walletService.connectedWallet }}</p>
+      <button nz-button (click)="disconnectWallet()">断开连接</button>
+    </div>
+  </nz-card>
+
+  <nz-card nzTitle="mWom Withdraw">
+    <nz-form-item style="width: 600px">
+      <nz-form-label nzFor="amount">提取数量</nz-form-label>
+      <nz-form-control>
+        <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+          <input
+            type="text"
+            nz-input
+            class="ant-input"
+            placeholder="请输入提取数量"
+            [formControl]="amountCtrl"
+            [attr.id]="'amount'"
+          />
+        </nz-input-group>
+
+        <ng-template #addOnAfterTemplate>
+          <button
+            nz-button
+            nzSize="small"
+            nzType="default"
+            (click)="applyMaxAmountWithdraw()"
+          >
+            MAX
+          </button>
+        </ng-template>
+      </nz-form-control>
+      <span
+        style="
+          margin-left: 8px;
+          width: 100px;
+          display: flex;
+          align-items: center;
+        "
+        >{{ mWomStakedAmount }}</span
+      >
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control>
+        <button
+          nz-button
+          [nzType]="'primary'"
+          [nzLoading]="withdrawLoading"
+          (click)="withdrawMWOM()"
+        >
+          提取
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </nz-card>
 </div>

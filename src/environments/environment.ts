@@ -5,8 +5,8 @@
 // 3030 4242
 export const environment = {
   production: false,
-  baseURL: 'http://localhost:3030',
-  imageBaseURL: 'http://localhost:3030/images/',
+  baseURL: 'http://localhost:4242',
+  imageBaseURL: 'http://localhost:4242/images/',
 };
 
 /*
