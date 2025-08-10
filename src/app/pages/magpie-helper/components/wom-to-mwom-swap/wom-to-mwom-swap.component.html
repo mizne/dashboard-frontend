@@ -1,0 +1,66 @@
+<div class="wom-to-mwom-swap-container">
+  <nz-form-item style="width: 720px; display: flex; align-items: center">
+    <nz-form-label nzFor="deposit-amount">wom数量</nz-form-label>
+    <nz-form-control>
+      <nz-input-group [nzAddOnAfter]="addOnAfterTemplate">
+        <input
+          type="text"
+          nz-input
+          class="ant-input"
+          placeholder="请输入wom数量"
+          [formControl]="amountCtrl"
+          [attr.id]="'deposit-amount'"
+        />
+      </nz-input-group>
+
+      <ng-template #addOnAfterTemplate>
+        <button
+          nz-button
+          nzSize="small"
+          nzType="default"
+          *ngFor="let amount of suggestAmounts"
+          (click)="applyAmountSwap(amount.value)"
+          style="margin-right: 4px"
+        >
+          {{ amount.label }}
+        </button>
+        <button
+          nz-button
+          nzSize="small"
+          nzType="default"
+          (click)="applyMaxAmountSwap()"
+        >
+          MAX
+        </button>
+      </ng-template>
+    </nz-form-control>
+    <nz-spin [nzSpinning]="womTokenBalanceLoading">
+      <span style="margin-left: 8px; width: 100px">{{ womTokenBalance }}</span>
+    </nz-spin>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-spin [nzSpinning]="preSwapLoading">
+      <p>{{ preSwapMwomAmount + " mwom" }}</p>
+      <p *ngIf="swapRatio">{{ "1 mwom " + swapRatio + " wom" }}</p>
+      <nz-alert
+        nzType="warning"
+        nzMessage="建议 0.78 以下可以买入mwom"
+        nzShowIcon
+      ></nz-alert>
+    </nz-spin>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <button
+        nz-button
+        [nzType]="'primary'"
+        [nzLoading]="preSwapLoading || swapLoading"
+        (click)="swap()"
+      >
+        Swap
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</div>

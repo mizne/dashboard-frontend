@@ -36,97 +36,23 @@
     </div>
   </nz-card>
 
-  <nz-card nzTitle="mWom Deposit" style="margin-top: 24px">
-    <nz-form-item style="width: 600px; display: flex; align-items: center">
-      <nz-form-label nzFor="deposit-amount">充值数量</nz-form-label>
-      <nz-form-control>
-        <nz-input-group [nzAddOnAfter]="addOnAfterTemplateDeposit">
-          <input
-            type="text"
-            nz-input
-            class="ant-input"
-            placeholder="请输入充值数量"
-            [formControl]="depositAmountCtrl"
-            [attr.id]="'deposit-amount'"
-          />
-        </nz-input-group>
+  <nz-card nzTitle="mwom/wom Swap" style="margin-top: 24px">
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="'wom -> mwom 买入mwom'" [nzActive]="true">
+        <wom-to-mwom-swap></wom-to-mwom-swap>
+      </nz-collapse-panel>
 
-        <ng-template #addOnAfterTemplateDeposit>
-          <button
-            nz-button
-            nzSize="small"
-            nzType="default"
-            (click)="applyMaxAmountDeposit()"
-          >
-            MAX
-          </button>
-        </ng-template>
-      </nz-form-control>
-      <nz-spin [nzSpinning]="mWomTokenBalanceLoading">
-        <span style="margin-left: 8px; width: 100px">{{
-          mWomTokenBalance
-        }}</span>
-      </nz-spin>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-control>
-        <button
-          nz-button
-          [nzType]="'primary'"
-          [nzLoading]="depositLoading"
-          (click)="depositMWOM()"
-        >
-          充值
-        </button>
-      </nz-form-control>
-    </nz-form-item>
+      <nz-collapse-panel [nzHeader]="'mwom -> wom 卖出mwom'" [nzActive]="true">
+        <mwom-to-wom-swap></mwom-to-wom-swap>
+      </nz-collapse-panel>
+    </nz-collapse>
   </nz-card>
 
-  <nz-card nzTitle="mWom Withdraw" style="margin-top: 24px">
-    <nz-form-item style="width: 600px; display: flex; align-items: center">
-      <nz-form-label nzFor="amount">提取数量</nz-form-label>
-      <nz-form-control>
-        <nz-input-group [nzAddOnAfter]="addOnAfterTemplateWithdraw">
-          <input
-            type="text"
-            nz-input
-            class="ant-input"
-            placeholder="请输入提取数量"
-            [formControl]="withdrawAmountCtrl"
-            [attr.id]="'amount'"
-          />
-        </nz-input-group>
+  <nz-card nzTitle="mwom Deposit" style="margin-top: 24px">
+    <mwom-deposit></mwom-deposit>
+  </nz-card>
 
-        <ng-template #addOnAfterTemplateWithdraw>
-          <button
-            nz-button
-            nzSize="small"
-            nzType="default"
-            (click)="applyMaxAmountWithdraw()"
-          >
-            MAX
-          </button>
-        </ng-template>
-      </nz-form-control>
-      <nz-spin [nzSpinning]="mWomStakedAmountLoading">
-        <span style="margin-left: 8px; width: 100px">{{
-          mWomStakedAmount
-        }}</span>
-      </nz-spin>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-control>
-        <button
-          nz-button
-          [nzType]="'primary'"
-          [nzLoading]="withdrawLoading"
-          (click)="withdrawMWOM()"
-        >
-          提取
-        </button>
-      </nz-form-control>
-    </nz-form-item>
+  <nz-card nzTitle="mwom Withdraw" style="margin-top: 24px">
+    <mwom-withdraw></mwom-withdraw>
   </nz-card>
 </div>

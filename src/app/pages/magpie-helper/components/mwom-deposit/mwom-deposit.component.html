@@ -1,0 +1,44 @@
+<div class="mwom-deposit-container">
+  <nz-form-item style="width: 600px; display: flex; align-items: center">
+    <nz-form-label nzFor="deposit-amount">充值数量</nz-form-label>
+    <nz-form-control>
+      <nz-input-group [nzAddOnAfter]="addOnAfterTemplateDeposit">
+        <input
+          type="text"
+          nz-input
+          class="ant-input"
+          placeholder="请输入充值数量"
+          [formControl]="depositAmountCtrl"
+          [attr.id]="'deposit-amount'"
+        />
+      </nz-input-group>
+
+      <ng-template #addOnAfterTemplateDeposit>
+        <button
+          nz-button
+          nzSize="small"
+          nzType="default"
+          (click)="applyMaxAmountDeposit()"
+        >
+          MAX
+        </button>
+      </ng-template>
+    </nz-form-control>
+    <nz-spin [nzSpinning]="mwomTokenBalanceLoading">
+      <span style="margin-left: 8px; width: 100px">{{ mwomTokenBalance }}</span>
+    </nz-spin>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <button
+        nz-button
+        [nzType]="'primary'"
+        [nzLoading]="depositLoading"
+        (click)="depositMwom()"
+      >
+        充值
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</div>

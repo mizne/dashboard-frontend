@@ -1,0 +1,44 @@
+<div class="mwom-withdraw-container">
+  <nz-form-item style="width: 600px; display: flex; align-items: center">
+    <nz-form-label nzFor="amount">提取数量</nz-form-label>
+    <nz-form-control>
+      <nz-input-group [nzAddOnAfter]="addOnAfterTemplateWithdraw">
+        <input
+          type="text"
+          nz-input
+          class="ant-input"
+          placeholder="请输入提取数量"
+          [formControl]="withdrawAmountCtrl"
+          [attr.id]="'amount'"
+        />
+      </nz-input-group>
+
+      <ng-template #addOnAfterTemplateWithdraw>
+        <button
+          nz-button
+          nzSize="small"
+          nzType="default"
+          (click)="applyMaxAmountWithdraw()"
+        >
+          MAX
+        </button>
+      </ng-template>
+    </nz-form-control>
+    <nz-spin [nzSpinning]="mwomStakedAmountLoading">
+      <span style="margin-left: 8px; width: 100px">{{ mwomStakedAmount }}</span>
+    </nz-spin>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <button
+        nz-button
+        [nzType]="'primary'"
+        [nzLoading]="withdrawLoading"
+        (click)="withdrawMwom()"
+      >
+        提取
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</div>
