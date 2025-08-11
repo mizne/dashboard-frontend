@@ -126,6 +126,9 @@ export class MwomToWomSwapComponent implements OnInit {
     this.magpieHelperService.withdrawSuccessObs.subscribe(() => {
       this.fetchMwomBalanceInWallet()
     })
+    this.magpieHelperService.depositSuccessObs.subscribe(() => {
+      this.fetchMwomBalanceInWallet()
+    })
   }
 
   private subscribeInputChange() {
