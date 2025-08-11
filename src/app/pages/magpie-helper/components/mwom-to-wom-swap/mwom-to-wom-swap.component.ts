@@ -53,7 +53,7 @@ export class MwomToWomSwapComponent implements OnInit {
   }
 
   applyMaxAmountSwap() {
-    this.amountCtrl.patchValue(this.mwomTokenBalance + '')
+    this.amountCtrl.patchValue(Math.floor(this.mwomTokenBalance) + '')
   }
 
   applyAmountSwap(n: number) {

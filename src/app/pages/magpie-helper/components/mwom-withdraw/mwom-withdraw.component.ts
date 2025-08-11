@@ -36,7 +36,7 @@ export class MwomWithdrawComponent implements OnInit {
   }
 
   applyMaxAmountWithdraw() {
-    this.withdrawAmountCtrl.patchValue(this.mwomStakedAmount + '')
+    this.withdrawAmountCtrl.patchValue(Math.floor(this.mwomStakedAmount) + '')
   }
 
   async withdrawMwom() {

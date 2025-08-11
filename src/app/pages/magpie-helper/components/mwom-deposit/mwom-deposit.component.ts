@@ -40,7 +40,7 @@ export class MwomDepositComponent implements OnInit {
   }
 
   applyMaxAmountDeposit() {
-    this.depositAmountCtrl.patchValue(this.mwomTokenBalance + '')
+    this.depositAmountCtrl.patchValue(Math.floor(this.mwomTokenBalance) + '')
   }
 
   async depositMwom() {
