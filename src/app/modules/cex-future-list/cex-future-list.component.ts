@@ -209,6 +209,7 @@ export class CexFutureListComponent implements OnInit {
           this.status = 'success';
           this.items = results.map(e => ({
             ...e,
+            indexPriceConstituents: e.indexPriceConstituents?.sort((a, b) => b.weight - a.weight),
             hasCollectCtrl: new FormControl(e.hasCollect),
             supplyPercent: (e.circulatingSupply && e.circulatingSupply > 0 && e.totalSupply && e.totalSupply > 0) ? Number(((e.circulatingSupply * 100) / e.totalSupply).toFixed(1)) : 0
           }));

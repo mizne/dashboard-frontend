@@ -30,4 +30,7 @@ export interface CexFuture {
 
   readonly createdAt: number;
   readonly createdAtStr: string;
+
+  // 指数价格组成
+  readonly indexPriceConstituents?: Array<{ exchange: string; symbol: string; price: number; weight: number; }>
 }

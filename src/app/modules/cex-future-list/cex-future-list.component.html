@@ -9,7 +9,7 @@
 
 <nz-modal
   [(nzVisible)]="visible"
-  [nzWidth]="1200"
+  [nzWidth]="1500"
   [nzTitle]="'全部 cex future'"
   [nzFooter]="null"
   (nzOnCancel)="visible = false"
@@ -140,6 +140,9 @@
             </th>
             <th nzColumnKey="supplyPercent">流通率</th>
             <th nzColumnKey="slug">cmc</th>
+            <th nzColumnKey="indexPriceConstituents" style="width: 200px">
+              指数信息
+            </th>
             <th
               nzColumnKey="createdAt"
               [nzSortFn]="true"
@@ -248,6 +251,26 @@
                 </ng-template>
               </div>
             </td>
+
+            <td nz-tooltip [nzTooltipTitle]="indexPriceConstituentsTemplate">
+              <span
+                *ngFor="
+                  let item of data.indexPriceConstituents?.slice(0, 2);
+                  let i = index
+                "
+                [title]="item.symbol"
+              >
+                {{ item.exchange + "/" + item.weight.toFixed(3) }}
+              </span>
+            </td>
+            <ng-template #indexPriceConstituentsTemplate>
+              <p
+                *ngFor="let item of data.indexPriceConstituents; let i = index"
+                [title]="item.symbol"
+              >
+                {{ item.exchange + "/" + item.weight.toFixed(3) }}
+              </p>
+            </ng-template>
 
             <td>
               <created-at [createdAt]="data.createdAt"></created-at>
