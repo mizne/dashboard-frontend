@@ -67,6 +67,22 @@
       </span>
     </div>
 
+    <div
+      *ngIf="_indexPriceConstituents.length > 0"
+      class="symbol-item-tags"
+      style="margin-bottom: 12px"
+    >
+      <span class="time-label" style="margin-right: 6px">指数信息：</span>
+      <span class="time-value">
+        <span
+          *ngFor="let item of _indexPriceConstituents; let i = index"
+          [title]="item.symbol"
+        >
+          {{ item.exchange + "/" + item.weight.toFixed(3) }}
+        </span>
+      </span>
+    </div>
+
     <nz-spin [nzSpinning]="fetchCexFuturePriceChangeTags">
       <div class="symbol-item-tags" style="margin-bottom: 12px">
         <span class="tag-label" style="margin-right: 6px">涨跌幅统计：</span>

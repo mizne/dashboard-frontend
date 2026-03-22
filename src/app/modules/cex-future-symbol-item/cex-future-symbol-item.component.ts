@@ -45,6 +45,8 @@ export class CexFutureSymbolItemComponent implements OnInit, OnChanges {
   _totalSupply = 0;
   _supplyPercent = 0;
 
+  _indexPriceConstituents: Array<{ exchange: string; symbol: string; price: number; weight: number; }> = []
+
 
   hasCollectCtrl = new FormControl(false)
 
@@ -148,6 +150,8 @@ export class CexFutureSymbolItemComponent implements OnInit, OnChanges {
         if (this._circulatingSupply > 0 && this._totalSupply > 0) {
           this._supplyPercent = Number(((this._circulatingSupply * 100) / this._totalSupply).toFixed(1))
         }
+
+        this.templateContext['indexPriceConstituents'] = this._indexPriceConstituents = token?.indexPriceConstituents || [];
 
         this.hasCollectCtrl.patchValue(!!token.hasCollect, { emitEvent: false });
 
